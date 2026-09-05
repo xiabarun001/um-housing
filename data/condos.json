@@ -1,0 +1,932 @@
+{
+  "meta": {
+    "title": "UM 周边租房图鉴",
+    "verified_at": "2026-09-06",
+    "regions": {
+      "1": { "label": "区域 1 · PJ 一侧", "short": "PJ", "desc": "Section 13 / 14 / 17 / 8。没有步行可达的 LRT，靠 PJ 免费巴士、Rapid KL 公交或 Grab；吃饭便宜，紧邻 Jaya One 和 Section 17 大排档。" },
+      "2": { "label": "区域 2 · Bangsar South 一侧", "short": "Bangsar South", "desc": "Kerinchi / Pantai Dalam。Universiti LRT 过天桥就是 UM 正门，Kerinchi LRT 一站之隔；中国学生最集中。" }
+    },
+    "note": "楼盘固定信息（设施、年份、户数、地契、最近轨道站）来自 iProperty 项目页、开发商官网和 StarProperty，核实日期见每张卡片。价格和在租数量是抓取当天的快照，会过期，点“iProperty 在租”看实时。"
+  },
+  "condos": [
+    {
+      "id": "kl-gateway",
+      "name": "KL Gateway Residences",
+      "alias": "KL Gateway",
+      "region": 2,
+      "address": "Jalan Kerinchi Kiri, Bangsar South, 59200 KL",
+      "developer": "Suez Capital",
+      "tenure": "Leasehold 租赁地契",
+      "type": "服务式公寓",
+      "completed": 2017,
+      "units": 714,
+      "floors": "38 层 × 2 栋",
+      "facilities": ["无边泳池", "泳道池", "儿童池", "健身房", "桑拿", "蒸汽房", "烧烤区", "儿童游乐场", "多功能厅", "休息厅", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": true, "jacuzzi": false, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": true, "minimart": true },
+      "transit": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_min": 2,
+        "walk_m": 240,
+        "walk_est": false,
+        "other": ["Kerinchi LRT（KJ18）"],
+        "buses": ["772", "780", "T788"],
+        "note": "有顶棚天桥直连 Universiti LRT，过马路就是 UM 正门。楼下 KL Gateway Mall 有 Village Grocer 超市和 food court。"
+      },
+      "um_km": 3,
+      "um_km_note": "iProperty 标注到校园中心 3 km；到正门步行约 5 分钟",
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 157,
+        "rent_from": 2000,
+        "rooms": "小房 RM 650–780 · 单人间 RM 920–1,020 · 中房 RM 1,050–1,150 · 主人房 RM 1,400–1,800。运营商房源另加水电 RM 50 加清洁 RM 50",
+        "rooms_source": "iBilik，2026-09",
+        "whole": "1 房 500–560 sqft RM 2,000–2,600 · 2 房 663 sqft RM 2,600",
+        "whole_source": "iProperty，2026-09-05"
+      },
+      "notes": [
+        "714 户，密度是 South View 的一半左右",
+        "旧评价集中在大道噪音、商场活动噪音和维护；日期无法核实，看房时选高层背向 Federal Highway 的单元，亲自试电梯",
+        "Google 地图评分 3.8"
+      ],
+      "tags": ["步行到 LRT", "预算内单间", "楼下有商场"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-kl-gateway-residences-8093",
+        "iproperty_building": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=KL+Gateway+Residences+Jalan+Kerinchi+Kiri"
+      },
+      "sources": [
+        { "label": "iProperty 项目页（设施、年份、户数、LRT 240 m）", "url": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/" },
+        { "label": "iBilik Bangsar South 在租单间", "url": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south" }
+      ]
+    },
+    {
+      "id": "south-view",
+      "name": "South View Serviced Apartments",
+      "alias": "South View",
+      "region": 2,
+      "address": "Jalan Kerinchi Kiri 2, Bangsar South, 59200 KL",
+      "developer": "UOA Group（Paramount Properties）",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2017,
+      "units": 1204,
+      "floors": "46 层 × 2 栋",
+      "facilities": ["泳池", "儿童池", "健身房", "儿童游乐场", "烧烤区", "多功能厅", "会议室", "户外咖啡座", "托儿所", "祈祷室", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": true, "minimart": true },
+      "transit": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_min": 5,
+        "walk_m": 450,
+        "walk_est": false,
+        "other": ["Kerinchi LRT（KJ18），穿商场 5 分钟"],
+        "buses": ["772", "780", "T789"],
+        "note": "到 KL Gateway Mall 步行 5 分钟。"
+      },
+      "um_km": 3,
+      "um_km_note": "iProperty 标注约 3 km",
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 426,
+        "rent_from": 1500,
+        "rooms": "单人间 RM 950–1,000 · 中房 RM 1,050–1,200 · 带独卫中房 RM 1,350 · 主人房 RM 1,300–1,550。多条帖子 10 月可入住",
+        "rooms_source": "iBilik，2026-09",
+        "whole": "2 房 648 sqft RM 2,400 · 2 房 823 sqft RM 2,600–3,000",
+        "whole_source": "iProperty，2026-09-04"
+      },
+      "notes": [
+        "在租房源最多，最容易找到室友和转租",
+        "2.13 英亩地上 1,204 户，Bangsar South 密度最高之一，早晚高峰电梯要等",
+        "低层临 Federal Highway 有噪音",
+        "部分单间限女性"
+      ],
+      "tags": ["步行到 LRT", "预算内单间", "房源最多"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-south-view-6431",
+        "iproperty_building": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=South+View+Serviced+Apartments+Bangsar+South"
+      },
+      "sources": [
+        { "label": "iProperty 项目页与编辑评测（2025-06）", "url": "https://www.iproperty.com.my/building/south-view-pty_62814/" },
+        { "label": "StarProperty 设施清单", "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693" },
+        { "label": "iBilik Bangsar South 在租单间", "url": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south" }
+      ]
+    },
+    {
+      "id": "southlink",
+      "name": "Southlink Lifestyle Apartments",
+      "alias": "South Link",
+      "region": 2,
+      "address": "Jalan Kerinchi / Lebuhraya Persekutuan, Bangsar South, 59200 KL",
+      "developer": "UOA Group",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2022,
+      "units": 1422,
+      "floors": "52 层单栋",
+      "facilities": ["泳池", "儿童池", "健身房", "烧烤区", "多功能厅", "儿童游乐场", "祈祷室", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_min": 7,
+        "walk_m": null,
+        "walk_est": true,
+        "other": ["Universiti LRT（KJ19）"],
+        "buses": ["772", "780"],
+        "note": "在租帖子写“步行到 Kerinchi 和 Universiti LRT”，具体分钟数未实测。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 586,
+        "rent_from": 1299,
+        "rooms": "单人间 RM 1,050–1,150 含水电网（冷气另计）· 中房 RM 1,250 · 主人房 RM 1,650",
+        "rooms_source": "iBilik，2026-09",
+        "whole": null,
+        "whole_source": null
+      },
+      "notes": [
+        "2022 年交付，全区最新的大盘之一",
+        "单栋 1,422 户，全区密度最高；管理和保安评价两极，电梯快但有住户反映常坏"
+      ],
+      "tags": ["步行到 LRT", "预算内单间"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-southlink-8399",
+        "iproperty_building": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Southlink+Lifestyle+Apartments+Bangsar+South"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/southlink-pty_61383/" },
+        { "label": "iBilik Bangsar South 在租单间", "url": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south" }
+      ]
+    },
+    {
+      "id": "novum",
+      "name": "Novum @ Bangsar South",
+      "alias": "Novum",
+      "region": 2,
+      "address": "Jalan Kerinchi, Bangsar South, 59200 KL",
+      "developer": "Eupe Corporation",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2019,
+      "units": 729,
+      "floors": "32–41 层 × 3 栋",
+      "facilities": ["50 米泳道池", "儿童池", "按摩池", "健身房（悬浮式）", "户外健身区", "桑拿", "烧烤区", "多功能厅", "儿童游乐场", "商务中心", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": true, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_min": 4,
+        "walk_m": null,
+        "walk_est": true,
+        "other": ["Universiti LRT（KJ19）"],
+        "buses": ["772", "780", "821", "T789"],
+        "note": "有天桥连 Kerinchi LRT（住户评测与中介视频提及，未实测分钟数）。"
+      },
+      "um_km": 2.4,
+      "um_km_note": "iProperty 标注 2.4 km",
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 277,
+        "rent_from": 1300,
+        "rooms": "中房 RM 1,300 不含水电（限女性，10 月 1 日入住）· 主人房 RM 1,800",
+        "rooms_source": "iBilik，2026-09",
+        "whole": null,
+        "whole_source": null
+      },
+      "notes": [
+        "密度低，设施是两区里最豪华的，住户口碑最好",
+        "临 Federal Highway 有噪音",
+        "单间价格卡在 RM 1,300 上限，加水电就超"
+      ],
+      "tags": ["步行到 LRT", "设施最全"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-novum-7847",
+        "iproperty_building": "https://www.iproperty.com.my/building/novum-pty_62918/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Novum+Bangsar+South"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/novum-pty_62918/" },
+        { "label": "PropertyGuru 评测", "url": "https://www.propertyguru.com.my/new-property-launch/reviews/novum-bangsar-south-123738" }
+      ]
+    },
+    {
+      "id": "pantai-panorama",
+      "name": "Pantai Panorama Condominiums",
+      "alias": "Pantai Panorama",
+      "region": 2,
+      "address": "Jalan 112H, Kampung Kerinchi, 59200 KL",
+      "developer": "Amcorp Properties",
+      "tenure": "Freehold 永久地契",
+      "type": "公寓",
+      "completed": 1996,
+      "units": 708,
+      "floors": "18 层 × 5 栋",
+      "facilities": ["泳池", "儿童池", "健身房", "桑拿", "羽毛球馆", "壁球场", "网球场", "烧烤区", "洗衣店", "休息厅", "便利店", "儿童游乐场", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": false, "badminton": true, "basketball": false, "squash": true, "tennis": true, "bbq": true, "minimart": true },
+      "transit": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_min": 7,
+        "walk_m": 600,
+        "walk_est": false,
+        "other": ["Kerinchi LRT（KJ18）"],
+        "buses": ["T789", "821", "T791"],
+        "note": "KL Gateway Mall 650 m，Nexus 800 m。"
+      },
+      "um_km": 2,
+      "um_km_note": "iProperty 标注 2 km",
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 34,
+        "rent_from": 850,
+        "rooms": "双人合住房 RM 850（2026-08-11 挂牌）；单间帖子少",
+        "rooms_source": "iProperty，2026-08",
+        "whole": "1 房 750 sqft RM 2,000–2,100 · 2 房 1,250 sqft RM 2,400–2,700",
+        "whole_source": "iProperty，2026-09-04"
+      },
+      "notes": [
+        "1996 年老楼，永久地契，多方评价维护良好",
+        "两房 1,250 平方英尺是 South View 两房的两倍，人均价格一样，两人整租首选",
+        "停车位紧张，对租客影响不大"
+      ],
+      "tags": ["步行到 LRT", "整租适合两人", "老楼大户型"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pantai-panorama-condominiums-105",
+        "iproperty_building": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Pantai+Panorama+Condominiums+Jalan+112H"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/" },
+        { "label": "StarProperty 评测", "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383" }
+      ]
+    },
+    {
+      "id": "laurel",
+      "name": "Laurel Residence",
+      "alias": "Laurel",
+      "region": 2,
+      "address": "Jalan Pantai Permai, Bangsar South, 59200 KL",
+      "developer": "UOA Development",
+      "tenure": "Leasehold 租赁地契",
+      "type": "服务式公寓",
+      "completed": 2025,
+      "units": null,
+      "floors": "42 层",
+      "facilities": ["泳池", "儿童池", "健身房", "烧烤区", "社区花园", "休息厅", "儿童游乐场", "足底按摩步道", "落客点", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_min": 8,
+        "walk_m": null,
+        "walk_est": true,
+        "other": ["Pantai Permai MRT（CC31）", "Pantai Dalam MRT / KTM"],
+        "buses": [],
+        "note": "在租帖子写“步行 5–10 分钟到 KL Gateway Mall 和 LRT”，未实测。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 374,
+        "rent_from": 1550,
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "1+1 房 495 sqft RM 2,500 · 2 房 590 sqft RM 2,800–3,000",
+        "whole_source": "iBilik / iProperty，2026-09"
+      },
+      "notes": [
+        "2025 年刚交付，最新，几乎没有单间出租，只能整租",
+        "iProperty 项目页设施表没列健身房，但开发商资料和在租帖子都写有健身房"
+      ],
+      "tags": ["最新楼盘", "只能整租"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-laurel-residence-17871",
+        "iproperty_building": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Laurel+Residence+Bangsar+South"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/" },
+        { "label": "Property Genie 项目页（含健身房）", "url": "https://www.propertygenie.com.my/project/laurel-residence-bangsar-south-by-uoa-development-WqvnZtFNEKVCdq7Rup8PzK" }
+      ]
+    },
+    {
+      "id": "saville",
+      "name": "Saville @ The Park",
+      "alias": "Saville The Park（图上写作 Eaville）",
+      "region": 2,
+      "address": "Jalan Pantai Murni 8, Bukit Kerinchi, 59200 KL",
+      "developer": "MKH（Amona Metro）",
+      "tenure": "Freehold 永久地契",
+      "type": "公寓",
+      "completed": 2015,
+      "units": 408,
+      "floors": "27 层 × 2 栋",
+      "facilities": ["无边泳池", "儿童池", "健身房", "按摩池", "桑拿", "会所", "游戏室", "烧烤区", "多功能厅", "儿童游乐场", "祈祷室", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": true, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Universiti / Kerinchi LRT 需坐公交", "Pantai Permai / Pantai Dalam MRT"],
+        "buses": ["821", "T789", "T791"],
+        "note": "在 Pantai Hillpark 山坡上，安静；出行靠公交或 Grab。"
+      },
+      "um_km": 4,
+      "um_km_note": "iProperty 标注 4 km",
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 51,
+        "rent_from": 950,
+        "rooms": "iProperty 首页无单间帖子；旧帖中房 RM 950、主人房 RM 1,300（日期不明）",
+        "rooms_source": "Mudah，日期不明",
+        "whole": "3 房 1,019 sqft RM 2,400–3,000",
+        "whole_source": "iProperty，2026-09-05"
+      },
+      "notes": [
+        "三房 RM 2,400–2,600 三个人分，人均 RM 800–870，适合三人组",
+        "交通是短板"
+      ],
+      "tags": ["整租适合三人", "无 LRT"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-saville-the-park-4685",
+        "iproperty_building": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Saville+@+The+Park+Jalan+Pantai+Murni+8"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/" },
+        { "label": "StarProperty 项目页", "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/to-buy/property/3288" }
+      ]
+    },
+    {
+      "id": "inwood",
+      "name": "Inwood Residences @ Pantai Sentral Park",
+      "alias": "Inwood",
+      "region": 2,
+      "address": "Pantai Sentral Park, off Jalan Pantai Murni, 59200 KL",
+      "developer": "IJM Land",
+      "tenure": "Leasehold 租赁地契",
+      "type": "公寓",
+      "completed": 2019,
+      "units": 211,
+      "floors": "38 层",
+      "facilities": ["无边泳池", "儿童池", "健身房", "按摩池", "篮球场", "烧烤区", "多功能厅", "儿童游乐场", "足底按摩步道", "园林", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": false, "jacuzzi": true, "badminton": false, "basketball": true, "squash": false, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Pantai Permai / Pantai Dalam MRT 需接驳"],
+        "buses": [],
+        "note": "森林边低密度社区，靠 Grab。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 62,
+        "rent_from": 3200,
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "3 房家庭户型为主，iProperty 最低 RM 3,200",
+        "whole_source": "iProperty，2026-09"
+      },
+      "notes": ["211 户低密度，安静，但没有公共交通，学生不推荐"],
+      "tags": ["无 LRT", "家庭户型"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-inwood-residences-pantai-sentral-park-6806",
+        "iproperty_building": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Inwood+Residences+Pantai+Sentral+Park"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/" }
+      ]
+    },
+    {
+      "id": "secoya",
+      "name": "Secoya Residences @ Pantai Sentral Park",
+      "alias": "Secoya",
+      "region": 2,
+      "address": "No. 2A Pantai Sentral Park, off Jalan Pantai Murni, 59200 KL",
+      "developer": "IJM Land",
+      "tenure": "Leasehold 租赁地契",
+      "type": "公寓",
+      "completed": 2019,
+      "units": 243,
+      "floors": "41 层",
+      "facilities": ["无边泳池", "儿童池", "健身房", "按摩池", "桑拿", "篮球场", "烧烤区", "多功能厅", "儿童游乐场", "园林", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": true, "badminton": false, "basketball": true, "squash": false, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Pantai Permai / Pantai Dalam MRT 需接驳"],
+        "buses": [],
+        "note": "和 Inwood 同一个社区，情况一样。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 61,
+        "rent_from": 1100,
+        "rooms": "iProperty 最低 RM 1,100 疑为单间，未逐条核对",
+        "rooms_source": "iProperty，2026-09",
+        "whole": "2 房 1,050 sqft 起",
+        "whole_source": "iProperty 项目页"
+      },
+      "notes": ["243 户低密度，户型 1,050 平方英尺起，没有公共交通"],
+      "tags": ["无 LRT", "家庭户型"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-secoya-residence-7619",
+        "iproperty_building": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Secoya+Residences+Pantai+Sentral+Park"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/" }
+      ]
+    },
+    {
+      "id": "seventeen",
+      "name": "Seventeen Mall & Residences（Biji Living）",
+      "alias": "Seventeen Residence",
+      "region": 1,
+      "address": "Jalan 17/29, Seksyen 17, 46400 Petaling Jaya",
+      "developer": "Conlay Construction（Kampung Manis Realty）",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2019,
+      "units": 425,
+      "floors": "27 层 × 2 栋",
+      "facilities": ["33 米泳道池", "儿童池", "健身房", "慢跑道", "儿童游乐场", "宴会厅", "园林", "香草园", "楼下商场", "三层门禁", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": false, "minimart": true },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Phileo Damansara MRT 约 2 km", "TTDI MRT 约 3.1 km"],
+        "buses": ["PJ02（Section 17 一带）"],
+        "note": "Section 17 是老牌学生区，平价杂饭和大排档多；离 UM 西侧边界最近的服务式公寓。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 79,
+        "rent_from": 1800,
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "开间 550 sqft 约 RM 1,650–2,250（旧帖，日期不明）",
+        "whole_source": "PropertyGuru / Mudah，日期不明"
+      },
+      "notes": ["单间房源极少，基本是整套出租", "楼下 Seventeen Mall 有超市"],
+      "tags": ["无 LRT", "只能整租", "吃饭便宜"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-seventeen-mall-residences-9182",
+        "iproperty_building": "https://www.iproperty.com.my/building/seventeen-residences-biji-living-pty_64496/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Seventeen+Residences+Jalan+17/29+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/seventeen-residences-biji-living-pty_64496/" },
+        { "label": "官网设施页", "url": "https://www.seventeenresidence.com.my/Facilities.php" }
+      ]
+    },
+    {
+      "id": "atwater",
+      "name": "Atwater Service Residences",
+      "alias": "Atwater",
+      "region": 1,
+      "address": "Jalan Professor Diraja Ungku Aziz, Seksyen 13, 46200 Petaling Jaya",
+      "developer": "Paramount Property",
+      "tenure": "Leasehold 租赁地契",
+      "type": "服务式公寓",
+      "completed": 2024,
+      "units": 493,
+      "floors": "26 层",
+      "facilities": ["泳道池", "无边池 / 家庭池", "儿童池", "按摩池", "健身房", "户外健身区", "羽毛球场", "篮球场", "蒸汽房", "烧烤台", "儿童游乐场", "足底按摩步道", "瑜伽亭", "迷宫花园", "有顶连廊", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": true, "jacuzzi": true, "badminton": true, "basketball": true, "squash": false, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Asia Jaya LRT", "Phileo Damansara MRT"],
+        "buses": ["Jalan Universiti 沿线 Rapid KL / PJ 免费巴士"],
+        "note": "开发商标注 Taman Jaya LRT 3.4 km、Asia Jaya LRT 5 km（应为车程）。是 PJ 侧离 UM 最近的一栋。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 80,
+        "rent_from": 2500,
+        "rooms": "本次未找到任何在租单间",
+        "rooms_source": "iProperty / Mudah，2026-09",
+        "whole": "2 房 703 sqft RM 2,800–3,600 · 3 房 1,052 sqft RM 3,500–3,600",
+        "whole_source": "iProperty，2026-09-05"
+      },
+      "notes": ["2024 年交付，两区里最新之一，设施最全", "iProperty 设施表只列了基础项，完整清单以开发商官网为准"],
+      "tags": ["最新楼盘", "无 LRT", "只能整租"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-atwater-service-residences-9936",
+        "iproperty_building": "https://www.iproperty.com.my/building/atwater-pty_64499/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Atwater+Petaling+Jaya+Seksyen+13"
+      },
+      "sources": [
+        { "label": "Paramount Property 官网", "url": "https://paramountproperty.my/developments/atwater/" },
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/atwater-pty_64499/" }
+      ]
+    },
+    {
+      "id": "ryan-miho",
+      "name": "Ryan & Miho",
+      "alias": "Ryan & Miho",
+      "region": 1,
+      "address": "Jalan Professor Diraja Ungku Aziz, Seksyen 13, 46200 Petaling Jaya",
+      "developer": "OSK Property",
+      "tenure": "Leasehold 租赁地契",
+      "type": "服务式公寓",
+      "completed": 2021,
+      "units": 542,
+      "floors": "30 层 × 2 栋",
+      "facilities": ["泳池", "儿童池", "健身房（室内加室外）", "桑拿", "蒸汽房", "羽毛球馆", "篮球场", "烧烤区", "儿童游乐场", "足底按摩步道", "休息厅", "有顶连廊", "落客点", "门口公交站", "多层停车楼", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": true, "jacuzzi": false, "badminton": true, "basketball": true, "squash": false, "tennis": false, "bbq": true, "minimart": true },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Phileo Damansara MRT", "Asia Jaya LRT"],
+        "buses": ["楼下有公交站"],
+        "note": "有天桥连 Jaya One 商场。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 151,
+        "rent_from": 750,
+        "rooms": "主人房 RM 1,400（08-29）· 普通房 RM 1,700（09-02）· Mudah 主人房 RM 1,500（07-05）",
+        "rooms_source": "iProperty / Mudah，2026-07 至 09",
+        "whole": "2 房 678–688 sqft RM 2,800–3,000 · 3 房 818 sqft RM 3,300–4,000",
+        "whole_source": "iProperty，2026-09-05"
+      },
+      "notes": [
+        "设施在 PJ 侧最豪华，2021 年新楼",
+        "单间现在 RM 1,400 起，网上流传的 RM 850–1,200 是过时价格",
+        "PropertyGuru 评分 2.9，但只有 7 条评价，样本太小"
+      ],
+      "tags": ["无 LRT", "单间超预算", "设施最全"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-ryan-miho-9302",
+        "iproperty_building": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Ryan+%26+Miho+Seksyen+13+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/" },
+        { "label": "Property Genie 项目页（健身房）", "url": "https://www.propertygenie.com.my/project/ryan-miho-by-osk-property-izYN9vAZWdtFpwrntMJ8kb" }
+      ]
+    },
+    {
+      "id": "pacific-star",
+      "name": "Pacific Star Service Residence",
+      "alias": "Pacific Star",
+      "region": 1,
+      "address": "Jalan 13/6, Seksyen 13, 46200 Petaling Jaya",
+      "developer": "Island Circle Development",
+      "tenure": "Leasehold 租赁地契",
+      "type": "服务式公寓",
+      "completed": 2016,
+      "units": 657,
+      "floors": "24–33 层 × 3 栋",
+      "facilities": ["泳池", "健身房", "桑拿", "会所", "便利店", "餐厅", "商务中心", "烧烤区", "儿童游乐场", "多功能厅", "三层门禁", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": true, "minimart": true },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Asia Jaya LRT（楼盘有穿梭巴士）"],
+        "buses": ["PJ 免费巴士", "楼盘穿梭巴士到 Asia Jaya LRT"],
+        "note": "紧邻 Jaya One 和 AEON BiG；在租帖子提到有穿梭巴士到 Asia Jaya LRT 和 UM。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 214,
+        "rent_from": 780,
+        "rooms": "单人间 RM 600（Mudah 09-04，限男性）· RM 780（iProperty 09-05）。中房、主人房现价本次未抓到，旧帖 RM 820–1,200 仅供参考",
+        "rooms_source": "Mudah / iProperty，2026-09",
+        "whole": "开间 380–500 sqft RM 2,000–2,400 · 2 房 802 sqft RM 3,000–3,200",
+        "whole_source": "iProperty，2026-09-05"
+      },
+      "notes": ["两区里最便宜的单间来源，在租帖子多", "住户评价本次未查到"],
+      "tags": ["预算内单间", "最便宜", "无 LRT"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pacific-star-8261",
+        "iproperty_building": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Pacific+Star+Jalan+13/6+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/pacific-star-pty_63707/" },
+        { "label": "StarProperty 项目页", "url": "https://www.starproperty.my/insight/4872/pacific-star" }
+      ]
+    },
+    {
+      "id": "pacific-63",
+      "name": "Pacific 63",
+      "alias": "Pacific 63",
+      "region": 1,
+      "address": "Jalan 13/6, Seksyen 13, 46200 Petaling Jaya",
+      "developer": "Island Circle Development",
+      "tenure": "Leasehold 租赁地契",
+      "type": "SOHO 服务式公寓",
+      "completed": 2014,
+      "units": 260,
+      "floors": "21 层单栋",
+      "facilities": ["泳池", "儿童池", "按摩池", "蒸汽房", "健身房", "会所", "多功能厅", "停车场", "门禁与对讲"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": true, "jacuzzi": true, "badminton": false, "basketball": false, "squash": false, "tennis": false, "bbq": false, "minimart": false },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Asia Jaya LRT", "Taman Jaya LRT", "Phileo Damansara MRT"],
+        "buses": ["PJ 免费巴士"],
+        "note": "和 Pacific Star 同一个开发商，隔壁。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 13,
+        "rent_from": 1700,
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "SOHO 开间 390–520 sqft 约 RM 1,700–1,900",
+        "whole_source": "iProperty，2026-09"
+      },
+      "notes": ["SOHO 开间为主，没有合租房型，在租只有 13 套"],
+      "tags": ["无 LRT", "开间为主"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pacific-63-8858",
+        "iproperty_building": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Pacific+63+Jalan+13/6+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/pacific-63-pty_65022/" },
+        { "label": "StarProperty 项目页", "url": "https://www.starproperty.my/insight/4874/pacific-63" }
+      ]
+    },
+    {
+      "id": "pj-midtown",
+      "name": "PJ Midtown",
+      "alias": "PJ Midtown",
+      "region": 1,
+      "address": "Jalan Kemajuan, Seksyen 13, 46200 Petaling Jaya",
+      "developer": "IOI Properties + Sime Darby Brunsfield",
+      "tenure": "Leasehold 租赁地契（商业地契，水电按商业费率）",
+      "type": "服务式公寓",
+      "completed": 2019,
+      "units": 758,
+      "floors": "29–30 层 × 2 栋",
+      "facilities": ["无边泳池", "儿童池", "健身房", "网球场", "慢跑道", "桑拿", "烧烤区", "日光平台", "多功能厅", "会议室", "图书室", "小型影院", "幼儿园", "祈祷室", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": false, "tennis": true, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "Taman Jaya LRT（KJ20）",
+        "walk_min": 13,
+        "walk_m": 1000,
+        "walk_est": true,
+        "other": ["Asia Jaya LRT 约 1.5 km", "Phileo Damansara MRT 约 2.7 km"],
+        "buses": ["Jalan Kemajuan 沿线公交"],
+        "note": "iProperty 编辑评测（2025-06）：到 Asia Jaya LRT 1.5 km 不适合每天步行，需要接驳。"
+      },
+      "um_km": 3,
+      "um_km_note": "iProperty 标注约 3 km",
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 150,
+        "rent_from": 1300,
+        "rooms": "主人房 RM 1,550（Mudah，2026-06-23）",
+        "rooms_source": "Mudah，2026-06",
+        "whole": "1 房 613 sqft RM 2,000–2,400 · 2 房 915 sqft RM 2,500–3,200",
+        "whole_source": "iProperty，2026-09-05"
+      },
+      "notes": ["单走廊设计，每户都有自然通风", "商业水电费率，账单比住宅地契高", "每栋 3 部电梯配约 379 户"],
+      "tags": ["单间超预算", "商业水电"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pj-midtown-6911",
+        "iproperty_building": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=PJ+Midtown+Jalan+Kemajuan+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页与编辑评测（2025-06）", "url": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/" }
+      ]
+    },
+    {
+      "id": "centrestage",
+      "name": "Centrestage Designer Suite",
+      "alias": "Centrestage",
+      "region": 1,
+      "address": "Jalan 13/1, Seksyen 13, 46200 Petaling Jaya",
+      "developer": "Cherish Springs",
+      "tenure": "Leasehold 租赁地契（商业分层地契）",
+      "type": "服务式套房（SOHO）",
+      "completed": 2014,
+      "units": 352,
+      "floors": "14 层（C 座）",
+      "facilities": ["泳池", "健身房", "壁球场", "网球场", "慢跑道", "桑拿", "烧烤区", "儿童游乐场", "多功能厅", "会所", "便利店", "四层门禁", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": true, "tennis": true, "bbq": true, "minimart": true },
+      "transit": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_min": 13,
+        "walk_m": 1050,
+        "walk_est": false,
+        "other": ["Taman Jaya LRT 约 1.3 km"],
+        "buses": ["780", "P701", "PJ01", "T786"],
+        "note": "公交站在 200–400 m 内；Plaza 33 步行 250 m。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 151,
+        "rent_from": 600,
+        "rooms": "开间 237–305 sqft RM 1,100–1,400（带独卫）",
+        "rooms_source": "iProperty，2026-09",
+        "whole": "2 房 581 sqft RM 1,950–2,100",
+        "whole_source": "iProperty，2026-09-04"
+      },
+      "notes": ["整个 Centrestage 地块 1,160 户加一个酒店共用泳池健身房，高峰期挤", "352 户配 3 部电梯", "Jalan Semangat 早晚高峰堵"],
+      "tags": ["小开间便宜", "共用设施拥挤"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/rent/petaling-jaya/centrestage-designer-suite-u708sf/serviced-residence/",
+        "iproperty_building": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Centrestage+Jalan+13/1+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页与编辑评测（2026-05）", "url": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/" }
+      ]
+    },
+    {
+      "id": "pj8",
+      "name": "Serviced Residence @ PJ8",
+      "alias": "PJ8 Residence",
+      "region": 1,
+      "address": "Jalan Barat, Seksyen 8, 46050 Petaling Jaya",
+      "developer": "IJM Land",
+      "tenure": "Leasehold 租赁地契",
+      "type": "服务式公寓",
+      "completed": 2008,
+      "units": 380,
+      "floors": "39 层",
+      "facilities": ["泳池", "健身房", "桑拿", "壁球场", "烧烤区", "多功能厅", "洗衣房", "园林", "有顶停车场", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": true, "badminton": false, "basketball": false, "squash": true, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_min": 5,
+        "walk_m": null,
+        "walk_est": true,
+        "other": ["Taman Jaya LRT", "Taman Paramount LRT"],
+        "buses": [],
+        "note": "iProperty 描述“步行 5 分钟到 Asia Jaya LRT”。坐 LRT 到 Universiti 站 2 站。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 16,
+        "rent_from": 1900,
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "1 房为主，iProperty 最低 RM 1,900",
+        "whole_source": "iProperty，2026-09"
+      },
+      "notes": ["在 Section 8，离 UM 最远，但有 LRT，坐两站到 Universiti", "2008 年楼，在租只有 16 套"],
+      "tags": ["步行到 LRT", "离 UM 远"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pj8-1310",
+        "iproperty_building": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=PJ8+Service+Suites+Jalan+Barat+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/pj-8-pty_64056/" }
+      ]
+    },
+    {
+      "id": "tiara-damansara",
+      "name": "Tiara Damansara",
+      "alias": "Tiara Damansara",
+      "region": 1,
+      "address": "Jalan 17/1, Seksyen 17, 46400 Petaling Jaya",
+      "developer": "—",
+      "tenure": "Freehold 永久地契",
+      "type": "低层公寓",
+      "completed": null,
+      "units": 351,
+      "floors": "5 层 × 4 栋",
+      "facilities": ["泳池", "儿童池", "按摩池", "健身房", "桑拿", "壁球场", "网球场", "烧烤区", "咖啡座", "洗衣店", "休息厅", "多功能厅", "托儿所", "儿童游乐场", "景观湖", "零售店", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": true, "steam": false, "jacuzzi": true, "badminton": false, "basketball": false, "squash": true, "tennis": true, "bbq": true, "minimart": true },
+      "transit": {
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
+        "other": ["Phileo Damansara MRT", "TTDI MRT"],
+        "buses": [],
+        "note": "Section 17 山坡上的老牌家庭公寓。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 5,
+        "rent_from": 2500,
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "1,300–1,700 sqft 大户型，iProperty 最低 RM 2,500",
+        "whole_source": "iProperty，2026-09"
+      },
+      "notes": ["2000 年代低层老公寓，户型 1,300 平方英尺起，是家庭房", "在租只有 5 套"],
+      "tags": ["无 LRT", "家庭户型"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-tiara-damansara-1319",
+        "iproperty_building": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Tiara+Damansara+Jalan+17/1+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/" },
+        { "label": "StarProperty 项目页", "url": "https://www.starproperty.my/insight/1432/tiara-damansara" }
+      ]
+    },
+    {
+      "id": "dvogue",
+      "name": "Avenue D'Vogue",
+      "alias": "D'Vogue Residence",
+      "region": 1,
+      "address": "Jalan 13/2（Jalan Kemajuan 旁），Seksyen 13, 46200 Petaling Jaya",
+      "developer": "Inspiration Group Malaysia",
+      "tenure": "Leasehold 租赁地契",
+      "type": "服务式公寓",
+      "completed": 2016,
+      "units": 360,
+      "floors": "单栋",
+      "facilities": ["泳池", "健身房", "壁球场", "会所（Best Western 管理）", "烧烤区", "咖啡座", "儿童游乐场", "有顶停车场", "三层门禁", "24 小时保安"],
+      "flags": { "pool": true, "gym": true, "sauna": false, "steam": false, "jacuzzi": false, "badminton": false, "basketball": false, "squash": true, "tennis": false, "bbq": true, "minimart": false },
+      "transit": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_min": 16,
+        "walk_m": null,
+        "walk_est": true,
+        "other": ["Taman Jaya LRT"],
+        "buses": ["780", "701", "PJ02", "T786", "T815"],
+        "note": "iProperty 列 Asia Jaya 为最近 LRT，未给距离；按地图约 1.2–1.5 km 估算。"
+      },
+      "um_km": 2,
+      "um_km_note": "iProperty 标注 2 km",
+      "snapshot": {
+        "date": "2026-09-06",
+        "for_rent": 55,
+        "rent_from": 1599,
+        "rooms": "本次首页未见单间；旧帖单人间 RM 750–800（日期不明）",
+        "rooms_source": "iBilik，日期不明",
+        "whole": "1 房 451–592 sqft RM 1,700–1,900",
+        "whole_source": "iProperty，2026-09-05"
+      },
+      "notes": ["在租以 RM 1,700 起的整套一房为主，单人独住最便宜的选项之一", "楼层数各来源不一致（10 到 18 层）"],
+      "tags": ["整套一房便宜"],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avenue-d-vogue-5543",
+        "iproperty_building": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Avenue+D%27Vogue+Jalan+13/2+Petaling+Jaya"
+      },
+      "sources": [
+        { "label": "iProperty 项目页", "url": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/" },
+        { "label": "StarProperty 项目页", "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168" }
+      ]
+    }
+  ]
+}

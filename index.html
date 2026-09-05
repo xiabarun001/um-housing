@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UM 周边租房图鉴</title>
+<meta name="description" content="马来亚大学周边 19 个小区：设施、楼龄、到 LRT 的步行时间、在租行情快照，以及同学租房意向表。">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23C8256A'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23fff'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="site-head">
+  <a class="brand" href="#top">UM 周边租房图鉴</a>
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="#strip-section">距离带</a>
+    <a href="#grid-section">小区</a>
+    <a href="#intents">同学意向表</a>
+    <a href="#about">数据说明</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero" id="strip-section">
+    <p class="eyebrow">马来亚大学 · 周边 19 个小区 · 核实于 <time id="verified-at"></time></p>
+    <h1>先看到 LRT 要走几分钟，<br>再决定去哪里看房。</h1>
+    <p class="lede">这 19 个小区来自小红书上流传最广的那张图。每个都查过设施、楼龄、户数、最近的轨道站和当天的在租行情。价格会过期，设施和距离不会。</p>
+
+    <div class="strip-wrap">
+      <div class="strip-head">
+        <h2 class="strip-title">步行到最近 LRT / MRT 站</h2>
+        <div class="legend" aria-label="图例">
+          <span class="legend-item"><i class="dot r1"></i>区域 1 · PJ</span>
+          <span class="legend-item"><i class="dot r2"></i>区域 2 · Bangsar South</span>
+          <span class="legend-item"><i class="dot est"></i>分钟数为估算</span>
+        </div>
+      </div>
+      <div class="strip-scroll">
+        <svg id="strip" class="strip" viewBox="0 0 1040 250" role="img" aria-labelledby="strip-desc"></svg>
+      </div>
+      <p id="strip-desc" class="strip-note">横轴是步行分钟数，来源是 iProperty 标注的距离或在租帖子里的描述。右侧一栏是没有步行可达轨道站的小区，出行靠公交或 Grab。点一个圆点跳到对应卡片。</p>
+    </div>
+  </section>
+
+  <section class="filters" id="filters" aria-label="筛选">
+    <div class="filter-row">
+      <div class="seg" role="group" aria-label="区域">
+        <button type="button" class="seg-btn is-on" data-region="all">全部 19</button>
+        <button type="button" class="seg-btn" data-region="1">区域 1 · PJ</button>
+        <button type="button" class="seg-btn" data-region="2">区域 2 · Bangsar South</button>
+      </div>
+      <label class="check"><input type="checkbox" id="f-lrt"> 步行到轨道站 ≤ 10 分钟</label>
+      <label class="check"><input type="checkbox" id="f-budget"> 有 RM 1,300 以内的单间</label>
+      <label class="select-wrap">排序
+        <select id="sort">
+          <option value="walk">到 LRT 最近</option>
+          <option value="rent">最低月租</option>
+          <option value="year">楼龄最新</option>
+          <option value="units">户数最少</option>
+        </select>
+      </label>
+    </div>
+    <div class="filter-row facilities" role="group" aria-label="设施">
+      <span class="filter-label">设施</span>
+      <label class="chip-check"><input type="checkbox" data-flag="pool"> 泳池</label>
+      <label class="chip-check"><input type="checkbox" data-flag="gym"> 健身房</label>
+      <label class="chip-check"><input type="checkbox" data-flag="sauna"> 桑拿</label>
+      <label class="chip-check"><input type="checkbox" data-flag="steam"> 蒸汽房</label>
+      <label class="chip-check"><input type="checkbox" data-flag="jacuzzi"> 按摩池</label>
+      <label class="chip-check"><input type="checkbox" data-flag="badminton"> 羽毛球</label>
+      <label class="chip-check"><input type="checkbox" data-flag="basketball"> 篮球</label>
+      <label class="chip-check"><input type="checkbox" data-flag="squash"> 壁球</label>
+      <label class="chip-check"><input type="checkbox" data-flag="tennis"> 网球</label>
+      <label class="chip-check"><input type="checkbox" data-flag="bbq"> 烧烤区</label>
+      <label class="chip-check"><input type="checkbox" data-flag="minimart"> 楼下便利店</label>
+      <button type="button" class="link-btn" id="f-reset">清除筛选</button>
+    </div>
+    <p class="result-count" id="result-count" aria-live="polite"></p>
+  </section>
+
+  <section class="grid-section" id="grid-section">
+    <div class="grid" id="grid"></div>
+    <p class="empty" id="empty" hidden>没有符合全部条件的小区。放宽一两个条件试试。</p>
+  </section>
+
+  <section class="intents" id="intents">
+    <div class="intents-head">
+      <h2>同学租房意向表</h2>
+      <p>填一下你的预算和想住的小区，方便互相找室友、拼整租。所有人打开这个页面都能看到，联系方式选填。</p>
+    </div>
+    <div class="intents-body">
+      <form id="intent-form" class="intent-form" autocomplete="off" novalidate>
+        <div class="field">
+          <label for="i-nick">昵称 <span class="req">必填</span></label>
+          <input id="i-nick" name="nickname" maxlength="20" required placeholder="怎么称呼你">
+        </div>
+        <div class="field two">
+          <div>
+            <label for="i-budget">每月预算 RM <span class="req">必填</span></label>
+            <input id="i-budget" name="budget" type="number" min="300" max="20000" step="50" required placeholder="1300">
+          </div>
+          <div>
+            <label for="i-room">房型</label>
+            <select id="i-room" name="room_type">
+              <option value="不限">不限</option>
+              <option value="单人间">单人间</option>
+              <option value="中房">中房</option>
+              <option value="主人房">主人房</option>
+              <option value="两人整租">两人整租</option>
+              <option value="三人整租">三人整租</option>
+            </select>
+          </div>
+        </div>
+        <fieldset class="field">
+          <legend>意向小区 <span class="hint">最多选 3 个</span></legend>
+          <div class="condo-picks" id="condo-picks"></div>
+        </fieldset>
+        <div class="field two">
+          <div>
+            <label for="i-movein">入住月份</label>
+            <input id="i-movein" name="move_in" maxlength="20" placeholder="2026-10">
+          </div>
+          <div class="field-inline">
+            <label class="check big"><input id="i-roommate" name="need_roommate" type="checkbox"> 想找室友一起租</label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="i-contact">联系方式 <span class="hint">选填，微信号即可。填了就是公开的，别填手机号。</span></label>
+          <input id="i-contact" name="contact" maxlength="60" placeholder="wx: your_id">
+        </div>
+        <div class="field">
+          <label for="i-note">备注 <span class="hint">200 字以内</span></label>
+          <textarea id="i-note" name="note" maxlength="200" rows="3" placeholder="比如：要独卫、不抽烟、已经看过 South View 的房"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn primary" id="i-submit">提交到意向表</button>
+          <span class="form-msg" id="form-msg" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+
+      <div class="intent-list">
+        <div class="intent-summary" id="intent-summary"></div>
+        <div class="table-wrap">
+          <table class="intent-table" id="intent-table">
+            <thead>
+              <tr><th>时间</th><th>昵称</th><th>预算</th><th>房型</th><th>意向小区</th><th>入住</th><th>找室友</th><th>联系</th><th>备注</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="intent-empty" id="intent-empty" hidden>还没有人填。你来第一个。</p>
+        <p class="intent-offline" id="intent-offline" hidden>共享表暂时没连上数据库，稍后刷新再试。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <h2>数据说明</h2>
+    <div class="about-cols">
+      <div>
+        <h3>哪些是固定信息</h3>
+        <p>设施清单、建成年份、户数、地契、最近的轨道站和距离，来自 iProperty 项目页、开发商官网和 StarProperty。这些不会每周变，每张卡片的“详情与来源”里能点到原页面。</p>
+      </div>
+      <div>
+        <h3>哪些会过期</h3>
+        <p>“在租数量”“最低月租”“单间行情”是抓取当天的快照，标了日期。真正下决定前，点“看 iProperty 在租”看今天的房源。iProperty 不允许别的网站直接嵌入它的列表，所以只能跳过去。</p>
+      </div>
+      <div>
+        <h3>怎么更新</h3>
+        <p>所有数据在仓库的 <code>data/condos.json</code> 一个文件里。改数字、改核实日期、推送到 GitHub，网站几分钟后自动更新。</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <p>非官方整理，供同学参考。租房请核对中介 REN 编号，付款只走银行转账并索取正式收据。</p>
+  <p><a href="https://github.com/xiabarun001/um-housing" rel="noopener">GitHub 仓库</a> · 数据核实 <time id="verified-at-foot"></time></p>
+</footer>
+
+<dialog id="detail" class="detail" aria-labelledby="detail-title">
+  <div class="detail-inner" id="detail-inner"></div>
+</dialog>
+
+<script src="js/config.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
