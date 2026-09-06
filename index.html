@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609061036">
+<link rel="stylesheet" href="css/style.css?v=202609061037">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -32,17 +32,14 @@
 <main id="top">
 
   <section class="lead">
-    <h1>马来亚大学新生租房指南</h1>
-    <p class="lead-sub">人还在国内，怎么把 UM 周边的房子选到只剩两三个，落地三天内签好约。按下面 7 步走。</p>
-    <ol class="lead-steps">
-      <li><a href="#s1">在地图上弄清校园、轻轨站和两片小区的位置</a></li>
-      <li><a href="#s2">按房型定预算，算清入住前要带多少钱</a></li>
-      <li><a href="#s3">按自己的情况挑出 3 个候选小区</a></li>
-      <li><a href="#s4">逐个核对设施、楼龄和最近的在租行情</a></li>
-      <li><a href="#s5">在租房网站找房源，用模板联系中介，查中介资质</a></li>
-      <li><a href="#s6">落地看房，按清单签约付款</a></li>
-      <li><a href="#s7">照时间表安排出发前后的每一步</a></li>
-    </ol>
+    <div class="lead-head">
+      <h1>马来亚大学新生租房指南</h1>
+      <span class="fresh"><i class="fresh-dot"></i>信息持续核对更新 · 最近核实 <time class="verified-at"></time></span>
+    </div>
+    <p class="lead-sub">人还在国内，怎么把 UM 周边的房子选到只剩两三个，落地三天内签好约。按 7 步走：</p>
+    <p class="lead-steps-line">
+      <a href="#s1">1 地形</a><a href="#s2">2 预算</a><a href="#s3">3 挑候选</a><a href="#s4">4 逐个看</a><a href="#s5">5 找中介</a><a href="#s6">6 看房签约</a><a href="#s7">7 时间表</a>
+    </p>
   </section>
 
   <!-- 第 1 步 地形 -->
@@ -423,16 +420,16 @@ Is the room still available? Could you share a short video of the room and the u
         </fieldset>
         <div class="field two">
           <div>
-            <label for="i-movein">入住月份</label>
-            <input id="i-movein" name="move_in" maxlength="20" placeholder="2026-10">
+            <label for="i-movein">入住日期</label>
+            <input id="i-movein" name="move_in" type="date" min="2026-01-01" max="2028-12-31">
           </div>
           <div class="field-inline">
             <label class="tool-check"><input id="i-roommate" name="need_roommate" type="checkbox"> 想找室友一起租</label>
           </div>
         </div>
         <div class="field">
-          <label for="i-contact">联系方式 <span class="hint">选填，微信号即可。填了就是公开的，别填手机号。</span></label>
-          <input id="i-contact" name="contact" maxlength="60" placeholder="wx: your_id">
+          <label for="i-contact">联系方式 <span class="hint">选填。推荐填小红书号，比微信号安全；填了就是公开的，别填手机号。</span></label>
+          <input id="i-contact" name="contact" maxlength="60" placeholder="小红书号：xxxxxx">
         </div>
         <div class="field">
           <label for="i-note">备注 <span class="hint">200 字以内</span></label>
@@ -489,7 +486,7 @@ Is the room still available? Could you share a short video of the room and the u
 
 <script>window.addEventListener("unhandledrejection", (e) => console.error("init failed:", e.reason && (e.reason.stack || e.reason)));</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="js/config.js?v=202609061036"></script>
-<script type="module" src="js/app.js?v=202609061036"></script>
+<script src="js/config.js?v=202609061037"></script>
+<script type="module" src="js/app.js?v=202609061037"></script>
 </body>
 </html>
