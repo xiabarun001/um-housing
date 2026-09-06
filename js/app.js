@@ -135,6 +135,10 @@ function drawMap(campus) {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
+  // 简洁模式：底图去色淡化，只有我们标的东西是彩色的；"详细"开关再叠加次要信息
+  const detail = L.layerGroup();
+  map.getContainer().classList.add('simple');
+  state.detailGroup = detail;
 
   const bounds = L.latLngBounds([]);
 
@@ -154,43 +158,40 @@ function drawMap(campus) {
   const lrtLine = L.polyline(lineLatLngs, { color: '#D6336C', weight: 5, opacity: 0.9, lineJoin: 'round', interactive: false }).addTo(map);
   st.forEach((s) => {
     const major = /Universiti|Kerinchi|Asia Jaya|Taman Jaya/.test(s.name);
-    L.circleMarker([s.lat, s.lng], { radius: major ? 7 : 5, color: '#D6336C', weight: 3, fillColor: '#fff', fillOpacity: 1 })
-      .addTo(map)
-      .bindTooltip(s.zh, { permanent: true, direction: s.name === 'Universiti' ? 'right' : 'bottom', offset: s.name === 'Universiti' ? [9, 0] : [0, 7], className: 'station-label' + (major ? ' major' : '') });
+    const m = L.circleMarker([s.lat, s.lng], { radius: major ? 7 : 5, color: '#D6336C', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map);
+    // 简洁模式只给 4 个主要站写名字，其余站名放进"详细"
+    const tip = { permanent: true, direction: s.name === 'Universiti' ? 'right' : 'bottom', offset: s.name === 'Universiti' ? [9, 0] : [0, 7], className: 'station-label' + (major ? ' major' : '') };
+    if (major) m.bindTooltip(s.zh, tip);
+    else detail.addLayer(L.marker([s.lat, s.lng], { icon: L.divIcon({ className: 'station-label', html: s.zh, iconSize: null, iconAnchor: [-6, -8] }), interactive: false }));
   });
   (state.meta.mrt || []).forEach((s) => {
-    L.circleMarker([s.lat, s.lng], { radius: 5, color: '#2E8B57', weight: 3, fillColor: '#fff', fillOpacity: 1 })
-      .addTo(map)
-      .bindTooltip(s.zh, { permanent: true, direction: 'right', offset: [8, 0], className: 'station-label' });
+    detail.addLayer(L.circleMarker([s.lat, s.lng], { radius: 5, color: '#2E8B57', weight: 3, fillColor: '#fff', fillOpacity: 1 })
+      .bindTooltip(s.zh, { permanent: true, direction: 'right', offset: [8, 0], className: 'station-label' }));
   });
 
-  // 步行范围圈：从 Universiti 站和 Kerinchi 站走 5 分钟（400 m）和 10 分钟（800 m）
+  // 步行范围圈：从 Universiti 站走 5 分钟（400 m）和 10 分钟（800 m）；Kerinchi 站的圈放进"详细"
   const uni = st.find((s) => s.name === 'Universiti');
   const ker = st.find((s) => s.name === 'Kerinchi');
   const walkLayers = [];
-  [uni, ker].filter(Boolean).forEach((s, i) => {
-    walkLayers.push(L.circle([s.lat, s.lng], { radius: 800, color: '#D6336C', weight: 1.2, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.04, interactive: false }).addTo(map));
-    walkLayers.push(L.circle([s.lat, s.lng], { radius: 400, color: '#D6336C', weight: 1.6, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.06, interactive: false }).addTo(map));
-    if (i === 0) {
-      L.marker([s.lat + 400 / 111320, s.lng - 0.0025], { icon: L.divIcon({ className: 'walk-label', html: '步行 5 分钟', iconSize: null }), interactive: false }).addTo(map);
-      L.marker([s.lat + 800 / 111320, s.lng - 0.0028], { icon: L.divIcon({ className: 'walk-label', html: '步行 10 分钟', iconSize: null }), interactive: false }).addTo(map);
-    }
-  });
+  if (uni) {
+    walkLayers.push(L.circle([uni.lat, uni.lng], { radius: 800, color: '#D6336C', weight: 1.2, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.04, interactive: false }).addTo(map));
+    walkLayers.push(L.circle([uni.lat, uni.lng], { radius: 400, color: '#D6336C', weight: 1.6, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.06, interactive: false }).addTo(map));
+    L.marker([uni.lat + 400 / 111320, uni.lng - 0.0025], { icon: L.divIcon({ className: 'walk-label', html: '步行 5 分钟', iconSize: null }), interactive: false }).addTo(map);
+    L.marker([uni.lat + 800 / 111320, uni.lng - 0.0028], { icon: L.divIcon({ className: 'walk-label', html: '步行 10 分钟', iconSize: null }), interactive: false }).addTo(map);
+  }
+  if (ker) {
+    detail.addLayer(L.circle([ker.lat, ker.lng], { radius: 800, color: '#D6336C', weight: 1, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.03, interactive: false }));
+    detail.addLayer(L.circle([ker.lat, ker.lng], { radius: 400, color: '#D6336C', weight: 1.4, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.05, interactive: false }));
+  }
 
-  // 区域范围（凸包）+ 标签
+  // 区域标签（不再画范围框，编号颜色已经能区分）
   const regionBounds = {};
-  const regionColor = { 1: '#C96A1B', 2: '#2F6BCC' };
   [1, 2].forEach((r) => {
     const pts = state.condos.filter((c) => c.region === r).map((c) => [c.lat, c.lng]);
-    const h = convexHull(pts);
-    const cy = pts.reduce((a, p) => a + p[0], 0) / pts.length, cx = pts.reduce((a, p) => a + p[1], 0) / pts.length;
-    const grown = h.map(([la, ln]) => [cy + (la - cy) * 1.28 + (la >= cy ? 0.0008 : -0.0008), cx + (ln - cx) * 1.28 + (ln >= cx ? 0.0008 : -0.0008)]);
-    const poly = L.polygon(grown, { color: regionColor[r], weight: 1.5, dashArray: '6 4', fillColor: regionColor[r], fillOpacity: 0.06, interactive: false }).addTo(map);
-    regionBounds[r] = poly.getBounds();
-    const top = grown.reduce((m, p) => Math.max(m, p[0]), -90);
-    const bottom = grown.reduce((m, p) => Math.min(m, p[0]), 90);
-    // 区域 1 标在范围上方，区域 2 标在范围下方，避开密集的编号点
-    const labelLat = r === 1 ? top + 0.0009 : bottom - 0.0016;
+    regionBounds[r] = L.latLngBounds(pts);
+    const cx = pts.reduce((a, p) => a + p[1], 0) / pts.length;
+    const top = regionBounds[r].getNorth(), bottom = regionBounds[r].getSouth();
+    const labelLat = r === 1 ? top + 0.0022 : bottom - 0.0022;
     L.marker([labelLat, cx], { icon: L.divIcon({ className: `area-label r${r}`, html: r === 1 ? '区域 1 · PJ 这一侧' : '区域 2 · Bangsar South', iconSize: null }), interactive: false }).addTo(map);
   });
   // 缩得比较远时隐藏地标文字，避免和编号点挤在一起
@@ -210,21 +211,31 @@ function drawMap(campus) {
     gate = best;
     L.polyline([[uni.lat, uni.lng], gate], { color: '#2b6b44', weight: 3, dashArray: '2 6', interactive: false }).addTo(map);
   }
+  // 简洁模式只标：正门、两边各一个商场；其余（校园中心、医院、宿舍、Nexus、Mid Valley）放进"详细"
   const landmarks = [
-    gate && { ll: gate, cls: 'gate', label: 'UM 正门 · 出 Universiti 站过天桥' },
+    gate && { ll: gate, cls: 'gate', label: 'UM 正门 · 出 Universiti 站过天桥', base: true },
+    { ll: [3.1136176, 101.6632626], cls: 'mall', label: 'KL Gateway Mall · 超市', base: true },
+    { ll: [3.1171354, 101.6350289], cls: 'mall', label: 'Jaya One · PJ 侧吃饭购物', base: true },
     { ll: [3.1214914, 101.6565469], cls: 'edu', label: '大礼堂 DTC · 校园中心' },
     { ll: [3.1126872, 101.6541474], cls: 'hosp', label: 'UM 医院 UMMC' },
     { ll: [3.1204209, 101.6403159], cls: 'edu', label: '研究生宿舍 KK13' },
     { ll: [3.1195043, 101.6373563], cls: 'edu', label: 'International House 宿舍' },
-    { ll: [3.1136176, 101.6632626], cls: 'mall', label: 'KL Gateway Mall · 超市' },
     { ll: [3.109937, 101.6650767], cls: 'mall', label: 'Nexus 商场 · 吃饭' },
-    { ll: [3.1171354, 101.6350289], cls: 'mall', label: 'Jaya One · PJ 侧吃饭购物' },
     { ll: [3.1176552, 101.6773741], cls: 'mall', label: 'Mid Valley 大商场' },
   ].filter(Boolean);
   landmarks.forEach((l) => {
-    L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon', html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: [6, 11] }), interactive: false, zIndexOffset: -200 }).addTo(map);
-    if (l.cls === 'mall' && /Mid Valley/.test(l.label)) bounds.extend(l.ll);
+    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon', html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: [6, 11] }), interactive: false, zIndexOffset: -200 });
+    if (l.base) m.addTo(map); else detail.addLayer(m);
   });
+  // "详细"开关
+  const detailBtn = $('#map-detail');
+  const setDetail = (on) => {
+    if (on) { detail.addTo(map); map.getContainer().classList.remove('simple'); }
+    else { map.removeLayer(detail); map.getContainer().classList.add('simple'); }
+    if (detailBtn) { detailBtn.textContent = on ? '简洁' : '详细'; detailBtn.setAttribute('aria-pressed', String(on)); }
+  };
+  detailBtn?.addEventListener('click', () => setDetail(!map.hasLayer(detail)));
+  setDetail(false);
 
   // 小区
   state.condos.forEach((c) => {
@@ -266,7 +277,7 @@ function setupTour(ctx) {
   const steps = [
     {
       title: '第 1 步 · 校园',
-      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里。中间的大礼堂 DTC 是校园中心，医院 UMMC 在南边。你的学院在校园哪一侧，决定你该住哪一片。',
+      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里。你的学院在校园哪一侧，决定你该住哪一片。点右上角"详细"能看到校园中心的大礼堂和医院的位置。',
       view: () => campusLayer ? map.fitBounds(campusLayer.getBounds().pad(0.15)) : map.setView([3.121, 101.654], 15),
       focus: [],
     },
@@ -284,7 +295,7 @@ function setupTour(ctx) {
     },
     {
       title: '第 4 步 · 区域 1',
-      text: '<b>橙色 1 到 10 在 PJ</b>。这边没有走得到的轻轨站，去学校靠免费巴士、骑车或 Grab，10 分钟以内。Jaya One 是这边吃饭购物的地方，研究生宿舍 KK13 和 International House 也在这一侧。',
+      text: '<b>橙色 1 到 10 在 PJ</b>。这边没有走得到的轻轨站，去学校靠免费巴士、骑车或 Grab，10 分钟以内。Jaya One 是这边吃饭购物的地方，研究生宿舍也在这一侧（点"详细"能看到）。',
       view: () => map.fitBounds(regionBounds[1].pad(0.15)),
       focus: pinsOf((c) => c.region === 1),
     },
