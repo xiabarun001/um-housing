@@ -477,3 +477,9 @@ main { max-width: 1400px; }
 .rk-v b { color: var(--ink); font-family: var(--serif); font-size: 15px; }
 .rk-v small { font-size: 10px; color: var(--ink-3); margin-left: 2px; }
 @media (max-width: 960px) { .rankings { grid-template-columns: 1fr; } .rk-v { white-space: normal; } }
+.rankings { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.rank { padding: 12px 12px 8px; }
+.rank ol { padding-left: 18px; font-size: 12.5px; }
+.rk-v b { font-size: 14px; }
+@media (max-width: 1180px) { .rankings { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) { .rankings { grid-template-columns: 1fr; } }
