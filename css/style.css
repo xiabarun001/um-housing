@@ -414,3 +414,25 @@ main { max-width: 1400px; }
 
 .map-style { font-size: 13px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--ink); }
 .leaflet-container .maplibregl-map { font-family: var(--sans); }
+
+/* ===== mobile fixes ===== */
+.list { grid-template-columns: repeat(auto-fill, minmax(min(380px, 100%), 1fr)); }
+.two-col > *, .three-col > *, .intents-body > * { min-width: 0; }
+.map-tools .short { display: none; }
+@media (max-width: 720px) {
+  .calc-table td:last-child { white-space: normal; }
+  .map-tools { top: auto; bottom: 28px; left: 10px; right: 10px; justify-content: flex-end; flex-wrap: nowrap; gap: 6px; }
+  .map-tools > * { font-size: 12px; padding: 5px 8px; white-space: nowrap; }
+  .map-style { max-width: 96px; }
+  .map-tools .long { display: none; }
+  .map-tools .short { display: inline; }
+  .tour-box { top: 10px; left: 10px; right: 10px; max-width: none; padding: 10px 12px; }
+  .tour-text { font-size: 13px; }
+  .section-title { font-size: 22px; }
+  .lead h1 { font-size: 26px; }
+  .fresh { font-size: 12px; }
+  .price-table { min-width: 560px; }
+}
+@media (max-width: 720px) {
+  .leaflet-control-zoom { display: none; } /* 手机上双指缩放，给导览框腾位置 */
+}
