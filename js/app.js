@@ -131,13 +131,24 @@ function drawMap(campus) {
   const map = L.map('map', { scrollWheelZoom: false, zoomSnap: 0.5 });
   map.setView([3.115, 101.65], 14); // 先给一个视角，矢量图层才能正常绘制，最后再 fitBounds
   state.map = map;
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
-  // 简洁模式：底图去色淡化，只有我们标的东西是彩色的；"详细"开关再叠加次要信息
+  // 底图：默认用 OpenFreeMap 的矢量地图（简约样式，免 key），不支持 WebGL 时退回 OpenStreetMap 栅格图
+  const VECTOR_STYLES = { positron: 'https://tiles.openfreemap.org/styles/positron', bright: 'https://tiles.openfreemap.org/styles/bright' };
+  const canVector = () => typeof maplibregl !== 'undefined' && typeof L.maplibreGL === 'function' && (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl') || c.getContext('experimental-webgl')); } catch { return false; } })();
+  let base = null;
+  const setBase = (kind) => {
+    if (base) map.removeLayer(base);
+    if (kind !== 'osm' && canVector()) {
+      base = L.maplibreGL({ style: VECTOR_STYLES[kind] || VECTOR_STYLES.positron, attribution: '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+    } else {
+      base = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+    }
+    base.addTo(map);
+  };
+  const styleSel = $('#map-style');
+  setBase(styleSel?.value || 'positron');
+  styleSel?.addEventListener('change', () => setBase(styleSel.value));
+  // "详细"开关叠加次要信息
   const detail = L.layerGroup();
-  map.getContainer().classList.add('simple');
   state.detailGroup = detail;
 
   const bounds = L.latLngBounds([]);
