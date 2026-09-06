@@ -139,20 +139,23 @@ function drawMap(campus) {
 
   // UM 校园
   if (campus) {
-    const layer = L.geoJSON(campus, { style: { color: '#3E8E5B', weight: 1.5, fillColor: '#3E8E5B', fillOpacity: 0.22 } }).addTo(map);
+    const layer = L.geoJSON(campus, { style: { color: '#3E8E5B', weight: 1.5, fillColor: '#3E8E5B', fillOpacity: 0.22 }, interactive: false }).addTo(map);
+    state.campusLayer = layer;
     const c = layer.getBounds().getCenter();
     L.marker(c, { icon: L.divIcon({ className: 'campus-label', html: '马来亚大学 UM', iconSize: null }), interactive: false }).addTo(map);
     bounds.extend(layer.getBounds());
   }
 
-  // 轻轨线 + 车站
+  // 轻轨线（白色描边 + 红线）+ 车站
   const st = state.meta.stations || [];
-  L.polyline(st.map((s) => [s.lat, s.lng]), { color: '#D6336C', weight: 5, opacity: 0.85, lineJoin: 'round' }).addTo(map);
+  const lineLatLngs = st.map((s) => [s.lat, s.lng]);
+  L.polyline(lineLatLngs, { color: '#fff', weight: 10, opacity: 0.9, lineJoin: 'round', interactive: false }).addTo(map);
+  const lrtLine = L.polyline(lineLatLngs, { color: '#D6336C', weight: 5, opacity: 0.9, lineJoin: 'round', interactive: false }).addTo(map);
   st.forEach((s) => {
     const major = /Universiti|Kerinchi|Asia Jaya|Taman Jaya/.test(s.name);
-    L.circleMarker([s.lat, s.lng], { radius: major ? 6 : 5, color: '#D6336C', weight: 3, fillColor: '#fff', fillOpacity: 1 })
+    L.circleMarker([s.lat, s.lng], { radius: major ? 7 : 5, color: '#D6336C', weight: 3, fillColor: '#fff', fillOpacity: 1 })
       .addTo(map)
-      .bindTooltip(s.zh, { permanent: true, direction: s.name === 'Universiti' ? 'right' : 'bottom', offset: s.name === 'Universiti' ? [8, 0] : [0, 6], className: 'station-label' + (major ? ' major' : '') });
+      .bindTooltip(s.zh, { permanent: true, direction: s.name === 'Universiti' ? 'right' : 'bottom', offset: s.name === 'Universiti' ? [9, 0] : [0, 7], className: 'station-label' + (major ? ' major' : '') });
   });
   (state.meta.mrt || []).forEach((s) => {
     L.circleMarker([s.lat, s.lng], { radius: 5, color: '#2E8B57', weight: 3, fillColor: '#fff', fillOpacity: 1 })
@@ -160,9 +163,67 @@ function drawMap(campus) {
       .bindTooltip(s.zh, { permanent: true, direction: 'right', offset: [8, 0], className: 'station-label' });
   });
 
-  // 区域标签
-  L.marker([3.1235, 101.6285], { icon: L.divIcon({ className: 'area-label r1', html: '区域 1 · PJ 这一侧', iconSize: null }), interactive: false }).addTo(map);
-  L.marker([3.1065, 101.6700], { icon: L.divIcon({ className: 'area-label r2', html: '区域 2 · Bangsar South', iconSize: null }), interactive: false }).addTo(map);
+  // 步行范围圈：从 Universiti 站和 Kerinchi 站走 5 分钟（400 m）和 10 分钟（800 m）
+  const uni = st.find((s) => s.name === 'Universiti');
+  const ker = st.find((s) => s.name === 'Kerinchi');
+  const walkLayers = [];
+  [uni, ker].filter(Boolean).forEach((s, i) => {
+    walkLayers.push(L.circle([s.lat, s.lng], { radius: 800, color: '#D6336C', weight: 1.2, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.04, interactive: false }).addTo(map));
+    walkLayers.push(L.circle([s.lat, s.lng], { radius: 400, color: '#D6336C', weight: 1.6, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.06, interactive: false }).addTo(map));
+    if (i === 0) {
+      L.marker([s.lat + 400 / 111320, s.lng - 0.0025], { icon: L.divIcon({ className: 'walk-label', html: '步行 5 分钟', iconSize: null }), interactive: false }).addTo(map);
+      L.marker([s.lat + 800 / 111320, s.lng - 0.0028], { icon: L.divIcon({ className: 'walk-label', html: '步行 10 分钟', iconSize: null }), interactive: false }).addTo(map);
+    }
+  });
+
+  // 区域范围（凸包）+ 标签
+  const regionBounds = {};
+  const regionColor = { 1: '#C96A1B', 2: '#2F6BCC' };
+  [1, 2].forEach((r) => {
+    const pts = state.condos.filter((c) => c.region === r).map((c) => [c.lat, c.lng]);
+    const h = convexHull(pts);
+    const cy = pts.reduce((a, p) => a + p[0], 0) / pts.length, cx = pts.reduce((a, p) => a + p[1], 0) / pts.length;
+    const grown = h.map(([la, ln]) => [cy + (la - cy) * 1.28 + (la >= cy ? 0.0008 : -0.0008), cx + (ln - cx) * 1.28 + (ln >= cx ? 0.0008 : -0.0008)]);
+    const poly = L.polygon(grown, { color: regionColor[r], weight: 1.5, dashArray: '6 4', fillColor: regionColor[r], fillOpacity: 0.06, interactive: false }).addTo(map);
+    regionBounds[r] = poly.getBounds();
+    const top = grown.reduce((m, p) => Math.max(m, p[0]), -90);
+    const bottom = grown.reduce((m, p) => Math.min(m, p[0]), 90);
+    // 区域 1 标在范围上方，区域 2 标在范围下方，避开密集的编号点
+    const labelLat = r === 1 ? top + 0.0009 : bottom - 0.0016;
+    L.marker([labelLat, cx], { icon: L.divIcon({ className: `area-label r${r}`, html: r === 1 ? '区域 1 · PJ 这一侧' : '区域 2 · Bangsar South', iconSize: null }), interactive: false }).addTo(map);
+  });
+  // 缩得比较远时隐藏地标文字，避免和编号点挤在一起
+  const zoomClass = () => map.getContainer().classList.toggle('z-low', map.getZoom() < 15);
+  map.on('zoomend', zoomClass);
+  setTimeout(zoomClass, 0);
+
+  // 地标：正门、校园中心、医院、宿舍、商场
+  let gate = null;
+  if (campus && uni) {
+    let best = null, bd = Infinity;
+    const walk = (arr) => {
+      if (typeof arr[0] === 'number') { const d = (arr[1] - uni.lat) ** 2 + (arr[0] - uni.lng) ** 2; if (d < bd) { bd = d; best = [arr[1], arr[0]]; } return; }
+      arr.forEach(walk);
+    };
+    walk(campus.geometry.coordinates);
+    gate = best;
+    L.polyline([[uni.lat, uni.lng], gate], { color: '#2b6b44', weight: 3, dashArray: '2 6', interactive: false }).addTo(map);
+  }
+  const landmarks = [
+    gate && { ll: gate, cls: 'gate', label: 'UM 正门 · 出 Universiti 站过天桥' },
+    { ll: [3.1214914, 101.6565469], cls: 'edu', label: '大礼堂 DTC · 校园中心' },
+    { ll: [3.1126872, 101.6541474], cls: 'hosp', label: 'UM 医院 UMMC' },
+    { ll: [3.1204209, 101.6403159], cls: 'edu', label: '研究生宿舍 KK13' },
+    { ll: [3.1195043, 101.6373563], cls: 'edu', label: 'International House 宿舍' },
+    { ll: [3.1136176, 101.6632626], cls: 'mall', label: 'KL Gateway Mall · 超市' },
+    { ll: [3.109937, 101.6650767], cls: 'mall', label: 'Nexus 商场 · 吃饭' },
+    { ll: [3.1171354, 101.6350289], cls: 'mall', label: 'Jaya One · PJ 侧吃饭购物' },
+    { ll: [3.1176552, 101.6773741], cls: 'mall', label: 'Mid Valley 大商场' },
+  ].filter(Boolean);
+  landmarks.forEach((l) => {
+    L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon', html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: [6, 11] }), interactive: false, zIndexOffset: -200 }).addTo(map);
+    if (l.cls === 'mall' && /Mid Valley/.test(l.label)) bounds.extend(l.ll);
+  });
 
   // 小区
   state.condos.forEach((c) => {
@@ -176,11 +237,103 @@ function drawMap(campus) {
 
   state.allBounds = bounds.pad(0.03);
   map.fitBounds(state.allBounds);
-  $('#map-reset')?.addEventListener('click', () => { clearSelection(); map.fitBounds(state.allBounds); });
+  $('#map-reset')?.addEventListener('click', () => { clearSelection(); endTour(); map.fitBounds(state.allBounds); });
   // 点一下地图再允许滚轮缩放，避免页面滚动被劫持
   map.on('click', () => map.scrollWheelZoom.enable());
   map.on('mouseout', () => map.scrollWheelZoom.disable());
+
+  setupTour({ map, campusLayer: state.campusLayer, regionBounds, uni, gate, lrtLine, walkLayers });
 }
+
+function convexHull(points) {
+  const pts = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  if (pts.length < 3) return pts;
+  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lower = [];
+  for (const p of pts) { while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop(); lower.push(p); }
+  const upper = [];
+  for (const p of pts.slice().reverse()) { while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop(); upper.push(p); }
+  upper.pop(); lower.pop();
+  return lower.concat(upper);
+}
+
+/* ---------- guided tour ---------- */
+let tour = null;
+function setupTour(ctx) {
+  const { map, campusLayer, regionBounds, uni, gate, lrtLine, walkLayers } = ctx;
+  const pinsOf = (pred) => state.condos.filter(pred).map((c) => c.id);
+  const steps = [
+    {
+      title: '第 1 步 · 校园',
+      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里。中间的大礼堂 DTC 是校园中心，医院 UMMC 在南边。你的学院在校园哪一侧，决定你该住哪一片。',
+      view: () => campusLayer ? map.fitBounds(campusLayer.getBounds().pad(0.15)) : map.setView([3.121, 101.654], 15),
+      focus: [],
+    },
+    {
+      title: '第 2 步 · 正门和轻轨站',
+      text: '正门在校园东南角。<b>出 Universiti 站过一座天桥就进校</b>，绿色虚线就是这段路。两个红色虚线圈是从车站走 5 分钟和 10 分钟能到的范围，圈里的小区都能走路上学。',
+      view: () => map.setView(gate ? [(gate[0] + uni.lat) / 2, (gate[1] + uni.lng) / 2] : [uni.lat, uni.lng], 16),
+      focus: pinsOf((c) => c.transit.walk_min != null && c.transit.walk_min <= 10),
+    },
+    {
+      title: '第 3 步 · 区域 2',
+      text: '<b>蓝色 11 到 19 在 Bangsar South</b>。11 到 15 在步行圈里，走路上学，中国学生最多，楼下就有超市和商场。16 到 19 在南边山坡上，圈外，每天要坐车。',
+      view: () => map.fitBounds(regionBounds[2].pad(0.15)),
+      focus: pinsOf((c) => c.region === 2),
+    },
+    {
+      title: '第 4 步 · 区域 1',
+      text: '<b>橙色 1 到 10 在 PJ</b>。这边没有走得到的轻轨站，去学校靠免费巴士、骑车或 Grab，10 分钟以内。Jaya One 是这边吃饭购物的地方，研究生宿舍 KK13 和 International House 也在这一侧。',
+      view: () => map.fitBounds(regionBounds[1].pad(0.15)),
+      focus: pinsOf((c) => c.region === 1),
+    },
+    {
+      title: '第 5 步 · 轻轨线',
+      text: '<b>红线是 Kelana Jaya 线</b>，圆圈是车站。从 Universiti 站往东两站到 Mid Valley 大商场，往西是 PJ 方向。刷 Touch \'n Go 卡，一站一两块马币。看完了，点"结束"回到全图。',
+      view: () => map.fitBounds(lrtLine.getBounds().pad(0.12)),
+      focus: [],
+    },
+  ];
+  let i = 0;
+  const box = $('#tour-box');
+  const show = () => {
+    const s = steps[i];
+    box.hidden = false;
+    $('#tour-step').textContent = `${s.title}（${i + 1} / ${steps.length}）`;
+    $('#tour-text').innerHTML = s.text;
+    $('#tour-prev').disabled = i === 0;
+    $('#tour-next').textContent = i === steps.length - 1 ? '结束' : '下一步';
+    s.view();
+    const focus = new Set(s.focus);
+    Object.entries(state.markers).forEach(([id, m]) => {
+      const el = m.getElement()?.querySelector('.condo-pin');
+      if (!el) return;
+      el.classList.toggle('pulse', focus.has(id));
+      el.classList.toggle('dim', focus.size > 0 && !focus.has(id));
+    });
+    if (campusLayer) campusLayer.setStyle({ weight: i === 0 ? 3 : 1.5, fillOpacity: i === 0 ? 0.35 : 0.22 });
+    walkLayers.forEach((l) => l.setStyle({ weight: i === 1 ? 2.5 : 1.4, fillOpacity: i === 1 ? 0.1 : 0.05 }));
+    lrtLine.setStyle({ weight: i === 4 ? 8 : 5 });
+  };
+  tour = {
+    start() { i = 0; clearSelection(); show(); },
+    next() { if (i < steps.length - 1) { i++; show(); } else endTour(); },
+    prev() { if (i > 0) { i--; show(); } },
+    end() {
+      box.hidden = true;
+      Object.values(state.markers).forEach((m) => { const el = m.getElement()?.querySelector('.condo-pin'); el?.classList.remove('pulse', 'dim'); });
+      if (campusLayer) campusLayer.setStyle({ weight: 1.5, fillOpacity: 0.22 });
+      walkLayers.forEach((l) => l.setStyle({ weight: 1.4, fillOpacity: 0.05 }));
+      lrtLine.setStyle({ weight: 5 });
+      map.fitBounds(state.allBounds);
+    },
+  };
+  $('#tour-start')?.addEventListener('click', () => tour.start());
+  $('#tour-next')?.addEventListener('click', () => tour.next());
+  $('#tour-prev')?.addEventListener('click', () => tour.prev());
+  $('#tour-close')?.addEventListener('click', () => tour.end());
+}
+function endTour() { if (tour && !$('#tour-box').hidden) tour.end(); }
 
 /* ---------- filters ---------- */
 function bindFilters() {

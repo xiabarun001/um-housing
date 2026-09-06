@@ -349,3 +349,33 @@ main { max-width: 1400px; }
   .map { height: 62vh; min-height: 380px; }
   .map-panel { height: auto; max-height: 420px; }
 }
+
+/* ===== map annotations + tour ===== */
+.map-tools { position: absolute; top: 12px; right: 12px; z-index: 500; display: flex; gap: 8px; }
+.map-tour-btn { font-size: 13px; font-weight: 700; padding: 6px 12px; border: 0; border-radius: 4px; background: var(--ink); color: var(--bg); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.map-reset { position: static; }
+.tour-box { position: absolute; left: 60px; top: 12px; z-index: 600; max-width: 380px; background: color-mix(in srgb, var(--bg) 96%, transparent); border: 1px solid var(--line); border-left: 4px solid var(--ink); border-radius: 6px; padding: 12px 14px; box-shadow: 0 8px 24px -10px rgba(0,0,0,.35); }
+.tour-step { font-family: var(--serif); font-size: 12px; letter-spacing: .1em; color: var(--ink-3); }
+.tour-text { margin: 4px 0 10px; font-size: 14px; line-height: 1.6; }
+.tour-text b { color: var(--ink); }
+.tour-acts { display: flex; gap: 8px; align-items: center; }
+.lm-icon { background: none; border: 0; }
+.lm-icon .lm { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; color: #222; background: rgba(255,255,255,.92); border: 1px solid rgba(0,0,0,.15); border-radius: 4px; padding: 2px 7px 2px 5px; white-space: nowrap; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.lm-icon .lm .ico { width: 14px; height: 14px; border-radius: 3px; display: inline-block; flex: none; }
+.lm-icon .lm.gate .ico { background: #2b6b44; border-radius: 50%; }
+.lm-icon .lm.mall .ico { background: #6b4fbb; }
+.lm-icon .lm.hosp .ico { background: #c0392b; }
+.lm-icon .lm.edu .ico { background: #2b6b44; }
+.lm-icon .lm.gate { border-color: #2b6b44; color: #1f4f33; }
+.walk-label { background: none; border: 0; box-shadow: none; font-size: 11px; font-weight: 700; color: #b0285a; text-shadow: 0 0 3px #fff, 0 0 3px #fff; white-space: nowrap; }
+.area-label { font-size: 16px; }
+@keyframes pinpulse { 0% { box-shadow: 0 0 0 0 rgba(0,0,0,.35); } 70% { box-shadow: 0 0 0 12px rgba(0,0,0,0); } 100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); } }
+.condo-pin.pulse { animation: pinpulse 1.2s ease-out infinite; }
+.condo-pin.dim { opacity: .25; }
+@media (prefers-reduced-motion: reduce) { .condo-pin.pulse { animation: none; box-shadow: 0 0 0 4px rgba(0,0,0,.25); } }
+@media (max-width: 720px) {
+  .tour-box { left: 12px; right: 12px; max-width: none; top: 56px; }
+  .map-tools { top: 12px; right: 12px; }
+}
+.swatch.walk { height: 10px; border: 1.5px dashed var(--lrt); background: color-mix(in srgb, var(--lrt) 8%, transparent); border-radius: 50%; width: 16px; }
+.leaflet-container.z-low .lm-icon .lm, .leaflet-container.z-low .walk-label { display: none; }
