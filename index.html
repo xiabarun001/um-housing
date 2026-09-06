@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609061030">
+<link rel="stylesheet" href="css/style.css?v=202609061031">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -111,10 +111,6 @@
           <dt>Fully furnished</dt><dd>全配家具家电，拎包入住。Partially furnished 只有柜子空调，床和冰箱可能没有，要问清。</dd>
         </dl>
       </div>
-      <div class="gloss">
-        <h3>校内宿舍能不能住</h3>
-        <p>UM 的住宿学院主要给本科生。研究生要通过 IPS 申请，明确收研究生的只有 KK13 和 International House，而且 2026 年秋季多栋在翻修，名额很少。可以发邮件到 <code>hep_penginapan@um.edu.my</code> 试一下，附 offer、护照首页和照片，但计划要按校外租房做。</p>
-      </div>
     </div>
   </section>
 
@@ -212,6 +208,22 @@
     <p class="step-eyebrow">第 4 步</p>
     <h2 class="section-title">逐个看：19 个小区的设施、楼龄和在租行情</h2>
     <p class="section-lede">编号和地图一致。"去学校"一行是最重要的信息；价格是 <time class="verified-at"></time> 的快照，点"iProperty 在租房源"看今天的。</p>
+
+    <div class="common">
+      <h3>先记住这 19 个小区的共同点，看卡片时只比不同的地方</h3>
+      <ul class="plain common-list">
+        <li><strong>全都有泳池、健身房、门禁和 24 小时保安。</strong>这三样不用比，比的是桑拿、羽毛球馆这类附加项和维护得好不好。</li>
+        <li><strong>14 个是服务式公寓，5 个是普通公寓。</strong>服务式公寓（service residence）楼下常有商铺、有物业前台，但水电按商业费率计，比普通公寓贵一两成。Pantai Panorama、Saville、Inwood、Secoya、Tiara 是普通公寓。</li>
+        <li><strong>都是高层，20 到 52 层，几百到一千多户。</strong>户数越多电梯越挤：South View 1,204 户、Southlink 1,422 户；Inwood 211 户、Pacific 63 260 户最清静。只有 Tiara 是 5 层低层。</li>
+        <li><strong>14 个建于 2014 年以后，</strong>最新的是 Atwater（2024）和 Laurel（2025）。老楼只有 Pantai Panorama（1996）、Tiara（2000 年代）和 PJ8（2008）。</li>
+        <li><strong>出租的房几乎都是全配家具（fully furnished）</strong>，床、柜子、空调、冰箱、洗衣机、热水器标配，拎包入住。看到 partially furnished 要问清少什么。</li>
+        <li><strong>户型都不大。</strong>开间 240 到 550 平方英尺，一房 450 到 750，两房 580 到 1,250，三房 950 到 1,250。1,250 平方英尺的两房（Pantai Panorama）已经是这批里最大的。</li>
+        <li><strong>租房规矩一样：</strong>押金 2 个月加预付 1 个月加半个月水电押金，租期 12 个月为主，中介费由房东付，合同要去 LHDN 盖印花。</li>
+        <li><strong>只有 7 个能走到轻轨站：</strong>KL Gateway、Novum、South View、Southlink、Pantai Panorama、Laurel，加上 PJ 侧的 PJ8。其余 12 个每天靠巴士或 Grab。</li>
+        <li><strong>紧挨大道的高楼有噪音：</strong>KL Gateway、South View、Southlink、Novum 都沿 Federal Highway，低层朝大道的房间要留意；山坡上的 Saville、Inwood、Secoya 最安静。</li>
+        <li><strong>租客以学生和年轻上班族为主。</strong>区域 2 中国学生最集中，找中文室友容易；区域 1 本地上班族多。</li>
+      </ul>
+    </div>
 
     <div class="toolbar" id="filters">
       <div class="tool-group" role="group" aria-label="区域">
@@ -451,19 +463,15 @@ Is the room still available? Could you share a short video of the room and the u
   <!-- 数据说明 -->
   <section class="section about" id="about">
     <p class="step-eyebrow">说明</p>
-    <h2 class="section-title">数据从哪来，哪些会过期</h2>
-    <div class="three-col">
+    <h2 class="section-title">这页的数字怎么用</h2>
+    <div class="two-col about-cols">
       <div>
-        <h3>不会变的</h3>
-        <p>设施清单、建成年份、户数、地契、最近的车站和距离，来自 iProperty 项目页、开发商官网和 StarProperty，每张卡片的"来源与详情"里能点到原页面。小区坐标来自 iProperty，车站和校园边界来自 OpenStreetMap。</p>
+        <h3>可以直接信的</h3>
+        <p>设施清单、建成年份、户数、地契、到车站的距离、小区位置。这些来自开发商官网、iProperty 项目页和 StarProperty，几年都不会变。每张卡片的"来源与详情"里能点到原页面自己核对。</p>
       </div>
       <div>
-        <h3>会过期的</h3>
-        <p>"在租套数""最低月租""单间行情"是抓取当天的快照，都标了日期。iProperty 不允许别的网站嵌入它的房源，所以这里只放跳转链接。下决定前一定点进去看今天的。</p>
-      </div>
-      <div>
-        <h3>怎么更新</h3>
-        <p>所有数据在仓库的一个 JSON 文件里，改完推送几分钟后生效。发现错误可以在 <a href="https://github.com/xiabarun001/um-housing" rel="noopener" target="_blank">GitHub</a> 提 issue。这不是官方页面，只是同学之间的整理。</p>
+        <h3>只能当参考的</h3>
+        <p>"在租套数""最低月租""单间行情"是 <time class="verified-at"></time> 当天的快照，几周后就会变。它们的作用是告诉你数量级，帮你排除明显超预算的小区。真正下决定前，点"iProperty 在租房源"看当天挂牌，价格以中介当场报的为准。</p>
       </div>
     </div>
   </section>
@@ -480,7 +488,7 @@ Is the room still available? Could you share a short video of the room and the u
 
 <script>window.addEventListener("unhandledrejection", (e) => console.error("init failed:", e.reason && (e.reason.stack || e.reason)));</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="js/config.js?v=202609061030"></script>
-<script type="module" src="js/app.js?v=202609061030"></script>
+<script src="js/config.js?v=202609061031"></script>
+<script type="module" src="js/app.js?v=202609061031"></script>
 </body>
 </html>

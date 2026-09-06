@@ -379,3 +379,20 @@ main { max-width: 1400px; }
 }
 .swatch.walk { height: 10px; border: 1.5px dashed var(--lrt); background: color-mix(in srgb, var(--lrt) 8%, transparent); border-radius: 50%; width: 16px; }
 .leaflet-container.z-low .lm-icon .lm:not(.gate), .leaflet-container.z-low .walk-label { display: none; }
+
+/* ===== step 1 text layout + common traits ===== */
+.howto { max-width: none; }
+.howto ol { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 40px; padding-left: 22px; }
+.glossary { grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 30px; }
+.gloss dl { display: grid; grid-template-columns: max-content 1fr; gap: 8px 16px; align-items: baseline; }
+.gloss dt { margin: 0; white-space: nowrap; }
+.gloss dd { margin: 0; }
+.common { border: 1px solid var(--line); border-radius: 6px; padding: 18px 22px 14px; margin: 0 0 22px; background: var(--bg-2); }
+.common h3 { font-size: 17px; margin-bottom: 10px; }
+.common-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 40px; padding-left: 18px; }
+.about-cols { margin-top: 12px; grid-template-columns: 1fr 1fr; }
+@media (max-width: 960px) {
+  .howto ol, .glossary, .common-list, .about-cols { grid-template-columns: 1fr; }
+  .gloss dl { grid-template-columns: 1fr; gap: 2px; }
+  .gloss dt { margin-top: 8px; }
+}
