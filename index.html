@@ -3,96 +3,366 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>UM 周边租房图鉴</title>
-<meta name="description" content="马来亚大学周边 19 个小区：设施、楼龄、到 LRT 的步行时间、在租行情快照，以及同学租房意向表。">
+<title>UM 租房指南</title>
+<meta name="description" content="马来亚大学（UM）新生租房指南：地图、预算、19 个小区逐个看、怎么找中介、看房签约清单、落地时间表，以及同学租房意向表。">
 <meta name="color-scheme" content="light dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23C8256A'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 
-<header class="site-head">
-  <a class="brand" href="#top">UM 周边租房图鉴</a>
-  <nav class="site-nav" aria-label="页面导航">
-    <a href="#strip-section">距离带</a>
-    <a href="#grid-section">小区</a>
-    <a href="#intents">同学意向表</a>
-    <a href="#about">数据说明</a>
+<header class="top">
+  <a class="brand" href="#top">UM 租房指南</a>
+  <nav class="nav" aria-label="步骤导航" id="stepnav">
+    <a href="#s1">1 地形</a>
+    <a href="#s2">2 预算</a>
+    <a href="#s3">3 挑候选</a>
+    <a href="#s4">4 逐个看</a>
+    <a href="#s5">5 找中介</a>
+    <a href="#s6">6 看房签约</a>
+    <a href="#s7">7 时间表</a>
+    <a href="#intents">意向表</a>
   </nav>
 </header>
 
 <main id="top">
 
-  <section class="hero" id="strip-section">
-    <p class="eyebrow">马来亚大学 · 周边 19 个小区 · 核实于 <time id="verified-at"></time></p>
-    <h1>先看到 LRT 要走几分钟，<br>再决定去哪里看房。</h1>
-    <p class="lede">这 19 个小区来自小红书上流传最广的那张图。每个都查过设施、楼龄、户数、最近的轨道站和当天的在租行情。价格会过期，设施和距离不会。</p>
+  <section class="lead">
+    <h1>马来亚大学新生租房指南</h1>
+    <p class="lead-sub">人还在国内，怎么把 UM 周边的房子选到只剩两三个，落地三天内签好约。按下面 7 步走。</p>
+    <ol class="lead-steps">
+      <li><a href="#s1">在地图上弄清校园、轻轨站和两片小区的位置</a></li>
+      <li><a href="#s2">按房型定预算，算清入住前要带多少钱</a></li>
+      <li><a href="#s3">按自己的情况挑出 3 个候选小区</a></li>
+      <li><a href="#s4">逐个核对设施、楼龄和最近的在租行情</a></li>
+      <li><a href="#s5">在租房网站找房源，用模板联系中介，查中介资质</a></li>
+      <li><a href="#s6">落地看房，按清单签约付款</a></li>
+      <li><a href="#s7">照时间表安排出发前后的每一步</a></li>
+    </ol>
+  </section>
 
-    <div class="strip-wrap">
-      <div class="strip-head">
-        <h2 class="strip-title">步行到最近 LRT / MRT 站</h2>
-        <div class="legend" aria-label="图例">
-          <span class="legend-item"><i class="dot r1"></i>区域 1 · PJ</span>
-          <span class="legend-item"><i class="dot r2"></i>区域 2 · Bangsar South</span>
-          <span class="legend-item"><i class="dot est"></i>分钟数为估算</span>
-        </div>
+  <!-- 第 1 步 地形 -->
+  <section class="section" id="s1">
+    <p class="step-eyebrow">第 1 步</p>
+    <h2 class="section-title">弄清地形：校园在哪，轻轨在哪，两片小区在哪</h2>
+    <div class="map-frame">
+      <div id="map" class="map" role="region" aria-label="UM 周边小区地图"></div>
+      <button type="button" class="map-reset" id="map-reset">回到全图</button>
+      <div class="map-legend">
+        <div class="legend-row"><span class="swatch campus"></span>UM 校园</div>
+        <div class="legend-row"><span class="swatch line"></span>轻轨 Kelana Jaya 线，圆圈是车站</div>
+        <div class="legend-row"><span class="pin-sample r1">1</span>区域 1 · PJ 这一侧</div>
+        <div class="legend-row"><span class="pin-sample r2">11</span>区域 2 · Bangsar South 这一侧</div>
+        <p class="legend-note">点编号看租金和去学校的方式。地图可以拖动，点一下地图后可以滚轮缩放。</p>
       </div>
-      <div class="strip-scroll">
-        <svg id="strip" class="strip" viewBox="0 0 1040 250" role="img" aria-labelledby="strip-desc"></svg>
+    </div>
+
+    <div class="howto">
+      <h3>看这张图时注意四点</h3>
+      <ol>
+        <li><strong>校园很大，正门在东南角。</strong>绿色区域就是 UM，从西边走到东边要 3 公里。正门正对着轻轨 <strong>Universiti 站</strong>，出站过天桥就进校。你的学院在校园哪一侧，决定你该住哪一片，先在 Google 地图搜一下学院名字。</li>
+        <li><strong>区域 2 走路上学，区域 1 靠车。</strong>蓝色编号（11 到 19）在 Bangsar South，离 Universiti 站和 Kerinchi 站几百米。橙色编号（1 到 10）在 PJ 的 Section 13 和 17 一带，最近的轻轨站也在 1 公里外，去学校要坐免费巴士、骑车或打 Grab。</li>
+        <li><strong>红线是轻轨，只有这一条线跟你有关。</strong>往东一站 Kerinchi，再一站 Abdullah Hukum 有天桥通 Mid Valley 大商场；往西 Taman Jaya、Asia Jaya 是 PJ 方向。刷 Touch 'n Go 卡，一站一两块马币。</li>
+        <li><strong>编号 17 到 19 在山上。</strong>Saville、Inwood、Secoya 在 Pantai 的山坡社区，安静、密度低，但没有走得到的车站，每天靠 Grab，不适合没车的学生。</li>
+      </ol>
+    </div>
+
+    <div class="glossary">
+      <div class="gloss">
+        <h3>会反复出现的词</h3>
+        <dl>
+          <dt>LRT / 轻轨</dt><dd>吉隆坡的城市轨道交通，当地铁理解。这页只涉及 Kelana Jaya 线。</dd>
+          <dt>Grab</dt><dd>东南亚的打车软件，落地前先装好，绑国内信用卡也行。校园周边 2 到 3 公里一趟 RM 5 到 8。</dd>
+          <dt>Touch 'n Go</dt><dd>交通卡兼电子钱包，坐轻轨、公交、进停车场都靠它。机场和轻轨站都能买。</dd>
+          <dt>PJ</dt><dd>Petaling Jaya，吉隆坡西边的卫星城，UM 校园本身就横跨吉隆坡和 PJ 的边界。</dd>
+          <dt>Bangsar South</dt><dd>校园东南边的新商务区，写字楼、商场、公寓在一起，中国学生最集中。</dd>
+        </dl>
       </div>
-      <p id="strip-desc" class="strip-note">横轴是步行分钟数，来源是 iProperty 标注的距离或在租帖子里的描述。右侧一栏是没有步行可达轨道站的小区，出行靠公交或 Grab。点一个圆点跳到对应卡片。</p>
+      <div class="gloss">
+        <h3>房型怎么分</h3>
+        <dl>
+          <dt>单人间 single room</dt><dd>最小的一间，放一张单人床，共用卫生间，最便宜。</dd>
+          <dt>中房 middle room</dt><dd>能放双人床和书桌，共用卫生间。</dd>
+          <dt>主人房 master room</dt><dd>带独立卫生间，通常有阳台，一套里最贵的一间。</dd>
+          <dt>整租 whole unit</dt><dd>租下整套自己找室友分摊。两房分两人，通常比各租一间便宜且房间更大。</dd>
+          <dt>Fully furnished</dt><dd>全配家具家电，拎包入住。Partially furnished 只有柜子空调，床和冰箱可能没有，要问清。</dd>
+        </dl>
+      </div>
+      <div class="gloss">
+        <h3>校内宿舍能不能住</h3>
+        <p>UM 的住宿学院主要给本科生。研究生要通过 IPS 申请，明确收研究生的只有 KK13 和 International House，而且 2026 年秋季多栋在翻修，名额很少。可以发邮件到 <code>hep_penginapan@um.edu.my</code> 试一下，附 offer、护照首页和照片，但计划要按校外租房做。</p>
+      </div>
     </div>
   </section>
 
-  <section class="filters" id="filters" aria-label="筛选">
-    <div class="filter-row">
-      <div class="seg" role="group" aria-label="区域">
-        <button type="button" class="seg-btn is-on" data-region="all">全部 19</button>
-        <button type="button" class="seg-btn" data-region="1">区域 1 · PJ</button>
-        <button type="button" class="seg-btn" data-region="2">区域 2 · Bangsar South</button>
+  <!-- 第 2 步 预算 -->
+  <section class="section" id="s2">
+    <p class="step-eyebrow">第 2 步</p>
+    <h2 class="section-title">定预算：先选房型，再算入住前要带多少钱</h2>
+    <p class="section-lede">下表是 <time class="verified-at"></time> 从 iProperty 和 iBilik 在租帖子里整理的行情，看数量级就好，几周后会变。</p>
+
+    <div class="table-wrap">
+      <table class="price-table">
+        <thead><tr><th>房型</th><th>区域 2 · Bangsar South</th><th>区域 1 · PJ</th><th>适合谁</th></tr></thead>
+        <tbody>
+          <tr><td>单人间</td><td>RM 920 到 1,150</td><td>RM 600 到 800（只有 Pacific Star 有）</td><td>一个人、预算紧、东西少</td></tr>
+          <tr><td>中房</td><td>RM 1,050 到 1,300</td><td>现价没抓到，旧帖 RM 820 到 1,280</td><td>一个人、要放得下书桌</td></tr>
+          <tr><td>主人房</td><td>RM 1,300 到 1,800</td><td>RM 1,400 到 1,550</td><td>一定要独立卫生间</td></tr>
+          <tr><td>一房整套</td><td>RM 2,000 到 2,600</td><td>RM 1,700 到 2,400</td><td>一个人住整套</td></tr>
+          <tr><td>两房整套</td><td>RM 2,400 到 3,000</td><td>RM 2,800 到 3,600</td><td>两个朋友合租，人均最划算</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="calc" id="calc">
+        <h3>入住前要付多少</h3>
+        <p class="calc-hint">马来西亚的惯例是 <strong>2 个月押金 + 1 个月预付 + 半个月水电押金</strong>，押金退房时退。填你打算租的月租，看一次性要准备多少。</p>
+        <label class="calc-input">月租 RM <input type="number" id="calc-rent" min="300" max="20000" step="50" value="1200"></label>
+        <table class="calc-table">
+          <tbody>
+            <tr><td>押金（2 个月，可退）</td><td id="c-dep"></td></tr>
+            <tr><td>首月租金</td><td id="c-adv"></td></tr>
+            <tr><td>水电押金（半个月，可退）</td><td id="c-util"></td></tr>
+            <tr><td>门禁卡押金（可退）</td><td>RM 100 到 200</td></tr>
+            <tr><td>印花税（租客付，政府收）</td><td id="c-stamp"></td></tr>
+            <tr><td>合同费</td><td>RM 150 到 300（中介模板）<br><span class="muted">律师楼起草约 RM 700 到 1,000，可要求和房东对半</span></td></tr>
+            <tr class="total"><td>合计带够</td><td id="c-total"></td></tr>
+          </tbody>
+        </table>
+        <p class="muted">合租单间常见的是简化版：押金 1 到 2.5 个月加首月，具体看帖子。整租按整套月租算，两个人分。</p>
       </div>
-      <label class="check"><input type="checkbox" id="f-lrt"> 步行到轨道站 ≤ 10 分钟</label>
-      <label class="check"><input type="checkbox" id="f-budget"> 有 RM 1,300 以内的单间</label>
-      <label class="select-wrap">排序
+      <div class="monthly">
+        <h3>每月除了房租还有什么</h3>
+        <ul class="plain">
+          <li><strong>电费</strong> 整套 RM 150 到 400，空调开得多就高；合租通常每人 RM 50 到 100 或按分表。服务式公寓走商业电价，比普通公寓贵一点。</li>
+          <li><strong>水费</strong> RM 10 到 30。</li>
+          <li><strong>网费</strong> RM 100 到 130 一户，合租均摊。</li>
+          <li><strong>通勤</strong> 区域 2 走路，零成本；区域 1 每天 Grab 往返约 RM 10 到 16，或坐 PJ 免费巴士。</li>
+          <li><strong>吃饭</strong> 大排档一顿 RM 8 到 15，商场餐厅 RM 20 到 35。Section 17 和 Kampung Kerinchi 的杂饭最便宜。</li>
+        </ul>
+        <h3>中介费谁付</h3>
+        <p>整租通过房东的中介，<strong>租客不付中介费</strong>，佣金由房东出（一年租约约一个月租金）。合租单间大多没有中介。有人向你收"看房费""服务费"，问一句 <em>Who is paying the commission, landlord or tenant?</em>，含糊的就换人。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第 3 步 挑候选 -->
+  <section class="section" id="s3">
+    <p class="step-eyebrow">第 3 步</p>
+    <h2 class="section-title">挑 3 个候选：对号入座</h2>
+    <p class="section-lede">只按三件事排：去学校方不方便、预算够不够、楼里有没有泳池和健身房（19 个全都有，所以这条不用比）。点名字跳到小区卡片。</p>
+    <div class="picks">
+      <div class="pick">
+        <h3>一个人租一间，预算 RM 1,300 以内</h3>
+        <ol>
+          <li><a href="#card-kl-gateway">KL Gateway</a>：单人间 RM 920 起，走 2 分钟到 Universiti 站，楼下是商场和超市。714 户，人不算多。</li>
+          <li><a href="#card-south-view">South View</a>：单人间 RM 950 起，走 5 分钟到站。在租的房间最多，最容易找室友，代价是 1,204 户、高峰等电梯。</li>
+          <li><a href="#card-southlink">Southlink</a>：单人间 RM 1,050 起含水电网，2022 年新楼，单栋 1,422 户。</li>
+          <li><a href="#card-pacific-star">Pacific Star</a>：单人间 RM 600 起，全场最便宜，紧挨 Jaya One 商场，但没有轻轨，靠楼盘穿梭巴士和 Grab。</li>
+        </ol>
+        <p class="pick-note">先联系前两个，第三第四当备选。</p>
+      </div>
+      <div class="pick">
+        <h3>和朋友整租一套两房</h3>
+        <ol>
+          <li><a href="#card-pantai-panorama">Pantai Panorama</a>：两房 1,250 平方英尺 RM 2,400 起，人均 1,200，房间是别家两倍大，走 7 分钟到站。1996 年老楼，维护得好，永久地契。</li>
+          <li><a href="#card-south-view">South View</a>：两房 648 平方英尺 RM 2,400，人均 1,200，房间小但楼新、离站近。</li>
+          <li><a href="#card-kl-gateway">KL Gateway</a>：两房 663 平方英尺 RM 2,600，人均 1,300，离站最近。</li>
+        </ol>
+        <p class="pick-note">三个人可以看 <a href="#card-saville">Saville</a> 的三房，RM 2,400 到 3,000 分三份，但每天要 Grab。</p>
+      </div>
+      <div class="pick">
+        <h3>预算宽裕，要新楼和好设施</h3>
+        <ol>
+          <li><a href="#card-novum">Novum</a>：2019 年，50 米泳道池、悬浮健身房，住户口碑最好，有天桥到 Kerinchi 站。中房 RM 1,300 起不含水电。</li>
+          <li><a href="#card-atwater">Atwater</a>：2024 年交付，PJ 侧设施最全，只有整套出租，两房 RM 2,800 起。</li>
+          <li><a href="#card-ryan-miho">Ryan & Miho</a>：2021 年，桑拿、蒸汽房、温泉池，天桥连 Jaya One。单间 RM 1,400 起，网上流传的 RM 850 是过时价。</li>
+        </ol>
+        <p class="pick-note">这一档都没有 RM 1,300 以内的单间。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 第 4 步 逐个看 -->
+  <section class="section" id="s4">
+    <p class="step-eyebrow">第 4 步</p>
+    <h2 class="section-title">逐个看：19 个小区的设施、楼龄和在租行情</h2>
+    <p class="section-lede">编号和地图一致。"去学校"一行是最重要的信息；价格是 <time class="verified-at"></time> 的快照，点"iProperty 在租房源"看今天的。</p>
+
+    <div class="toolbar" id="filters">
+      <div class="tool-group" role="group" aria-label="区域">
+        <button type="button" class="tab is-on" data-region="all">全部</button>
+        <button type="button" class="tab" data-region="1">区域 1 · PJ</button>
+        <button type="button" class="tab" data-region="2">区域 2 · Bangsar South</button>
+      </div>
+      <label class="tool-check"><input type="checkbox" id="f-lrt"> 走路能到轻轨站</label>
+      <label class="tool-check"><input type="checkbox" id="f-budget"> 有 RM 1,300 以内的单间</label>
+      <details class="tool-more">
+        <summary>设施</summary>
+        <div class="tool-flags">
+          <label><input type="checkbox" data-flag="pool"> 泳池</label>
+          <label><input type="checkbox" data-flag="gym"> 健身房</label>
+          <label><input type="checkbox" data-flag="sauna"> 桑拿</label>
+          <label><input type="checkbox" data-flag="steam"> 蒸汽房</label>
+          <label><input type="checkbox" data-flag="jacuzzi"> 按摩池</label>
+          <label><input type="checkbox" data-flag="badminton"> 羽毛球</label>
+          <label><input type="checkbox" data-flag="basketball"> 篮球</label>
+          <label><input type="checkbox" data-flag="squash"> 壁球</label>
+          <label><input type="checkbox" data-flag="tennis"> 网球</label>
+          <label><input type="checkbox" data-flag="bbq"> 烧烤区</label>
+          <label><input type="checkbox" data-flag="minimart"> 楼下便利店</label>
+        </div>
+      </details>
+      <label class="tool-sort">排序
         <select id="sort">
-          <option value="walk">到 LRT 最近</option>
-          <option value="rent">最低月租</option>
-          <option value="year">楼龄最新</option>
-          <option value="units">户数最少</option>
+          <option value="no">按编号</option>
+          <option value="walk">离轻轨近的在前</option>
+          <option value="rent">最低月租低的在前</option>
+          <option value="year">楼龄新的在前</option>
         </select>
       </label>
+      <button type="button" class="tool-reset" id="f-reset">清除</button>
     </div>
-    <div class="filter-row facilities" role="group" aria-label="设施">
-      <span class="filter-label">设施</span>
-      <label class="chip-check"><input type="checkbox" data-flag="pool"> 泳池</label>
-      <label class="chip-check"><input type="checkbox" data-flag="gym"> 健身房</label>
-      <label class="chip-check"><input type="checkbox" data-flag="sauna"> 桑拿</label>
-      <label class="chip-check"><input type="checkbox" data-flag="steam"> 蒸汽房</label>
-      <label class="chip-check"><input type="checkbox" data-flag="jacuzzi"> 按摩池</label>
-      <label class="chip-check"><input type="checkbox" data-flag="badminton"> 羽毛球</label>
-      <label class="chip-check"><input type="checkbox" data-flag="basketball"> 篮球</label>
-      <label class="chip-check"><input type="checkbox" data-flag="squash"> 壁球</label>
-      <label class="chip-check"><input type="checkbox" data-flag="tennis"> 网球</label>
-      <label class="chip-check"><input type="checkbox" data-flag="bbq"> 烧烤区</label>
-      <label class="chip-check"><input type="checkbox" data-flag="minimart"> 楼下便利店</label>
-      <button type="button" class="link-btn" id="f-reset">清除筛选</button>
-    </div>
-    <p class="result-count" id="result-count" aria-live="polite"></p>
+    <p class="count" id="result-count" aria-live="polite"></p>
+    <div class="list" id="grid"></div>
+    <p class="empty" id="empty" hidden>没有同时满足这几个条件的小区，放宽一个试试。</p>
   </section>
 
-  <section class="grid-section" id="grid-section">
-    <div class="grid" id="grid"></div>
-    <p class="empty" id="empty" hidden>没有符合全部条件的小区。放宽一两个条件试试。</p>
+  <!-- 第 5 步 找中介 -->
+  <section class="section" id="s5">
+    <p class="step-eyebrow">第 5 步</p>
+    <h2 class="section-title">找房源、联系中介、查资质</h2>
+    <div class="three-col">
+      <div>
+        <h3>去哪找</h3>
+        <ul class="plain">
+          <li><strong>整套：</strong><a href="https://www.iproperty.com.my" rel="noopener" target="_blank">iProperty</a> 和 <a href="https://www.propertyguru.com.my" rel="noopener" target="_blank">PropertyGuru</a>，房源最全，每条都写挂牌日期，挑最近两周的。</li>
+          <li><strong>单间：</strong><a href="https://www.ibilik.com" rel="noopener" target="_blank">iBilik</a> 和 <a href="https://www.mudah.my" rel="noopener" target="_blank">Mudah</a>，很多是房东或运营商直发，写明含不含水电。</li>
+          <li><strong>转租和找室友：</strong>小红书搜"马大租房""UM 租房"。价格常比平台高，遇到"服务费""看房费"直接跳过。</li>
+          <li><strong>不要用</strong>只在微信群里发图、不给平台链接、不肯视频的房源。</li>
+        </ul>
+      </div>
+      <div>
+        <h3>第一条消息这样发</h3>
+        <p class="muted">马来西亚中介都用 WhatsApp，英文就行。把方括号里的换成你的情况。</p>
+        <div class="tpl">
+<pre id="tpl-1">Hi, I saw your listing for [South View, middle room] on [iBilik]. I'm a postgraduate student starting at Universiti Malaya in October 2026.
+
+1. Occupation: Postgraduate student, Universiti Malaya
+2. Nationality: Chinese
+3. Move in: early October 2026
+4. Persons: 1
+5. Tenancy: 12 months
+
+Is the room still available? Could you share a short video of the room and the unit, and confirm whether the rent includes utilities and WiFi? Thanks.</pre>
+          <button type="button" class="copy" data-copy="tpl-1">复制</button>
+        </div>
+        <p class="muted">中介回问"Tenant profile"就是要上面 1 到 5 项，照填。"Race"一栏填 Chinese，这是当地常规问题。</p>
+      </div>
+      <div>
+        <h3>发之前查这三样</h3>
+        <ul class="plain">
+          <li><strong>REN 编号。</strong>正规中介会在名字后写 REN 12345，去 <a href="https://search.lppeh.gov.my" rel="noopener" target="_blank">LPPEH 官网</a> 查这个号对应的名字和公司是否一致。号码对不上或不肯给，换人。</li>
+          <li><strong>收款账户。</strong>押金只转到合同上房东本人的账户，不转中介个人账户，不用现金。每笔要正式收据。</li>
+          <li><strong>先看房再付钱。</strong>视频看房可以，但"付了定金才能看"一律拒绝。落地后实地看过再签。</li>
+        </ul>
+        <h3>一定要问清的</h3>
+        <ul class="plain compact">
+          <li>租金含不含水、电、网？电费是分表还是按人头？</li>
+          <li>押金几个月？退还条件？门禁卡几张、押金多少？</li>
+          <li>最短租期？提前退租怎么算？</li>
+          <li>家具清单里有没有床垫、冰箱、洗衣机、热水器？</li>
+          <li>合租的话：室友几个、性别、作息、能不能做饭？</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
-  <section class="intents" id="intents">
-    <div class="intents-head">
-      <h2>同学租房意向表</h2>
-      <p>填一下你的预算和想住的小区，方便互相找室友、拼整租。所有人打开这个页面都能看到，联系方式选填。</p>
+  <!-- 第 6 步 看房签约 -->
+  <section class="section" id="s6">
+    <p class="step-eyebrow">第 6 步</p>
+    <h2 class="section-title">看房和签约：照清单过一遍</h2>
+    <p class="section-lede">勾选的状态只存在你自己的浏览器里，看房当天打开这页当清单用。</p>
+    <div class="three-col">
+      <div>
+        <h3>看房时检查</h3>
+        <ul class="checks" data-checklist="viewing">
+          <li><label><input type="checkbox"> 早晚高峰各去一次楼下，看电梯要等多久</label></li>
+          <li><label><input type="checkbox"> 关上窗听大道噪音，Federal Highway 边上的低层要留意</label></li>
+          <li><label><input type="checkbox"> 开热水、冲马桶、试空调、试每一个插座</label></li>
+          <li><label><input type="checkbox"> 看窗户朝向，西晒的房间下午空调费高</label></li>
+          <li><label><input type="checkbox"> 问门禁卡、访客登记和快递怎么收</label></li>
+          <li><label><input type="checkbox"> 走一遍到轻轨站或巴士站的路，看有没有遮雨顶棚</label></li>
+          <li><label><input type="checkbox"> 合租看厨房和卫生间的清洁程度，那是室友的真实水平</label></li>
+          <li><label><input type="checkbox"> 抄下电表读数，拍照</label></li>
+        </ul>
+      </div>
+      <div>
+        <h3>合同里要有</h3>
+        <ul class="checks" data-checklist="contract">
+          <li><label><input type="checkbox"> 房东全名、身份证或护照号，和收款账户一致</label></li>
+          <li><label><input type="checkbox"> 租期、月租、付款日、押金金额分项列出</label></li>
+          <li><label><input type="checkbox"> 押金退还期限（一般退房后 14 天内）和"正常磨损不扣"条款</label></li>
+          <li><label><input type="checkbox"> 提前退租条款和转租条款</label></li>
+          <li><label><input type="checkbox"> 家具家电清单作为附件，逐项带数量</label></li>
+          <li><label><input type="checkbox"> 维修责任：RM 100 以下常由租客承担，写明</label></li>
+          <li><label><input type="checkbox"> 合同要去 LHDN 盖印花（stamping），没盖章的合同打官司不认</label></li>
+        </ul>
+      </div>
+      <div>
+        <h3>付款和入住当天</h3>
+        <ul class="checks" data-checklist="movein">
+          <li><label><input type="checkbox"> 只用银行转账，备注写清"deposit + advance rental"</label></li>
+          <li><label><input type="checkbox"> 每笔拿到写有金额、日期、房东签名的收据</label></li>
+          <li><label><input type="checkbox"> 入住当天全屋拍视频，包括墙面、家具、电器状态</label></li>
+          <li><label><input type="checkbox"> 门禁卡、钥匙数清点，写进交接单</label></li>
+          <li><label><input type="checkbox"> 存好房东和中介的 WhatsApp，坏东西第一时间文字报修留证据</label></li>
+        </ul>
+        <div class="callout">
+          <strong>退押金被无理扣款怎么办：</strong>马来西亚没有统一的住宅租赁法，合同是唯一依据。可以去小额法庭（Tribunal）起诉，手续费 RM 10，所以入住视频和收据一定留好。
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- 第 7 步 时间表 -->
+  <section class="section" id="s7">
+    <p class="step-eyebrow">第 7 步</p>
+    <h2 class="section-title">时间表：出发前 6 周到入住第一周</h2>
+    <ol class="timeline">
+      <li>
+        <h3>出发前 4 到 6 周</h3>
+        <p>定房型和预算，和室友统一想法。把这页的意向表填了，看有没有同学要拼房。这时候看到的房源等不到你，只用来摸行情。</p>
+      </li>
+      <li>
+        <h3>出发前 2 到 3 周</h3>
+        <p>锁定 3 个候选小区，各联系 2 到 3 个中介，要视频看房，查 REN。把 offer、护照首页拍好备用。<strong>不付任何定金。</strong>马来西亚房源多是即刻入住，这时联系正合适。</p>
+      </li>
+      <li>
+        <h3>出发前 1 周</h3>
+        <p>在 Bangsar South 或 PJ 订 3 到 7 晚 Airbnb 或酒店当落脚点，别订太远。准备好首笔款：单间约 RM 3,000 到 5,000，整套两房约 RM 9,000 到 11,000（见第 2 步计算器）。装好 Grab 和 WhatsApp。</p>
+      </li>
+      <li>
+        <h3>落地第 1 到 3 天</h3>
+        <p>机场买 Touch 'n Go 卡和电话卡。一天看 2 到 3 套，看完当天决定，第二天签约付款拿钥匙。按第 6 步的清单来。</p>
+      </li>
+      <li>
+        <h3>入住第 1 周</h3>
+        <p>拍入住视频、抄电表、办宽带（如果不含）。走一遍去学院的路线，记下校内免费穿梭巴士的站点。去 UM 报到时顺便问一句宿舍候补，万一有名额再决定。</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 意向表 -->
+  <section class="section" id="intents">
+    <p class="step-eyebrow">互相帮忙</p>
+    <h2 class="section-title">同学租房意向表</h2>
+    <p class="section-lede">填你的预算和想住的小区，方便凑室友、拼整租。打开这页的人都能看到，联系方式可以不填。</p>
     <div class="intents-body">
       <form id="intent-form" class="intent-form" autocomplete="off" novalidate>
         <div class="field">
@@ -126,7 +396,7 @@
             <input id="i-movein" name="move_in" maxlength="20" placeholder="2026-10">
           </div>
           <div class="field-inline">
-            <label class="check big"><input id="i-roommate" name="need_roommate" type="checkbox"> 想找室友一起租</label>
+            <label class="tool-check"><input id="i-roommate" name="need_roommate" type="checkbox"> 想找室友一起租</label>
           </div>
         </div>
         <div class="field">
@@ -138,7 +408,7 @@
           <textarea id="i-note" name="note" maxlength="200" rows="3" placeholder="比如：要独卫、不抽烟、已经看过 South View 的房"></textarea>
         </div>
         <div class="form-actions">
-          <button type="submit" class="btn primary" id="i-submit">提交到意向表</button>
+          <button type="submit" class="btn primary" id="i-submit">提交</button>
           <span class="form-msg" id="form-msg" role="status" aria-live="polite"></span>
         </div>
       </form>
@@ -148,46 +418,49 @@
         <div class="table-wrap">
           <table class="intent-table" id="intent-table">
             <thead>
-              <tr><th>时间</th><th>昵称</th><th>预算</th><th>房型</th><th>意向小区</th><th>入住</th><th>找室友</th><th>联系</th><th>备注</th></tr>
+              <tr><th>日期</th><th>昵称</th><th>预算</th><th>房型</th><th>意向小区</th><th>入住</th><th>找室友</th><th>联系</th><th>备注</th></tr>
             </thead>
             <tbody></tbody>
           </table>
         </div>
-        <p class="intent-empty" id="intent-empty" hidden>还没有人填。你来第一个。</p>
+        <p class="intent-empty" id="intent-empty" hidden>还没有人填，你来第一个。</p>
         <p class="intent-offline" id="intent-offline" hidden>共享表暂时没连上数据库，稍后刷新再试。</p>
       </div>
     </div>
   </section>
 
-  <section class="about" id="about">
-    <h2>数据说明</h2>
-    <div class="about-cols">
+  <!-- 数据说明 -->
+  <section class="section about" id="about">
+    <p class="step-eyebrow">说明</p>
+    <h2 class="section-title">数据从哪来，哪些会过期</h2>
+    <div class="three-col">
       <div>
-        <h3>哪些是固定信息</h3>
-        <p>设施清单、建成年份、户数、地契、最近的轨道站和距离，来自 iProperty 项目页、开发商官网和 StarProperty。这些不会每周变，每张卡片的“详情与来源”里能点到原页面。</p>
+        <h3>不会变的</h3>
+        <p>设施清单、建成年份、户数、地契、最近的车站和距离，来自 iProperty 项目页、开发商官网和 StarProperty，每张卡片的"来源与详情"里能点到原页面。小区坐标来自 iProperty，车站和校园边界来自 OpenStreetMap。</p>
       </div>
       <div>
-        <h3>哪些会过期</h3>
-        <p>“在租数量”“最低月租”“单间行情”是抓取当天的快照，标了日期。真正下决定前，点“看 iProperty 在租”看今天的房源。iProperty 不允许别的网站直接嵌入它的列表，所以只能跳过去。</p>
+        <h3>会过期的</h3>
+        <p>"在租套数""最低月租""单间行情"是抓取当天的快照，都标了日期。iProperty 不允许别的网站嵌入它的房源，所以这里只放跳转链接。下决定前一定点进去看今天的。</p>
       </div>
       <div>
         <h3>怎么更新</h3>
-        <p>所有数据在仓库的 <code>data/condos.json</code> 一个文件里。改数字、改核实日期、推送到 GitHub，网站几分钟后自动更新。</p>
+        <p>所有数据在仓库的一个 JSON 文件里，改完推送几分钟后生效。发现错误可以在 <a href="https://github.com/xiabarun001/um-housing" rel="noopener" target="_blank">GitHub</a> 提 issue。这不是官方页面，只是同学之间的整理。</p>
       </div>
     </div>
   </section>
 
 </main>
 
-<footer class="site-foot">
-  <p>非官方整理，供同学参考。租房请核对中介 REN 编号，付款只走银行转账并索取正式收据。</p>
-  <p><a href="https://github.com/xiabarun001/um-housing" rel="noopener">GitHub 仓库</a> · 数据核实 <time id="verified-at-foot"></time></p>
+<footer class="foot">
+  <p>非官方整理，供同学参考。最近核实 <time class="verified-at"></time>。</p>
 </footer>
 
 <dialog id="detail" class="detail" aria-labelledby="detail-title">
   <div class="detail-inner" id="detail-inner"></div>
 </dialog>
 
+<script>window.addEventListener("unhandledrejection", (e) => console.error("init failed:", e.reason && (e.reason.stack || e.reason)));</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="js/config.js"></script>
 <script type="module" src="js/app.js"></script>
 </body>
