@@ -1,4 +1,5 @@
-/* UM 周边租房图鉴 — app */
+/* UM 租房指南 — app */
+window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
   meta: {},
