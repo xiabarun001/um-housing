@@ -235,7 +235,7 @@ function drawMap(campus) {
     { ll: [3.1176552, 101.6773741], cls: 'mall', label: 'Mid Valley 大商场' },
   ].filter(Boolean);
   landmarks.forEach((l) => {
-    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon', html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: [6, 11] }), interactive: false, zIndexOffset: -200 });
+    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon' + (l.cls === 'gate' ? ' lm-up' : ''), html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: l.cls === 'gate' ? [6, 34] : [6, 11] }), interactive: false, zIndexOffset: -200 });
     if (l.base) m.addTo(map); else detail.addLayer(m);
   });
   // "详细"开关
@@ -243,7 +243,7 @@ function drawMap(campus) {
   const setDetail = (on) => {
     if (on) { detail.addTo(map); map.getContainer().classList.remove('simple'); }
     else { map.removeLayer(detail); map.getContainer().classList.add('simple'); }
-    if (detailBtn) { detailBtn.textContent = on ? '简洁' : '详细'; detailBtn.setAttribute('aria-pressed', String(on)); }
+    if (detailBtn) { detailBtn.textContent = on ? '隐藏更多地标' : '显示更多地标'; detailBtn.setAttribute('aria-pressed', String(on)); }
   };
   detailBtn?.addEventListener('click', () => setDetail(!map.hasLayer(detail)));
   setDetail(false);

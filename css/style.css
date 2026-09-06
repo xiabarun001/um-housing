@@ -436,3 +436,25 @@ main { max-width: 1400px; }
 @media (max-width: 720px) {
   .leaflet-control-zoom { display: none; } /* 手机上双指缩放，给导览框腾位置 */
 }
+
+/* ===== map bar + legend outside the map ===== */
+.map-bar { display: flex; justify-content: space-between; align-items: center; gap: 8px 16px; flex-wrap: wrap; margin: 10px 0 8px; }
+.map-tools { position: static; display: flex; gap: 8px; flex-wrap: wrap; }
+.map-tools .short { display: none; }
+.map-detail, .map-reset, .map-style { font-size: 13px; padding: 6px 12px; }
+.map-layout { margin-top: 0; }
+.tour-box { position: static; max-width: none; margin: 0 0 8px; border-left: 4px solid var(--ink); box-shadow: none; background: var(--bg-2); }
+.tour-acts { margin-top: 2px; }
+.map-legend { position: static; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 20px; margin: 8px 0 0; padding: 8px 4px 0; border: 0; background: none; max-width: none; font-size: 13px; }
+.map-legend .legend-row { margin: 0; }
+.map-legend .legend-note { margin: 0; color: var(--ink-3); font-size: 12px; }
+.lm-icon.lm-up::after { content: ""; position: absolute; left: 4px; top: 100%; width: 0; height: 22px; border-left: 1.5px dashed #2b6b44; }
+.lm-icon.lm-up { position: relative; }
+@media (max-width: 720px) {
+  .map-tools { position: static; bottom: auto; left: auto; right: auto; justify-content: flex-start; }
+  .map-tools > * { font-size: 12px; padding: 5px 9px; }
+  .map-tools .long { display: none; }
+  .map-tools .short { display: inline; }
+  .tour-box { top: auto; left: auto; right: auto; }
+  .map-legend { gap: 6px 14px; font-size: 12px; }
+}
