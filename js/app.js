@@ -19,6 +19,14 @@ const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 const fmt = (n) => n == null ? '—' : Number(n).toLocaleString('en-MY');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const shortAlias = (c) => c.alias.replace(/（.*?）/, '');
+const FSKTM = [3.1284075, 101.6504943]; // 计算机学院楼（OpenStreetMap）
+function distKm(a, b) {
+  const R = 6371, toR = (x) => x * Math.PI / 180;
+  const dLat = toR(b[0] - a[0]), dLon = toR(b[1] - a[1]);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a[0])) * Math.cos(toR(b[0])) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+const toFsktm = (c) => distKm([c.lat, c.lng], FSKTM).toFixed(1);
 
 init();
 
@@ -224,7 +232,11 @@ function drawMap(campus) {
   }
   // 简洁模式只标：正门、两边各一个商场；其余（校园中心、医院、宿舍、Nexus、Mid Valley）放进"详细"
   const landmarks = [
-    gate && { ll: gate, cls: 'gate', label: 'UM 正门 · 出 Universiti 站过天桥', base: true },
+    gate && { ll: gate, cls: 'gate', label: 'KL 门（正门）· 出 Universiti 站过天桥', base: true },
+    { ll: [3.1284075, 101.6504943], cls: 'edu key', label: '计算机学院 FSKTM', base: true },
+    { ll: [3.122159, 101.6340447], cls: 'gate', label: 'PJ 门 · Section 17 方向' },
+    { ll: [3.1293, 101.6483], cls: 'gate', label: 'Section 16 门 · 往 Phileo Damansara MRT' },
+    { ll: [3.13067, 101.66064], cls: 'gate', label: 'Damansara 门 · Sprint 高速' },
     { ll: [3.1136176, 101.6632626], cls: 'mall', label: 'KL Gateway Mall · 超市', base: true },
     { ll: [3.1171354, 101.6350289], cls: 'mall', label: 'Jaya One · PJ 侧吃饭购物', base: true },
     { ll: [3.1214914, 101.6565469], cls: 'edu', label: '大礼堂 DTC · 校园中心' },
@@ -288,13 +300,13 @@ function setupTour(ctx) {
   const steps = [
     {
       title: '第 1 步 · 校园',
-      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里。你的学院在校园哪一侧，决定你该住哪一片。点右上角"详细"能看到校园中心的大礼堂和医院的位置。',
+      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里，有 5 个门。计算机学院 FSKTM 在校园北侧，离任何一个门都有 1 到 2 公里，校内免费穿梭巴士到各学院。点"显示更多地标"能看到其他门、大礼堂和医院。',
       view: () => campusLayer ? map.fitBounds(campusLayer.getBounds().pad(0.15)) : map.setView([3.121, 101.654], 15),
       focus: [],
     },
     {
       title: '第 2 步 · 正门和轻轨站',
-      text: '正门在校园东南角。<b>出 Universiti 站过一座天桥就进校</b>，绿色虚线就是这段路。两个红色虚线圈是从车站走 5 分钟和 10 分钟能到的范围，圈里的小区都能走路上学。',
+      text: 'KL 门是正门，在校园东南角。<b>出 Universiti 站过一座天桥就进校</b>，绿色虚线就是这段路。两个红色虚线圈是从车站走 5 分钟和 10 分钟能到的范围，圈里的小区走路到正门，再坐校内穿梭巴士去学院。',
       view: () => map.setView(gate ? [(gate[0] + uni.lat) / 2, (gate[1] + uni.lng) / 2] : [uni.lat, uni.lng], 16),
       focus: pinsOf((c) => c.transit.walk_min != null && c.transit.walk_min <= 10),
     },
@@ -464,6 +476,7 @@ function selectCondo(id, { pan = false } = {}) {
     <button type="button" class="btn pd-close" data-pd-close aria-label="关闭">关闭</button>
     <h3>${c.no} · ${esc(shortAlias(c))}</h3>
     <p>${goSentence(c)}</p>
+    <p>到计算机学院直线 ${toFsktm(c)} 公里</p>
     <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)}</p>
     ${c.snapshot.rooms ? `<p><b>单间</b> ${esc(c.snapshot.rooms)}</p>` : '<p><b>单间</b> 这次没有找到在租的单间</p>'}
     ${c.snapshot.whole ? `<p><b>整套</b> ${esc(c.snapshot.whole)}</p>` : ''}
@@ -503,6 +516,7 @@ function cardHTML(c) {
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)}</p>
+    <p class="facts">到计算机学院（校园北侧）直线 ${toFsktm(c)} 公里，校内穿梭巴士或骑车</p>
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)}</p>
     <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
     <div class="price">
