@@ -407,7 +407,7 @@ main { max-width: 1400px; }
 .fresh-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 20%, transparent); }
 .fresh time { font-weight: 700; color: var(--ink); }
 .lead-sub { margin: 10px 0 8px; }
-.lead-steps-line { margin: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: 13px; }
+.lead-steps-line { margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: 13px; }
 .lead-steps-line a { color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 3px 11px; background: var(--bg); }
 .lead-steps-line a:hover { border-color: var(--ink); }
 .intent-form input[type="date"] { min-height: 34px; }
