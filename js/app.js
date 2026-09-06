@@ -759,7 +759,8 @@ function renderRankings() {
   const byFac = state.condos.slice().sort((x, y) => y.facilities.length - x.facilities.length || y.completed - x.completed);
   const byYear = state.condos.slice().sort((x, y) => (y.completed || 0) - (x.completed || 0) || x.no - y.no);
   const byTransit = state.condos.map((c) => ({ c, r: nearestRailMin(c) })).sort((x, y) => x.r.min - y.r.min || (x.r.est - y.r.est));
-  const byPrice = state.condos.slice().sort((x, y) => (x.snapshot.rent_from ?? 1e9) - (y.snapshot.rent_from ?? 1e9) || x.no - y.no);
+  const cheapest = (c) => Math.min(roomsMin(c) ?? Infinity, c.snapshot.rent_from ?? Infinity);
+  const byPrice = state.condos.slice().sort((x, y) => cheapest(x) - cheapest(y) || x.no - y.no);
   box.innerHTML = `
     <div class="rank">
       <h3>配套设施</h3>
@@ -778,7 +779,7 @@ function renderRankings() {
     </div>
     <div class="rank">
       <h3>价格（从低到高）</h3>
-      <p class="muted">iProperty 上最低挂牌月租（可能是单间也可能是整套），${esc(state.meta.verified_at)} 快照；有单间行情的另标起价</p>
-      <ol>${byPrice.map((c) => { const rm = roomsMin(c); return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(c.snapshot.rent_from)}</b>${rm ? ' · 单间 RM ' + fmt(rm) + ' 起' : ''}</span></li>`; }).join('')}</ol>
+      <p class="muted">能租到的最便宜一间：有单间行情的按单间起价，没有的按 iProperty 最低挂牌（${esc(state.meta.verified_at)} 快照）</p>
+      <ol>${byPrice.map((c) => { const rm = roomsMin(c); return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(cheapest(c))}</b> ${rm ? '单间起' : '最低挂牌'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
     </div>`;
 }
