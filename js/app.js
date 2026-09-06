@@ -174,7 +174,7 @@ function drawMap(campus) {
     bounds.extend([c.lat, c.lng]);
   });
 
-  state.allBounds = bounds.pad(0.08);
+  state.allBounds = bounds.pad(0.03);
   map.fitBounds(state.allBounds);
   $('#map-reset')?.addEventListener('click', () => { clearSelection(); map.fitBounds(state.allBounds); });
   // 点一下地图再允许滚轮缩放，避免页面滚动被劫持
