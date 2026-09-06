@@ -780,6 +780,6 @@ function renderRankings() {
     <div class="rank">
       <h3>价格（从低到高）</h3>
       <p class="muted">能租到的最便宜一间：有单间行情的按单间起价，没有的按 iProperty 最低挂牌（${esc(state.meta.verified_at)} 快照）</p>
-      <ol>${byPrice.map((c) => { const rm = roomsMin(c); return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(cheapest(c))}</b> ${rm ? '单间起' : '最低挂牌'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
+      <ol>${byPrice.map((c) => { const rm = roomsMin(c); const v = cheapest(c); return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(v)}</b> ${rm != null && v === rm ? '单间起' : '最低挂牌'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
     </div>`;
 }
