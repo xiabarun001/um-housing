@@ -30,6 +30,7 @@ async function init() {
   state.meta = data.meta;
   $$('.verified-at').forEach((t) => { t.textContent = data.meta.verified_at; });
   drawMap(campus);
+  buildPanel();
   bindFilters();
   renderList();
   buildCondoPicks();
@@ -166,20 +167,16 @@ function drawMap(campus) {
   // 小区
   state.condos.forEach((c) => {
     const icon = L.divIcon({ className: '', html: `<div class="condo-pin r${c.region}">${c.no}</div>`, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] });
-    const m = L.marker([c.lat, c.lng], { icon, title: c.name, alt: c.name }).addTo(map);
-    const rmin = roomsMin(c);
-    m.bindPopup(`
-      <h4>${c.no} · ${esc(shortAlias(c))}</h4>
-      <p>${goSentence(c)}</p>
-      <p>${rmin ? `单间 RM ${fmt(rmin)} 起 · ` : ''}iProperty 在租 ${fmt(c.snapshot.for_rent)} 套，最低 RM ${fmt(c.snapshot.rent_from)}</p>
-      <p><button type="button" class="linkish" data-open-detail="${c.id}">看设施、价格和来源</button> · <a href="#card-${c.id}">跳到卡片</a></p>`);
+    const m = L.marker([c.lat, c.lng], { icon, title: c.name, alt: c.name, riseOnHover: true }).addTo(map);
+    m.bindTooltip(`${c.no} · ${shortAlias(c)}`, { direction: 'top', offset: [0, -12] });
+    m.on('click', () => selectCondo(c.id));
     state.markers[c.id] = m;
     bounds.extend([c.lat, c.lng]);
   });
 
   state.allBounds = bounds.pad(0.08);
   map.fitBounds(state.allBounds);
-  $('#map-reset')?.addEventListener('click', () => { map.closePopup(); map.fitBounds(state.allBounds); });
+  $('#map-reset')?.addEventListener('click', () => { clearSelection(); map.fitBounds(state.allBounds); });
   // 点一下地图再允许滚轮缩放，避免页面滚动被劫持
   map.on('click', () => map.scrollWheelZoom.enable());
   map.on('mouseout', () => map.scrollWheelZoom.disable());
@@ -243,11 +240,71 @@ function renderList() {
 }
 
 function locate(id) {
+  if (!state.map) return;
+  $('#s1').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  selectCondo(id, { pan: true });
+}
+
+/* ---------- map side panel ---------- */
+function priceLine(c) {
+  const rmin = roomsMin(c);
+  if (rmin) return `单间 RM ${fmt(rmin)} 起`;
+  if (c.snapshot.rent_from) return `整套 RM ${fmt(c.snapshot.rent_from)} 起`;
+  return '';
+}
+function buildPanel() {
+  const list = $('#panel-list');
+  if (!list) return;
+  const groups = [[1, state.meta.regions['1'].label], [2, state.meta.regions['2'].label]];
+  list.innerHTML = groups.map(([r, label]) => `<h4 class="panel-group">${esc(label)}</h4>` +
+    state.condos.filter((c) => c.region === r).map((c) => {
+      const t = c.transit;
+      const walk = t.walk_min == null
+        ? '<span class="mwalk none">没有轻轨</span>'
+        : `<span class="mwalk"><b>${t.walk_min}</b> 分钟到 ${esc(stationZh(t.nearest).replace(/ 站$/, ''))} 站</span>`;
+      const sub = [priceLine(c), c.completed ? c.completed + ' 年' : null, c.units ? fmt(c.units) + ' 户' : null].filter(Boolean).join(' · ');
+      return `<button type="button" class="mrow r${c.region}" data-select="${c.id}"><span class="mno">${c.no}</span><span class="mname">${esc(shortAlias(c))}</span>${walk}<span class="msub">${esc(sub)}</span></button>`;
+    }).join('')).join('');
+  list.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-select]');
+    if (b) selectCondo(b.dataset.select, { pan: true });
+  });
+  $('#panel-detail').addEventListener('click', (e) => {
+    if (e.target.closest('[data-pd-close]')) clearSelection();
+    const d = e.target.closest('[data-detail]');
+    if (d) openDetail(d.dataset.detail);
+  });
+}
+function selectCondo(id, { pan = false } = {}) {
   const c = state.condos.find((x) => x.id === id);
-  if (!c || !state.map) return;
-  $('#map-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  state.map.setView([c.lat, c.lng], 16, { animate: true });
-  setTimeout(() => state.markers[id]?.openPopup(), 400);
+  if (!c) return;
+  state.selected = id;
+  $$('.mrow').forEach((b) => b.classList.toggle('is-on', b.dataset.select === id));
+  Object.entries(state.markers).forEach(([k, m]) => m.getElement()?.querySelector('.condo-pin')?.classList.toggle('is-on', k === id));
+  $(`.mrow[data-select="${id}"]`)?.scrollIntoView({ block: 'nearest' });
+  const pd = $('#panel-detail');
+  pd.hidden = false;
+  pd.innerHTML = `
+    <button type="button" class="btn pd-close" data-pd-close aria-label="关闭">关闭</button>
+    <h3>${c.no} · ${esc(shortAlias(c))}</h3>
+    <p>${goSentence(c)}</p>
+    <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)}</p>
+    ${c.snapshot.rooms ? `<p><b>单间</b> ${esc(c.snapshot.rooms)}</p>` : '<p><b>单间</b> 这次没有找到在租的单间</p>'}
+    ${c.snapshot.whole ? `<p><b>整套</b> ${esc(c.snapshot.whole)}</p>` : ''}
+    <p class="muted">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套，最低 RM ${fmt(c.snapshot.rent_from)}，${esc(c.snapshot.date)} 查</p>
+    <div class="pd-acts">
+      <a class="btn primary" href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租房源</a>
+      <button type="button" class="linkish" data-detail="${c.id}">设施与来源</button>
+      <a class="linkish" href="#card-${c.id}">跳到卡片</a>
+    </div>`;
+  if (pan && state.map) state.map.setView([c.lat, c.lng], Math.max(state.map.getZoom(), 15), { animate: true });
+}
+function clearSelection() {
+  state.selected = null;
+  $$('.mrow').forEach((b) => b.classList.remove('is-on'));
+  Object.values(state.markers).forEach((m) => m.getElement()?.querySelector('.condo-pin')?.classList.remove('is-on'));
+  const pd = $('#panel-detail');
+  if (pd) { pd.hidden = true; pd.innerHTML = ''; }
 }
 
 function cardHTML(c) {

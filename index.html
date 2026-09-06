@@ -49,16 +49,22 @@
   <section class="section" id="s1">
     <p class="step-eyebrow">第 1 步</p>
     <h2 class="section-title">弄清地形：校园在哪，轻轨在哪，两片小区在哪</h2>
-    <div class="map-frame">
-      <div id="map" class="map" role="region" aria-label="UM 周边小区地图"></div>
-      <button type="button" class="map-reset" id="map-reset">回到全图</button>
-      <div class="map-legend">
-        <div class="legend-row"><span class="swatch campus"></span>UM 校园</div>
-        <div class="legend-row"><span class="swatch line"></span>轻轨 Kelana Jaya 线，圆圈是车站</div>
-        <div class="legend-row"><span class="pin-sample r1">1</span>区域 1 · PJ 这一侧</div>
-        <div class="legend-row"><span class="pin-sample r2">11</span>区域 2 · Bangsar South 这一侧</div>
-        <p class="legend-note">点编号看租金和去学校的方式。地图可以拖动，点一下地图后可以滚轮缩放。</p>
+    <div class="map-layout">
+      <div class="map-frame">
+        <div id="map" class="map" role="region" aria-label="UM 周边小区地图"></div>
+        <button type="button" class="map-reset" id="map-reset">回到全图</button>
+        <div class="map-legend">
+          <div class="legend-row"><span class="swatch campus"></span>UM 校园</div>
+          <div class="legend-row"><span class="swatch line"></span>轻轨 Kelana Jaya 线，圆圈是车站</div>
+          <div class="legend-row"><span class="pin-sample r1">1</span>区域 1 · PJ 这一侧</div>
+          <div class="legend-row"><span class="pin-sample r2">11</span>区域 2 · Bangsar South 这一侧</div>
+          <p class="legend-note">点地图上的编号，或右边列表里的名字，两边会同步。点一下地图后可以滚轮缩放。</p>
+        </div>
       </div>
+      <aside class="map-panel" id="map-panel" aria-label="地图上的小区列表">
+        <div class="panel-detail" id="panel-detail" hidden></div>
+        <div class="panel-list" id="panel-list"></div>
+      </aside>
     </div>
 
     <div class="howto">
