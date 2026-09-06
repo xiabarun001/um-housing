@@ -458,3 +458,22 @@ main { max-width: 1400px; }
   .tour-box { top: auto; left: auto; right: auto; }
   .map-legend { gap: 6px 14px; font-size: 12px; }
 }
+
+/* ===== rankings ===== */
+.rank-title { font-size: 18px; margin: 0 0 10px; }
+.rankings { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 0 0 26px; }
+.rank { border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px 10px; }
+.rank h3 { font-size: 16px; margin-bottom: 2px; }
+.rank .muted { margin: 0 0 8px; }
+.rank ol { margin: 0; padding-left: 22px; font-size: 13px; }
+.rank li { display: flex; align-items: baseline; gap: 6px; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+.rank li:last-child { border-bottom: 0; }
+.rank li a { color: var(--ink); text-decoration: none; font-weight: 700; }
+.rank li a:hover { text-decoration: underline; }
+.rk-no { font-style: normal; font-size: 10px; color: #fff; border-radius: 50%; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.rk-no.r1 { background: var(--r1); }
+.rk-no.r2 { background: var(--r2); }
+.rk-v { margin-left: auto; color: var(--ink-2); text-align: right; white-space: nowrap; }
+.rk-v b { color: var(--ink); font-family: var(--serif); font-size: 15px; }
+.rk-v small { font-size: 10px; color: var(--ink-3); margin-left: 2px; }
+@media (max-width: 960px) { .rankings { grid-template-columns: 1fr; } .rk-v { white-space: normal; } }

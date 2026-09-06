@@ -19,14 +19,13 @@ const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 const fmt = (n) => n == null ? '—' : Number(n).toLocaleString('en-MY');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const shortAlias = (c) => c.alias.replace(/（.*?）/, '');
-const FSKTM = [3.1284075, 101.6504943]; // 计算机学院楼（OpenStreetMap）
+const ELMU_GATE = [3.11955, 101.65022]; // Jalan Elmu 门：校园边界上离 Jalan Ilmu 最近的点（近似）
 function distKm(a, b) {
   const R = 6371, toR = (x) => x * Math.PI / 180;
   const dLat = toR(b[0] - a[0]), dLon = toR(b[1] - a[1]);
   const h = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a[0])) * Math.cos(toR(b[0])) * Math.sin(dLon / 2) ** 2;
   return 2 * R * Math.asin(Math.sqrt(h));
 }
-const toFsktm = (c) => distKm([c.lat, c.lng], FSKTM).toFixed(1);
 
 init();
 
@@ -42,6 +41,7 @@ async function init() {
   buildPanel();
   bindFilters();
   renderList();
+  renderRankings();
   buildCondoPicks();
   bindForm();
   loadIntents();
@@ -233,10 +233,10 @@ function drawMap(campus) {
   // 简洁模式只标：正门、两边各一个商场；其余（校园中心、医院、宿舍、Nexus、Mid Valley）放进"详细"
   const landmarks = [
     gate && { ll: gate, cls: 'gate', label: 'KL 门（正门）· 出 Universiti 站过天桥', base: true },
-    { ll: [3.1284075, 101.6504943], cls: 'edu key', label: '计算机学院 FSKTM', base: true },
-    { ll: [3.122159, 101.6340447], cls: 'gate', label: 'PJ 门 · Section 17 方向' },
-    { ll: [3.1293, 101.6483], cls: 'gate', label: 'Section 16 门 · 往 Phileo Damansara MRT' },
-    { ll: [3.13067, 101.66064], cls: 'gate', label: 'Damansara 门 · Sprint 高速' },
+    { ll: [3.122159, 101.6340447], cls: 'gate', label: 'PJ 门', base: true },
+    { ll: [3.1293, 101.6483], cls: 'gate', label: 'Section 16 门', base: true },
+    { ll: [3.13067, 101.66064], cls: 'gate', label: 'Damansara 门', base: true },
+    { ll: ELMU_GATE, cls: 'gate', label: 'Jalan Elmu 门', base: true },
     { ll: [3.1136176, 101.6632626], cls: 'mall', label: 'KL Gateway Mall · 超市', base: true },
     { ll: [3.1171354, 101.6350289], cls: 'mall', label: 'Jaya One · PJ 侧吃饭购物', base: true },
     { ll: [3.1214914, 101.6565469], cls: 'edu', label: '大礼堂 DTC · 校园中心' },
@@ -247,7 +247,7 @@ function drawMap(campus) {
     { ll: [3.1176552, 101.6773741], cls: 'mall', label: 'Mid Valley 大商场' },
   ].filter(Boolean);
   landmarks.forEach((l) => {
-    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon' + (l.cls === 'gate' ? ' lm-up' : ''), html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: l.cls === 'gate' ? [6, 34] : [6, 11] }), interactive: false, zIndexOffset: -200 });
+    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon' + (l.cls === 'gate' && l.base && /KL/.test(l.label) ? ' lm-up' : ''), html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: (l.cls === 'gate' && /KL/.test(l.label)) ? [6, 34] : [6, 11] }), interactive: false, zIndexOffset: -200 });
     if (l.base) m.addTo(map); else detail.addLayer(m);
   });
   // "详细"开关
@@ -300,7 +300,7 @@ function setupTour(ctx) {
   const steps = [
     {
       title: '第 1 步 · 校园',
-      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里，有 5 个门。计算机学院 FSKTM 在校园北侧，离任何一个门都有 1 到 2 公里，校内免费穿梭巴士到各学院。点"显示更多地标"能看到其他门、大礼堂和医院。',
+      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里，有 5 个门：KL 门是正门，PJ 门通 Section 17，Section 16 门出去是地铁站，Damansara 门和 Jalan Elmu 门在北边。各学院之间靠免费穿梭巴士。',
       view: () => campusLayer ? map.fitBounds(campusLayer.getBounds().pad(0.15)) : map.setView([3.121, 101.654], 15),
       focus: [],
     },
@@ -476,7 +476,6 @@ function selectCondo(id, { pan = false } = {}) {
     <button type="button" class="btn pd-close" data-pd-close aria-label="关闭">关闭</button>
     <h3>${c.no} · ${esc(shortAlias(c))}</h3>
     <p>${goSentence(c)}</p>
-    <p>到计算机学院直线 ${toFsktm(c)} 公里</p>
     <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)}</p>
     ${c.snapshot.rooms ? `<p><b>单间</b> ${esc(c.snapshot.rooms)}</p>` : '<p><b>单间</b> 这次没有找到在租的单间</p>'}
     ${c.snapshot.whole ? `<p><b>整套</b> ${esc(c.snapshot.whole)}</p>` : ''}
@@ -516,7 +515,6 @@ function cardHTML(c) {
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)}</p>
-    <p class="facts">到计算机学院（校园北侧）直线 ${toFsktm(c)} 公里，校内穿梭巴士或骑车</p>
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)}</p>
     <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
     <div class="price">
@@ -742,4 +740,39 @@ function bindForm() {
       btn.disabled = false;
     }
   });
+}
+
+/* ---------- rankings ---------- */
+function nearestRailMin(c) {
+  const t = c.transit;
+  if (t.walk_min != null) return { min: t.walk_min, label: stationZh(t.nearest), est: !!t.walk_est };
+  const st = [...(state.meta.stations || []), ...(state.meta.mrt || [])];
+  let best = null;
+  st.forEach((s) => { const km = distKm([c.lat, c.lng], [s.lat, s.lng]); if (!best || km < best.km) best = { km, s }; });
+  return { min: Math.round(best.km * 1000 / 75), label: best.s.zh.replace(/（.*?）/, ''), est: true, straight: true };
+}
+function renderRankings() {
+  const box = $('#rankings');
+  if (!box) return;
+  const name = (c) => `<a href="#card-${c.id}">${esc(shortAlias(c))}</a><i class="rk-no r${c.region}">${c.no}</i>`;
+  const extras = { sauna: '桑拿', steam: '蒸汽房', jacuzzi: '按摩池', badminton: '羽毛球', basketball: '篮球', squash: '壁球', tennis: '网球' };
+  const byFac = state.condos.slice().sort((x, y) => y.facilities.length - x.facilities.length || y.completed - x.completed);
+  const byYear = state.condos.slice().sort((x, y) => (y.completed || 0) - (x.completed || 0) || x.no - y.no);
+  const byTransit = state.condos.map((c) => ({ c, r: nearestRailMin(c) })).sort((x, y) => x.r.min - y.r.min || (x.r.est - y.r.est));
+  box.innerHTML = `
+    <div class="rank">
+      <h3>配套设施</h3>
+      <p class="muted">按设施项数，泳池健身房之外的加分项列在后面</p>
+      <ol>${byFac.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.facilities.length}</b> 项${Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') ? ' · ' + Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') : ''}</span></li>`).join('')}</ol>
+    </div>
+    <div class="rank">
+      <h3>楼龄</h3>
+      <p class="muted">建成年份，越新越靠前</p>
+      <ol>${byYear.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.completed || '不详'}</b>${c.completed ? ' 年' : ''}${c.units ? ' · ' + fmt(c.units) + ' 户' : ''}</span></li>`).join('')}</ol>
+    </div>
+    <div class="rank">
+      <h3>交通便利</h3>
+      <p class="muted">走到最近轨道站的分钟数；没有实测的按直线距离估算，标"估"</p>
+      <ol>${byTransit.map(({ c, r }) => `<li>${name(c)}<span class="rk-v"><b>${r.min}</b> 分钟${r.est ? '<small>估</small>' : ''} · ${esc(r.label)}</span></li>`).join('')}</ol>
+    </div>`;
 }
