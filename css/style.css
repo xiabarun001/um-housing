@@ -378,4 +378,4 @@ main { max-width: 1400px; }
   .map-tools { top: 12px; right: 12px; }
 }
 .swatch.walk { height: 10px; border: 1.5px dashed var(--lrt); background: color-mix(in srgb, var(--lrt) 8%, transparent); border-radius: 50%; width: 16px; }
-.leaflet-container.z-low .lm-icon .lm, .leaflet-container.z-low .walk-label { display: none; }
+.leaflet-container.z-low .lm-icon .lm:not(.gate), .leaflet-container.z-low .walk-label { display: none; }
