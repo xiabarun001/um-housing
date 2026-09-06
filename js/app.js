@@ -570,6 +570,44 @@ async function loadIntents() {
   }
   renderIntents();
 }
+/* 删除权限：填写者在自己的浏览器里保存了一把随机口令；管理员口令存在 sessionStorage */
+const TOKENS_KEY = 'um-intent-tokens';
+function ownTokens() { try { return JSON.parse(localStorage.getItem(TOKENS_KEY) || '{}'); } catch { return {}; } }
+function saveOwnToken(id, token) { const t = ownTokens(); t[id] = token; try { localStorage.setItem(TOKENS_KEY, JSON.stringify(t)); } catch { /* ignore */ } }
+function adminToken() { try { return sessionStorage.getItem('um-admin') || ''; } catch { return ''; } }
+async function sha256(s) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(buf)].map((x) => x.toString(16).padStart(2, '0')).join('');
+}
+async function rpc(name, body) {
+  const c = cfg();
+  const r = await fetch(`${c.SUPABASE_URL}/rest/v1/rpc/${name}`, { method: 'POST', headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function deleteIntent(id) {
+  const token = ownTokens()[id] || adminToken();
+  if (!token) return;
+  if (!confirm('删除这一条？删了就没有了。')) return;
+  try {
+    const ok = await rpc('delete_intent', { p_id: id, p_token: token });
+    if (!ok) { alert('没有删除权限：只能删自己填的那条，或者输入管理口令。'); return; }
+    state.intents = state.intents.filter((i) => i.id !== id);
+    const t = ownTokens(); delete t[id]; try { localStorage.setItem(TOKENS_KEY, JSON.stringify(t)); } catch { /* ignore */ }
+    renderIntents();
+  } catch (e) { console.warn(e); alert('删除失败，刷新后再试。'); }
+}
+async function toggleAdmin() {
+  if (adminToken()) { sessionStorage.removeItem('um-admin'); renderIntents(); return; }
+  const t = prompt('输入管理口令（只有整理这页的人有）：');
+  if (!t) return;
+  try {
+    const ok = await rpc('check_admin', { p_token: t.trim() });
+    if (!ok) { alert('口令不对。'); return; }
+    sessionStorage.setItem('um-admin', t.trim());
+    renderIntents();
+  } catch (e) { console.warn(e); alert('校验失败，稍后再试。'); }
+}
 function renderIntents() {
   const tbody = $('#intent-table tbody');
   const wrap = $('.table-wrap');
@@ -577,10 +615,14 @@ function renderIntents() {
   $('#intent-empty').hidden = !(state.intentsOk && state.intents.length === 0);
   wrap.hidden = !(state.intentsOk && state.intents.length > 0);
   const byId = Object.fromEntries(state.condos.map((c) => [c.id, shortAlias(c)]));
+  const mine = ownTokens();
+  const isAdmin = !!adminToken();
+  const adminBtn = $('#admin-toggle');
+  if (adminBtn) adminBtn.textContent = isAdmin ? '退出管理模式' : '管理口令';
   tbody.innerHTML = state.intents.map((i) => `
     <tr>
       <td>${esc(new Date(i.created_at).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' }))}</td>
-      <td>${esc(i.nickname)}</td>
+      <td>${esc(i.nickname)}${mine[i.id] ? ' <span class="mine">我</span>' : ''}</td>
       <td>${i.budget ? 'RM ' + fmt(i.budget) : '—'}</td>
       <td>${esc(i.room_type || '不限')}</td>
       <td>${(i.condos || []).map((id) => `<span class="pick-chip">${esc(byId[id] || id)}</span>`).join('') || '—'}</td>
@@ -588,7 +630,9 @@ function renderIntents() {
       <td>${i.need_roommate ? '想找' : '—'}</td>
       <td>${esc(i.contact || '—')}</td>
       <td>${esc(i.note || '')}</td>
+      <td>${(mine[i.id] || isAdmin) ? `<button type="button" class="linkish del" data-del="${i.id}">删除</button>` : ''}</td>
     </tr>`).join('');
+  $$('[data-del]', tbody).forEach((b) => b.addEventListener('click', () => deleteIntent(b.dataset.del)));
   const sum = $('#intent-summary');
   if (state.intentsOk && state.intents.length) {
     const counts = {};
@@ -614,6 +658,7 @@ function bindForm() {
   const form = $('#intent-form');
   const msg = $('#form-msg');
   const btn = $('#i-submit');
+  $('#admin-toggle')?.addEventListener('click', toggleAdmin);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const c = cfg();
@@ -635,6 +680,9 @@ function bindForm() {
     };
     btn.disabled = true; msg.textContent = '提交中…';
     try {
+      // 给这一条生成一把只有本浏览器知道的口令，以后凭它删除
+      const token = crypto.randomUUID();
+      body.token_hash = await sha256(token);
       const r = await fetch(`${c.SUPABASE_URL}/rest/v1/intents`, {
         method: 'POST',
         headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json', Prefer: 'return=representation' },
@@ -642,6 +690,7 @@ function bindForm() {
       });
       if (!r.ok) { const t = await r.text(); throw new Error(t.slice(0, 200)); }
       const [row] = await r.json();
+      saveOwnToken(row.id, token);
       state.intents.unshift(row);
       state.intentsOk = true;
       renderIntents();
