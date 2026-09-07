@@ -37,6 +37,7 @@ async function init() {
   state.condos = data.condos;
   state.meta = data.meta;
   $$('.verified-at').forEach((t) => { t.textContent = data.meta.verified_at; });
+  $$('.prices-at').forEach((t) => { t.textContent = data.meta.prices_updated_myt ? data.meta.prices_updated_myt + '（马来西亚时间）' : data.meta.verified_at; });
   drawMap(campus);
   buildPanel();
   bindFilters();
@@ -113,6 +114,7 @@ function bindNav() {
 
 /* ---------- helpers ---------- */
 function roomsMin(c) {
+  if (typeof c.snapshot?.rooms_min === 'number') return c.snapshot.rooms_min;
   const s = c.snapshot?.rooms;
   if (!s) return null;
   // 只认 RM 300 以上的数字，避免把“水电 RM 50”当成房租
@@ -479,7 +481,7 @@ function selectCondo(id, { pan = false } = {}) {
     <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)}</p>
     ${c.snapshot.rooms ? `<p><b>单间</b> ${esc(c.snapshot.rooms)}</p>` : '<p><b>单间</b> 这次没有找到在租的单间</p>'}
     ${c.snapshot.whole ? `<p><b>整套</b> ${esc(c.snapshot.whole)}</p>` : ''}
-    <p class="muted">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套，最低 RM ${fmt(c.snapshot.rent_from)}，${esc(c.snapshot.date)} 查</p>
+    <p class="muted">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}，${esc(c.snapshot.date)} 查</p>
     <div class="pd-acts">
       <a class="btn primary" href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租房源</a>
       <button type="button" class="linkish" data-detail="${c.id}">设施与来源</button>
@@ -520,7 +522,7 @@ function cardHTML(c) {
     <div class="price">
       ${c.snapshot.rooms ? `<p><span class="big">单间</span> ${esc(c.snapshot.rooms)} <span class="src">（${esc(c.snapshot.rooms_source || '')}）</span></p>` : '<p><span class="big">单间</span> 这次没有找到在租的单间</p>'}
       ${c.snapshot.whole ? `<p><span class="big">整套</span> ${esc(c.snapshot.whole)} <span class="src">（${esc(c.snapshot.whole_source || '')}）</span></p>` : ''}
-      <p class="src">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套，最低 RM ${fmt(c.snapshot.rent_from)}，${esc(c.snapshot.date)} 查</p>
+      <p class="src">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}，${esc(c.snapshot.date)} 查</p>
     </div>
     ${flagBits.length ? `<p class="flags">${flagBits.join(' · ')}</p>` : ''}
     <div class="acts">
@@ -557,7 +559,7 @@ function openDetail(id) {
     <p>${esc(c.facilities.join('、'))}</p>
     <h3>在租快照 · ${esc(c.snapshot.date)}</h3>
     <ul>
-      <li>iProperty 在租 ${fmt(c.snapshot.for_rent)} 套，最低月租 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}</li>
+      <li>iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}</li>
       ${c.snapshot.rooms ? `<li>单间：${esc(c.snapshot.rooms)}（${esc(c.snapshot.rooms_source || '')}）</li>` : '<li>单间：这次没有找到在租的单间</li>'}
       ${c.snapshot.whole ? `<li>整套：${esc(c.snapshot.whole)}（${esc(c.snapshot.whole_source || '')}）</li>` : ''}
     </ul>
@@ -779,7 +781,7 @@ function renderRankings() {
     </div>
     <div class="rank">
       <h3>价格（从低到高）</h3>
-      <p class="muted">能租到的最便宜一间：有单间行情的按单间起价，没有的按 iProperty 最低挂牌（${esc(state.meta.verified_at)} 快照）</p>
-      <ol>${byPrice.map((c) => { const rm = roomsMin(c); const v = cheapest(c); return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(v)}</b> ${rm != null && v === rm ? '单间起' : '最低挂牌'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
+      <p class="muted">能租到的最便宜一间：有单间帖子的按单间起价，没有的按整套最低价（${esc(state.meta.prices_updated_myt || state.meta.verified_at)} 更新）</p>
+      <ol>${byPrice.map((c) => { const rm = roomsMin(c); const v = cheapest(c); if (!Number.isFinite(v)) return `<li>${name(c)}<span class="rk-v">这次没有挂牌</span></li>`; return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(v)}</b> ${rm != null && v === rm ? '单间起' : '整套起'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
     </div>`;
 }

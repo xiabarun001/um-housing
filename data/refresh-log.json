@@ -1,0 +1,23 @@
+{
+  "started_at": "2026-09-07T04:29:50.786Z",
+  "date_myt": "2026-09-07",
+  "only": [
+    "kl-gateway",
+    "pj-midtown"
+  ],
+  "iproperty": {
+    "pj-midtown": "ok 147 listings (60 read), whole from RM 1300, rooms 5",
+    "kl-gateway": "ok 150 listings (60 read), whole from RM 2000, rooms 0"
+  },
+  "ibilik": {
+    "ran": true,
+    "pages": 6,
+    "products": 94,
+    "matched": {
+      "kl-gateway": 38
+    }
+  },
+  "errors": [],
+  "finished_at": "2026-09-07T04:30:34.834Z",
+  "ok": true
+}

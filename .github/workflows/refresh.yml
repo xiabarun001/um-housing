@@ -1,0 +1,38 @@
+name: refresh prices
+
+# 每 12 小时抓一次 iProperty 在租列表和 iBilik 单间，更新 data/condos.json 的价格快照。
+# 马来西亚时间 10:00 和 22:00（UTC 02:00 / 14:00）。也可以在 Actions 页面手动运行。
+on:
+  schedule:
+    - cron: "0 2,14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: refresh snapshot
+        run: node scripts/refresh.mjs
+      - name: commit if changed
+        run: |
+          git config user.name "um-housing-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/condos.json data/refresh-log.json
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "data: refresh price snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi

@@ -12,7 +12,10 @@ index.html          页面结构
 css/style.css       样式（含深色模式）
 js/app.js           渲染、筛选、距离带 SVG、意向表读写
 js/config.js        Supabase 地址与 publishable key（公开的，只允许匿名读和写入）
-data/condos.json    全部小区数据，唯一需要维护的文件
+data/condos.json    全部小区数据（设施、坐标等固定信息手工维护；价格快照由脚本自动写）
+data/refresh-log.json  最近一次自动刷新的结果（每个小区成功与否、抓到多少条）
+scripts/refresh.mjs 自动刷新脚本
+.github/workflows/refresh.yml  定时任务：每 12 小时跑一次脚本并提交
 ```
 
 ## 更新数据
@@ -26,7 +29,26 @@ data/condos.json    全部小区数据，唯一需要维护的文件
 | `snapshot` | 抓取当天的在租数量、最低月租、单间和整租行情。`date` 必须跟着改 |
 | `links.iproperty_rent` | 该楼盘在 iProperty 的出租列表，卡片主按钮跳这里 |
 
-刷新一次快照的做法：打开每条记录的 `links.iproperty_rent`，抄下“N Houses for Rent”和最低价；单间价格看 iBilik 对应区域页。改完把 `meta.verified_at` 和每条的 `snapshot.date` 改成当天，`git push` 即可。
+### 价格自动刷新
+
+`scripts/refresh.mjs` 每 12 小时由 GitHub Actions 运行一次（马来西亚时间 10:00 和 22:00），做两件事：
+
+1. 逐个打开每条记录的 `links.iproperty_rent`，按价格从低到高最多翻 3 页，读出在租总数、整套最低价、各房型最低价，写进 `snapshot.for_rent` / `rent_from` / `whole`；页面里的单间帖子（Master / Middle / Single Room）单独归到 `snapshot.rooms` / `rooms_min`。
+2. 翻 iBilik 的 Bangsar South 单间列表，按小区名匹配，补进区域 2 各小区的单间行情。
+
+跑完把 `meta.prices_updated_myt` 改成当次时间（页面顶部的“最近一次更新”就读这个字段），有变化才提交，提交后 Cloudflare Pages 自动重新部署。抓取用 curl 带浏览器 UA，两次请求间隔 3 秒；某个小区抓失败会记在 `data/refresh-log.json` 的 `errors` 里，并保留旧值不覆盖。
+
+手动跑一次：
+
+```bash
+node scripts/refresh.mjs
+```
+
+只跑某几个小区（调试用）：`node scripts/refresh.mjs kl-gateway novum`，加 `--ibilik` 连 iBilik 一起跑。
+
+或者到 GitHub 仓库的 Actions 页面点 “refresh prices” → Run workflow。
+
+设施、楼龄、户数、坐标这些固定信息不在自动范围内，改完记得把 `meta.verified_at` 改成当天。
 
 ## 意向表（Supabase）
 

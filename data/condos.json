@@ -68,7 +68,9 @@
         "lng": 101.6429822
       }
     ],
-    "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap"
+    "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap",
+    "prices_updated_at": "2026-09-07T04:30:34.834Z",
+    "prices_updated_myt": "2026-09-07 12:30"
   },
   "condos": [
     {
@@ -126,13 +128,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
+        "date": "2026-09-07",
         "for_rent": 79,
         "rent_from": 1800,
         "rooms": null,
         "rooms_source": null,
-        "whole": "开间 550 sqft 约 RM 1,650–2,250（旧帖，日期不明）",
-        "whole_source": "PropertyGuru / Mudah，日期不明"
+        "whole": "开间 550 sqft RM 1,800 起 · 1 房 550 sqft RM 2,000 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": null
       },
       "notes": [
         "单间房源极少，基本是整套出租",
@@ -144,15 +147,15 @@
         "吃饭便宜"
       ],
       "links": {
-        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-seventeen-mall-residences-9182",
-        "iproperty_building": "https://www.iproperty.com.my/building/seventeen-residences-biji-living-pty_64496/",
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-seventeen-mall-residences-biji-living-21634",
+        "iproperty_building": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
         "maps": "https://www.google.com/maps/search/?api=1&query=Seventeen+Residences+Jalan+17/29+Petaling+Jaya"
       },
       "sources": [
         {
           "label": "iProperty 项目页",
-          "url": "https://www.iproperty.com.my/building/seventeen-residences-biji-living-pty_64496/"
+          "url": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634"
         },
         {
           "label": "官网设施页",
@@ -223,13 +226,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 80,
+        "date": "2026-09-07",
+        "for_rent": 76,
         "rent_from": 2500,
-        "rooms": "本次未找到任何在租单间",
-        "rooms_source": "iProperty / Mudah，2026-09",
-        "whole": "2 房 703 sqft RM 2,800–3,600 · 3 房 1,052 sqft RM 3,500–3,600",
-        "whole_source": "iProperty，2026-09-05"
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "2 房 703 sqft RM 2,500 起 · 3 房 1,052 sqft RM 3,500 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": null
       },
       "notes": [
         "2024 年交付，两区里最新之一，设施最全",
@@ -320,13 +324,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 151,
-        "rent_from": 750,
-        "rooms": "主人房 RM 1,400（08-29）· 普通房 RM 1,700（09-02）· Mudah 主人房 RM 1,500（07-05）",
-        "rooms_source": "iProperty / Mudah，2026-07 至 09",
-        "whole": "2 房 678–688 sqft RM 2,800–3,000 · 3 房 818 sqft RM 3,300–4,000",
-        "whole_source": "iProperty，2026-09-05"
+        "date": "2026-09-07",
+        "for_rent": 145,
+        "rent_from": 1800,
+        "rooms": "主人房 RM 1,400 起 · 房间 RM 950 起（15 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "2 房 678 sqft RM 1,800 起 · 3 房 950 sqft RM 2,600 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 950
       },
       "notes": [
         "设施在 PJ 侧最豪华，2021 年新楼",
@@ -414,13 +419,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 214,
-        "rent_from": 780,
-        "rooms": "单人间 RM 600（Mudah 09-04，限男性）· RM 780（iProperty 09-05）。中房、主人房现价本次未抓到，旧帖 RM 820–1,200 仅供参考",
-        "rooms_source": "Mudah / iProperty，2026-09",
-        "whole": "开间 380–500 sqft RM 2,000–2,400 · 2 房 802 sqft RM 3,000–3,200",
-        "whole_source": "iProperty，2026-09-05"
+        "date": "2026-09-07",
+        "for_rent": 207,
+        "rent_from": 1800,
+        "rooms": "主人房 RM 1,200 起 · 房间 RM 780 起（5 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "开间 622 sqft RM 1,800 起 · 1 房 617 sqft RM 1,800 起 · 2 房 723 sqft RM 2,900 起 · 3 房 988 sqft RM 3,200 起 · 4 房 1,242 sqft RM 4,500 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 780
       },
       "notes": [
         "两区里最便宜的单间来源，在租帖子多",
@@ -505,13 +511,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
+        "date": "2026-09-07",
         "for_rent": 13,
         "rent_from": 1700,
         "rooms": null,
         "rooms_source": null,
-        "whole": "SOHO 开间 390–520 sqft 约 RM 1,700–1,900",
-        "whole_source": "iProperty，2026-09"
+        "whole": "开间 480 sqft RM 1,800 起 · 1 房 520 sqft RM 1,700 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": null
       },
       "notes": [
         "SOHO 开间为主，没有合租房型，在租只有 13 套"
@@ -599,13 +606,14 @@
       "um_km": 3,
       "um_km_note": "iProperty 标注约 3 km",
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 150,
+        "date": "2026-09-07",
+        "for_rent": 147,
         "rent_from": 1300,
-        "rooms": "主人房 RM 1,550（Mudah，2026-06-23）",
-        "rooms_source": "Mudah，2026-06",
-        "whole": "1 房 613 sqft RM 2,000–2,400 · 2 房 915 sqft RM 2,500–3,200",
-        "whole_source": "iProperty，2026-09-05"
+        "rooms": "主人房 RM 1,500 起 · 房间 RM 1,300 起（5 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "开间 RM 1,350 起 · 1 房 300 sqft RM 1,300 起 · 2 房 915 sqft RM 2,500 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 1300
       },
       "notes": [
         "单走廊设计，每户都有自然通风",
@@ -691,13 +699,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 151,
-        "rent_from": 600,
-        "rooms": "开间 237–305 sqft RM 1,100–1,400（带独卫）",
-        "rooms_source": "iProperty，2026-09",
-        "whole": "2 房 581 sqft RM 1,950–2,100",
-        "whole_source": "iProperty，2026-09-04"
+        "date": "2026-09-07",
+        "for_rent": 149,
+        "rent_from": 1099,
+        "rooms": "主人房 RM 800 起 · 房间 RM 600 起（2 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "开间 301 sqft RM 1,099 起 · 1 房 301 sqft RM 1,299 起 · 2 房 452 sqft RM 1,199 起 · 3 房 689 sqft RM 1,499 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 600
       },
       "notes": [
         "整个 Centrestage 地块 1,160 户加一个酒店共用泳池健身房，高峰期挤",
@@ -709,7 +718,7 @@
         "共用设施拥挤"
       ],
       "links": {
-        "iproperty_rent": "https://www.iproperty.com.my/rent/petaling-jaya/centrestage-designer-suite-u708sf/serviced-residence/",
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-centrestage-designer-suite-5546",
         "iproperty_building": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
         "maps": "https://www.google.com/maps/search/?api=1&query=Centrestage+Jalan+13/1+Petaling+Jaya"
@@ -776,13 +785,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
+        "date": "2026-09-07",
         "for_rent": 16,
         "rent_from": 1900,
         "rooms": null,
         "rooms_source": null,
-        "whole": "1 房为主，iProperty 最低 RM 1,900",
-        "whole_source": "iProperty，2026-09"
+        "whole": "1 房 667 sqft RM 1,900 起 · 2 房 840 sqft RM 2,700 起 · 3 房 1,860 sqft RM 3,980 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": null
       },
       "notes": [
         "在 Section 8，离 UM 最远，但有 LRT，坐两站到 Universiti",
@@ -867,13 +877,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 5,
+        "date": "2026-09-07",
+        "for_rent": 6,
         "rent_from": 2500,
         "rooms": null,
         "rooms_source": null,
-        "whole": "1,300–1,700 sqft 大户型，iProperty 最低 RM 2,500",
-        "whole_source": "iProperty，2026-09"
+        "whole": "3 房 1,122 sqft RM 2,500 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": null
       },
       "notes": [
         "2000 年代低层老公寓，户型 1,300 平方英尺起，是家庭房",
@@ -960,13 +971,14 @@
       "um_km": 2,
       "um_km_note": "iProperty 标注 2 km",
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 55,
+        "date": "2026-09-07",
+        "for_rent": 51,
         "rent_from": 1599,
-        "rooms": "本次首页未见单间；旧帖单人间 RM 750–800（日期不明）",
-        "rooms_source": "iBilik，日期不明",
-        "whole": "1 房 451–592 sqft RM 1,700–1,900",
-        "whole_source": "iProperty，2026-09-05"
+        "rooms": null,
+        "rooms_source": null,
+        "whole": "开间 452 sqft RM 1,700 起 · 1 房 592 sqft RM 1,599 起 · 2 房 592 sqft RM 1,700 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": null
       },
       "notes": [
         "在租以 RM 1,700 起的整套一房为主，单人独住最便宜的选项之一",
@@ -1052,13 +1064,14 @@
       "um_km": 3,
       "um_km_note": "iProperty 标注到校园中心 3 km；到正门步行约 5 分钟",
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 157,
+        "date": "2026-09-07",
+        "for_rent": 150,
         "rent_from": 2000,
-        "rooms": "小房 RM 650–780 · 单人间 RM 920–1,020 · 中房 RM 1,050–1,150 · 主人房 RM 1,400–1,800。运营商房源另加水电 RM 50 加清洁 RM 50",
-        "rooms_source": "iBilik，2026-09",
-        "whole": "1 房 500–560 sqft RM 2,000–2,600 · 2 房 663 sqft RM 2,600",
-        "whole_source": "iProperty，2026-09-05"
+        "rooms": "小房 RM 650 起 · 单人间 RM 920 起 · 中房 RM 1,050 起 · 主人房 RM 1,300 起 · 房间 RM 1,000 起（37 条帖子）",
+        "rooms_source": "iBilik，2026-09-07",
+        "whole": "开间 500 sqft RM 2,200 起 · 1 房 500 sqft RM 2,000 起 · 2 房 650 sqft RM 2,400 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 650
       },
       "notes": [
         "714 户，密度是 South View 的一半左右",
@@ -1149,13 +1162,14 @@
       "um_km": 2,
       "um_km_note": "iProperty 标注 2 km",
       "snapshot": {
-        "date": "2026-09-06",
+        "date": "2026-09-07",
         "for_rent": 34,
-        "rent_from": 850,
-        "rooms": "双人合住房 RM 850（2026-08-11 挂牌）；单间帖子少",
-        "rooms_source": "iProperty，2026-08",
-        "whole": "1 房 750 sqft RM 2,000–2,100 · 2 房 1,250 sqft RM 2,400–2,700",
-        "whole_source": "iProperty，2026-09-04"
+        "rent_from": 2000,
+        "rooms": "主人房 RM 1,300 起 · 房间 RM 850 起（2 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "1 房 750 sqft RM 2,000 起 · 2 房 1,200 sqft RM 2,400 起 · 3 房 1,287 sqft RM 2,400 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 850
       },
       "notes": [
         "1996 年老楼，永久地契，多方评价维护良好",
@@ -1243,13 +1257,14 @@
       "um_km": 3,
       "um_km_note": "iProperty 标注约 3 km",
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 426,
-        "rent_from": 1500,
-        "rooms": "单人间 RM 950–1,000 · 中房 RM 1,050–1,200 · 带独卫中房 RM 1,350 · 主人房 RM 1,300–1,550。多条帖子 10 月可入住",
-        "rooms_source": "iBilik，2026-09",
-        "whole": "2 房 648 sqft RM 2,400 · 2 房 823 sqft RM 2,600–3,000",
-        "whole_source": "iProperty，2026-09-04"
+        "date": "2026-09-07",
+        "for_rent": 417,
+        "rent_from": 1900,
+        "rooms": "单人间 RM 950 起 · 中房 RM 750 起 · 主人房 RM 1,490 起 · 房间 RM 1,500 起（14 条帖子）",
+        "rooms_source": "iProperty + iBilik，2026-09-07",
+        "whole": "开间 300 sqft RM 1,900 起 · 1 房 648 sqft RM 2,200 起 · 2 房 648 sqft RM 2,200 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 750
       },
       "notes": [
         "在租房源最多，最容易找到室友和转租",
@@ -1338,13 +1353,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 586,
+        "date": "2026-09-07",
+        "for_rent": 561,
         "rent_from": 1299,
-        "rooms": "单人间 RM 1,050–1,150 含水电网（冷气另计）· 中房 RM 1,250 · 主人房 RM 1,650",
-        "rooms_source": "iBilik，2026-09",
-        "whole": null,
-        "whole_source": null
+        "rooms": "主人房 RM 1,300 起 · 房间 RM 1,300 起（8 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "开间 299 sqft RM 1,299 起 · 1 房 300 sqft RM 1,800 起 · 2 房 495 sqft RM 2,100 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 1300
       },
       "notes": [
         "2022 年交付，全区最新的大盘之一",
@@ -1432,13 +1448,14 @@
       "um_km": 2.4,
       "um_km_note": "iProperty 标注 2.4 km",
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 277,
-        "rent_from": 1300,
-        "rooms": "中房 RM 1,300 不含水电（限女性，10 月 1 日入住）· 主人房 RM 1,800",
-        "rooms_source": "iBilik，2026-09",
-        "whole": null,
-        "whole_source": null
+        "date": "2026-09-07",
+        "for_rent": 267,
+        "rent_from": 2100,
+        "rooms": "主人房 RM 1,750 起 · 房间 RM 1,300 起（4 条帖子）",
+        "rooms_source": "iProperty + iBilik，2026-09-07",
+        "whole": "1 房 650 sqft RM 2,100 起 · 2 房 832 sqft RM 2,700 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 1300
       },
       "notes": [
         "密度低，设施是两区里最豪华的，住户口碑最好",
@@ -1522,13 +1539,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 374,
-        "rent_from": 1550,
-        "rooms": null,
-        "rooms_source": null,
-        "whole": "1+1 房 495 sqft RM 2,500 · 2 房 590 sqft RM 2,800–3,000",
-        "whole_source": "iBilik / iProperty，2026-09"
+        "date": "2026-09-07",
+        "for_rent": 354,
+        "rent_from": 1600,
+        "rooms": "主人房 RM 1,650 起 · 房间 RM 1,550 起（4 条帖子）",
+        "rooms_source": "iProperty + iBilik，2026-09-07",
+        "whole": "开间 300 sqft RM 1,600 起 · 1 房 495 sqft RM 2,099 起 · 2 房 495 sqft RM 1,900 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 1550
       },
       "notes": [
         "2025 年刚交付，最新，几乎没有单间出租，只能整租",
@@ -1617,13 +1635,14 @@
       "um_km": 4,
       "um_km_note": "iProperty 标注 4 km",
       "snapshot": {
-        "date": "2026-09-06",
-        "for_rent": 51,
-        "rent_from": 950,
-        "rooms": "iProperty 首页无单间帖子；旧帖中房 RM 950、主人房 RM 1,300（日期不明）",
-        "rooms_source": "Mudah，日期不明",
-        "whole": "3 房 1,019 sqft RM 2,400–3,000",
-        "whole_source": "iProperty，2026-09-05"
+        "date": "2026-09-07",
+        "for_rent": 49,
+        "rent_from": 2400,
+        "rooms": "房间 RM 950 起（2 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "2 房 1,100 sqft RM 2,799 起 · 3 房 1,019 sqft RM 2,400 起 · 4 房 1,646 sqft RM 2,800 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 950
       },
       "notes": [
         "三房 RM 2,400–2,600 三个人分，人均 RM 800–870，适合三人组",
@@ -1706,13 +1725,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
+        "date": "2026-09-07",
         "for_rent": 62,
         "rent_from": 3200,
         "rooms": null,
         "rooms_source": null,
-        "whole": "3 房家庭户型为主，iProperty 最低 RM 3,200",
-        "whole_source": "iProperty，2026-09"
+        "whole": "2 房 1,125 sqft RM 3,300 起 · 3 房 1,235 sqft RM 3,200 起 · 4 房 1,660 sqft RM 5,500 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": null
       },
       "notes": [
         "211 户低密度，安静，但没有公共交通，学生不推荐"
@@ -1790,13 +1810,14 @@
       "um_km": null,
       "um_km_note": null,
       "snapshot": {
-        "date": "2026-09-06",
+        "date": "2026-09-07",
         "for_rent": 61,
-        "rent_from": 1100,
-        "rooms": "iProperty 最低 RM 1,100 疑为单间，未逐条核对",
-        "rooms_source": "iProperty，2026-09",
-        "whole": "2 房 1,050 sqft 起",
-        "whole_source": "iProperty 项目页"
+        "rent_from": 1600,
+        "rooms": "主人房 RM 1,100 起（1 条帖子）",
+        "rooms_source": "iProperty，2026-09-07",
+        "whole": "开间 300 sqft RM 1,600 起 · 2 房 1,080 sqft RM 3,200 起 · 3 房 1,450 sqft RM 3,800 起 · 4 房 1,360 sqft RM 4,000 起",
+        "whole_source": "iProperty，2026-09-07",
+        "rooms_min": 1100
       },
       "notes": [
         "243 户低密度，户型 1,050 平方英尺起，没有公共交通"
