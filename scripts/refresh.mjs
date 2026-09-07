@@ -26,13 +26,17 @@ const myt = (d = new Date()) => new Date(d.getTime() + 8 * 3600e3); // 马来西
 const today = myt().toISOString().slice(0, 10);
 const fmt = (n) => Number(n).toLocaleString('en-MY');
 const STATUS_MARK = '__STATUS__';
+// 用哪个 curl：本机 Windows 的 curl 能直接过 iProperty 的防爬；GitHub Actions 的 Linux 上要换成 curl-impersonate（模仿 Chrome 的 TLS 指纹），
+// 由 workflow 通过环境变量 CURL_BIN 指定。
+const CURL_BIN = process.env.CURL_BIN || 'curl';
 
 // 用 curl 而不是 Node 自带的 fetch：iProperty 的防爬会拦 Node 的 TLS 指纹，但放行 curl（带浏览器 UA）
 async function fetchText(url, tries = 3) {
   for (let i = 0; i < tries; i++) {
     try {
-      const { stdout } = await execFileP('curl', ['-sL', '--max-time', '40', '--compressed', '-A', UA,
-        '-H', 'Accept-Language: en-US,en;q=0.9', '-H', 'Accept: text/html,application/xhtml+xml',
+      // curl-impersonate 的包装脚本自带一整套 Chrome 请求头，这时不要再重复加
+      const browserHeaders = process.env.CURL_BIN ? [] : ['-A', UA, '-H', 'Accept-Language: en-US,en;q=0.9', '-H', 'Accept: text/html,application/xhtml+xml'];
+      const { stdout } = await execFileP(CURL_BIN, ['-sL', '--max-time', '40', '--compressed', ...browserHeaders,
         '-w', STATUS_MARK + '%{http_code}', url], { maxBuffer: 20 * 1024 * 1024 });
       const idx = stdout.lastIndexOf(STATUS_MARK);
       const status = Number(stdout.slice(idx + STATUS_MARK.length).trim());
@@ -237,11 +241,17 @@ for (const c of data.condos) {
 }
 
 for (const c of data.condos) delete c.snapshot.newest_listed; // 早期版本留下的字段，页面不用
-data.meta.prices_updated_at = new Date().toISOString();
-data.meta.prices_updated_myt = myt().toISOString().slice(0, 16).replace('T', ' ');
+const okN = Object.values(log.iproperty).filter((v) => v.startsWith('ok')).length;
+const tried = Object.keys(log.iproperty).length;
+// iProperty 失败超过 2 个小区就算这次没更新成：不改“最近一次更新”时间，并以非零退出让 workflow 不提交
+const usable = tried > 0 && tried - okN <= 2;
+if (usable) {
+  data.meta.prices_updated_at = new Date().toISOString();
+  data.meta.prices_updated_myt = myt().toISOString().slice(0, 16).replace('T', ' ');
+}
 log.finished_at = new Date().toISOString();
-log.ok = log.errors.length === 0;
+log.ok = usable && log.errors.length === 0;
 writeFileSync(DATA, JSON.stringify(data, null, 2) + '\n');
 writeFileSync(LOG, JSON.stringify(log, null, 2) + '\n');
-const okN = Object.values(log.iproperty).filter((v) => v.startsWith('ok')).length;
-console.log(`\n完成：iProperty ${okN}/${Object.keys(log.iproperty).length} 成功，iBilik ${log.ibilik.products} 条帖子，有单间行情的小区 ${Object.keys(rooms).length} 个，错误 ${log.errors.length} 个`);
+console.log(`\n完成：iProperty ${okN}/${tried} 成功，iBilik ${log.ibilik.products} 条帖子，有单间行情的小区 ${Object.keys(rooms).length} 个，错误 ${log.errors.length} 个`);
+if (!usable) { console.error('iProperty 失败太多，这次不算更新成功'); process.exitCode = 1; }

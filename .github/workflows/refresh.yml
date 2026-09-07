@@ -23,6 +23,20 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      # iProperty 按 TLS 指纹拦爬虫：Linux 自带的 curl 会被 403，换成模仿 Chrome 指纹的 curl-impersonate 才放行
+      - name: install curl-impersonate
+        run: |
+          set -e
+          V=v2.2.2
+          mkdir -p "$HOME/ci"
+          curl -sSL -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
+          tar -xzf /tmp/ci.tar.gz -C "$HOME/ci"
+          if [ ! -f "$HOME/ci/curl_chrome131" ]; then
+            curl -sSL -o "$HOME/ci/curl_chrome131" "https://raw.githubusercontent.com/lexiforest/curl-impersonate/$V/bin/curl_chrome131"
+          fi
+          chmod +x "$HOME/ci/curl_chrome131" "$HOME/ci/curl-impersonate"
+          ls -la "$HOME/ci"
+          echo "CURL_BIN=$HOME/ci/curl_chrome131" >> "$GITHUB_ENV"
       - name: refresh snapshot
         run: node scripts/refresh.mjs
       - name: commit if changed
