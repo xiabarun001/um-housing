@@ -53,6 +53,7 @@ async function init() {
   loadIntents();
   bindCalc();
   bindCopy();
+  bindNeeds();
   // 页面都摆好之后再定一次全图视野，避免地图在排版没完成时算错缩放
   if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds); });
   bindChecklists();
@@ -802,4 +803,151 @@ function renderRankings() {
       <p class="muted">能租到的最便宜一间：有单间帖子的按单间起价，没有的按整套最低价（${esc(state.meta.prices_updated_myt || state.meta.verified_at)} 更新）</p>
       <ol>${byPrice.map((c) => { const rm = roomsMin(c); const v = cheapest(c); if (!Number.isFinite(v)) return `<li>${name(c)}<span class="rk-v">这次没有挂牌</span></li>`; return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(v)}</b> ${rm != null && v === rm ? '单间起' : '整套起'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
     </div>`;
+}
+
+/* ---------- 开始之前：想清楚要什么（需求自评 + 按权重给小区打分） ---------- */
+const NEEDS_KEY = 'um-needs';
+const NEEDS_LEVELS = ['不在乎', '有点', '很在意', '必须'];
+const NEEDS_MODES = { room: '一个人租一间（合租）', share2: '和朋友整租两房、平摊', solo: '一个人整租开间或一房' };
+const NEEDS_PRICE_LABEL = { room: '单间', share2: '两房人均', solo: '开间或一房整套' };
+const NEEDS_ASK = [
+  ['cook', '能不能做饭：有没有厨房，允许明火吗'],
+  ['furnished', '带哪些家具家电：床、衣柜、空调、冰箱、洗衣机'],
+  ['bath', '有没有独立卫生间'],
+  ['utilities', '水电网怎么算：包在房租里，还是按用量分摊'],
+  ['term', '合同最短签多久，能不能签半年'],
+  ['deposit', '押金几个月、什么时候退、扣不扣清洁费'],
+  ['roommates', '现在住着几个人，室友的性别和作息'],
+  ['pets', '能不能养宠物'],
+  ['parking', '有没有停车位，要不要另付'],
+  ['visitors', '访客和过夜有没有限制'],
+];
+
+// 从“开间 300 sqft RM 1,600 起 · 2 房 581 sqft RM 1,950 起”里把各房型价格拆出来
+function wholePrices(c) {
+  const out = {};
+  for (const m of String(c.snapshot.whole || '').matchAll(/(开间|\d 房)[^·]*?RM\s?([\d,]+)/g)) out[m[1]] = Number(m[2].replace(/,/g, ''));
+  return out;
+}
+function needsPrice(c, mode) {
+  if (mode === 'room') return roomsMin(c);
+  const w = wholePrices(c);
+  if (mode === 'share2') return w['2 房'] ? Math.round(w['2 房'] / 2) : null;
+  const cands = [w['开间'], w['1 房']].filter(Boolean);
+  return cands.length ? Math.min(...cands) : null;
+}
+// 上学：走到轨道站的分钟数，再加坐到 Universiti 站（UM 正门）的时间
+function commuteMin(c) {
+  const t = c.transit;
+  if (t.walk_min == null) return { min: 35, why: '没有走得到的轨道站，靠公交或 Grab' };
+  const n = t.nearest || '';
+  const ride = /Universiti/.test(n) ? 0 : /Kerinchi/.test(n) ? 4 : /Taman Jaya/.test(n) ? 6 : /Asia Jaya/.test(n) ? 9 : 12;
+  const st = stationZh(n).replace(/（.*?）/, '');
+  return { min: t.walk_min + ride, why: `走 ${t.walk_min} 分钟到 ${st}${ride ? `，再坐 ${ride} 分钟到 Universiti 站` : '，出站就是校门'}` };
+}
+function needsCriteria() {
+  const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
+  const maxRent = Math.max(1, ...state.condos.map((c) => c.snapshot.for_rent || 0));
+  return [
+    { k: 'price', label: '月租便宜', hint: '按你选的住法取该小区最低价，超预算越多扣分越多', score: (c, o) => {
+      const p = needsPrice(c, o.mode);
+      if (p == null) return { s: 0.5, why: `没抓到${NEEDS_PRICE_LABEL[o.mode]}的价格`, unknown: true };
+      const ratio = p / Math.max(o.budget, 1);
+      const s = ratio <= 0.85 ? 1 : ratio >= 1.25 ? 0 : (1.25 - ratio) / 0.4;
+      return { s, why: `${NEEDS_PRICE_LABEL[o.mode]} RM ${fmt(p)} 起${ratio > 1 ? '，超预算' : ''}` };
+    } },
+    { k: 'commute', label: '上学方便', hint: '走到轻轨站的分钟数，加上坐到 Universiti 站的时间', score: (c) => { const r = commuteMin(c); return { s: 1 - norm(r.min, 2, 35), why: r.why }; } },
+    { k: 'facilities', label: '设施多', hint: '泳池健身房之外，还有桑拿、球场这些加分项', score: (c) => ({ s: norm(c.facilities.length, 8, 17), why: `${c.facilities.length} 项设施` }) },
+    { k: 'age', label: '楼龄新', hint: '建成年份', score: (c) => c.completed ? { s: norm(c.completed, 1996, 2025), why: `${c.completed} 年建成` } : { s: 0.3, why: '建成年份不详，是老楼' } },
+    { k: 'density', label: '楼里人少', hint: '总户数越少，电梯和泳池越不挤', score: (c) => c.units ? { s: 1 - norm(c.units, 200, 1450), why: `${fmt(c.units)} 户` } : { s: 0.5, why: '户数不详', unknown: true } },
+    { k: 'daily', label: '吃饭购物方便', hint: '楼下或步行范围有没有商场、超市、大排档（粗略判断）', score: (c) => ({ s: norm(c.daily?.score ?? 3, 1, 5), why: c.daily?.note || '' }) },
+    { k: 'roommates', label: '好找室友、中国同学多', hint: 'Bangsar South 一侧中国学生最集中；在租房源多也更好拼', score: (c) => ({ s: (c.region === 2 ? 0.7 : 0.2) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }) },
+    { k: 'quiet', label: '安静', hint: '离大路远、密度低（粗略判断）', score: (c) => ({ s: norm(c.quiet?.score ?? 3, 1, 5), why: c.quiet?.note || '' }) },
+  ];
+}
+function needsCompute(o, crit) {
+  const active = crit.filter((x) => (o.w[x.k] || 0) > 0);
+  const total = active.reduce((a, x) => a + o.w[x.k], 0);
+  return state.condos.map((c) => {
+    let sum = 0; const parts = []; const fails = [];
+    for (const x of active) {
+      const r = x.score(c, o);
+      sum += o.w[x.k] * r.s;
+      parts.push({ label: x.label, w: o.w[x.k], ...r });
+      if (o.w[x.k] === 3 && r.s < 0.4 && !r.unknown) fails.push(x.label);
+    }
+    parts.sort((a, b) => b.w - a.w || b.s - a.s);
+    return { c, score: total ? sum / total : 0, parts, fails };
+  }).sort((a, b) => a.fails.length - b.fails.length || b.score - a.score || a.c.no - b.c.no);
+}
+function needsSentence(o, crit) {
+  const by = (w) => crit.filter((x) => (o.w[x.k] || 0) === w).map((x) => x.label);
+  const must = by(3), high = by(2), some = by(1), none = by(0);
+  const bits = [`<b>${NEEDS_MODES[o.mode]}</b>，每人每月房租不超过 <b>RM ${fmt(o.budget)}</b>`];
+  if (must.length) bits.push(`必须满足 <b>${esc(must.join('、'))}</b>`);
+  if (high.length) bits.push(`很在意 ${esc(high.join('、'))}`);
+  if (some.length) bits.push(`有点在意 ${esc(some.join('、'))}`);
+  if (none.length && none.length < crit.length) bits.push(`${esc(none.join('、'))}不比`);
+  return bits.join('；') + '。';
+}
+function needsSummaryHTML(o, crit, showAll) {
+  const anyW = crit.some((x) => (o.w[x.k] || 0) > 0);
+  const res = anyW ? needsCompute(o, crit) : [];
+  const list = showAll ? res : res.slice(0, 5);
+  const asks = NEEDS_ASK.filter(([k]) => o.ask.includes(k));
+  const row = (r) => {
+    const n = Math.round(r.score * 100);
+    const why = r.parts.slice(0, 3).map((p) => p.why).filter(Boolean).join(' · ');
+    return `<li class="${r.fails.length ? 'fail' : ''}"><span><a href="#card-${r.c.id}">${esc(shortAlias(r.c))}</a><i class="rk-no r${r.c.region}">${r.c.no}</i></span><span class="score">${n}<small>分</small></span><span class="bar"><i style="width:${n}%"></i></span><small class="why">${r.fails.length ? `<b>不满足：${esc(r.fails.join('、'))}</b> · ` : ''}${esc(why)}</small></li>`;
+  };
+  return `
+    <h3>你要的房子</h3>
+    <p class="needs-sentence">${needsSentence(o, crit)}</p>
+    <h3>最对路的小区</h3>
+    ${anyW ? `<ol class="match">${list.map(row).join('')}</ol>
+    <div class="needs-acts"><button type="button" class="linkish" id="needs-more">${showAll ? '只看前 5 个' : '看全部 19 个的得分'}</button><span class="muted">分数是按你的权重算的，点名字看小区卡片</span></div>` : '<p class="muted">左边先点几项在意的，这里就会按你的权重给 19 个小区排序。</p>'}
+    <h3>看房时要问</h3>
+    ${asks.length ? `<ul class="needs-ask-list">${asks.map(([, t]) => `<li>${esc(t)}</li>`).join('')}</ul>
+    <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术在第 5 步</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}`;
+}
+function bindNeeds() {
+  const rows = $('#needs-rows');
+  const box = $('#needs-summary');
+  if (!rows || !box) return;
+  let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
+  try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* 隐私模式下忽略 */ }
+  if (!NEEDS_MODES[o.mode]) o.mode = 'room';
+  const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } };
+  const crit = needsCriteria();
+  let showAll = false;
+  rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');
+  $('#needs-ask').innerHTML = NEEDS_ASK.map(([k, t]) => `<label><input type="checkbox" value="${k}"${o.ask.includes(k) ? ' checked' : ''}> ${esc(t)}</label>`).join('');
+  $$('#needs-mode button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === o.mode)));
+  const budgetEl = $('#needs-budget');
+  budgetEl.value = o.budget;
+  const render = () => { box.innerHTML = needsSummaryHTML(o, crit, showAll); };
+  rows.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-w]'); if (!b) return;
+    const k = b.closest('.needs-row').dataset.k;
+    o.w[k] = Number(b.dataset.w);
+    $$('button', b.parentElement).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    save(); render();
+  });
+  $('#needs-mode').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-v]'); if (!b) return;
+    o.mode = b.dataset.v;
+    $$('#needs-mode button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    save(); render();
+  });
+  budgetEl.addEventListener('input', () => { const v = Number(budgetEl.value); if (v >= 100) { o.budget = v; save(); render(); } });
+  $('#needs-ask').addEventListener('change', () => { o.ask = $$('#needs-ask input:checked').map((i) => i.value); save(); render(); });
+  box.addEventListener('click', async (e) => {
+    if (e.target.id === 'needs-more') { showAll = !showAll; render(); return; }
+    if (e.target.id === 'needs-copy') {
+      const qs = NEEDS_ASK.filter(([k]) => o.ask.includes(k)).map(([, t], i) => `${i + 1}. ${t}`);
+      const text = ['你好，想问一下这套房：', ...qs].join('\n');
+      try { await navigator.clipboard.writeText(text); e.target.textContent = '已复制'; setTimeout(() => { e.target.textContent = '复制问题清单'; }, 1500); } catch { window.prompt('复制下面的文字', text); }
+    }
+  });
+  render();
 }

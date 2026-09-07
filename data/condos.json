@@ -68,7 +68,8 @@
         "lng": 101.6429822
       }
     ],
-    "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap"
+    "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap",
+    "daily_note": "daily 和 quiet 是 1–5 的粗略判断（吃饭购物方便程度、安静程度），依据是位置、周边商场和住户评价，只用于“想清楚要什么”的打分。"
   },
   "condos": [
     {
@@ -152,7 +153,15 @@
       ],
       "lat": 3.12888,
       "lng": 101.634909,
-      "no": 1
+      "no": 1,
+      "daily": {
+        "score": 4,
+        "note": "Section 17 平价杂饭和大排档多，楼下有超市"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "住宅区，楼下是市场和商场"
+      }
     },
     {
       "id": "atwater",
@@ -240,7 +249,15 @@
       ],
       "lat": 3.117946,
       "lng": 101.632404,
-      "no": 2
+      "no": 2,
+      "daily": {
+        "score": 3,
+        "note": "Jalan Universiti 沿线，吃饭要走一段或叫外卖"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "临 Jalan Universiti 主路"
+      }
     },
     {
       "id": "ryan-miho",
@@ -329,7 +346,15 @@
       ],
       "lat": 3.118397,
       "lng": 101.633049,
-      "no": 3
+      "no": 3,
+      "daily": {
+        "score": 5,
+        "note": "天桥直连 Jaya One 商场"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "商场旁边"
+      }
     },
     {
       "id": "pacific-star",
@@ -413,7 +438,15 @@
       ],
       "lat": 3.117448,
       "lng": 101.636993,
-      "no": 4
+      "no": 4,
+      "daily": {
+        "score": 5,
+        "note": "紧邻 Jaya One 和 AEON BiG 超市"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "商业区"
+      }
     },
     {
       "id": "pacific-63",
@@ -493,7 +526,15 @@
       ],
       "lat": 3.116098,
       "lng": 101.634939,
-      "no": 5
+      "no": 5,
+      "daily": {
+        "score": 4,
+        "note": "隔壁就是 Jaya One 一带"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "商业区"
+      }
     },
     {
       "id": "pj-midtown",
@@ -576,7 +617,15 @@
       ],
       "lat": 3.11381,
       "lng": 101.640488,
-      "no": 6
+      "no": 6,
+      "daily": {
+        "score": 3,
+        "note": "楼下有商铺，大商场要走一段"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "临 Jalan Kemajuan"
+      }
     },
     {
       "id": "centrestage",
@@ -659,7 +708,15 @@
       ],
       "lat": 3.111933,
       "lng": 101.638931,
-      "no": 7
+      "no": 7,
+      "daily": {
+        "score": 4,
+        "note": "Plaza 33 步行 250 m，Section 13 商业区"
+      },
+      "quiet": {
+        "score": 2,
+        "note": "商业区，楼里共用设施拥挤"
+      }
     },
     {
       "id": "pj8",
@@ -734,7 +791,15 @@
       ],
       "lat": 3.101428,
       "lng": 101.63982,
-      "no": 8
+      "no": 8,
+      "daily": {
+        "score": 3,
+        "note": "Section 8 商铺，Asia Jaya 站附近"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "临主路"
+      }
     },
     {
       "id": "tiara-damansara",
@@ -820,7 +885,15 @@
       ],
       "lat": 3.125104,
       "lng": 101.639088,
-      "no": 9
+      "no": 9,
+      "daily": {
+        "score": 2,
+        "note": "山坡上的住宅区，买菜要开车或 Grab"
+      },
+      "quiet": {
+        "score": 5,
+        "note": "山坡上的老牌家庭公寓，很安静"
+      }
     },
     {
       "id": "dvogue",
@@ -903,7 +976,15 @@
       ],
       "lat": 3.114112,
       "lng": 101.6395,
-      "no": 10
+      "no": 10,
+      "daily": {
+        "score": 3,
+        "note": "Section 14 商铺"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "住宅区边上"
+      }
     },
     {
       "id": "kl-gateway",
@@ -989,7 +1070,15 @@
       ],
       "lat": 3.113646,
       "lng": 101.66288,
-      "no": 11
+      "no": 11,
+      "daily": {
+        "score": 5,
+        "note": "楼下就是 KL Gateway Mall：Village Grocer 超市、food court"
+      },
+      "quiet": {
+        "score": 2,
+        "note": "紧邻 Federal Highway，旧评价集中在大道和商场噪音"
+      }
     },
     {
       "id": "pantai-panorama",
@@ -1077,7 +1166,15 @@
       ],
       "lat": 3.109804,
       "lng": 101.662215,
-      "no": 12
+      "no": 12,
+      "daily": {
+        "score": 4,
+        "note": "KL Gateway Mall 650 m，Nexus 800 m"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "老小区，密度中等"
+      }
     },
     {
       "id": "south-view",
@@ -1167,7 +1264,15 @@
       ],
       "lat": 3.11324,
       "lng": 101.6647,
-      "no": 13
+      "no": 13,
+      "daily": {
+        "score": 4,
+        "note": "KL Gateway Mall 步行 5 分钟"
+      },
+      "quiet": {
+        "score": 2,
+        "note": "1,204 户，高峰时电梯和泳池都挤"
+      }
     },
     {
       "id": "southlink",
@@ -1246,7 +1351,15 @@
       ],
       "lat": 3.113848,
       "lng": 101.666596,
-      "no": 14
+      "no": 14,
+      "daily": {
+        "score": 3,
+        "note": "楼下有商铺，商场要走 10 分钟"
+      },
+      "quiet": {
+        "score": 2,
+        "note": "单栋 1,422 户"
+      }
     },
     {
       "id": "novum",
@@ -1332,7 +1445,15 @@
       ],
       "lat": 3.113971,
       "lng": 101.666418,
-      "no": 15
+      "no": 15,
+      "daily": {
+        "score": 4,
+        "note": "天桥到 Kerinchi 站，楼下有商铺"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "密度中等"
+      }
     },
     {
       "id": "laurel",
@@ -1412,7 +1533,15 @@
       ],
       "lat": 3.108608,
       "lng": 101.666382,
-      "no": 16
+      "no": 16,
+      "daily": {
+        "score": 3,
+        "note": "步行 5–10 分钟到 KL Gateway Mall"
+      },
+      "quiet": {
+        "score": 3,
+        "note": "新楼，周边还在建设"
+      }
     },
     {
       "id": "saville",
@@ -1498,7 +1627,15 @@
       ],
       "lat": 3.102912,
       "lng": 101.661941,
-      "no": 17
+      "no": 17,
+      "daily": {
+        "score": 2,
+        "note": "Pantai Hillpark 山坡上，买东西靠公交或 Grab"
+      },
+      "quiet": {
+        "score": 5,
+        "note": "山坡上，很安静"
+      }
     },
     {
       "id": "inwood",
@@ -1573,7 +1710,15 @@
       ],
       "lat": 3.101582,
       "lng": 101.663706,
-      "no": 18
+      "no": 18,
+      "daily": {
+        "score": 2,
+        "note": "森林边的低密度社区，靠 Grab"
+      },
+      "quiet": {
+        "score": 5,
+        "note": "低密度，森林旁"
+      }
     },
     {
       "id": "secoya",
@@ -1648,7 +1793,15 @@
       ],
       "lat": 3.101723,
       "lng": 101.66466,
-      "no": 19
+      "no": 19,
+      "daily": {
+        "score": 2,
+        "note": "和 Inwood 同一个社区，靠 Grab"
+      },
+      "quiet": {
+        "score": 5,
+        "note": "低密度，森林旁"
+      }
     }
   ]
 }

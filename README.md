@@ -34,6 +34,7 @@ scripts/refresh.mjs 自动刷新脚本
 | `facilities` / `flags` | 设施清单（展示用）和布尔开关（筛选用）。来源写在 `sources` |
 | `transit.walk_min` | 到最近轨道站的步行分钟。`walk_est: true` 表示估算，距离带上画成空心圆 |
 | `links.iproperty_rent` | 该楼盘在 iProperty 的出租列表，卡片主按钮跳这里 |
+| `daily` / `quiet` | 吃饭购物方便程度、安静程度，1–5 的粗略判断加一句依据，只用于“先想清楚”板块按权重打分 |
 
 ### 价格自动刷新
 
