@@ -530,3 +530,10 @@ main { max-width: 1400px; }
 .needs-acts { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 @media (max-width: 960px) { .needs { grid-template-columns: 1fr; } .needs-summary { position: static; } }
 @media (max-width: 720px) { .needs-row { flex-direction: column; align-items: flex-start; gap: 6px; } .ask-grid { grid-template-columns: 1fr; } .needs-block { padding: 14px; } }
+
+/* ---------- 署名、水印、授权 ---------- */
+.wm { position: absolute; left: 8px; bottom: 8px; z-index: 500; font-size: 11px; line-height: 1; padding: 4px 7px; border-radius: 3px; background: rgba(255, 255, 255, .8); color: #4a4a4a; letter-spacing: .02em; pointer-events: none; user-select: none; }
+.src-line { margin: 8px 0 0; font-size: 12px; color: var(--ink-3); }
+.foot .license { font-size: 12px; color: var(--ink-3); max-width: 84ch; margin-top: 6px; line-height: 1.6; }
+.foot .license a { color: inherit; }
+@media (prefers-color-scheme: dark) { .wm { background: rgba(21, 23, 27, .8); color: #cfd3d8; } }

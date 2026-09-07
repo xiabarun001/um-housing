@@ -908,7 +908,8 @@ function needsSummaryHTML(o, crit, showAll) {
     <div class="needs-acts"><button type="button" class="linkish" id="needs-more">${showAll ? '只看前 5 个' : '看全部 19 个的得分'}</button><span class="muted">分数是按你的权重算的，点名字看小区卡片</span></div>` : '<p class="muted">左边先点几项在意的，这里就会按你的权重给 19 个小区排序。</p>'}
     <h3>看房时要问</h3>
     ${asks.length ? `<ul class="needs-ask-list">${asks.map(([, t]) => `<li>${esc(t)}</li>`).join('')}</ul>
-    <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术在第 5 步</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}`;
+    <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术在第 5 步</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}
+    <p class="src-line">按 um-housing.evasuka.com 的数据和你的权重算的</p>`;
 }
 function bindNeeds() {
   const rows = $('#needs-rows');

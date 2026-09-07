@@ -74,6 +74,10 @@ node scripts/refresh.mjs
 npx serve .
 ```
 
+## 授权
+
+全部内容（文字、`data/` 数据、样式、代码）以 CC BY-NC-SA 4.0 授权，见 [LICENSE.md](LICENSE.md)：转载须注明来源 um-housing.evasuka.com，禁止商业使用，改编后须以相同方式共享。页脚、`<link rel="license">` 和 meta 标签里都有声明。
+
 ## 免责
 
 非官方整理，数据来自 iProperty、StarProperty、开发商官网和租房平台的公开页面，核实日期见页面。租房请核对中介 REN 编号，付款只走银行转账。

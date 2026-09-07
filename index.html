@@ -6,12 +6,16 @@
 <title>UM 租房指南</title>
 <meta name="description" content="马来亚大学（UM）新生租房指南：地图、预算、19 个小区逐个看、怎么找中介、看房签约清单、落地时间表，以及同学租房意向表。">
 <meta name="color-scheme" content="light dark">
+<meta name="author" content="UM 租房指南 · um-housing.evasuka.com">
+<meta name="copyright" content="CC BY-NC-SA 4.0 · um-housing.evasuka.com">
+<link rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+<link rel="canonical" href="https://um-housing.evasuka.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609071400">
+<link rel="stylesheet" href="css/style.css?v=202609071420">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -104,6 +108,7 @@
     <div class="map-layout">
       <div class="map-frame">
         <div id="map" class="map" role="region" aria-label="UM 周边小区地图"></div>
+        <div class="wm" aria-hidden="true">um-housing.evasuka.com</div>
       </div>
       <aside class="map-panel" id="map-panel" aria-label="地图上的小区列表">
         <div class="panel-detail" id="panel-detail" hidden></div>
@@ -265,6 +270,7 @@
     </div>
     <h3 class="rank-title">四个排行榜</h3>
     <div class="rankings" id="rankings"></div>
+    <p class="src-line">整理：um-housing.evasuka.com · 非商业，转载请注明来源</p>
 
 
     <div class="toolbar" id="filters">
@@ -522,7 +528,8 @@ Is the room still available? Could you share a short video of the room and the u
 </main>
 
 <footer class="foot">
-  <p>非官方整理，供同学参考。最近核实 <time class="verified-at"></time>。</p>
+  <p>UM 租房指南，由马来亚大学的学生自己整理，非官方、非商业，不收中介一分钱。固定信息最近核实 <time class="verified-at"></time>。</p>
+  <p class="license">本站文字、数据和代码以 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">CC BY-NC-SA 4.0</a> 授权：转载须注明来源 um-housing.evasuka.com，禁止商业使用，改编后须以相同方式共享。中介、租房平台等盈利机构未经书面许可不得使用本站内容。© 2026 um-housing.evasuka.com</p>
 </footer>
 
 <dialog id="detail" class="detail" aria-labelledby="detail-title">
@@ -532,7 +539,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609071400"></script>
-<script type="module" src="js/app.js?v=202609071400"></script>
+<script src="js/config.js?v=202609071420"></script>
+<script type="module" src="js/app.js?v=202609071420"></script>
 </body>
 </html>

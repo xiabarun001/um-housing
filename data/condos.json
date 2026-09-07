@@ -436,7 +436,7 @@
           "url": "https://www.starproperty.my/insight/4872/pacific-star"
         }
       ],
-      "lat": 3.117448,
+      "lat": 3.1174481,
       "lng": 101.636993,
       "no": 4,
       "daily": {
@@ -1068,7 +1068,7 @@
           "url": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south"
         }
       ],
-      "lat": 3.113646,
+      "lat": 3.1136467,
       "lng": 101.66288,
       "no": 11,
       "daily": {
@@ -1262,7 +1262,7 @@
           "url": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south"
         }
       ],
-      "lat": 3.11324,
+      "lat": 3.113243,
       "lng": 101.6647,
       "no": 13,
       "daily": {
@@ -1448,7 +1448,7 @@
       "no": 15,
       "daily": {
         "score": 4,
-        "note": "天桥到 Kerinchi 站，楼下有商铺"
+        "note": "天桥到​ Kerinchi 站，楼下有商铺"
       },
       "quiet": {
         "score": 3,
@@ -1634,7 +1634,7 @@
       },
       "quiet": {
         "score": 5,
-        "note": "山坡上，很安静"
+        "note": "山坡​上，很安静"
       }
     },
     {
