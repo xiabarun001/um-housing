@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-07T05:15:27.756Z",
-  "updated_myt": "2026-09-07 13:15",
+  "updated_at": "2026-09-07T05:20:59.758Z",
+  "updated_myt": "2026-09-07 13:20",
   "source_note": "由 scripts/refresh.mjs 每 12 小时自动写入；按小区 id 对应 condos.json 里的固定信息",
   "condos": {
     "seventeen": {
@@ -165,7 +165,7 @@
     },
     "saville": {
       "date": "2026-09-07",
-      "for_rent": 49,
+      "for_rent": 51,
       "rent_from": 2400,
       "whole": "2 房 1,100 sqft RM 2,799 起 · 3 房 1,019 sqft RM 2,400 起 · 4 房 1,646 sqft RM 2,800 起",
       "whole_source": "iProperty，2026-09-07",
