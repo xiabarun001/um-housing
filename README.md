@@ -16,6 +16,7 @@ data/condos.json    固定信息：设施、楼龄、户数、地契、坐标、
 data/prices.json    实时信息：在租数量、整套最低价、各房型价、单间行情。脚本每 12 小时自动写，按小区 id 对应 condos.json
 data/price-history.json  每次成功刷新追加一天（在租数量、最低价、单间起价），只留最近 90 天
 data/refresh-log.json  最近一次自动刷新的结果（每个小区成功与否、抓到多少条）
+cards.html + js/cards.js  小红书出图页（不对外链接）：从 condos.json 现场画 1080×1440 的卡片图
 scripts/refresh.mjs 自动刷新脚本
 .github/workflows/refresh.yml  定时任务：每 12 小时跑一次脚本并提交
 ```
@@ -58,6 +59,10 @@ node scripts/refresh.mjs
 如果哪天 GitHub 的机器又被 iProperty 拦了，备用办法是在自己电脑上定时跑 `scripts/refresh-local.ps1`（拉取、刷新、提交、推送一条龙，日志在 `%LOCALAPPDATA%\um-housing\refresh.log`），用 Windows 任务计划程序每天 10:00 和 22:00 各跑一次即可。
 
 设施、楼龄、户数、坐标这些固定信息不在自动范围内，改 `condos.json` 后记得把 `meta.verified_at` 改成当天。
+
+## 小红书出图
+
+打开 `/cards.html`（页面上没有入口，直接输网址），填小红书账号名和号，点“全部下载”得到 22 张 1080×1440 的图：总览地图 1 张、区域 1 概览加 10 张小区卡片、区域 2 概览加 9 张小区卡片，正好三篇帖子。图上自动带账号、网址、固定信息核实日期和 CC BY-NC-SA 标记。数据改了回来重新下载即可，不要手工排版。
 
 ## 意向表（Supabase）
 
