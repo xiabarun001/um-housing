@@ -53,6 +53,8 @@ async function init() {
   loadIntents();
   bindCalc();
   bindCopy();
+  // 页面都摆好之后再定一次全图视野，避免地图在排版没完成时算错缩放
+  if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds); });
   bindChecklists();
   bindNav();
   // 地图气泡里的"看详情"按钮
@@ -280,6 +282,17 @@ function drawMap(campus) {
   state.allBounds = bounds.pad(0.03);
   map.fitBounds(state.allBounds);
   $('#map-reset')?.addEventListener('click', () => { clearSelection(); endTour(); map.fitBounds(state.allBounds); });
+  // 容器尺寸变了（页面还在排版、标签页从后台切回来、手机转屏）要告诉 Leaflet；
+  // 如果之前是在 0 尺寸下算的视野（会缩成世界地图），顺手重新定位到全图
+  let lastSize = map.getSize();
+  const refit = () => {
+    const prev = lastSize;
+    map.invalidateSize();
+    lastSize = map.getSize();
+    if (prev.x === 0 || prev.y === 0 || map.getZoom() <= 3) map.fitBounds(state.allBounds);
+  };
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(refit).observe($('#map'));
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refit(); });
   // 点一下地图再允许滚轮缩放，避免页面滚动被劫持
   map.on('click', () => map.scrollWheelZoom.enable());
   map.on('mouseout', () => map.scrollWheelZoom.disable());
