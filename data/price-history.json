@@ -100,6 +100,106 @@
           "rooms_min": 1100
         }
       }
+    },
+    {
+      "date": "2026-09-08",
+      "condos": {
+        "seventeen": {
+          "for_rent": 78,
+          "rent_from": 1800,
+          "rooms_min": null
+        },
+        "atwater": {
+          "for_rent": 76,
+          "rent_from": 2500,
+          "rooms_min": null
+        },
+        "ryan-miho": {
+          "for_rent": 142,
+          "rent_from": 1800,
+          "rooms_min": 950
+        },
+        "pacific-star": {
+          "for_rent": 205,
+          "rent_from": 1800,
+          "rooms_min": 780
+        },
+        "pacific-63": {
+          "for_rent": 10,
+          "rent_from": 1700,
+          "rooms_min": null
+        },
+        "pj-midtown": {
+          "for_rent": 145,
+          "rent_from": 1300,
+          "rooms_min": 1300
+        },
+        "centrestage": {
+          "for_rent": 147,
+          "rent_from": 1099,
+          "rooms_min": 600
+        },
+        "pj8": {
+          "for_rent": 18,
+          "rent_from": 230,
+          "rooms_min": null
+        },
+        "tiara-damansara": {
+          "for_rent": 6,
+          "rent_from": 2500,
+          "rooms_min": null
+        },
+        "dvogue": {
+          "for_rent": 50,
+          "rent_from": 1599,
+          "rooms_min": null
+        },
+        "kl-gateway": {
+          "for_rent": 149,
+          "rent_from": 2000,
+          "rooms_min": 650
+        },
+        "pantai-panorama": {
+          "for_rent": 33,
+          "rent_from": 2000,
+          "rooms_min": 850
+        },
+        "south-view": {
+          "for_rent": 414,
+          "rent_from": 1900,
+          "rooms_min": 750
+        },
+        "southlink": {
+          "for_rent": 544,
+          "rent_from": 1299,
+          "rooms_min": 1300
+        },
+        "novum": {
+          "for_rent": 260,
+          "rent_from": 2100,
+          "rooms_min": 1300
+        },
+        "laurel": {
+          "for_rent": 343,
+          "rent_from": 1600,
+          "rooms_min": 1550
+        },
+        "saville": {
+          "for_rent": 54,
+          "rent_from": 2400,
+          "rooms_min": 950
+        },
+        "inwood": {
+          "for_rent": 64,
+          "rent_from": 3200,
+          "rooms_min": null
+        },
+        "secoya": {
+          "for_rent": 61,
+          "rent_from": 1600,
+          "rooms_min": 1100
+        }
+      }
     }
   ]
 }
