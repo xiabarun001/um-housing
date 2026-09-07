@@ -23,7 +23,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      # iProperty 按 TLS 指纹拦爬虫：Linux 自带的 curl 会被 403，换成模仿 Chrome 指纹的 curl-impersonate 才放行
+      # iProperty 按 TLS 指纹拦爬虫：GitHub 机器上的 curl（连模仿 Chrome 的都）会被 403，
+      # 用 curl-impersonate 模仿 iOS Safari 才放行（见 probe.yml 的试验结果）
       - name: install curl-impersonate
         run: |
           set -e
@@ -31,12 +32,9 @@ jobs:
           mkdir -p "$HOME/ci"
           curl -sSL -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
           tar -xzf /tmp/ci.tar.gz -C "$HOME/ci"
-          if [ ! -f "$HOME/ci/curl_chrome131" ]; then
-            curl -sSL -o "$HOME/ci/curl_chrome131" "https://raw.githubusercontent.com/lexiforest/curl-impersonate/$V/bin/curl_chrome131"
-          fi
-          chmod +x "$HOME/ci/curl_chrome131" "$HOME/ci/curl-impersonate"
-          ls -la "$HOME/ci"
-          echo "CURL_BIN=$HOME/ci/curl_chrome131" >> "$GITHUB_ENV"
+          chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
+          test -x "$HOME/ci/curl_safari184_ios"
+          echo "CURL_BIN=$HOME/ci/curl_safari184_ios" >> "$GITHUB_ENV"
       - name: refresh snapshot
         run: node scripts/refresh.mjs
       - name: commit if changed
