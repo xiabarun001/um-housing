@@ -69,8 +69,8 @@
       }
     ],
     "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap",
-    "prices_updated_at": "2026-09-07T04:30:00.000Z",
-    "prices_updated_myt": "2026-09-07 12:30"
+    "prices_updated_at": "2026-09-07T04:54:06.580Z",
+    "prices_updated_myt": "2026-09-07 12:54"
   },
   "condos": [
     {
@@ -1258,7 +1258,7 @@
       "um_km_note": "iProperty 标注约 3 km",
       "snapshot": {
         "date": "2026-09-07",
-        "for_rent": 417,
+        "for_rent": 418,
         "rent_from": 1900,
         "rooms": "单人间 RM 950 起 · 中房 RM 750 起 · 主人房 RM 1,490 起 · 房间 RM 1,500 起（14 条帖子）",
         "rooms_source": "iProperty + iBilik，2026-09-07",
@@ -1540,7 +1540,7 @@
       "um_km_note": null,
       "snapshot": {
         "date": "2026-09-07",
-        "for_rent": 354,
+        "for_rent": 355,
         "rent_from": 1600,
         "rooms": "主人房 RM 1,650 起 · 房间 RM 1,550 起（4 条帖子）",
         "rooms_source": "iProperty + iBilik，2026-09-07",
@@ -1726,7 +1726,7 @@
       "um_km_note": null,
       "snapshot": {
         "date": "2026-09-07",
-        "for_rent": 62,
+        "for_rent": 64,
         "rent_from": 3200,
         "rooms": null,
         "rooms_source": null,
@@ -1811,7 +1811,7 @@
       "um_km_note": null,
       "snapshot": {
         "date": "2026-09-07",
-        "for_rent": 61,
+        "for_rent": 62,
         "rent_from": 1600,
         "rooms": "主人房 RM 1,100 起（1 条帖子）",
         "rooms_source": "iProperty，2026-09-07",
