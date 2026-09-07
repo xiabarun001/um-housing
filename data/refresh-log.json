@@ -1,23 +1,60 @@
 {
-  "started_at": "2026-09-07T04:29:50.786Z",
+  "started_at": "2026-09-07T04:31:25.363Z",
   "date_myt": "2026-09-07",
-  "only": [
-    "kl-gateway",
-    "pj-midtown"
-  ],
+  "only": [],
   "iproperty": {
-    "pj-midtown": "ok 147 listings (60 read), whole from RM 1300, rooms 5",
-    "kl-gateway": "ok 150 listings (60 read), whole from RM 2000, rooms 0"
+    "seventeen": "fetch failed",
+    "atwater": "fetch failed",
+    "ryan-miho": "fetch failed",
+    "pacific-star": "fetch failed",
+    "pacific-63": "fetch failed",
+    "pj-midtown": "fetch failed",
+    "centrestage": "fetch failed",
+    "pj8": "fetch failed",
+    "tiara-damansara": "fetch failed",
+    "dvogue": "fetch failed",
+    "kl-gateway": "fetch failed",
+    "pantai-panorama": "fetch failed",
+    "south-view": "fetch failed",
+    "southlink": "fetch failed",
+    "novum": "fetch failed",
+    "laurel": "fetch failed",
+    "saville": "fetch failed",
+    "inwood": "fetch failed",
+    "secoya": "fetch failed"
   },
   "ibilik": {
     "ran": true,
     "pages": 6,
     "products": 94,
     "matched": {
-      "kl-gateway": 38
+      "south-view": 13,
+      "kl-gateway": 38,
+      "novum": 2,
+      "laurel": 1
     }
   },
-  "errors": [],
-  "finished_at": "2026-09-07T04:30:34.834Z",
-  "ok": true
+  "errors": [
+    "iproperty seventeen: fetch failed",
+    "iproperty atwater: fetch failed",
+    "iproperty ryan-miho: fetch failed",
+    "iproperty pacific-star: fetch failed",
+    "iproperty pacific-63: fetch failed",
+    "iproperty pj-midtown: fetch failed",
+    "iproperty centrestage: fetch failed",
+    "iproperty pj8: fetch failed",
+    "iproperty tiara-damansara: fetch failed",
+    "iproperty dvogue: fetch failed",
+    "iproperty kl-gateway: fetch failed",
+    "iproperty pantai-panorama: fetch failed",
+    "iproperty south-view: fetch failed",
+    "iproperty southlink: fetch failed",
+    "iproperty novum: fetch failed",
+    "iproperty laurel: fetch failed",
+    "iproperty saville: fetch failed",
+    "iproperty inwood: fetch failed",
+    "iproperty secoya: fetch failed"
+  ],
+  "finished_at": "2026-09-07T04:38:26.176Z",
+  "ok": false
 }
