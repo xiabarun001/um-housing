@@ -1,8 +1,10 @@
-// 自动刷新价格快照：iProperty 每个小区的在租列表（按价格从低到高翻几页）+ iBilik Bangsar South 单间。
-// 只改 snapshot 里的价格类字段和 meta.prices_updated_*；设施、年份、坐标等固定信息不动。
+// 自动刷新实时价格：iProperty 每个小区的在租列表（按价格从低到高翻几页）+ iBilik Bangsar South 单间。
+// 数据分两层：data/condos.json 是固定信息（设施、坐标、链接……），这里只读不写；
+//             data/prices.json 是实时信息，按小区 id 对应，这里每次整体重写；
+//             data/price-history.json 每次成功刷新追加一天，只留最近 90 天。
 // 用法：node scripts/refresh.mjs                 全量（GitHub Actions 每 12 小时跑一次，见 .github/workflows/refresh.yml）
 //       node scripts/refresh.mjs kl-gateway novum   只跑这几个小区的 iProperty，方便调试（加 --ibilik 也跑 iBilik）
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { execFile } from 'node:child_process';
@@ -10,8 +12,11 @@ import { promisify } from 'node:util';
 const execFileP = promisify(execFile);
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const DATA = join(ROOT, 'data', 'condos.json');
-const LOG = join(ROOT, 'data', 'refresh-log.json');
+const CONDOS = join(ROOT, 'data', 'condos.json');        // 只读
+const PRICES = join(ROOT, 'data', 'prices.json');        // 写
+const HISTORY = join(ROOT, 'data', 'price-history.json'); // 写
+const LOG = join(ROOT, 'data', 'refresh-log.json');      // 写
+const HISTORY_DAYS = 90;
 
 const ARGS = process.argv.slice(2);
 const ONLY = ARGS.filter((a) => !a.startsWith('--'));
@@ -26,7 +31,7 @@ const myt = (d = new Date()) => new Date(d.getTime() + 8 * 3600e3); // 马来西
 const today = myt().toISOString().slice(0, 10);
 const fmt = (n) => Number(n).toLocaleString('en-MY');
 const STATUS_MARK = '__STATUS__';
-// 用哪个 curl：本机 Windows 的 curl 能直接过 iProperty 的防爬；GitHub Actions 的 Linux 上要换成 curl-impersonate（模仿 Chrome 的 TLS 指纹），
+// 用哪个 curl：本机 Windows 的 curl 能直接过 iProperty 的防爬；GitHub Actions 的 Linux 上要换成 curl-impersonate（模仿 iOS Safari 的 TLS 指纹），
 // 由 workflow 通过环境变量 CURL_BIN 指定。
 const CURL_BIN = process.env.CURL_BIN || 'curl';
 
@@ -34,7 +39,7 @@ const CURL_BIN = process.env.CURL_BIN || 'curl';
 async function fetchText(url, tries = 3) {
   for (let i = 0; i < tries; i++) {
     try {
-      // curl-impersonate 的包装脚本自带一整套 Chrome 请求头，这时不要再重复加
+      // curl-impersonate 的包装脚本自带一整套浏览器请求头，这时不要再重复加
       const browserHeaders = process.env.CURL_BIN ? [] : ['-A', UA, '-H', 'Accept-Language: en-US,en;q=0.9', '-H', 'Accept: text/html,application/xhtml+xml'];
       const { stdout } = await execFileP(CURL_BIN, ['-sL', '--max-time', '40', '--compressed', ...browserHeaders,
         '-w', STATUS_MARK + '%{http_code}', url], { maxBuffer: 20 * 1024 * 1024 });
@@ -162,15 +167,24 @@ const IBILIK_KEYS = {
 };
 
 /* ---------- main ---------- */
-const data = JSON.parse(readFileSync(DATA, 'utf8'));
+const condos = JSON.parse(readFileSync(CONDOS, 'utf8')).condos;
+const EMPTY = { date: null, for_rent: null, rent_from: null, whole: null, whole_source: null, rooms: null, rooms_source: null, rooms_min: null };
+const prices = existsSync(PRICES) ? JSON.parse(readFileSync(PRICES, 'utf8')) : { updated_at: null, updated_myt: null, condos: {} };
+prices.condos ||= {};
+// 两个文件用 id 对齐：condos.json 里有的小区都要有一条价格记录；condos.json 里没有的 id 说明小区被删了，价格也一起删
+const ids = new Set(condos.map((c) => c.id));
+for (const id of Object.keys(prices.condos)) if (!ids.has(id)) { console.warn(`prices.json 里的 ${id} 在 condos.json 找不到，删掉`); delete prices.condos[id]; }
+for (const c of condos) prices.condos[c.id] = { ...EMPTY, ...(prices.condos[c.id] || {}) };
+
 const log = { started_at: new Date().toISOString(), date_myt: today, only: ONLY, iproperty: {}, ibilik: { ran: RUN_IBILIK, pages: 0, products: 0, matched: {} }, errors: [] };
 const rooms = {};            // id -> [{ type, price, src }]
 const refreshed = new Set(); // 这次 iProperty 成功的小区，只有这些才会改单间字段
 
 // 1) iProperty：每个小区
-for (const c of data.condos) {
+for (const c of condos) {
   if (ONLY.length && !ONLY.includes(c.id)) continue;
   if (!c.links?.iproperty_rent) continue;
+  const s = prices.condos[c.id];
   process.stdout.write(`iProperty ${c.id} ... `);
   const r = await fetchCondoListings(c);
   if (r.error) { log.iproperty[c.id] = r.error; log.errors.push(`iproperty ${c.id}: ${r.error}`); console.log(r.error); await sleep(DELAY); continue; }
@@ -178,16 +192,16 @@ for (const c of data.condos) {
   const isRoom = (l) => !!l.room || (l.beds >= 1 && l.area && l.area < 250);
   const wholes = r.listings.filter((l) => !isRoom(l));
   const roomPosts = r.listings.filter(isRoom).map((l) => ({ type: roomTypeCN(l.room || 'room'), price: l.price, src: 'iProperty' })).filter((x) => x.type);
-  c.snapshot.for_rent = r.count;
-  c.snapshot.rent_from = wholes.length ? Math.min(...wholes.map((l) => l.price)) : null;
+  s.for_rent = r.count;
+  s.rent_from = wholes.length ? Math.min(...wholes.map((l) => l.price)) : null;
   const whole = wholeSummary(wholes);
-  c.snapshot.whole = whole || null;
-  c.snapshot.whole_source = whole ? `iProperty，${today}` : null;
-  c.snapshot.date = today;
+  s.whole = whole || null;
+  s.whole_source = whole ? `iProperty，${today}` : null;
+  s.date = today;
   if (roomPosts.length) rooms[c.id] = roomPosts;
   refreshed.add(c.id);
-  log.iproperty[c.id] = `ok ${r.count} listings (${r.listings.length} read), whole from RM ${c.snapshot.rent_from ?? '-'}, rooms ${roomPosts.length}`;
-  console.log(`${r.count} 套，整套最低 RM ${c.snapshot.rent_from ?? '—'}，单间帖子 ${roomPosts.length}`);
+  log.iproperty[c.id] = `ok ${r.count} listings (${r.listings.length} read), whole from RM ${s.rent_from ?? '-'}, rooms ${roomPosts.length}`;
+  console.log(`${r.count} 套，整套最低 RM ${s.rent_from ?? '—'}，单间帖子 ${roomPosts.length}`);
   await sleep(DELAY);
 }
 
@@ -223,35 +237,42 @@ if (RUN_IBILIK) {
 }
 
 // 3) 汇总单间：iProperty 和 iBilik 各房型取最低价
-for (const c of data.condos) {
+for (const c of condos) {
   if (!refreshed.has(c.id)) continue; // 这次 iProperty 没成功的，单间字段也不动
+  const s = prices.condos[c.id];
   // 低于 RM 500 的“单间”基本是写错价或按周计价的帖子，不采信
   const list = (rooms[c.id] || []).filter((r) => r.price >= 500);
-  if (!list.length) {
-    c.snapshot.rooms = null; c.snapshot.rooms_source = null; c.snapshot.rooms_min = null;
-    continue;
-  }
+  if (!list.length) { s.rooms = null; s.rooms_source = null; s.rooms_min = null; continue; }
   const byType = {};
   for (const r of list) if (!byType[r.type] || r.price < byType[r.type]) byType[r.type] = r.price;
   const parts = ROOM_ORDER.filter((t) => byType[t]).map((t) => `${t} RM ${fmt(byType[t])} 起`);
   const srcs = [...new Set(list.map((r) => r.src))].join(' + ');
-  c.snapshot.rooms = `${parts.join(' · ')}（${list.length} 条帖子）`;
-  c.snapshot.rooms_source = `${srcs}，${today}`;
-  c.snapshot.rooms_min = Math.min(...list.map((r) => r.price));
+  s.rooms = `${parts.join(' · ')}（${list.length} 条帖子）`;
+  s.rooms_source = `${srcs}，${today}`;
+  s.rooms_min = Math.min(...list.map((r) => r.price));
 }
 
-for (const c of data.condos) delete c.snapshot.newest_listed; // 早期版本留下的字段，页面不用
+// 4) 写文件
 const okN = Object.values(log.iproperty).filter((v) => v.startsWith('ok')).length;
 const tried = Object.keys(log.iproperty).length;
 // iProperty 失败超过 2 个小区就算这次没更新成：不改“最近一次更新”时间，并以非零退出让 workflow 不提交
 const usable = tried > 0 && tried - okN <= 2;
 if (usable) {
-  data.meta.prices_updated_at = new Date().toISOString();
-  data.meta.prices_updated_myt = myt().toISOString().slice(0, 16).replace('T', ' ');
+  prices.updated_at = new Date().toISOString();
+  prices.updated_myt = myt().toISOString().slice(0, 16).replace('T', ' ');
+  // 历史：同一天多次刷新只留最后一次；只保留最近 HISTORY_DAYS 天
+  const hist = existsSync(HISTORY) ? JSON.parse(readFileSync(HISTORY, 'utf8')) : { days: [] };
+  hist.days = (hist.days || []).filter((d) => d.date !== today);
+  const day = { date: today, condos: {} };
+  for (const c of condos) { const s = prices.condos[c.id]; day.condos[c.id] = { for_rent: s.for_rent, rent_from: s.rent_from, rooms_min: s.rooms_min }; }
+  hist.days.push(day);
+  hist.days.sort((a, b) => a.date.localeCompare(b.date));
+  hist.days = hist.days.slice(-HISTORY_DAYS);
+  writeFileSync(HISTORY, JSON.stringify(hist, null, 2) + '\n');
 }
 log.finished_at = new Date().toISOString();
 log.ok = usable && log.errors.length === 0;
-writeFileSync(DATA, JSON.stringify(data, null, 2) + '\n');
+writeFileSync(PRICES, JSON.stringify(prices, null, 2) + '\n');
 writeFileSync(LOG, JSON.stringify(log, null, 2) + '\n');
 console.log(`\n完成：iProperty ${okN}/${tried} 成功，iBilik ${log.ibilik.products} 条帖子，有单间行情的小区 ${Object.keys(rooms).length} 个，错误 ${log.errors.length} 个`);
 if (!usable) { console.error('iProperty 失败太多，这次不算更新成功'); process.exitCode = 1; }

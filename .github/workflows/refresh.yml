@@ -41,7 +41,7 @@ jobs:
         run: |
           git config user.name "um-housing-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add data/condos.json data/refresh-log.json
+          git add data/prices.json data/price-history.json data/refresh-log.json
           if git diff --cached --quiet; then
             echo "no changes"
           else

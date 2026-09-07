@@ -15,9 +15,9 @@ git pull -q --rebase --autostash origin main
 if ($LASTEXITCODE -ne 0) { Log "git pull failed ($LASTEXITCODE)"; exit 1 }
 
 node scripts/refresh.mjs 2>&1 | ForEach-Object { Log $_ }
-if ($LASTEXITCODE -ne 0) { Log "refresh failed ($LASTEXITCODE), not committing"; git checkout -q -- data/condos.json data/refresh-log.json; exit 1 }
+if ($LASTEXITCODE -ne 0) { Log "refresh failed ($LASTEXITCODE), not committing"; git checkout -q -- data/prices.json data/price-history.json data/refresh-log.json; exit 1 }
 
-git add data/condos.json data/refresh-log.json
+git add data/prices.json data/price-history.json data/refresh-log.json
 git diff --cached --quiet
 if ($LASTEXITCODE -eq 0) { Log "no changes"; exit 0 }
 git -c user.name='um-housing-bot' -c user.email='bot@users.noreply.github.com' commit -q -m ("data: refresh price snapshot " + (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mmZ'))

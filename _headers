@@ -5,3 +5,13 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Cross-Origin-Opener-Policy: same-origin
+
+# 数据文件：固定信息可以缓存久一点，实时价格文件让浏览器和 CDN 最多缓存 5 分钟
+/data/condos.json
+  Cache-Control: public, max-age=3600, must-revalidate
+/data/prices.json
+  Cache-Control: public, max-age=300, must-revalidate
+/data/price-history.json
+  Cache-Control: public, max-age=300, must-revalidate
+/data/refresh-log.json
+  Cache-Control: public, max-age=300, must-revalidate

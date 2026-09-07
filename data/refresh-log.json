@@ -1,40 +1,21 @@
 {
-  "started_at": "2026-09-07T04:54:43.403Z",
+  "started_at": "2026-09-07T05:15:19.166Z",
   "date_myt": "2026-09-07",
-  "only": [],
+  "only": [
+    "tiara-damansara",
+    "pj8"
+  ],
   "iproperty": {
-    "seventeen": "ok 79 listings (60 read), whole from RM 1800, rooms 0",
-    "atwater": "ok 76 listings (60 read), whole from RM 2500, rooms 0",
-    "ryan-miho": "ok 145 listings (60 read), whole from RM 1800, rooms 15",
-    "pacific-star": "ok 207 listings (60 read), whole from RM 1800, rooms 5",
-    "pacific-63": "ok 13 listings (13 read), whole from RM 1700, rooms 0",
-    "pj-midtown": "ok 147 listings (60 read), whole from RM 1300, rooms 5",
-    "centrestage": "ok 149 listings (60 read), whole from RM 1099, rooms 2",
     "pj8": "ok 16 listings (16 read), whole from RM 1900, rooms 0",
-    "tiara-damansara": "ok 6 listings (6 read), whole from RM 2500, rooms 0",
-    "dvogue": "ok 51 listings (51 read), whole from RM 1599, rooms 0",
-    "kl-gateway": "ok 150 listings (60 read), whole from RM 2000, rooms 0",
-    "pantai-panorama": "ok 34 listings (34 read), whole from RM 2000, rooms 2",
-    "south-view": "ok 418 listings (60 read), whole from RM 1900, rooms 1",
-    "southlink": "ok 561 listings (60 read), whole from RM 1299, rooms 8",
-    "novum": "ok 267 listings (60 read), whole from RM 2100, rooms 2",
-    "laurel": "ok 355 listings (60 read), whole from RM 1600, rooms 3",
-    "saville": "ok 49 listings (49 read), whole from RM 2400, rooms 2",
-    "inwood": "ok 64 listings (60 read), whole from RM 3200, rooms 0",
-    "secoya": "ok 62 listings (60 read), whole from RM 1600, rooms 1"
+    "tiara-damansara": "ok 6 listings (6 read), whole from RM 2500, rooms 0"
   },
   "ibilik": {
-    "ran": true,
-    "pages": 6,
-    "products": 94,
-    "matched": {
-      "south-view": 13,
-      "kl-gateway": 38,
-      "novum": 2,
-      "laurel": 1
-    }
+    "ran": false,
+    "pages": 0,
+    "products": 0,
+    "matched": {}
   },
   "errors": [],
-  "finished_at": "2026-09-07T04:59:04.219Z",
+  "finished_at": "2026-09-07T05:15:27.757Z",
   "ok": true
 }

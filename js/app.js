@@ -30,14 +30,19 @@ function distKm(a, b) {
 init();
 
 async function init() {
-  const [data, campus] = await Promise.all([
+  // 两层数据：condos.json 是固定信息（人工核实，改得少），prices.json 是实时价格（每 12 小时自动刷新），按小区 id 对上
+  const [data, prices, campus] = await Promise.all([
     fetch('data/condos.json', { cache: 'no-cache' }).then((r) => r.json()),
+    fetch('data/prices.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => ({ condos: {} })),
     fetch('data/um.geojson').then((r) => r.json()).catch(() => null),
   ]);
+  const EMPTY = { date: null, for_rent: null, rent_from: null, whole: null, whole_source: null, rooms: null, rooms_source: null, rooms_min: null };
+  for (const c of data.condos) c.snapshot = { ...EMPTY, ...(prices.condos?.[c.id] || {}) };
   state.condos = data.condos;
   state.meta = data.meta;
+  state.meta.prices_updated_myt = prices.updated_myt || null;
   $$('.verified-at').forEach((t) => { t.textContent = data.meta.verified_at; });
-  $$('.prices-at').forEach((t) => { t.textContent = data.meta.prices_updated_myt ? data.meta.prices_updated_myt + '（马来西亚时间）' : data.meta.verified_at; });
+  $$('.prices-at').forEach((t) => { t.textContent = prices.updated_myt ? prices.updated_myt + '（马来西亚时间）' : '暂无'; });
   drawMap(campus);
   buildPanel();
   bindFilters();
