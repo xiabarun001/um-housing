@@ -134,7 +134,7 @@ function drawCondo(ctx, c, data, prices, cfg) {
   y += 22;
 
   y = label(ctx, '吃饭购物 · 安静程度', PAD, y);
-  y = para(ctx, `${clean(c.daily?.note || '')}；${clean(c.quiet?.note || '')}`.replace(/^；|；$/g, ''), PAD, y, W - PAD * 2, 40, { font: `400 27px ${SANS}`, color: C.ink2, maxLines: 2 });
+  y = para(ctx, `${clean(c.judgment?.daily?.note || '')}；${clean(c.judgment?.quiet?.note || '')}`.replace(/^；|；$/g, ''), PAD, y, W - PAD * 2, 40, { font: `400 27px ${SANS}`, color: C.ink2, maxLines: 2 });
   y += 22;
 
   const notes = (c.notes || []).slice(0, 3);

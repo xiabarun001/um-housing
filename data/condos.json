@@ -69,7 +69,20 @@
       }
     ],
     "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap",
-    "daily_note": "daily 和 quiet 是 1–5 的粗略判断（吃饭购物方便程度、安静程度），依据是位置、周边商场和住户评价，只用于“想清楚要什么”的打分。"
+    "tiers": {
+      "profile": {
+        "label": "档案",
+        "desc": "不会变或很少变的事实：开发商、地址、坐标、建成年份、户数、楼层、地契、类型、设施、最近轨道站和实测步行分钟。来自开发商官网、iProperty / PropertyGuru 项目页和实地，人工审核后发布。"
+      },
+      "market": {
+        "label": "行情",
+        "desc": "随市场变的数字：在租数量、整套最低价、各房型最低价、单间行情。来自 iProperty 和 iBilik 的挂牌，机器每 12 小时抓取。挂牌价不等于成交价，可能混入单间或错标帖子，平台有延迟，抓取失败时保留上一次的值。"
+      },
+      "judgment": {
+        "label": "判断",
+        "desc": "我们的估算或主观评价：吃饭购物方便度、安静程度、按直线距离估算的步行分钟、区域适合谁。只用于帮你排序和提醒，不要当事实。"
+      }
+    }
   },
   "condos": [
     {
@@ -154,13 +167,73 @@
       "lat": 3.12888,
       "lng": 101.634909,
       "no": 1,
-      "daily": {
-        "score": 4,
-        "note": "Section 17 平价杂饭和大排档多，楼下有超市"
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "Section 17 平价杂饭和大排档多，楼下有超市"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "住宅区，楼下是市场和商场"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "住宅区，楼下是市场和商场"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -250,13 +323,73 @@
       "lat": 3.117946,
       "lng": 101.632404,
       "no": 2,
-      "daily": {
-        "score": 3,
-        "note": "Jalan Universiti 沿线，吃饭要走一段或叫外卖"
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "Jalan Universiti 沿线，吃饭要走一段或叫外卖"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "临 Jalan Universiti 主路"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "临 Jalan Universiti 主路"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://paramountproperty.my/developments/atwater/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -347,13 +480,73 @@
       "lat": 3.118397,
       "lng": 101.633049,
       "no": 3,
-      "daily": {
-        "score": 5,
-        "note": "天桥直连 Jaya One 商场"
+      "judgment": {
+        "daily": {
+          "score": 5,
+          "note": "天桥直连 Jaya One 商场"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "商场旁边"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "商场旁边"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -439,13 +632,73 @@
       "lat": 3.1174481,
       "lng": 101.636993,
       "no": 4,
-      "daily": {
-        "score": 5,
-        "note": "紧邻 Jaya One 和 AEON BiG 超市"
+      "judgment": {
+        "daily": {
+          "score": 5,
+          "note": "紧邻 Jaya One 和 AEON BiG 超市"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "商业区"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "商业区"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -527,13 +780,73 @@
       "lat": 3.116098,
       "lng": 101.634939,
       "no": 5,
-      "daily": {
-        "score": 4,
-        "note": "隔壁就是 Jaya One 一带"
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "隔壁就是 Jaya One 一带"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "商业区"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "商业区"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -618,13 +931,77 @@
       "lat": 3.11381,
       "lng": 101.640488,
       "no": 6,
-      "daily": {
-        "score": 3,
-        "note": "楼下有商铺，大商场要走一段"
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "楼下有商铺，大商场要走一段"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "临 Jalan Kemajuan"
+        },
+        "walk_min_est": {
+          "minutes": 13,
+          "note": "按直线距离或平台描述估算，未实测"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "临 Jalan Kemajuan"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -709,13 +1086,73 @@
       "lat": 3.111933,
       "lng": 101.638931,
       "no": 7,
-      "daily": {
-        "score": 4,
-        "note": "Plaza 33 步行 250 m，Section 13 商业区"
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "Plaza 33 步行 250 m，Section 13 商业区"
+        },
+        "quiet": {
+          "score": 2,
+          "note": "商业区，楼里共用设施拥挤"
+        }
       },
-      "quiet": {
-        "score": 2,
-        "note": "商业区，楼里共用设施拥挤"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -792,13 +1229,77 @@
       "lat": 3.101428,
       "lng": 101.63982,
       "no": 8,
-      "daily": {
-        "score": 3,
-        "note": "Section 8 商铺，Asia Jaya 站附近"
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "Section 8 商铺，Asia Jaya 站附近"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "临主路"
+        },
+        "walk_min_est": {
+          "minutes": 5,
+          "note": "按直线距离或平台描述估算，未实测"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "临主路"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -886,13 +1387,68 @@
       "lat": 3.125104,
       "lng": 101.639088,
       "no": 9,
-      "daily": {
-        "score": 2,
-        "note": "山坡上的住宅区，买菜要开车或 Grab"
+      "judgment": {
+        "daily": {
+          "score": 2,
+          "note": "山坡上的住宅区，买菜要开车或 Grab"
+        },
+        "quiet": {
+          "score": 5,
+          "note": "山坡上的老牌家庭公寓，很安静"
+        }
       },
-      "quiet": {
-        "score": 5,
-        "note": "山坡上的老牌家庭公寓，很安静"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "units": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -977,13 +1533,77 @@
       "lat": 3.114112,
       "lng": 101.6395,
       "no": 10,
-      "daily": {
-        "score": 3,
-        "note": "Section 14 商铺"
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "Section 14 商铺"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "住宅区边上"
+        },
+        "walk_min_est": {
+          "minutes": 16,
+          "note": "按直线距离或平台描述估算，未实测"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "住宅区边上"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1071,13 +1691,73 @@
       "lat": 3.1136467,
       "lng": 101.66288,
       "no": 11,
-      "daily": {
-        "score": 5,
-        "note": "楼下就是 KL Gateway Mall：Village Grocer 超市、food court"
+      "judgment": {
+        "daily": {
+          "score": 5,
+          "note": "楼下就是 KL Gateway Mall：Village Grocer 超市、food court"
+        },
+        "quiet": {
+          "score": 2,
+          "note": "紧邻 Federal Highway，旧评价集中在大道和商场噪音"
+        }
       },
-      "quiet": {
-        "score": 2,
-        "note": "紧邻 Federal Highway，旧评价集中在大道和商场噪音"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1167,13 +1847,73 @@
       "lat": 3.109804,
       "lng": 101.662215,
       "no": 12,
-      "daily": {
-        "score": 4,
-        "note": "KL Gateway Mall 650 m，Nexus 800 m"
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "KL Gateway Mall 650 m，Nexus 800 m"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "老小区，密度中等"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "老小区，密度中等"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1265,13 +2005,73 @@
       "lat": 3.113243,
       "lng": 101.6647,
       "no": 13,
-      "daily": {
-        "score": 4,
-        "note": "KL Gateway Mall 步行 5 分钟"
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "KL Gateway Mall 步行 5 分钟"
+        },
+        "quiet": {
+          "score": 2,
+          "note": "1,204 户，高峰时电梯和泳池都挤"
+        }
       },
-      "quiet": {
-        "score": 2,
-        "note": "1,204 户，高峰时电梯和泳池都挤"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1352,13 +2152,77 @@
       "lat": 3.113848,
       "lng": 101.666596,
       "no": 14,
-      "daily": {
-        "score": 3,
-        "note": "楼下有商铺，商场要走 10 分钟"
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "楼下有商铺，商场要走 10 分钟"
+        },
+        "quiet": {
+          "score": 2,
+          "note": "单栋 1,422 户"
+        },
+        "walk_min_est": {
+          "minutes": 7,
+          "note": "按直线距离或平台描述估算，未实测"
+        }
       },
-      "quiet": {
-        "score": 2,
-        "note": "单栋 1,422 户"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1446,13 +2310,77 @@
       "lat": 3.113971,
       "lng": 101.666418,
       "no": 15,
-      "daily": {
-        "score": 4,
-        "note": "天桥到​ Kerinchi 站，楼下有商铺"
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "天桥到​ Kerinchi 站，楼下有商铺"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "密度中等"
+        },
+        "walk_min_est": {
+          "minutes": 4,
+          "note": "按直线距离或平台描述估算，未实测"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "密度中等"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1534,13 +2462,72 @@
       "lat": 3.108608,
       "lng": 101.666382,
       "no": 16,
-      "daily": {
-        "score": 3,
-        "note": "步行 5–10 分钟到 KL Gateway Mall"
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "步行 5–10 分钟到 KL Gateway Mall"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "新楼，周边还在建设"
+        },
+        "walk_min_est": {
+          "minutes": 8,
+          "note": "按直线距离或平台描述估算，未实测"
+        }
       },
-      "quiet": {
-        "score": 3,
-        "note": "新楼，周边还在建设"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1628,13 +2615,73 @@
       "lat": 3.102912,
       "lng": 101.661941,
       "no": 17,
-      "daily": {
-        "score": 2,
-        "note": "Pantai Hillpark 山坡上，买东西靠公交或 Grab"
+      "judgment": {
+        "daily": {
+          "score": 2,
+          "note": "Pantai Hillpark 山坡上，买东西靠公交或 Grab"
+        },
+        "quiet": {
+          "score": 5,
+          "note": "山坡​上，很安静"
+        }
       },
-      "quiet": {
-        "score": 5,
-        "note": "山坡​上，很安静"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1711,13 +2758,73 @@
       "lat": 3.101582,
       "lng": 101.663706,
       "no": 18,
-      "daily": {
-        "score": 2,
-        "note": "森林边的低密度社区，靠 Grab"
+      "judgment": {
+        "daily": {
+          "score": 2,
+          "note": "森林边的低密度社区，靠 Grab"
+        },
+        "quiet": {
+          "score": 5,
+          "note": "低密度，森林旁"
+        }
       },
-      "quiet": {
-        "score": 5,
-        "note": "低密度，森林旁"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     },
     {
@@ -1794,13 +2901,73 @@
       "lat": 3.101723,
       "lng": 101.66466,
       "no": 19,
-      "daily": {
-        "score": 2,
-        "note": "和 Inwood 同一个社区，靠 Grab"
+      "judgment": {
+        "daily": {
+          "score": 2,
+          "note": "和 Inwood 同一个社区，靠 Grab"
+        },
+        "quiet": {
+          "score": 5,
+          "note": "低密度，森林旁"
+        }
       },
-      "quiet": {
-        "score": 5,
-        "note": "低密度，森林旁"
+      "verified_at": "2026-09-06",
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "transit": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+          "at": "2026-09-06",
+          "method": "manual"
+        }
       }
     }
   ]

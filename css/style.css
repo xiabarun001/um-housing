@@ -695,3 +695,35 @@ main { max-width: 1400px; }
   .fresh { display: block; }
   .fresh .fresh-dot { display: inline-block; vertical-align: middle; margin-right: 6px; }
 }
+
+/* ---------- 三层标记：档案 / 行情 / 判断（ADR-001） ---------- */
+.tier { display: inline-flex; align-items: center; gap: 5px; font: 500 11px/1 var(--sans); padding: 3px 8px 3px 6px; margin-left: 6px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink-2); cursor: pointer; vertical-align: middle; white-space: nowrap; letter-spacing: .01em; }
+.tier:hover { border-color: var(--ink-3); color: var(--ink); }
+.tier i, .tier-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.tier-profile i, .tier-dot.tier-profile, .about-tier.tier-profile .tier-dot { background: var(--ok); }
+.tier-market i, .tier-dot.tier-market, .about-tier.tier-market .tier-dot { background: #D89B2B; }
+.tier-judgment i, .tier-dot.tier-judgment, .about-tier.tier-judgment .tier-dot { background: transparent; box-shadow: inset 0 0 0 2px var(--ink-3); }
+.tier-profile { border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
+.tier-market { border-color: color-mix(in srgb, #D89B2B 50%, var(--line)); }
+.tier.stale { color: #B3261E; border-color: #E3B4B0; background: #FFF6F5; }
+.tier.stale i { background: #B3261E; }
+.tiers { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+.tiers .tier { margin-left: 0; font-size: 12px; padding: 5px 11px 5px 8px; }
+.rank h3 .tier, .detail-inner h3 .tier { font-weight: 500; }
+.tier-pop { position: absolute; z-index: 60; width: min(360px, calc(100vw - 24px)); background: var(--card); border: 1px solid var(--line-2); border-radius: 10px; box-shadow: var(--shadow); padding: 12px 14px; font-size: 13px; color: var(--ink-2); line-height: 1.55; }
+.tier-pop h4 { margin: 0 0 6px; font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 7px; font-family: var(--serif); }
+.tier-pop p { margin: 0 0 6px; }
+.tier-pop ul { margin: 2px 0 0; padding-left: 16px; }
+.tier-pop li { margin: 2px 0; }
+.tier-pop a { color: var(--r2); }
+.about-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 14px; }
+.about-tier { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--line-2); }
+.about-tier.tier-profile { border-top-color: var(--ok); }
+.about-tier.tier-market { border-top-color: #D89B2B; }
+.about-tier.tier-judgment { border-top-color: var(--ink-3); }
+.about-tier h3 { display: flex; align-items: center; gap: 8px; font-size: 16px; margin: 0 0 8px; padding: 0; border: 0; }
+.about-tier p { margin: 0 0 6px; color: var(--ink-2); font-size: 14px; }
+.about-tier .muted { font-size: 12.5px; }
+@media (prefers-color-scheme: dark) { .tier.stale { background: #2A1A19; border-color: #5A2E2B; color: #F0A9A3; } }
+@media (max-width: 960px) { .about-tiers { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .tier { white-space: normal; } .tiers .tier { font-size: 11.5px; } }

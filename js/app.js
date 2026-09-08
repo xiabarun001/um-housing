@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609071600';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081100';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -44,6 +44,9 @@ async function init() {
   state.meta.prices_updated_myt = prices.updated_myt || null;
   $$('.verified-at').forEach((t) => { t.textContent = data.meta.verified_at; });
   $$('.prices-at').forEach((t) => { t.textContent = prices.updated_myt ? prices.updated_myt + '（马来西亚时间）' : '暂无'; });
+  renderTierPills();
+  renderAboutTiers();
+  bindTierPop();
   drawMap(campus);
   buildPanel();
   bindFilters();
@@ -497,11 +500,11 @@ function selectCondo(id, { pan = false } = {}) {
   pd.innerHTML = `
     <button type="button" class="btn pd-close" data-pd-close aria-label="关闭">关闭</button>
     <h3>${c.no} · ${esc(shortAlias(c))}</h3>
-    <p>${goSentence(c)}</p>
-    <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)}</p>
+    <p>${goSentence(c)} ${tierMark(c.transit.walk_est ? 'judgment' : 'profile', c)}</p>
+    <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)} ${tierMark('profile', c)}</p>
     ${c.snapshot.rooms ? `<p><b>单间</b> ${esc(c.snapshot.rooms)}</p>` : '<p><b>单间</b> 这次没有找到在租的单间</p>'}
     ${c.snapshot.whole ? `<p><b>整套</b> ${esc(c.snapshot.whole)}</p>` : ''}
-    <p class="muted">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}，${esc(c.snapshot.date)} 查</p>
+    <p class="muted">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'} ${tierMark('market', c)}</p>
     <div class="pd-acts">
       <a class="btn primary" href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租房源</a>
       <button type="button" class="linkish" data-detail="${c.id}">设施与来源</button>
@@ -536,13 +539,13 @@ function cardHTML(c) {
   <article class="card r${c.region}" id="card-${c.id}">
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
-    <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)}</p>
-    <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)}</p>
+    <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${tierMark(t.walk_est ? 'judgment' : 'profile', c)}</p>
+    <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
     <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
     <div class="price">
       ${c.snapshot.rooms ? `<p><span class="big">单间</span> ${esc(c.snapshot.rooms)} <span class="src">（${esc(c.snapshot.rooms_source || '')}）</span></p>` : '<p><span class="big">单间</span> 这次没有找到在租的单间</p>'}
       ${c.snapshot.whole ? `<p><span class="big">整套</span> ${esc(c.snapshot.whole)} <span class="src">（${esc(c.snapshot.whole_source || '')}）</span></p>` : ''}
-      <p class="src">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}，${esc(c.snapshot.date)} 查</p>
+      <p class="src">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'} ${tierMark('market', c)}</p>
     </div>
     ${flagBits.length ? `<p class="flags">${flagBits.join(' · ')}</p>` : ''}
     <div class="acts">
@@ -567,23 +570,24 @@ function openDetail(id) {
     <h2 id="detail-title">${c.no} · ${esc(c.name)}</h2>
     <p class="sub">${esc(c.address)} · ${esc(state.meta.regions[String(c.region)].label)}</p>
     <dl class="kv">
-      <dt>去学校</dt><dd>${goSentence(c)}${(t.other || []).length ? '<br>其他车站：' + esc(t.other.join('；')) : ''}${t.note ? '<br>' + esc(t.note) : ''}</dd>
+      <dt>去学校</dt><dd>${goSentence(c)} ${tierMark(t.walk_est ? 'judgment' : 'profile', c)}${(t.other || []).length ? '<br>其他车站：' + esc(t.other.join('；')) : ''}${t.note ? '<br>' + esc(t.note) : ''}</dd>
       <dt>公交</dt><dd>${(t.buses || []).length ? esc(t.buses.join('、')) : '—'}</dd>
       ${c.um_km ? `<dt>到 UM</dt><dd>约 ${c.um_km} 公里${c.um_km_note ? '（' + esc(c.um_km_note) + '）' : ''}</dd>` : ''}
       <dt>开发商</dt><dd>${esc(c.developer)}</dd>
       <dt>地契</dt><dd>${esc(c.tenure)}</dd>
       <dt>建成</dt><dd>${c.completed ?? '不详'}</dd>
-      <dt>规模</dt><dd>${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${esc(c.floors)}</dd>
+      <dt>规模</dt><dd>${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${esc(c.floors)} ${tierMark('profile', c)}</dd>
     </dl>
-    <h3>设施（${c.facilities.length} 项）</h3>
+    <h3>设施（${c.facilities.length} 项）${tierMark('profile', c)}</h3>
     <p>${esc(c.facilities.join('、'))}</p>
-    <h3>在租快照 · ${esc(c.snapshot.date)}</h3>
+    ${c.judgment?.daily || c.judgment?.quiet ? `<h3>吃饭购物 · 安静程度 ${tierMark('judgment', c)}</h3><p>${esc([c.judgment.daily?.note, c.judgment.quiet?.note].filter(Boolean).join('；'))}</p>` : ''}
+    <h3>在租快照 ${tierMark('market', c)}</h3>
     <ul>
       <li>iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}</li>
       ${c.snapshot.rooms ? `<li>单间：${esc(c.snapshot.rooms)}（${esc(c.snapshot.rooms_source || '')}）</li>` : '<li>单间：这次没有找到在租的单间</li>'}
       ${c.snapshot.whole ? `<li>整套：${esc(c.snapshot.whole)}（${esc(c.snapshot.whole_source || '')}）</li>` : ''}
     </ul>
-    ${c.notes?.length ? `<h3>要知道的</h3><ul>${c.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
+    ${c.notes?.length ? `<h3>要知道的 ${tierMark('judgment', c)}</h3><ul>${c.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
     <h3>同学意向（${mine.length}）</h3>
     ${mine.length ? `<ul>${mine.map((i) => `<li>${esc(i.nickname)} · RM ${fmt(i.budget)} · ${esc(i.room_type || '不限')}${i.need_roommate ? ' · 想找室友' : ''}</li>`).join('')}</ul>` : '<p class="sub">还没有同学选这里。</p>'}
     <h3>来源</h3>
@@ -785,25 +789,106 @@ function renderRankings() {
   const byPrice = state.condos.slice().sort((x, y) => cheapest(x) - cheapest(y) || x.no - y.no);
   box.innerHTML = `
     <div class="rank">
-      <h3>配套设施</h3>
+      <h3>配套设施 ${tierMark('profile')}</h3>
       <p class="muted">按设施项数，泳池健身房之外的加分项列在后面</p>
       <ol>${byFac.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.facilities.length}</b> 项${Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') ? ' · ' + Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') : ''}</span></li>`).join('')}</ol>
     </div>
     <div class="rank">
-      <h3>楼龄</h3>
+      <h3>楼龄 ${tierMark('profile')}</h3>
       <p class="muted">建成年份，越新越靠前</p>
       <ol>${byYear.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.completed || '不详'}</b>${c.completed ? ' 年' : ''}${c.units ? ' · ' + fmt(c.units) + ' 户' : ''}</span></li>`).join('')}</ol>
     </div>
     <div class="rank">
-      <h3>交通便利</h3>
-      <p class="muted">走到最近轨道站的分钟数；没有实测的按直线距离估算，标"估"</p>
+      <h3>交通便利 ${tierMark('profile')}</h3>
+      <p class="muted">走到最近轨道站的分钟数；标"估"的是按直线距离估算的，属于 ${tierMark('judgment')}</p>
       <ol>${byTransit.map(({ c, r }) => `<li>${name(c)}<span class="rk-v"><b>${r.min}</b> 分钟${r.est ? '<small>估</small>' : ''} · ${esc(r.label)}</span></li>`).join('')}</ol>
     </div>
     <div class="rank">
-      <h3>价格（从低到高）</h3>
-      <p class="muted">能租到的最便宜一间：有单间帖子的按单间起价，没有的按整套最低价（${esc(state.meta.prices_updated_myt || state.meta.verified_at)} 更新）</p>
+      <h3>价格（从低到高） ${tierMark('market')}</h3>
+      <p class="muted">能租到的最便宜一间：有单间帖子的按单间起价，没有的按整套最低价</p>
       <ol>${byPrice.map((c) => { const rm = roomsMin(c); const v = cheapest(c); if (!Number.isFinite(v)) return `<li>${name(c)}<span class="rk-v">这次没有挂牌</span></li>`; return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(v)}</b> ${rm != null && v === rm ? '单间起' : '整套起'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
     </div>`;
+}
+
+/* ---------- 三层标记：档案 / 行情 / 判断（ADR-001） ---------- */
+const TIER_LABEL = { profile: '档案', market: '行情', judgment: '判断' };
+const MARKET_STALE_HOURS = 36;
+function mytToDate(s) {
+  // "2026-09-08 14:49" 是马来西亚时间（UTC+8）
+  const m = String(s || '').match(/(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);
+  return m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4] - 8, +m[5])) : null;
+}
+function marketAgeHours() {
+  const d = mytToDate(state.meta.prices_updated_myt);
+  return d ? (Date.now() - d.getTime()) / 3600e3 : null;
+}
+function tierText(kind, c) {
+  if (kind === 'profile') return `档案 · 核实于 ${(c && c.verified_at) || state.meta.verified_at || '未知'}`;
+  if (kind === 'market') {
+    const h = marketAgeHours();
+    if (h != null && h > MARKET_STALE_HOURS) return `行情 · 已 ${Math.round(h)} 小时未更新`;
+    return `行情 · 抓取于 ${state.meta.prices_updated_myt || '未知'}`;
+  }
+  return '判断';
+}
+function tierMark(kind, c) {
+  const stale = kind === 'market' && (marketAgeHours() ?? 0) > MARKET_STALE_HOURS;
+  return `<button type="button" class="tier tier-${kind}${stale ? ' stale' : ''}" data-tier="${kind}"${c ? ` data-id="${esc(c.id)}"` : ''}><i></i>${esc(tierText(kind, c))}</button>`;
+}
+function renderTierPills() {
+  const box = $('#tiers-top');
+  if (!box) return;
+  box.innerHTML = `${tierMark('profile')}${tierMark('market')}<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>判断 · 估算和主观评价</button>`;
+}
+function renderAboutTiers() {
+  const box = $('#about-tiers');
+  const tiers = state.meta.tiers;
+  if (!box || !tiers) return;
+  const extra = {
+    profile: `核实于 ${state.meta.verified_at}。每张卡片的"来源与详情"里能点到原页面自己核对。`,
+    market: `最近一次抓取 ${state.meta.prices_updated_myt || '未知'}（马来西亚时间）。真正下决定前，点"iProperty 在租房源"看当下挂牌，价格以中介当场报的为准。`,
+    judgment: '出现在"先想清楚"的打分、交通里标"估"的分钟数、卡片里的"要知道的"。有实测或一手来源后会升级为档案。',
+  };
+  box.innerHTML = ['profile', 'market', 'judgment'].map((k) => `<div class="about-tier tier-${k}"><h3><i class="tier-dot"></i>${esc(tiers[k].label)}${k === 'profile' ? '：可以直接信' : k === 'market' ? '：只能当参考' : '：我们的看法'}</h3><p>${esc(tiers[k].desc)}</p><p class="muted">${esc(extra[k])}</p></div>`).join('');
+}
+function tierPopHTML(kind, c) {
+  const tiers = state.meta.tiers || {};
+  const t = tiers[kind] || {};
+  if (kind === 'profile') {
+    const src = c ? (c.sources || []).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('') : '';
+    return `<h4><i class="tier-dot tier-profile"></i>档案：可以直接信</h4><p>${esc(t.desc || '')}</p><p>${c ? `${esc(shortAlias(c))} 核实于 ${esc(c.verified_at || state.meta.verified_at)}` : `核实于 ${esc(state.meta.verified_at)}`}。</p>${src ? `<p>来源：</p><ul>${src}</ul>` : ''}`;
+  }
+  if (kind === 'market') {
+    const h = marketAgeHours();
+    const links = c ? `<ul><li><a href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租列表</a></li>${c.links.ibilik ? `<li><a href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 单间列表</a></li>` : ''}</ul>` : '';
+    return `<h4><i class="tier-dot tier-market"></i>行情：只能当参考</h4><p>${esc(t.desc || '')}</p><p>最近一次抓取 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今约 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>已超过 36 小时，可能过期</b>' : ''}。</p>${links}`;
+  }
+  return `<h4><i class="tier-dot tier-judgment"></i>判断：我们的看法</h4><p>${esc(t.desc || '')}</p>${c && c.judgment ? `<ul>${c.judgment.daily ? `<li>吃饭购物：${esc(c.judgment.daily.note)}</li>` : ''}${c.judgment.quiet ? `<li>安静程度：${esc(c.judgment.quiet.note)}</li>` : ''}${c.judgment.walk_min_est ? `<li>步行分钟：${esc(c.judgment.walk_min_est.note)}</li>` : ''}</ul>` : ''}`;
+}
+function bindTierPop() {
+  let pop = $('#tier-pop');
+  if (!pop) { pop = document.createElement('div'); pop.id = 'tier-pop'; pop.className = 'tier-pop'; pop.hidden = true; document.body.appendChild(pop); }
+  const hide = () => { pop.hidden = true; if (pop.parentElement !== document.body) document.body.appendChild(pop); };
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.tier[data-tier]');
+    if (!b) { if (!e.target.closest('#tier-pop')) hide(); return; }
+    const c = b.dataset.id ? state.condos.find((x) => x.id === b.dataset.id) : null;
+    pop.innerHTML = tierPopHTML(b.dataset.tier, c);
+    // 弹窗里的标记要把气泡放进弹窗，否则会被遮住
+    const host = b.closest('.detail-inner') || document.body;
+    if (pop.parentElement !== host) host.appendChild(pop);
+    pop.hidden = false;
+    const r = b.getBoundingClientRect();
+    const hr = host === document.body ? { left: 0, top: 0 } : host.getBoundingClientRect();
+    const sx = host === document.body ? window.scrollX : host.scrollLeft, sy = host === document.body ? window.scrollY : host.scrollTop;
+    const w = pop.offsetWidth;
+    let left = r.left - hr.left + sx;
+    const maxLeft = (host === document.body ? document.documentElement.clientWidth : host.clientWidth) - w - 12;
+    if (left > maxLeft) left = Math.max(12, maxLeft);
+    pop.style.left = `${left}px`;
+    pop.style.top = `${r.bottom - hr.top + sy + 6}px`;
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
 }
 
 /* ---------- 开始之前：想清楚要什么（需求自评 + 按权重给小区打分） ---------- */
@@ -848,9 +933,9 @@ function needsCriteria() {
     facilities: (c) => ({ s: norm(c.facilities.length, 8, 17), why: `${c.facilities.length} 项设施` }),
     age: (c) => c.completed ? { s: norm(c.completed, 1996, 2025), why: `${c.completed} 年建成` } : { s: 0.3, why: '建成年份不详，是老楼' },
     density: (c) => c.units ? { s: 1 - norm(c.units, 200, 1450), why: `${fmt(c.units)} 户` } : { s: 0.5, why: '户数不详', unknown: true },
-    daily: (c) => ({ s: norm(c.daily?.score ?? 3, 1, 5), why: c.daily?.note || '' }),
+    daily: (c) => ({ s: norm(c.judgment?.daily?.score ?? 3, 1, 5), why: c.judgment?.daily?.note || '' }),
     roommates: (c) => ({ s: (c.region === 2 ? 0.7 : 0.2) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }),
-    quiet: (c) => ({ s: norm(c.quiet?.score ?? 3, 1, 5), why: c.quiet?.note || '' }),
+    quiet: (c) => ({ s: norm(c.judgment?.quiet?.score ?? 3, 1, 5), why: c.judgment?.quiet?.note || '' }),
   };
   return CRITERIA.map((m) => ({ ...m, score: scorers[m.k] }));
 }
@@ -910,7 +995,7 @@ function bindNeeds() {
   const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } };
   const crit = needsCriteria();
   let showAll = false;
-  rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');
+  rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}${x.k === 'daily' || x.k === 'quiet' ? ' ' + tierMark('judgment') : ''}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');
   $('#needs-ask').innerHTML = NEEDS_ASK.map(([k, t]) => `<label><input type="checkbox" value="${k}"${o.ask.includes(k) ? ' checked' : ''}> ${esc(t)}</label>`).join('');
   $$('#needs-mode button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === o.mode)));
   const budgetEl = $('#needs-budget');

@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609071600">
+<link rel="stylesheet" href="css/style.css?v=202609081100">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -40,8 +40,8 @@
   <section class="lead">
     <div class="lead-head">
       <h1>马来亚大学新生租房指南</h1>
-      <span class="fresh"><i class="fresh-dot"></i>价格每 12 小时自动更新，最近一次 <time class="prices-at"></time> · 设施等固定信息核实于 <time class="verified-at"></time></span>
     </div>
+    <div class="tiers" id="tiers-top" aria-label="这页的信息分三层"></div>
     <div class="lead-intro">
       <p>这份指南写给要来马来亚大学（UM）读书、准备在校外租房的同学。学校附近的租房集中在两片：西边 PJ 一侧，东边 Bangsar South 一侧。小红书上传得最多的 19 个小区，设施、楼龄、户数、到轻轨站的步行时间都逐个核实过；在租数量和价格每 12 小时从 iProperty 和 iBilik 自动抓一次，每张卡片上写着抓取日期。</p>
       <p>怎么用：先花两分钟做“先想清楚”，把在意的事打个分，页面会按你的权重给 19 个小区排序；然后按 7 步走，从看地图到签合同。价格是行情参考，不是报价，以中介发来的房源为准。最后有一张同学意向表，想找室友、想拼整租的可以填。</p>
@@ -512,17 +512,9 @@ Is the room still available? Could you share a short video of the room and the u
   <!-- 数据说明 -->
   <section class="section about" id="about">
     <p class="step-eyebrow">说明</p>
-    <h2 class="section-title">这页的数字怎么用</h2>
-    <div class="two-col about-cols">
-      <div>
-        <h3>可以直接信的</h3>
-        <p>设施清单、建成年份、户数、地契、到车站的距离、小区位置。这些来自开发商官网、iProperty 项目页和 StarProperty，几年都不会变。每张卡片的"来源与详情"里能点到原页面自己核对。</p>
-      </div>
-      <div>
-        <h3>只能当参考的</h3>
-        <p>"在租套数""最低月租""单间行情"由程序每 12 小时从 iProperty 和 iBilik 抓一次，最近一次 <time class="prices-at"></time>；抓取失败时保留上一次的数并标注。它们的作用是告诉你数量级，帮你排除明显超预算的小区。真正下决定前，点"iProperty 在租房源"看当下挂牌，价格以中介当场报的为准。</p>
-      </div>
-    </div>
+    <h2 class="section-title">这页的信息分三层：哪些能直接信，哪些要注意</h2>
+    <p class="section-lede">页面上每个数字旁边都有一个小标记，点一下能看到来源和时间。三种标记的意思：</p>
+    <div class="about-tiers" id="about-tiers"></div>
   </section>
 
 </main>
@@ -539,7 +531,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609071600"></script>
-<script type="module" src="js/app.js?v=202609071600"></script>
+<script src="js/config.js?v=202609081100"></script>
+<script type="module" src="js/app.js?v=202609081100"></script>
 </body>
 </html>
