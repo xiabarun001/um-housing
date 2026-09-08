@@ -1,0 +1,191 @@
+{
+  "id": "tria-seputeh",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/tria-residences-pty_63616/",
+    "final_url": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:37.746Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "TRIA Seputeh in 9 Seputeh, Kuala Lumpur",
+    "property_type_en": "Condominium",
+    "type": "公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Seputeh",
+    "region_name": "Kuala Lumpur",
+    "project_id": 9308,
+    "completed": 2022,
+    "units": 734,
+    "floors": 38,
+    "buildings": [
+      {
+        "name": "Pelto",
+        "floors": 38,
+        "units": 734
+      },
+      {
+        "name": "Ebon",
+        "floors": "N/A",
+        "units": "N/A"
+      },
+      {
+        "name": "Cavi",
+        "floors": "N/A",
+        "units": "N/A"
+      }
+    ],
+    "developer": "MRCB Land",
+    "address": "No.1, Jalan Telok Datok, Off Jalan Klang Lama, 58100, Kuala Lumpur",
+    "lat": 3.108319,
+    "lng": 101.676874,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "落客点",
+      "按摩池",
+      "围栏",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Drop Off Point",
+      "Jacuzzi",
+      "Perimeter Fencing",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": false,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-tria-seputeh-in-9-seputeh-kuala-lumpur-9308"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": null,
+      "proposed": "TRIA Seputeh in 9 Seputeh, Kuala Lumpur",
+      "status": "new"
+    },
+    "completed": {
+      "current": null,
+      "proposed": 2022,
+      "status": "new"
+    },
+    "units": {
+      "current": null,
+      "proposed": 734,
+      "status": "new"
+    },
+    "floors": {
+      "current": null,
+      "proposed": "38 / N/A 层 × 3 栋",
+      "status": "new"
+    },
+    "tenure": {
+      "current": null,
+      "proposed": "Leasehold 租赁地契",
+      "status": "new"
+    },
+    "type": {
+      "current": null,
+      "proposed": "公寓",
+      "status": "new"
+    },
+    "developer": {
+      "current": null,
+      "proposed": "MRCB Land",
+      "status": "new"
+    },
+    "address": {
+      "current": null,
+      "proposed": "No.1, Jalan Telok Datok, Off Jalan Klang Lama, 58100, Kuala Lumpur",
+      "status": "new"
+    },
+    "geo": {
+      "current": null,
+      "proposed": [
+        3.108319,
+        101.676874
+      ],
+      "status": "new",
+      "distance_m": null
+    },
+    "facilities": {
+      "current": null,
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "落客点",
+        "按摩池",
+        "围栏",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "24 小时保安",
+        "烧烤区",
+        "落客点",
+        "按摩池",
+        "围栏",
+        "泳池",
+        "儿童池"
+      ],
+      "removed": [],
+      "status": "new"
+    },
+    "flags": {
+      "current": null,
+      "proposed": {
+        "pool": true,
+        "gym": false,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "new"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": true
+}

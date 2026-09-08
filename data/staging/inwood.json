@@ -1,0 +1,227 @@
+{
+  "id": "inwood",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
+    "final_url": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:25.737Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Inwood Residences",
+    "property_type_en": "Condominium",
+    "type": "公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Pantai",
+    "region_name": "Kuala Lumpur",
+    "project_id": 6806,
+    "completed": 2019,
+    "units": 211,
+    "floors": 38,
+    "buildings": [
+      {
+        "name": "Building 1@Jalan Pantai Murni 1, Pantai Hillpark,  Kuala Lumpur,59200",
+        "floors": 38,
+        "units": 211
+      },
+      {
+        "name": "Building 2@Jalan Pantai Murni 1, Pantai Hillpark,  Kuala Lumpur,59200",
+        "floors": 38,
+        "units": "N/A"
+      }
+    ],
+    "developer": "IJM Land Berhad",
+    "address": "Pantai Sentral Park Off Jalan Pantai Murni , 59200, Kuala Lumpur",
+    "lat": 3.101582,
+    "lng": 101.663706,
+    "facilities": [
+      "24 小时保安",
+      "篮球场",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "按摩池",
+      "Landscaped Garden",
+      "多功能厅",
+      "儿童游乐场",
+      "足底按摩步道",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "Basketball court",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Jacuzzi",
+      "Landscaped Garden",
+      "Multi-purpose hall",
+      "Playground",
+      "Reflexology Path",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": true,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-inwood-residences-6806"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Inwood Residences @ Pantai Sentral Park",
+      "proposed": "Inwood Residences",
+      "status": "changed"
+    },
+    "completed": {
+      "current": 2019,
+      "proposed": 2019,
+      "status": "same"
+    },
+    "units": {
+      "current": 211,
+      "proposed": 211,
+      "status": "same"
+    },
+    "floors": {
+      "current": "38 层",
+      "proposed": "38 层 × 2 栋",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "公寓",
+      "proposed": "公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "IJM Land",
+      "proposed": "IJM Land Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "Pantai Sentral Park, off Jalan Pantai Murni, 59200 KL",
+      "proposed": "Pantai Sentral Park Off Jalan Pantai Murni , 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.101582,
+        101.663706
+      ],
+      "proposed": [
+        3.101582,
+        101.663706
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "无边泳池",
+        "儿童池",
+        "健身房",
+        "按摩池",
+        "篮球场",
+        "烧烤区",
+        "多功能厅",
+        "儿童游乐场",
+        "足底按摩步道",
+        "园林",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "篮球场",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "多功能厅",
+        "儿童游乐场",
+        "足底按摩步道",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "Landscaped Garden",
+        "泳池"
+      ],
+      "removed": [
+        "无边泳池",
+        "园林"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": true,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": true,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

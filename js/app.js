@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081100';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081300';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -47,6 +47,7 @@ async function init() {
   renderTierPills();
   renderAboutTiers();
   bindTierPop();
+  renderChangelog();
   drawMap(campus);
   buildPanel();
   bindFilters();
@@ -135,8 +136,8 @@ function roomsMin(c) {
 }
 function stationZh(nearest) {
   // "Universiti LRT（KJ19）" -> "Universiti 站"
-  const m = String(nearest || '').match(/^([A-Za-z ]+?)\s*(LRT|MRT)/);
-  return m ? `${m[1].trim()} 站` : nearest;
+  const m = String(nearest || '').match(/^([A-Za-z ]+?)\s*(LRT|MRT|KTM)/);
+  return m ? `${m[1].trim()} 站${m[2] === 'KTM' ? '（KTM）' : ''}` : nearest;
 }
 function goSentence(c) {
   const t = c.transit;
@@ -201,6 +202,11 @@ function drawMap(campus) {
     detail.addLayer(L.circleMarker([s.lat, s.lng], { radius: 5, color: '#2E8B57', weight: 3, fillColor: '#fff', fillOpacity: 1 })
       .bindTooltip(s.zh, { permanent: true, direction: 'right', offset: [8, 0], className: 'station-label' }));
   });
+  // KTM 电动火车站（区域 3 靠这个）：青色圆点常显，站名放进"详细"
+  (state.meta.ktm || []).forEach((s) => {
+    L.circleMarker([s.lat, s.lng], { radius: 5, color: '#1F7A8C', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map);
+    detail.addLayer(L.marker([s.lat, s.lng], { icon: L.divIcon({ className: 'station-label', html: s.zh, iconSize: null, iconAnchor: [-6, -8] }), interactive: false }));
+  });
 
   // 步行范围圈：从 Universiti 站走 5 分钟（400 m）和 10 分钟（800 m）；Kerinchi 站的圈放进"详细"
   const uni = st.find((s) => s.name === 'Universiti');
@@ -219,13 +225,14 @@ function drawMap(campus) {
 
   // 区域标签（不再画范围框，编号颜色已经能区分）
   const regionBounds = {};
-  [1, 2].forEach((r) => {
+  Object.keys(state.meta.regions || {}).map(Number).forEach((r) => {
     const pts = state.condos.filter((c) => c.region === r).map((c) => [c.lat, c.lng]);
+    if (!pts.length) return;
     regionBounds[r] = L.latLngBounds(pts);
     const cx = pts.reduce((a, p) => a + p[1], 0) / pts.length;
     const top = regionBounds[r].getNorth(), bottom = regionBounds[r].getSouth();
     const labelLat = r === 1 ? top + 0.0022 : bottom - 0.0022;
-    L.marker([labelLat, cx], { icon: L.divIcon({ className: `area-label r${r}`, html: r === 1 ? '区域 1 · PJ 这一侧' : '区域 2 · Bangsar South', iconSize: null }), interactive: false }).addTo(map);
+    L.marker([labelLat, cx], { icon: L.divIcon({ className: `area-label r${r}`, html: esc(state.meta.regions[String(r)].label), iconSize: null }), interactive: false }).addTo(map);
   });
   // 缩得比较远时隐藏地标文字，避免和编号点挤在一起
   const zoomClass = () => map.getContainer().classList.toggle('z-low', map.getZoom() < 15);
@@ -468,7 +475,7 @@ function priceLine(c) {
 function buildPanel() {
   const list = $('#panel-list');
   if (!list) return;
-  const groups = [[1, state.meta.regions['1'].label], [2, state.meta.regions['2'].label]];
+  const groups = Object.keys(state.meta.regions).map((r) => [Number(r), state.meta.regions[r].label]).filter(([r]) => state.condos.some((c) => c.region === r));
   list.innerHTML = groups.map(([r, label]) => `<h4 class="panel-group">${esc(label)}</h4>` +
     state.condos.filter((c) => c.region === r).map((c) => {
       const t = c.transit;
@@ -772,7 +779,7 @@ function bindForm() {
 function nearestRailMin(c) {
   const t = c.transit;
   if (t.walk_min != null) return { min: t.walk_min, label: stationZh(t.nearest), est: !!t.walk_est };
-  const st = [...(state.meta.stations || []), ...(state.meta.mrt || [])];
+  const st = [...(state.meta.stations || []), ...(state.meta.mrt || []), ...(state.meta.ktm || [])];
   let best = null;
   st.forEach((s) => { const km = distKm([c.lat, c.lng], [s.lat, s.lng]); if (!best || km < best.km) best = { km, s }; });
   return { min: Math.round(best.km * 1000 / 75), label: best.s.zh.replace(/（.*?）/, ''), est: true, straight: true };
@@ -851,6 +858,32 @@ function renderAboutTiers() {
   };
   box.innerHTML = ['profile', 'market', 'judgment'].map((k) => `<div class="about-tier tier-${k}"><h3><i class="tier-dot"></i>${esc(tiers[k].label)}${k === 'profile' ? '：可以直接信' : k === 'market' ? '：只能当参考' : '：我们的看法'}</h3><p>${esc(tiers[k].desc)}</p><p class="muted">${esc(extra[k])}</p></div>`).join('');
 }
+// 对外版变更记录：只显示日期、小区、"更新了什么"，不显示人（ADR-002）
+const FIELD_ZH = { record: '新增小区', name: '名称', completed: '建成年份', units: '户数', floors: '楼层', tenure: '地契', type: '类型', developer: '开发商', address: '地址', geo: '坐标', facilities: '设施清单', flags: '设施开关', transit: '交通', verified_at: '核实日期' };
+async function renderChangelog() {
+  const box = $('#changelog'), list = $('#changelog-list');
+  if (!box || !list) return;
+  let log;
+  try { log = await fetch('data/changelog.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
+  const entries = (log.entries || []).slice().reverse();
+  if (!entries.length) return;
+  // 同一天同一小区合并成一行
+  const groups = new Map();
+  for (const e of entries) {
+    const key = `${e.date_myt}|${e.condo}`;
+    if (!groups.has(key)) groups.set(key, { date: e.date_myt, condo: e.condo, notes: new Set(), fields: new Set() });
+    const g = groups.get(key);
+    if (e.public_note) g.notes.add(e.public_note);
+    g.fields.add(FIELD_ZH[e.field] || e.field);
+  }
+  const rows = [...groups.values()].slice(0, 12);
+  list.innerHTML = rows.map((g) => {
+    const c = state.condos.find((x) => x.id === g.condo);
+    const what = g.notes.size ? [...g.notes].join('；') : `核对了${[...g.fields].join('、')}`;
+    return `<li><time>${esc(g.date)}</time><span><b>${esc(c ? shortAlias(c) : g.condo)}</b> · ${esc(what)}</span></li>`;
+  }).join('');
+  box.hidden = false;
+}
 function tierPopHTML(kind, c) {
   const tiers = state.meta.tiers || {};
   const t = tiers[kind] || {};
@@ -914,9 +947,10 @@ function commuteMin(c) {
   const t = c.transit;
   if (t.walk_min == null) return { min: 35, why: '没有走得到的轨道站，靠公交或 Grab' };
   const n = t.nearest || '';
-  const ride = /Universiti/.test(n) ? 0 : /Kerinchi/.test(n) ? 4 : /Taman Jaya/.test(n) ? 6 : /Asia Jaya/.test(n) ? 9 : 12;
+  const ktm = /KTM/.test(n);
+  const ride = /Universiti/.test(n) ? 0 : /Kerinchi/.test(n) ? 4 : /Taman Jaya/.test(n) ? 6 : /Asia Jaya/.test(n) ? 9 : ktm ? 30 : 12;
   const st = stationZh(n).replace(/（.*?）/, '');
-  return { min: t.walk_min + ride, why: `走 ${t.walk_min} 分钟到 ${st}${ride ? `，再坐 ${ride} 分钟到 Universiti 站` : '，出站就是校门'}` };
+  return { min: t.walk_min + ride, why: `走 ${t.walk_min} 分钟到 ${st}${ktm ? '（KTM）' : ''}${ride ? `，再${ktm ? '换乘' : '坐'} ${ride} 分钟到 Universiti 站` : '，出站就是校门'}` };
 }
 function needsCriteria() {
   const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
@@ -934,7 +968,7 @@ function needsCriteria() {
     age: (c) => c.completed ? { s: norm(c.completed, 1996, 2025), why: `${c.completed} 年建成` } : { s: 0.3, why: '建成年份不详，是老楼' },
     density: (c) => c.units ? { s: 1 - norm(c.units, 200, 1450), why: `${fmt(c.units)} 户` } : { s: 0.5, why: '户数不详', unknown: true },
     daily: (c) => ({ s: norm(c.judgment?.daily?.score ?? 3, 1, 5), why: c.judgment?.daily?.note || '' }),
-    roommates: (c) => ({ s: (c.region === 2 ? 0.7 : 0.2) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }),
+    roommates: (c) => ({ s: (c.region === 2 ? 0.7 : c.region === 1 ? 0.35 : 0.15) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }),
     quiet: (c) => ({ s: norm(c.judgment?.quiet?.score ?? 3, 1, 5), why: c.judgment?.quiet?.note || '' }),
   };
   return CRITERIA.map((m) => ({ ...m, score: scorers[m.k] }));
@@ -979,7 +1013,7 @@ function needsSummaryHTML(o, crit, showAll) {
     <p class="needs-sentence">${needsSentence(o, crit)}</p>
     <h3>最对路的小区</h3>
     ${anyW ? `<ol class="match">${list.map(row).join('')}</ol>
-    <div class="needs-acts"><button type="button" class="linkish" id="needs-more">${showAll ? '只看前 5 个' : '看全部 19 个的得分'}</button><span class="muted">分数是按你的权重算的，点名字看小区卡片</span></div>` : '<p class="muted">左边先点几项在意的，这里就会按你的权重给 19 个小区排序。</p>'}
+    <div class="needs-acts"><button type="button" class="linkish" id="needs-more">${showAll ? '只看前 5 个' : `看全部 ${state.condos.length} 个的得分`}</button><span class="muted">分数是按你的权重算的，点名字看小区卡片</span></div>` : `<p class="muted">左边先点几项在意的，这里就会按你的权重给 ${state.condos.length} 个小区排序。</p>`}
     <h3>看房时要问</h3>
     ${asks.length ? `<ul class="needs-ask-list">${asks.map(([, t]) => `<li>${esc(t)}</li>`).join('')}</ul>
     <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术在第 5 步</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}

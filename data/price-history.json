@@ -198,6 +198,36 @@
           "for_rent": 59,
           "rent_from": 3200,
           "rooms_min": 1100
+        },
+        "avara": {
+          "for_rent": 119,
+          "rent_from": 2000,
+          "rooms_min": null
+        },
+        "tria-seputeh": {
+          "for_rent": 96,
+          "rent_from": 2000,
+          "rooms_min": 1500
+        },
+        "vivo": {
+          "for_rent": 299,
+          "rent_from": 1400,
+          "rooms_min": 750
+        },
+        "southbank": {
+          "for_rent": 236,
+          "rent_from": 1900,
+          "rooms_min": null
+        },
+        "avantas": {
+          "for_rent": 26,
+          "rent_from": 1500,
+          "rooms_min": 1250
+        },
+        "millerz": {
+          "for_rent": 396,
+          "rent_from": 1700,
+          "rooms_min": 1050
         }
       }
     }

@@ -1,0 +1,201 @@
+{
+  "id": "avantas",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/avantas-residences-pty_64549/",
+    "final_url": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:50.735Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Avantas Residences",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Jalan Klang Lama (Old Klang Road)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 6254,
+    "completed": 2016,
+    "units": 198,
+    "floors": 28,
+    "buildings": [
+      {
+        "name": "Avantas Residences",
+        "floors": 28,
+        "units": 198
+      }
+    ],
+    "developer": "CPI Development",
+    "address": "Old Klang Road, 58100, Kuala Lumpur",
+    "lat": 3.100352,
+    "lng": 101.67686,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "按摩池",
+      "Laundry",
+      "多功能厅",
+      "围栏",
+      "儿童游乐场",
+      "泳池",
+      "儿童池",
+      "瑜伽室"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Jacuzzi",
+      "Laundry",
+      "Multi-purpose hall",
+      "Perimeter Fencing",
+      "Playground",
+      "Swimming pool",
+      "Wading pool",
+      "Yoga Room"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avantas-residences-6254"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": null,
+      "proposed": "Avantas Residences",
+      "status": "new"
+    },
+    "completed": {
+      "current": null,
+      "proposed": 2016,
+      "status": "new"
+    },
+    "units": {
+      "current": null,
+      "proposed": 198,
+      "status": "new"
+    },
+    "floors": {
+      "current": null,
+      "proposed": "28 层",
+      "status": "new"
+    },
+    "tenure": {
+      "current": null,
+      "proposed": "Freehold 永久地契",
+      "status": "new"
+    },
+    "type": {
+      "current": null,
+      "proposed": "服务式公寓",
+      "status": "new"
+    },
+    "developer": {
+      "current": null,
+      "proposed": "CPI Development",
+      "status": "new"
+    },
+    "address": {
+      "current": null,
+      "proposed": "Old Klang Road, 58100, Kuala Lumpur",
+      "status": "new"
+    },
+    "geo": {
+      "current": null,
+      "proposed": [
+        3.100352,
+        101.67686
+      ],
+      "status": "new",
+      "distance_m": null
+    },
+    "facilities": {
+      "current": null,
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "Laundry",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "泳池",
+        "儿童池",
+        "瑜伽室"
+      ],
+      "added": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "Laundry",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "泳池",
+        "儿童池",
+        "瑜伽室"
+      ],
+      "removed": [],
+      "status": "new"
+    },
+    "flags": {
+      "current": null,
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "new"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": true
+}

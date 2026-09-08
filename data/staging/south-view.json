@@ -1,0 +1,220 @@
+{
+  "id": "south-view",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/south-view-pty_62814/",
+    "final_url": "https://www.iproperty.com.my/condo/south-view-6431",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:05.454Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "South View",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Kampung Kerinchi (Bangsar South)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 6431,
+    "completed": 2017,
+    "units": 1204,
+    "floors": 47,
+    "buildings": [
+      {
+        "name": "Building @ South View",
+        "floors": 47,
+        "units": 1204
+      }
+    ],
+    "developer": "UOA Group",
+    "address": "Jalan Kerinchi Kiri 2, 59200, Kuala Lumpur",
+    "lat": 3.1132404898499844,
+    "lng": 101.66470066048254,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "咖啡座",
+      "有顶停车场",
+      "健身房",
+      "多功能厅",
+      "儿童游乐场",
+      "Surau - Male & Female",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Cafe",
+      "Covered car park",
+      "Gym",
+      "Multi-purpose hall",
+      "Playground",
+      "Surau - Male & Female",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "Reviewed by iProperty Editorial Team, June 2025 Quick Summary South View is a freehold residential strata serviced apartment in Bangsar South (Kampung Kerinchi), Kuala Lumpur, developed by Paramount Properties Sdn Bhd under UOA Group. 1,204 units are distributed across 2 towers of 46 storeys each, with 602 units per block, on 2.13 acres of freehold land within the 60-acre Bangsar South master development. The project was completed in 2017. Built-up sizes range from 648 sq ft to 1,119 sq ft across 6 layouts in 1+1, 2-bedroom, and 3-bedroom configurations. South View is among the very few freehold developments within the predominantly leasehold Bangsar South township. The Kerinchi LRT (Kelana Jaya Line) is nearby, and the Federal Highway provides direct access. Main trade-offs are the high unit density relative to the 2.13-acre site, the compact entry-level unit sizes, and the Jalan Kerinchi area's peak-hour congestion. Key Facts Project name: South View (also: South View Serviced Apartments) Developer: Paramount Properties Sdn Bhd (UOA Group) Location: Jalan Kerinchi Kiri 2, Kampung Kerinchi (Bangsar South), 59200 Kuala Lumpur Property type: Serviced apartment Tenure: Freehold Land ",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/south-view-6431",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-south-view-6431"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "South View Serviced Apartments",
+      "proposed": "South View",
+      "status": "changed"
+    },
+    "completed": {
+      "current": 2017,
+      "proposed": 2017,
+      "status": "same"
+    },
+    "units": {
+      "current": 1204,
+      "proposed": 1204,
+      "status": "same"
+    },
+    "floors": {
+      "current": "46 层 × 2 栋",
+      "proposed": "47 层",
+      "status": "changed"
+    },
+    "tenure": {
+      "current": "Freehold 永久地契",
+      "proposed": "Freehold 永久地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "UOA Group（Paramount Properties）",
+      "proposed": "UOA Group",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Kerinchi Kiri 2, Bangsar South, 59200 KL",
+      "proposed": "Jalan Kerinchi Kiri 2, 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.113243,
+        101.6647
+      ],
+      "proposed": [
+        3.1132404898499844,
+        101.66470066048254
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "儿童池",
+        "健身房",
+        "儿童游乐场",
+        "烧烤区",
+        "多功能厅",
+        "会议室",
+        "户外咖啡座",
+        "托儿所",
+        "祈祷室",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "咖啡座",
+        "有顶停车场",
+        "健身房",
+        "多功能厅",
+        "儿童游乐场",
+        "Surau - Male & Female",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "咖啡座",
+        "有顶停车场",
+        "Surau - Male & Female"
+      ],
+      "removed": [
+        "会议室",
+        "户外咖啡座",
+        "托儿所",
+        "祈祷室"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [
+        "minimart"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

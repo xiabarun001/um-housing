@@ -41,7 +41,40 @@
 
 ## P2 采集与审核、区域 3
 
-（实现前补充）
+### FR-7 采集脚本
+
+- [x] Given 一个现有小区 id，When 运行 `node scripts/collect.mjs <id>`，Then 生成 `data/staging/<id>.json`，含来源链接、抓取时间、采集到的字段和与现有记录的逐字段比对。
+- [x] Given 一个 iProperty 项目链接和 `--id=`，When 运行采集，Then 生成新小区的 staging，标 `is_new`。
+- [x] Given iProperty 返回 403 或页面改版，When 运行采集，Then staging 状态为 `fetch_failed` / `parse_failed`，现有数据不变。
+
+### FR-8 二源比对
+
+- [ ] （v1 只有 iProperty 单源，评估一律「单源」；PropertyGuru 二源待补）Given 两个来源都有值，When 比对，Then 每个字段标「一致」「单源」「冲突」。
+
+### FR-9 审核报告
+
+- [x] Given staging 目录，When 采集完成或运行 `--report-only`，Then `data/staging/REVIEW.md` 列出每个小区的现有值、采集值、状态和建议动作。
+- [x] Given 19 个现有小区，When 用 iProperty 项目页复核，Then 建成年份、户数、地契、开发商、坐标全部一致（2026-09-08 报告）。
+
+### FR-10 发布与留痕
+
+- [x] Given 审核过的 staging，When 运行 `node scripts/publish.mjs <id> --accept=... --who=...`，Then 只写入接受的字段，更新 `provenance` 和 `verified_at`，并往 `data/changelog.json` 追加带 who / at / field / from / to / source / reason / public_note 的记录。
+- [x] Given 新小区，When 发布时给 `--region` `--no` `--alias`，Then 创建完整记录并排到编号位置。
+
+### FR-10b 对外版变更记录
+
+- [x] Given 读者页「说明」板块，When 加载，Then 显示最近的变更（日期、小区、更新了什么），不显示人名。
+
+### FR-11 每月自动采集
+
+- [x] Given `.github/workflows/collect.yml`，When 每月 1 日或手动触发，Then 只提交 staging 和报告，不改 `condos.json`。
+- [ ] （待第一次定时运行观察）Given GitHub 机器抓 iProperty，When 用 iOS Safari 指纹，Then 25 个小区全部成功。
+
+### FR-14 到 FR-16 区域 3
+
+- [x] Given 区域 3，When 查看数据，Then 有 6 个小区（编号 20–25）：Avara Seputeh、Tria Seputeh、Vivo、Southbank、Avantas、Millerz Square，档案字段来自 iProperty 项目页并带 provenance。
+- [x] Given 区域 3 的小区，When 查看交通，Then 写明最近的 KTM 站和估算分钟数（标「判断」），以及去 UM 靠 Grab 的车程估算。
+- [x] Given 地图、侧栏、筛选、排行榜、先想清楚、出图页，When 加载，Then 都包含区域 3，用紫色区分，KTM 站用青色圆点。
 
 ## P3 读者纠错
 

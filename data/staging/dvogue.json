@@ -1,0 +1,210 @@
+{
+  "id": "dvogue",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
+    "final_url": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:53.534Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Avenue D'Vogue",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 5543,
+    "completed": 2016,
+    "units": 360,
+    "floors": 10,
+    "buildings": [
+      {
+        "name": "Building 1@Petaling Jaya, Selangor",
+        "floors": 10,
+        "units": 360
+      }
+    ],
+    "developer": "Inspiration Group Malaysia",
+    "address": "Jalan 13/2, 46200, Selangor",
+    "lat": 3.114112,
+    "lng": 101.6395,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "咖啡座",
+      "会所",
+      "有顶停车场",
+      "健身房",
+      "儿童游乐场",
+      "壁球场",
+      "泳池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Cafe",
+      "Clubhouse",
+      "Covered car park",
+      "Gym",
+      "Playground",
+      "Squash court",
+      "Swimming pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": true,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "Avenue D'vogue is a Leasehold Serviced residence located in Petaling Jaya, Selangor. &nbsp; The condominium is located in a mature neighbourhood in Petaling Jaya. It's close to malls like Jaya One and Jaya 33. Jaya One is a mall that offers lifestyle classes for kids. They can learn how to cook, how to use a computer, and many other things. It's a great place for them to learn and have fun. Jaya 33 has many grocers and a variety of restaurants, making it the perfect spot for family gatherings on weekends. &nbsp; This condo is easily accessible via Federal Highway The nearest bus lines: 780, 701, PJ02, T786, T815 The nearest LRT lines: Asia Jaya LRT, Taman Jaya LRT, Taman Paramount LRT, Universiti LRT, Taman Bahagia LRT The nearest MRT lines: Phileo Damansara MRT, TTDI MRT This development is located within close proximity to Brickfields Asia College (BAC) Petaling Jaya (1 km), IACT College (1 km), MAHSA Prima International College (2 km), INCEIF - International Centre for Education in Islamic Finance (2 km), University Of Malaya (2 km) and PIDC - Penang International Dental College (3 km). Nearby schools also includes, Sekolah Kebangsaan Sri Petaling (0.5 km), Sekolah Menengah Keba",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avenue-d-vogue-5543"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Avenue D'Vogue",
+      "proposed": "Avenue D'Vogue",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2016,
+      "proposed": 2016,
+      "status": "same"
+    },
+    "units": {
+      "current": 360,
+      "proposed": 360,
+      "status": "same"
+    },
+    "floors": {
+      "current": "单栋",
+      "proposed": "10 层",
+      "status": "changed"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "Inspiration Group Malaysia",
+      "proposed": "Inspiration Group Malaysia",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan 13/2（Jalan Kemajuan 旁），Seksyen 13, 46200 Petaling Jaya",
+      "proposed": "Jalan 13/2, 46200, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.114112,
+        101.6395
+      ],
+      "proposed": [
+        3.114112,
+        101.6395
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "健身房",
+        "壁球场",
+        "会所（Best Western 管理）",
+        "烧烤区",
+        "咖啡座",
+        "儿童游乐场",
+        "有顶停车场",
+        "三层门禁",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "咖啡座",
+        "会所",
+        "有顶停车场",
+        "健身房",
+        "儿童游乐场",
+        "壁球场",
+        "泳池"
+      ],
+      "added": [
+        "会所"
+      ],
+      "removed": [
+        "会所（Best Western 管理）",
+        "三层门禁"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": true,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": true,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

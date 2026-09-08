@@ -1,0 +1,232 @@
+{
+  "id": "novum",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/novum-pty_62918/",
+    "final_url": "https://www.iproperty.com.my/condo/novum-7847",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:13.660Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "NOVUM",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Kampung Kerinchi (Bangsar South)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 7847,
+    "completed": 2019,
+    "units": null,
+    "floors": 41,
+    "buildings": [
+      {
+        "name": "Tower A",
+        "floors": 41,
+        "units": "N/A"
+      },
+      {
+        "name": "Tower B",
+        "floors": 32,
+        "units": "N/A"
+      },
+      {
+        "name": "Tower C",
+        "floors": 38,
+        "units": "N/A"
+      }
+    ],
+    "developer": "Eupe Corporation Berhad",
+    "address": "Jalan Kerinchi, 59200, Kuala Lumpur",
+    "lat": 3.113971,
+    "lng": 101.666418,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "按摩池",
+      "多功能厅",
+      "围栏",
+      "儿童游乐场",
+      "桑拿",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Jacuzzi",
+      "Multi-purpose hall",
+      "Perimeter Fencing",
+      "Playground",
+      "Sauna",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "Novum is a freehold mixed-use development located in the prestigious suburb of South Bangsar, Kuala Lumpur.&nbsp; &nbsp; Located in one of the most strategic areas in the capital, either for leisure or work opportunities, Novum has all of it. Residents can easily find pubs, diners, and cafes near them. These establishments provide locals with a great place to eat and relax. If you're looking for a convenient place to live with plenty of places to eat, Nexus Bangsar South is an excellent option. With a variety of restaurants, retail stores, and other services, it has everything you need.&nbsp; &nbsp; Novum is only a short distance away from the city centre, where residents can directly access the Federal Highway merge to Sprint Highway, Kerinchi Link and New Pantai Expressway (NPE).&nbsp; &nbsp; The nearest bus lines: Bus 772, 780, 821 and T789 The nearest LRT lines: Kerinchi LRT Station, Universiti LRT Station &nbsp; Novum is extremely close to some local and international schools such as SMK Seri Pantai (700 m), SK Bangsar (900 m) and the Sri Dasmesh International School (1.5 km). It is also located close to University of Malaya (2.4 km). In addition, healthcare facilities are jus",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/novum-7847",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-novum-7847"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Novum @ Bangsar South",
+      "proposed": "NOVUM",
+      "status": "changed"
+    },
+    "completed": {
+      "current": 2019,
+      "proposed": 2019,
+      "status": "same"
+    },
+    "units": {
+      "current": 729,
+      "proposed": null,
+      "status": "missing"
+    },
+    "floors": {
+      "current": "32–41 层 × 3 栋",
+      "proposed": "41 / 32 / 38 层 × 3 栋",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Freehold 永久地契",
+      "proposed": "Freehold 永久地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "Eupe Corporation",
+      "proposed": "Eupe Corporation Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Kerinchi, Bangsar South, 59200 KL",
+      "proposed": "Jalan Kerinchi, 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.113971,
+        101.666418
+      ],
+      "proposed": [
+        3.113971,
+        101.666418
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "50 米泳道池",
+        "儿童池",
+        "按摩池",
+        "健身房（悬浮式）",
+        "户外健身区",
+        "桑拿",
+        "烧烤区",
+        "多功能厅",
+        "儿童游乐场",
+        "商务中心",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "桑拿",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "健身房",
+        "围栏",
+        "泳池"
+      ],
+      "removed": [
+        "50 米泳道池",
+        "健身房（悬浮式）",
+        "户外健身区",
+        "商务中心"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

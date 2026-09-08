@@ -1,9 +1,10 @@
 /* 小红书出图：从 data/condos.json（固定信息）现场画成 1080×1440 的图片。
    三篇帖子：总览地图 1 张；区域 1 概览 1 张 + 小区卡片 10 张；区域 2 概览 1 张 + 小区卡片 9 张。 */
-import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609071600';
+import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609081300';
 const W = 1080, H = 1440, PAD = 72;
 const SITE = 'um-housing.evasuka.com';
-const C = { paper: '#FAF9F6', card: '#FFFFFF', ink: '#1B1F24', ink2: '#4B5560', ink3: '#7B8590', line: '#E3E0D8', line2: '#D2CEC4', accent: '#C96A1B', r1: '#C96A1B', r2: '#2F6BCC', lrt: '#D6336C', campus: '#3E8E5B', ok: '#2E7D4F' };
+const C = { paper: '#FAF9F6', card: '#FFFFFF', ink: '#1B1F24', ink2: '#4B5560', ink3: '#7B8590', line: '#E3E0D8', line2: '#D2CEC4', accent: '#C96A1B', r1: '#C96A1B', r2: '#2F6BCC', r3: '#6B4FBB', lrt: '#D6336C', ktm: '#1F7A8C', campus: '#3E8E5B', ok: '#2E7D4F' };
+const RC = (r) => (r === 1 ? C.r1 : r === 2 ? C.r2 : C.r3); // 区域颜色
 const SERIF = '"Noto Serif SC", "Songti SC", "SimSun", serif';
 const SANS = '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif';
 const CFG_KEY = 'um-cards';
@@ -85,8 +86,8 @@ const FOOTER_TOP = H - PAD - 98;
 
 /* ---------- 文案 ---------- */
 function stationZh(nearest) {
-  const m = String(nearest || '').match(/^([A-Za-z ]+?)\s*(LRT|MRT)/);
-  return m ? `${m[1].trim()} 站` : String(nearest || '');
+  const m = String(nearest || '').match(/^([A-Za-z ]+?)\s*(LRT|MRT|KTM)/);
+  return m ? `${m[1].trim()} 站${m[2] === 'KTM' ? '（KTM）' : ''}` : String(nearest || '');
 }
 function goText(c) {
   const t = c.transit;
@@ -110,7 +111,7 @@ function priceLine(c, prices) {
 /* ---------- 小区卡片 ---------- */
 function drawCondo(ctx, c, data, prices, cfg) {
   base(ctx);
-  const rc = c.region === 1 ? C.r1 : C.r2;
+  const rc = RC(c.region);
   const reg = data.meta.regions[String(c.region)];
   let y = PAD + 70;
   ctx.font = `600 26px ${SERIF}`; ctx.fillStyle = rc; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
@@ -157,15 +158,15 @@ function drawCondo(ctx, c, data, prices, cfg) {
 /* ---------- 区域概览 ---------- */
 function drawRegion(ctx, region, data, cfg) {
   base(ctx);
-  const rc = region === 1 ? C.r1 : C.r2;
+  const rc = RC(region);
   const reg = data.meta.regions[String(region)];
   const list = data.condos.filter((c) => c.region === region);
   let y = PAD + 70;
   ctx.font = `600 26px ${SERIF}`; ctx.fillStyle = rc; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
   ctx.fillText(`${list.length} 个小区，一图看完`, PAD, y);
   y += 46;
-  y = para(ctx, clean(reg.label), PAD, y, W - PAD * 2, 70, { font: `700 58px ${SERIF}`, color: C.ink, maxLines: 1 });
-  y = para(ctx, clean(reg.desc), PAD, y + 8, W - PAD * 2, 40, { font: `400 27px ${SANS}`, color: C.ink2, maxLines: 3 });
+  y = para(ctx, clean(reg.label), PAD, y, W - PAD * 2, 64, { font: `700 ${reg.label.length > 18 ? 46 : 58}px ${SERIF}`, color: C.ink, maxLines: 2 });
+  y = para(ctx, clean(reg.desc), PAD, y + 8, W - PAD * 2, 38, { font: `400 26px ${SANS}`, color: C.ink2, maxLines: 4 });
   y += 22;
   // 表格
   const cols = [{ t: '#', x: PAD, w: 50 }, { t: '小区', x: PAD + 56, w: 380 }, { t: '建成', x: PAD + 446, w: 90 }, { t: '户数', x: PAD + 546, w: 100 }, { t: '到轨道站', x: PAD + 656, w: 190 }, { t: '设施', x: PAD + 856, w: 80 }];
@@ -192,7 +193,8 @@ function drawRegion(ctx, region, data, cfg) {
     y += rowH;
   }
   y += 18;
-  if (y < FOOTER_TOP - 40) para(ctx, '19 个小区都有泳池和健身房，所以“设施”一栏比的是这两样之外还有多少。走不到轨道站的，日常靠公交或 Grab。', PAD, y, W - PAD * 2, 34, { font: `400 23px ${SANS}`, color: C.ink3, maxLines: 2 });
+  const both = data.condos.filter((c) => c.flags?.pool && c.flags?.gym).length;
+  if (y < FOOTER_TOP - 40) para(ctx, `${data.condos.length} 个小区里 ${both} 个有泳池和健身房，所以“设施”一栏比的是这两样之外还有多少。走不到轨道站的，日常靠公交或 Grab。`, PAD, y, W - PAD * 2, 34, { font: `400 23px ${SANS}`, color: C.ink3, maxLines: 2 });
   footer(ctx, cfg);
 }
 
@@ -203,18 +205,18 @@ function drawMap(ctx, data, campus, cfg) {
   ctx.font = `600 26px ${SERIF}`; ctx.fillStyle = C.accent; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
   ctx.fillText('校园在哪，轻轨在哪，两片小区在哪', PAD, y);
   y += 46;
-  y = para(ctx, '马来亚大学周边 19 个小区', PAD, y, W - PAD * 2, 70, { font: `700 58px ${SERIF}`, color: C.ink, maxLines: 1 });
-  y = para(ctx, '橙色是区域 1（PJ 一侧），蓝色是区域 2（Bangsar South 一侧）；粉线是轻轨 Kelana Jaya 线，Universiti 站出来过天桥就是 UM 正门。', PAD, y + 6, W - PAD * 2, 38, { font: `400 26px ${SANS}`, color: C.ink2, maxLines: 3 });
+  y = para(ctx, `马来亚大学周边 ${data.condos.length} 个小区`, PAD, y, W - PAD * 2, 70, { font: `700 58px ${SERIF}`, color: C.ink, maxLines: 1 });
+  y = para(ctx, `橙色是区域 1（PJ 一侧），蓝色是区域 2（Bangsar South 一侧）${data.condos.some((c) => c.region === 3) ? '，紫色是区域 3（Seputeh / Old Klang Road 一侧）' : ''}；粉线是轻轨 Kelana Jaya 线，Universiti 站出来过天桥就是 UM 正门${data.meta.ktm ? '；青色圆点是 KTM 电动火车站' : ''}。`, PAD, y + 6, W - PAD * 2, 38, { font: `400 26px ${SANS}`, color: C.ink2, maxLines: 3 });
   y += 16;
   // 地图框
-  const box = { x: PAD, y, w: W - PAD * 2, h: 590 };
+  const box = { x: PAD, y, w: W - PAD * 2, h: 510 };
   ctx.fillStyle = C.card; ctx.fillRect(box.x, box.y, box.w, box.h);
   ctx.strokeStyle = C.line2; ctx.lineWidth = 2; ctx.strokeRect(box.x, box.y, box.w, box.h);
   ctx.save(); ctx.beginPath(); ctx.rect(box.x, box.y, box.w, box.h); ctx.clip(); // 框外的东西一律不画
   // 投影：把所有点的经纬度范围铺进框里
   const pts = [];
   data.condos.forEach((c) => pts.push([c.lat, c.lng]));
-  [...(data.meta.stations || []), ...(data.meta.mrt || [])].forEach((s) => pts.push([s.lat, s.lng]));
+  [...(data.meta.stations || []), ...(data.meta.mrt || []), ...(data.meta.ktm || [])].forEach((s) => pts.push([s.lat, s.lng]));
   const rings = [];
   if (campus?.geometry) {
     const g = campus.geometry;
@@ -238,14 +240,19 @@ function drawMap(ctx, data, campus, cfg) {
   const st = (data.meta.stations || []).slice().sort((a, b) => (b.code > a.code ? 1 : -1));
   ctx.beginPath(); st.forEach((s, i) => { const [x, yy] = P([s.lat, s.lng]); i ? ctx.lineTo(x, yy) : ctx.moveTo(x, yy); });
   ctx.strokeStyle = C.lrt; ctx.lineWidth = 6; ctx.lineJoin = 'round'; ctx.stroke();
-  [...st, ...(data.meta.mrt || [])].forEach((s) => {
+  const allSt = [...st.map((s) => ({ ...s, k: 'lrt' })), ...(data.meta.mrt || []).map((s) => ({ ...s, k: 'lrt' })), ...(data.meta.ktm || []).map((s) => ({ ...s, k: 'ktm' }))];
+  allSt.forEach((s) => { const [x, yy] = P([s.lat, s.lng]); circle(ctx, x, yy, 9, '#fff', s.k === 'ktm' ? C.ktm : C.lrt); });
+  // 站名最后画（在小区圆点之上），带白边，免得被盖住或叠在一起看不清
+  const drawStationLabels = () => allSt.forEach((s) => {
     const [x, yy] = P([s.lat, s.lng]);
-    circle(ctx, x, yy, 9, '#fff', C.lrt);
-    ctx.font = `500 21px ${SANS}`; ctx.fillStyle = C.lrt; ctx.textBaseline = 'top';
+    const col = s.k === 'ktm' ? C.ktm : C.lrt;
+    ctx.font = `600 20px ${SANS}`; ctx.textBaseline = 'top';
     const tw = ctx.measureText(s.name).width;
-    const right = x + 13 + tw > box.x + box.w - 8; // 贴着右边的站名往左写
+    const right = x + 13 + tw > box.x + box.w - 8;
     ctx.textAlign = right ? 'right' : 'left';
-    ctx.fillText(s.name, right ? x - 13 : x + 13, yy - 10);
+    const lx = right ? x - 13 : x + 13, ly = s.k === 'ktm' ? yy + 6 : yy - 26; // KTM 站名写在点下方，轻轨站名写在上方
+    ctx.lineWidth = 5; ctx.strokeStyle = 'rgba(255,255,255,.92)'; ctx.lineJoin = 'round'; ctx.strokeText(s.name, lx, ly);
+    ctx.fillStyle = col; ctx.fillText(s.name, lx, ly);
     ctx.textAlign = 'left';
   });
   // 校园名
@@ -266,14 +273,23 @@ function drawMap(ctx, data, campus, cfg) {
       if (d < min) { const push = (min - d) / 2; const ux = dx / d, uy = dy / d; a.x -= ux * push; a.y -= uy * push; b.x += ux * push; b.y += uy * push; }
     }
   }
-  pos.forEach(({ c, x, y: yy }) => pin(ctx, x, yy, R, c.region === 1 ? C.r1 : C.r2, c.no));
-  // 区域名：区域 1 写在它那群点的上方，区域 2 写在下方
-  [1, 2].forEach((r) => {
+  pos.forEach(({ c, x, y: yy }) => pin(ctx, x, yy, R, RC(c.region), c.no));
+  drawStationLabels();
+  // 区域名：区域 1、2 写在各自那群点的上方，区域 3 写在下方；带白边，不出框
+  Object.keys(data.meta.regions).map(Number).forEach((r) => {
     const list = pos.filter((p) => p.c.region === r);
-    const x = list.reduce((a, p) => a + p.x, 0) / list.length;
+    if (!list.length) return;
+    let x = list.reduce((a, p) => a + p.x, 0) / list.length;
     const top = Math.min(...list.map((p) => p.y)), bottom = Math.max(...list.map((p) => p.y));
-    ctx.font = `700 24px ${SERIF}`; ctx.fillStyle = r === 1 ? C.r1 : C.r2; ctx.textAlign = 'center'; ctx.textBaseline = r === 1 ? 'bottom' : 'top';
-    ctx.fillText(data.meta.regions[String(r)].label, x, r === 1 ? top - R - 12 : bottom + R + 12);
+    const text = data.meta.regions[String(r)].label;
+    ctx.font = `700 24px ${SERIF}`; ctx.textAlign = 'center';
+    const tw = ctx.measureText(text).width;
+    x = Math.max(box.x + tw / 2 + 10, Math.min(box.x + box.w - tw / 2 - 10, x));
+    const below = r === 3;
+    ctx.textBaseline = below ? 'top' : 'bottom';
+    const ly = below ? Math.min(bottom + R + 10, box.y + box.h - 34) : Math.max(top - R - 10, box.y + 34);
+    ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(255,255,255,.92)'; ctx.lineJoin = 'round'; ctx.strokeText(text, x, ly);
+    ctx.fillStyle = RC(r); ctx.fillText(text, x, ly);
     ctx.textBaseline = 'top'; ctx.textAlign = 'left';
   });
   ctx.restore();
@@ -284,11 +300,11 @@ function drawMap(ctx, data, campus, cfg) {
     const col = i < half ? 0 : 1;
     const row = i < half ? i : i - half;
     const x = PAD + col * (W - PAD * 2) / 2;
-    const yy = y + row * 29;
-    if (yy > FOOTER_TOP - 30) return;
-    pin(ctx, x + 12, yy + 13, 12, c.region === 1 ? C.r1 : C.r2, c.no);
-    ctx.font = `400 22px ${SANS}`; ctx.fillStyle = C.ink2; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-    ctx.fillText(shortName(c), x + 34, yy + 1);
+    const yy = y + row * 26;
+    if (yy > FOOTER_TOP - 26) return;
+    pin(ctx, x + 12, yy + 12, 11, RC(c.region), c.no);
+    ctx.font = `400 21px ${SANS}`; ctx.fillStyle = C.ink2; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText(shortName(c), x + 32, yy + 1);
   });
   footer(ctx, cfg);
 }
@@ -335,7 +351,7 @@ function roundBox(ctx, x, y, w, h, r, fill) {
 }
 
 function drawNeedsCard(ctx, cfg) {
-  let y = head(ctx, '开始之前', '租房前先想清楚这 8 件事', `每件事按“${NEEDS_LEVELS.join(' / ')}”打个分。网站上打完分，会按你的权重给 19 个小区排序，还会整理出看房要问的问题。`);
+  let y = head(ctx, '开始之前', '租房前先想清楚这 8 件事', `每件事按“${NEEDS_LEVELS.join(' / ')}”打个分。网站上打完分，会按你的权重给所有小区排序，还会整理出看房要问的问题。`);
   CRITERIA.forEach((m, i) => {
     if (y > FOOTER_TOP - 130) return;
     pin(ctx, PAD + 20, y + 20, 20, C.accent, i + 1);
@@ -438,9 +454,10 @@ function captions(data, cfg) {
   const region = (r) => data.condos.filter((c) => c.region === r).map(line).join('\n');
   const tail = `\n\n固定信息核实于 ${cfg.date}。在租数量和价格每 12 小时自动更新，加上地图、按你在意的事给小区打分排序、同学租房意向表，都在网站（网址在图的角落）。非商业整理，转载请注明来源。`;
   return [
-    { title: '马大周边19个小区，一张图看清位置', body: `要来马来亚大学（UM）读书、准备在校外租房的同学看这里。学校附近的租房集中在两片：西边 PJ 一侧（图上橙色，10 个小区），东边 Bangsar South 一侧（蓝色，9 个小区）。粉线是轻轨 Kelana Jaya 线，Universiti 站出来过天桥就是 UM 正门。\n\n19 个小区的设施、楼龄、户数、到轻轨站的步行时间我们逐个核实过。下两篇按区域逐个看。${tail}`, tags: `${tags} #BangsarSouth #PetalingJaya` },
+    { title: `马大周边${data.condos.length}个小区，一张图看清位置`, body: `要来马来亚大学（UM）读书、准备在校外租房的同学看这里。学校附近的租房集中在三片：西边 PJ 一侧（图上橙色，${data.condos.filter((c) => c.region === 1).length} 个小区），东边 Bangsar South 一侧（蓝色，${data.condos.filter((c) => c.region === 2).length} 个），南边 Seputeh / Old Klang Road 一侧（紫色，${data.condos.filter((c) => c.region === 3).length} 个）。粉线是轻轨 Kelana Jaya 线，Universiti 站出来过天桥就是 UM 正门；青色圆点是 KTM 电动火车站。\n\n${data.condos.length} 个小区的设施、楼龄、户数、到轨道站的步行时间我们逐个核实过。接下来几篇按区域逐个看。${tail}`, tags: `${tags} #BangsarSouth #PetalingJaya #Seputeh` },
     { title: 'UM租房｜PJ一侧10个小区逐个看', body: `${clean(data.meta.regions['1'].desc)}\n\n一张概览表加 10 张小区卡片：\n${region(1)}${tail}`, tags: `${tags} #PetalingJaya #PJ租房` },
     { title: 'UM租房｜Bangsar South 9个小区', body: `${clean(data.meta.regions['2'].desc)}\n\n一张概览表加 9 张小区卡片：\n${region(2)}${tail}`, tags: `${tags} #BangsarSouth` },
+    { title: 'UM租房｜Seputeh 旧巴生路6个小区', body: `${clean(data.meta.regions['3']?.desc || '')}\n\n一张概览表加 6 张小区卡片：\n${region(3)}${tail}`, tags: `${tags} #Seputeh #OldKlangRoad` },
     { title: 'UM租房｜从想清楚到签合同，7张图', body: `租房不是刷房源，先想清楚自己要什么。这 7 张图按顺序：\n1 先想清楚这 8 件事\n2 房型行情和入住前要带多少钱\n3 每月除了房租还有什么、中介费谁付\n4 去哪找房、联系前查什么\n5 给中介的第一条 WhatsApp 模板\n6 看房、合同、付款三张清单\n7 出发前 6 周到入住第一周的时间表${tail}`, tags },
   ];
 }
@@ -469,7 +486,8 @@ async function main() {
     { title: '帖子 1：总览地图', note: '1 张。发的时候正文写两片区域各是什么、网站能看最新价格。', items: [{ file: '00-总览地图', draw: (ctx) => drawMap(ctx, data, campus, cfg) }] },
     { title: '帖子 2：区域 1 · PJ 一侧', note: '1 张概览 + 10 张小区卡片，正好一篇。', items: [{ file: '10-区域1-概览', draw: (ctx) => drawRegion(ctx, 1, data, cfg) }, ...data.condos.filter((c) => c.region === 1).map((c) => ({ file: `1${String(c.no).padStart(2, '0')}-${shortName(c)}`, draw: (ctx) => drawCondo(ctx, c, data, prices, cfg) }))] },
     { title: '帖子 3：区域 2 · Bangsar South 一侧', note: '1 张概览 + 9 张小区卡片。', items: [{ file: '20-区域2-概览', draw: (ctx) => drawRegion(ctx, 2, data, cfg) }, ...data.condos.filter((c) => c.region === 2).map((c) => ({ file: `2${String(c.no).padStart(2, '0')}-${shortName(c)}`, draw: (ctx) => drawCondo(ctx, c, data, prices, cfg) }))] },
-    { title: '帖子 4：方法篇', note: '7 张：先想清楚、预算两张、找房源、消息模板、三张清单、时间表。文字直接取自网站对应的步骤。', items: [
+    ...(data.condos.some((c) => c.region === 3) ? [{ title: '帖子 4：区域 3 · Seputeh / Old Klang Road 一侧', note: '1 张概览 + 6 张小区卡片。', items: [{ file: '30-区域3-概览', draw: (ctx) => drawRegion(ctx, 3, data, cfg) }, ...data.condos.filter((c) => c.region === 3).map((c) => ({ file: `3${String(c.no).padStart(2, '0')}-${shortName(c)}`, draw: (ctx) => drawCondo(ctx, c, data, prices, cfg) }))] }] : []),
+    { title: '帖子 5：方法篇', note: '7 张：先想清楚、预算两张、找房源、消息模板、三张清单、时间表。文字直接取自网站对应的步骤。', items: [
       { file: '30-先想清楚', draw: (ctx) => drawNeedsCard(ctx, cfg) },
       { file: '31-预算-行情和入住前要付多少', draw: (ctx) => drawBudgetCard(ctx, guide, cfg) },
       { file: '32-预算-每月开销和中介费', draw: (ctx) => drawMonthlyCard(ctx, guide, cfg) },

@@ -1,0 +1,214 @@
+{
+  "id": "centrestage",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
+    "final_url": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:41.039Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Centrestage Designer Suite",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 5546,
+    "completed": 2014,
+    "units": null,
+    "floors": null,
+    "buildings": [
+      {
+        "name": "Building @ Jalan Kemajuan Off Jalan Semangat, Seksyen 13, Petaling Jaya 46200",
+        "floors": "N/A",
+        "units": "N/A"
+      },
+      {
+        "name": "Building @ Jalan Kemajuan 46200",
+        "floors": "N/A",
+        "units": "N/A"
+      }
+    ],
+    "developer": "Cherish Springs Sdn Bhd",
+    "address": "Jalan 13/1, 46200, Selangor",
+    "lat": 3.111933,
+    "lng": 101.638931,
+    "facilities": [
+      "24 小时保安",
+      "健身房",
+      "多功能厅",
+      "泳池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "Gym",
+      "Multi-purpose hall",
+      "Swimming pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": false,
+      "minimart": false
+    },
+    "about": "Reviewed by iProperty Editorial Team, May 2026 Quick Summary Centrestage Designer Suite is a leasehold serviced suite development in Seksyen 13, Petaling Jaya, Selangor, developed by Cherish Springs Sdn Bhd. It forms the residential component of the larger Centrestage mixed-use development, which also includes office suites and retail units. The Designer Suite block (Block C) comprises 352 units across 14 storeys on a 3.66-acre leasehold site, with unit built-up sizes ranging from 302 sq ft to 965 sq ft. Asia Jaya LRT Station on the Kelana Jaya Line is approximately 750 m to 1.05 km away. The main trade-offs include compact unit sizes, a commercial strata title, high floor-level density with limited lift provision, and consistent peak-hour congestion along Jalan Semangat. Key Facts Project name: Centrestage Designer Suite Developer: Cherish Springs Sdn Bhd Completion date: 2014 Location: Jalan 13/1, Seksyen 13, 46200 Petaling Jaya, Selangor Property type: Serviced Suite (SOHO) Tenure: Leasehold Land title type: Commercial strata Site area: 3.66 acres Total units (Designer Suite, Block C): 352 Storeys (Block C): 14 Average units per floor: approximately 25 Lifts (Block C): 3 Unit si",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-centrestage-designer-suite-5546"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Centrestage Designer Suite",
+      "proposed": "Centrestage Designer Suite",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2014,
+      "proposed": 2014,
+      "status": "same"
+    },
+    "units": {
+      "current": 352,
+      "proposed": null,
+      "status": "missing"
+    },
+    "floors": {
+      "current": "14 层（C 座）",
+      "proposed": "N/A 层 × 2 栋",
+      "status": "changed"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契（商业分层地契）",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式套房（SOHO）",
+      "proposed": "服务式公寓",
+      "status": "changed"
+    },
+    "developer": {
+      "current": "Cherish Springs",
+      "proposed": "Cherish Springs Sdn Bhd",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan 13/1, Seksyen 13, 46200 Petaling Jaya",
+      "proposed": "Jalan 13/1, 46200, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.111933,
+        101.638931
+      ],
+      "proposed": [
+        3.111933,
+        101.638931
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "健身房",
+        "壁球场",
+        "网球场",
+        "慢跑道",
+        "桑拿",
+        "烧烤区",
+        "儿童游乐场",
+        "多功能厅",
+        "会所",
+        "便利店",
+        "四层门禁",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "健身房",
+        "多功能厅",
+        "泳池"
+      ],
+      "added": [],
+      "removed": [
+        "壁球场",
+        "网球场",
+        "慢跑道",
+        "桑拿",
+        "烧烤区",
+        "儿童游乐场",
+        "会所",
+        "便利店",
+        "四层门禁"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": true,
+        "tennis": true,
+        "bbq": true,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": false
+      },
+      "changed_keys": [
+        "sauna",
+        "squash",
+        "tennis",
+        "bbq",
+        "minimart"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

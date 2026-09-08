@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UM 租房指南</title>
-<meta name="description" content="马来亚大学（UM）新生租房指南：地图、预算、19 个小区逐个看、怎么找中介、看房签约清单、落地时间表，以及同学租房意向表。">
+<meta name="description" content="马来亚大学（UM）新生租房指南：地图、预算、三个区域 25 个小区逐个看、怎么找中介、看房签约清单、落地时间表，以及同学租房意向表。">
 <meta name="color-scheme" content="light dark">
 <meta name="author" content="UM 租房指南 · um-housing.evasuka.com">
 <meta name="copyright" content="CC BY-NC-SA 4.0 · um-housing.evasuka.com">
@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609081100">
+<link rel="stylesheet" href="css/style.css?v=202609081300">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -43,8 +43,8 @@
     </div>
     <div class="tiers" id="tiers-top" aria-label="这页的信息分三层"></div>
     <div class="lead-intro">
-      <p>这份指南写给要来马来亚大学（UM）读书、准备在校外租房的同学。学校附近的租房集中在两片：西边 PJ 一侧，东边 Bangsar South 一侧。小红书上传得最多的 19 个小区，设施、楼龄、户数、到轻轨站的步行时间都逐个核实过；在租数量和价格每 12 小时从 iProperty 和 iBilik 自动抓一次，每张卡片上写着抓取日期。</p>
-      <p>怎么用：先花两分钟做“先想清楚”，把在意的事打个分，页面会按你的权重给 19 个小区排序；然后按 7 步走，从看地图到签合同。价格是行情参考，不是报价，以中介发来的房源为准。最后有一张同学意向表，想找室友、想拼整租的可以填。</p>
+      <p>这份指南写给要来马来亚大学（UM）读书、准备在校外租房的同学。学校附近的租房集中在三片：西边 PJ 一侧，东边 Bangsar South 一侧，南边 Seputeh / Old Klang Road 一侧。小红书上传得最多的 25 个小区，设施、楼龄、户数、到轨道站的步行时间都逐个核实过；在租数量和价格每 12 小时从 iProperty 和 iBilik 自动抓一次，每张卡片上写着抓取日期。</p>
+      <p>怎么用：先花两分钟做“先想清楚”，把在意的事打个分，页面会按你的权重给 25 个小区排序；然后按 7 步走，从看地图到签合同。价格是行情参考，不是报价，以中介发来的房源为准。最后有一张同学意向表，想找室友、想拼整租的可以填。</p>
     </div>
     <p class="lead-steps-line">
       <a href="#s0">先想清楚</a><a href="#s1">1 地形</a><a href="#s2">2 预算</a><a href="#s3">3 挑候选</a><a href="#s4">4 逐个看</a><a href="#s5">5 找中介</a><a href="#s6">6 看房签约</a><a href="#s7">7 时间表</a>
@@ -55,7 +55,7 @@
   <section class="section band" id="s0">
     <p class="step-eyebrow">开始之前</p>
     <h2 class="section-title">想清楚要什么样的房子：把在意的事打个分</h2>
-    <p class="section-lede">一上来就刷房源容易越刷越乱。先按在意程度点一下下面这些事，右边会写出你要的是什么样的房子、19 个小区里哪几个最对路、看房时该问什么。选项只存在这台设备上，随时可以改。</p>
+    <p class="section-lede">一上来就刷房源容易越刷越乱。先按在意程度点一下下面这些事，右边会写出你要的是什么样的房子、25 个小区里哪几个最对路、看房时该问什么。选项只存在这台设备上，随时可以改。</p>
     <div class="needs">
       <div class="needs-form">
         <div class="needs-block">
@@ -118,9 +118,11 @@
     <div class="map-legend">
       <span class="legend-row"><span class="swatch campus"></span>UM 校园</span>
       <span class="legend-row"><span class="swatch line"></span>轻轨 Kelana Jaya 线</span>
+      <span class="legend-row"><span class="swatch ktm"></span>KTM 电动火车站</span>
       <span class="legend-row"><span class="swatch walk"></span>步行 5 / 10 分钟范围</span>
       <span class="legend-row"><span class="pin-sample r1">1</span>区域 1 · PJ</span>
       <span class="legend-row"><span class="pin-sample r2">11</span>区域 2 · Bangsar South</span>
+      <span class="legend-row"><span class="pin-sample r3">20</span>区域 3 · Seputeh / OKR</span>
       <span class="legend-note">点编号看详情，第一次看先点"带我看一遍"。</span>
     </div>
 
@@ -214,7 +216,7 @@
   <section class="section" id="s3">
     <p class="step-eyebrow">第 3 步</p>
     <h2 class="section-title">挑 3 个候选：对号入座</h2>
-    <p class="section-lede">只按三件事排：去学校方不方便、预算够不够、楼里有没有泳池和健身房（19 个全都有，所以这条不用比）。点名字跳到小区卡片。</p>
+    <p class="section-lede">只按三件事排：去学校方不方便、预算够不够、楼里有没有泳池和健身房（区域 1、2 的 19 个全都有，区域 3 绝大多数有，看卡片上的设施）。点名字跳到小区卡片。</p>
     <div class="picks">
       <div class="pick">
         <h3>一个人租一间，预算 RM 1,300 以内</h3>
@@ -250,11 +252,11 @@
   <!-- 第 4 步 逐个看 -->
   <section class="section" id="s4">
     <p class="step-eyebrow">第 4 步</p>
-    <h2 class="section-title">逐个看：19 个小区的设施、楼龄和在租行情</h2>
+    <h2 class="section-title">逐个看：25 个小区的设施、楼龄和在租行情</h2>
     <p class="section-lede">编号和地图一致。"去学校"一行是最重要的信息；在租套数和价格由程序每 12 小时从 iProperty 和 iBilik 抓一次，最近一次 <time class="prices-at"></time>。点"iProperty 在租房源"看当下的每一条。</p>
 
     <div class="common">
-      <h3>先记住这 19 个小区的共同点，看卡片时只比不同的地方</h3>
+      <h3>先记住区域 1、2 这 19 个小区的共同点，看卡片时只比不同的地方</h3>
       <ul class="plain common-list">
         <li><strong>全都有泳池、健身房、门禁和 24 小时保安。</strong>这三样不用比，比的是桑拿、羽毛球馆这类附加项和维护得好不好。</li>
         <li><strong>14 个是服务式公寓，5 个是普通公寓。</strong>服务式公寓（service residence）楼下常有商铺、有物业前台，但水电按商业费率计，比普通公寓贵一两成。Pantai Panorama、Saville、Inwood、Secoya、Tiara 是普通公寓。</li>
@@ -266,6 +268,7 @@
         <li><strong>只有 7 个能走到轻轨站：</strong>KL Gateway、Novum、South View、Southlink、Pantai Panorama、Laurel，加上 PJ 侧的 PJ8。其余 12 个每天靠巴士或 Grab。</li>
         <li><strong>紧挨大道的高楼有噪音：</strong>KL Gateway、South View、Southlink、Novum 都沿 Federal Highway，低层朝大道的房间要留意；山坡上的 Saville、Inwood、Secoya 最安静。</li>
         <li><strong>租客以学生和年轻上班族为主。</strong>区域 2 中国学生最集中，找中文室友容易；区域 1 本地上班族多。</li>
+        <li><strong>区域 3 的 6 个（编号 20 到 25）另算：</strong>都离 UM 较远，没有走得到的轻轨，靠 KTM、公交或 Grab；楼更新、户型更大、整套租金相对低。它们的档案是 2026-09-08 从 iProperty 项目页采集的，Tria Seputeh 的设施清单待核。</li>
       </ul>
     </div>
     <h3 class="rank-title">四个排行榜</h3>
@@ -278,6 +281,7 @@
         <button type="button" class="tab is-on" data-region="all">全部</button>
         <button type="button" class="tab" data-region="1">区域 1 · PJ</button>
         <button type="button" class="tab" data-region="2">区域 2 · Bangsar South</button>
+        <button type="button" class="tab" data-region="3">区域 3 · Seputeh / OKR</button>
       </div>
       <label class="tool-check"><input type="checkbox" id="f-lrt"> 走路能到轻轨站</label>
       <label class="tool-check"><input type="checkbox" id="f-budget"> 有 RM 1,300 以内的单间</label>
@@ -515,6 +519,11 @@ Is the room still available? Could you share a short video of the room and the u
     <h2 class="section-title">这页的信息分三层：哪些能直接信，哪些要注意</h2>
     <p class="section-lede">页面上每个数字旁边都有一个小标记，点一下能看到来源和时间。三种标记的意思：</p>
     <div class="about-tiers" id="about-tiers"></div>
+    <div class="changelog" id="changelog" hidden>
+      <h3>最近更新了什么</h3>
+      <p class="muted">档案信息每次核实或修改都会记在这里；价格的自动更新不在此列，看行情标记上的时间。</p>
+      <ul id="changelog-list"></ul>
+    </div>
   </section>
 
 </main>
@@ -531,7 +540,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609081100"></script>
-<script type="module" src="js/app.js?v=202609081100"></script>
+<script src="js/config.js?v=202609081300"></script>
+<script type="module" src="js/app.js?v=202609081300"></script>
 </body>
 </html>

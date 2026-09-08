@@ -1,0 +1,47 @@
+name: collect profiles
+
+# 每 30 天把全部小区的档案从 iProperty 项目页重新采一遍，只提交 staging 和审核报告，不改 condos.json（ADR-002：档案必须人审后发布）。
+on:
+  schedule:
+    - cron: "0 3 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: install curl-impersonate
+        run: |
+          set -e
+          V=v2.2.2
+          mkdir -p "$HOME/ci"
+          curl -sSL -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
+          tar -xzf /tmp/ci.tar.gz -C "$HOME/ci"
+          chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
+          test -x "$HOME/ci/curl_safari184_ios"
+          echo "CURL_BIN=$HOME/ci/curl_safari184_ios" >> "$GITHUB_ENV"
+      - name: collect all profiles
+        run: node scripts/collect.mjs --all
+      - name: commit staging and review report
+        run: |
+          git config user.name "um-housing-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/staging
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "staging: monthly profile collection $(date -u +%Y-%m-%d) (review needed)"
+            git push
+          fi

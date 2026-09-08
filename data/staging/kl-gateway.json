@@ -1,0 +1,224 @@
+{
+  "id": "kl-gateway",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
+    "final_url": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:57.563Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "KL Gateway Residences",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Kampung Kerinchi (Bangsar South)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 8093,
+    "completed": 2017,
+    "units": 714,
+    "floors": 38,
+    "buildings": [
+      {
+        "name": "Building @ KL Gateway Residences",
+        "floors": 38,
+        "units": 714
+      }
+    ],
+    "developer": "Suez Capital Sdn Bhd",
+    "address": "Jalan Kerinchi Kiri, 59200, Kuala Lumpur",
+    "lat": 3.113646,
+    "lng": 101.66288,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "休息厅",
+      "多功能厅",
+      "围栏",
+      "儿童游乐场",
+      "桑拿",
+      "蒸汽房",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Lounge",
+      "Multi-purpose hall",
+      "Perimeter Fencing",
+      "Playground",
+      "Sauna",
+      "Steam bath",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": true,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "KL Gateway Residences is a leasehold serviced apartment development located at Jalan Kerinchi, Bangsar South, Kuala Lumpur. Completed in 2017, the mixed-use development was developed by Suez Capital Sdn Bhd. Spans across 7.18 acres of land, KL Gateway Residences has two 38-storey buildings housing a total of 714 units of serviced apartment. The apartment units come in five amazing layout designs with built-up areas ranging from 500 sq ft to 1,101 sq ft. A stylish urban living space in the most sought-after address, KL Gateway Residences offers unparalleled conveniences in a self-integrated enclave, where be it shopping, dining, meeting up with friends or business associates, everything is just at the doorstep. Type A – 824 sq ft to 935 sq ft (2 Bedrooms 2 Bathrooms) Type B – 663 sq ft to 752 sq ft (1+1 Bedrooms 1 Bathroom) Type C – 500 sq ft to 566 sq ft (1 Bedroom 1 Bathroom) Type D – 960 sq ft to 1,101 sq ft (3 Bedrooms 2 Bathrooms) Type E – 880 sq ft to 1,070 sq ft (2 Bedrooms 2 Bathrooms) KL Gateway Residences is a Green Building Index certified development. It is an energy efficient building with clean air technology, rain water harvesting system, natural light maximisation an",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-kl-gateway-residences-8093"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "KL Gateway Residences",
+      "proposed": "KL Gateway Residences",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2017,
+      "proposed": 2017,
+      "status": "same"
+    },
+    "units": {
+      "current": 714,
+      "proposed": 714,
+      "status": "same"
+    },
+    "floors": {
+      "current": "38 层 × 2 栋",
+      "proposed": "38 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "Suez Capital",
+      "proposed": "Suez Capital Sdn Bhd",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Kerinchi Kiri, Bangsar South, 59200 KL",
+      "proposed": "Jalan Kerinchi Kiri, 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.1136467,
+        101.66288
+      ],
+      "proposed": [
+        3.113646,
+        101.66288
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "无边泳池",
+        "泳道池",
+        "儿童池",
+        "健身房",
+        "桑拿",
+        "蒸汽房",
+        "烧烤区",
+        "儿童游乐场",
+        "多功能厅",
+        "休息厅",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "休息厅",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "桑拿",
+        "蒸汽房",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "围栏",
+        "泳池"
+      ],
+      "removed": [
+        "无边泳池",
+        "泳道池"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": true,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": true,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [
+        "minimart"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

@@ -1,6 +1,6 @@
 ﻿# UM 租房指南
 
-马来亚大学（Universiti Malaya）周边 19 个小区的静态信息站：设施、楼龄、户数、地契、到最近 LRT 的步行时间、在租行情快照，加一张所有同学都能填的租房意向表。
+马来亚大学（Universiti Malaya）周边三个区域 25 个小区的静态信息站：设施、楼龄、户数、地契、到最近 LRT 的步行时间、在租行情快照，加一张所有同学都能填的租房意向表。
 
 - 线上：`um-housing.evasuka.com`（DNS 生效前可用 `https://xiabarun001.github.io/um-housing/`）
 - 无构建步骤，纯静态 HTML / CSS / JS，GitHub Pages 直接托管。
@@ -24,8 +24,14 @@ data/prices.json    实时信息：在租数量、整套最低价、各房型价
 data/price-history.json  每次成功刷新追加一天（在租数量、最低价、单间起价），只留最近 90 天
 data/refresh-log.json  最近一次自动刷新的结果（每个小区成功与否、抓到多少条）
 cards.html + js/cards.js  小红书出图页（不对外链接）：从 condos.json 现场画 1080×1440 的卡片图
-scripts/refresh.mjs 自动刷新脚本
-.github/workflows/refresh.yml  定时任务：每 12 小时跑一次脚本并提交
+data/staging/       档案采集的暂存区和审核报告（REVIEW.md），人审后才发布
+data/changelog.json 档案变更记录：谁、何时、改了什么、来源、理由、对外说明
+scripts/refresh.mjs 行情自动刷新脚本
+scripts/collect.mjs 档案采集脚本（iProperty 项目页 → staging + 报告）
+scripts/publish.mjs 档案发布脚本（staging → condos.json + provenance + changelog）
+.github/workflows/refresh.yml  每 12 小时刷新行情并提交
+.github/workflows/collect.yml  每月 1 日全量采集档案，只提交 staging 和报告
+docs/               规格、决策记录、验收标准
 ```
 
 ## 更新数据
@@ -43,6 +49,32 @@ scripts/refresh.mjs 自动刷新脚本
 | `transit.walk_min` | 到最近轨道站的步行分钟。`walk_est: true` 表示估算，距离带上画成空心圆 |
 | `links.iproperty_rent` | 该楼盘在 iProperty 的出租列表，卡片主按钮跳这里 |
 | `daily` / `quiet` | 吃饭购物方便程度、安静程度，1–5 的粗略判断加一句依据，只用于“先想清楚”板块按权重打分 |
+
+### 信息分三层（ADR-001）
+
+- **档案**（`condos.json`）：不会变的事实，人审后发布，每条记录带 `verified_at` 和字段级 `provenance`（来源、时间、方式）。
+- **行情**（`prices.json`）：挂牌数字，机器每 12 小时写。
+- **判断**（`condos.json` 里的 `judgment`）：吃饭购物、安静程度、估算的步行分钟，只用于打分排序。
+
+页面上每个数字旁边有对应标记，点开看来源和时间。
+
+### 档案采集与发布（ADR-002）
+
+```bash
+node scripts/collect.mjs kl-gateway novum     # 采集指定小区，和现有数据比对
+node scripts/collect.mjs --all                 # 全部小区
+node scripts/collect.mjs <iProperty 项目链接> --id=<新id>   # 新小区
+node scripts/collect.mjs --report-only         # 不抓取，用已有 staging 重出报告
+```
+
+看 `data/staging/REVIEW.md`，确认后发布：
+
+```bash
+node scripts/publish.mjs <id> --accept=facilities,flags --who=名字 --reason="核对理由" --note="对外一句话"
+node scripts/publish.mjs <id> --accept=all --region=3 --no=26 --alias="别名" --who=名字   # 新小区
+```
+
+发布会更新 `verified_at`、`provenance`，并往 `data/changelog.json` 追加记录；读者页只显示日期、小区和对外说明。档案不会自动发布：每月的 collect workflow 只提交 staging 和报告。
 
 ### 价格自动刷新
 

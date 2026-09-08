@@ -1,0 +1,218 @@
+{
+  "id": "avara",
+  "source": {
+    "url": "https://www.iproperty.com.my/condo/avara-10395",
+    "final_url": "https://www.iproperty.com.my/condo/avara-10395",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:33.553Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Avara",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Seputeh",
+    "region_name": "Kuala Lumpur",
+    "project_id": 10395,
+    "completed": 2020,
+    "units": 183,
+    "floors": 35,
+    "buildings": [
+      {
+        "name": "Tower A @ Avara",
+        "floors": 35,
+        "units": 183
+      },
+      {
+        "name": "Tower B @ Avara",
+        "floors": 35,
+        "units": 183
+      }
+    ],
+    "developer": "Unity Realty Sdn. Bhd.",
+    "address": "Jalan Seputeh, 58000, Kuala Lumpur",
+    "lat": 3.11349,
+    "lng": 101.679127,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "有顶停车场",
+      "落客点",
+      "健身房",
+      "按摩池",
+      "Landscaped Garden",
+      "休息厅",
+      "多功能厅",
+      "停车场",
+      "儿童游乐场",
+      "足底按摩步道",
+      "空中休息厅",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Covered car park",
+      "Drop Off Point",
+      "Gym",
+      "Jacuzzi",
+      "Landscaped Garden",
+      "Lounge",
+      "Multi-purpose hall",
+      "Parking",
+      "Playground",
+      "Reflexology Path",
+      "Sky Lounge",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/avara-10395",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avara-10395"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": null,
+      "proposed": "Avara",
+      "status": "new"
+    },
+    "completed": {
+      "current": null,
+      "proposed": 2020,
+      "status": "new"
+    },
+    "units": {
+      "current": null,
+      "proposed": 183,
+      "status": "new"
+    },
+    "floors": {
+      "current": null,
+      "proposed": "35 层 × 2 栋",
+      "status": "new"
+    },
+    "tenure": {
+      "current": null,
+      "proposed": "Freehold 永久地契",
+      "status": "new"
+    },
+    "type": {
+      "current": null,
+      "proposed": "服务式公寓",
+      "status": "new"
+    },
+    "developer": {
+      "current": null,
+      "proposed": "Unity Realty Sdn. Bhd.",
+      "status": "new"
+    },
+    "address": {
+      "current": null,
+      "proposed": "Jalan Seputeh, 58000, Kuala Lumpur",
+      "status": "new"
+    },
+    "geo": {
+      "current": null,
+      "proposed": [
+        3.11349,
+        101.679127
+      ],
+      "status": "new",
+      "distance_m": null
+    },
+    "facilities": {
+      "current": null,
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "休息厅",
+        "多功能厅",
+        "停车场",
+        "儿童游乐场",
+        "足底按摩步道",
+        "空中休息厅",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "休息厅",
+        "多功能厅",
+        "停车场",
+        "儿童游乐场",
+        "足底按摩步道",
+        "空中休息厅",
+        "泳池",
+        "儿童池"
+      ],
+      "removed": [],
+      "status": "new"
+    },
+    "flags": {
+      "current": null,
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "new"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": true
+}

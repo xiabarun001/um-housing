@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "UM 周边租房图鉴",
-    "verified_at": "2026-09-06",
+    "verified_at": "2026-09-08",
     "regions": {
       "1": {
         "label": "区域 1 · PJ 一侧",
@@ -12,6 +12,11 @@
         "label": "区域 2 · Bangsar South 一侧",
         "short": "Bangsar South",
         "desc": "Kerinchi / Pantai Dalam。Universiti LRT 过天桥就是 UM 正门，Kerinchi LRT 一站之隔；中国学生最集中。"
+      },
+      "3": {
+        "label": "区域 3 · Seputeh / Old Klang Road 一侧",
+        "short": "OKR",
+        "desc": "9 Seputeh 和 Old Klang Road（旧巴生路）一带。离 UM 较远，开车或 Grab 10 到 20 分钟，没有走得到的轻轨，最近的是 KTM 电动火车（Seputeh、Mid Valley、Pantai Dalam、Petaling 站）和公交。房子大、楼新、租金相对低，适合有车或能接受通勤的同学。"
       }
     },
     "note": "楼盘固定信息（设施、年份、户数、地契、最近轨道站、坐标）来自 iProperty 项目页、开发商官网和 StarProperty，核实日期见 verified_at，大约每半个月到一个月人工复核一次。价格和在租数量在 prices.json 里，每 12 小时自动刷新，按小区 id 对应。",
@@ -68,7 +73,7 @@
         "lng": 101.6429822
       }
     ],
-    "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap",
+    "geo_source": "小区坐标来自 iProperty 项目页；轻轨站与 UM 校园边界来自 OpenStreetMap KTM 站坐标来自 OpenStreetMap（Nominatim，2026-09-08）。",
     "tiers": {
       "profile": {
         "label": "档案",
@@ -82,7 +87,37 @@
         "label": "判断",
         "desc": "我们的估算或主观评价：吃饭购物方便度、安静程度、按直线距离估算的步行分钟、区域适合谁。只用于帮你排序和提醒，不要当事实。"
       }
-    }
+    },
+    "ktm": [
+      {
+        "code": "KB01",
+        "name": "Mid Valley",
+        "zh": "Mid Valley 站（KTM）",
+        "lat": 3.118718,
+        "lng": 101.6789186
+      },
+      {
+        "code": "KB02",
+        "name": "Seputeh",
+        "zh": "Seputeh 站（KTM）",
+        "lat": 3.1136874,
+        "lng": 101.68142
+      },
+      {
+        "code": "KD03",
+        "name": "Pantai Dalam",
+        "zh": "Pantai Dalam 站（KTM）",
+        "lat": 3.0956311,
+        "lng": 101.6700488
+      },
+      {
+        "code": "KD04",
+        "name": "Petaling",
+        "zh": "Petaling 站（KTM）",
+        "lat": 3.0860738,
+        "lng": 101.6642299
+      }
+    ]
   },
   "condos": [
     {
@@ -2969,6 +3004,964 @@
           "method": "manual"
         }
       }
+    },
+    {
+      "id": "avara",
+      "name": "Avara Seputeh",
+      "alias": "Avara Seputeh",
+      "region": 3,
+      "address": "Jalan Seputeh, 58000, Kuala Lumpur",
+      "developer": "Unity Realty Sdn. Bhd.",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2020,
+      "units": 183,
+      "floors": "35 层 × 2 栋",
+      "facilities": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "休息厅",
+        "多功能厅",
+        "停车场",
+        "儿童游乐场",
+        "足底按摩步道",
+        "空中休息厅",
+        "泳池",
+        "儿童池"
+      ],
+      "flags": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "transit": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_min": 3,
+        "walk_m": 256,
+        "walk_est": true,
+        "other": [
+          "Mid Valley KTM 约 0.6 km",
+          "Abdullah Hukum LRT 约 0.9 km"
+        ],
+        "buses": [],
+        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 2.9 km）。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "notes": [
+        "2 栋 35 层共 183 户，密度低",
+        "开发商 Unity Realty；高层能看到 Bangsar 和市区夜景（iProperty 项目页描述）"
+      ],
+      "tags": [
+        "无 LRT",
+        "离 UM 远",
+        "密度低",
+        "最新楼盘"
+      ],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avara-10395",
+        "iproperty_building": "https://www.iproperty.com.my/condo/avara-10395",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/seputeh",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Avara%20Jalan%20Seputeh%2C%2058000%2C%20Kuala%20Lumpur"
+      },
+      "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/avara-10395"
+        }
+      ],
+      "lat": 3.11349,
+      "lng": 101.679127,
+      "no": 20,
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "9 Seputeh 一带，楼下商铺少，Mid Valley 开车 5 分钟"
+        },
+        "quiet": {
+          "score": 4,
+          "note": "Seputeh 山坡住宅区，离主路有一段"
+        },
+        "walk_min_est": {
+          "minutes": 3,
+          "note": "按直线距离估算，未实测"
+        }
+      },
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "transit": {
+          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "at": "2026-09-08",
+          "method": "manual"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/avara-10395",
+          "at": "2026-09-08",
+          "method": "manual"
+        }
+      },
+      "verified_at": "2026-09-08"
+    },
+    {
+      "id": "tria-seputeh",
+      "name": "TRIA Seputeh（9 Seputeh）",
+      "alias": "Tria Seputeh",
+      "region": 3,
+      "address": "No.1, Jalan Telok Datok, Off Jalan Klang Lama, 58100, Kuala Lumpur",
+      "developer": "MRCB Land",
+      "tenure": "Leasehold 租赁地契",
+      "type": "公寓",
+      "completed": 2022,
+      "units": 734,
+      "floors": "38 / N/A 层 × 3 栋",
+      "facilities": [
+        "24 小时保安",
+        "烧烤区",
+        "落客点",
+        "按摩池",
+        "围栏",
+        "泳池",
+        "儿童池"
+      ],
+      "flags": {
+        "pool": true,
+        "gym": false,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "transit": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_min": 10,
+        "walk_m": 782,
+        "walk_est": true,
+        "other": [
+          "Mid Valley KTM 约 1.2 km",
+          "Kerinchi LRT 约 1.2 km"
+        ],
+        "buses": [],
+        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 2.9 km）。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "notes": [
+        "MRCB 开发的 9 Seputeh 综合项目里的公寓部分，2022 年交付",
+        "734 户",
+        "iProperty 项目页只列了 7 项设施，没有列健身房；MRCB 官网资料待核，设施清单可能不全"
+      ],
+      "tags": [
+        "无 LRT",
+        "离 UM 远",
+        "最新楼盘"
+      ],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+        "iproperty_building": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/seputeh",
+        "maps": "https://www.google.com/maps/search/?api=1&query=TRIA%20Seputeh%20in%209%20Seputeh%2C%20Kuala%20Lumpur%20No.1%2C%20Jalan%20Telok%20Datok%2C%20Off%20Jalan%20Klang%20Lama%2C%2058100%2C%20Kuala%20Lumpur"
+      },
+      "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308"
+        }
+      ],
+      "lat": 3.108319,
+      "lng": 101.676874,
+      "no": 21,
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "9 Seputeh 综合项目，楼下有商铺，大商场要开车"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "项目内部安静，外围是 Jalan Klang Lama"
+        },
+        "walk_min_est": {
+          "minutes": 10,
+          "note": "按直线距离估算，未实测"
+        }
+      },
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "transit": {
+          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "at": "2026-09-08",
+          "method": "manual"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+          "at": "2026-09-08",
+          "method": "manual"
+        }
+      },
+      "verified_at": "2026-09-08"
+    },
+    {
+      "id": "vivo",
+      "name": "Vivo Residential Suites（9 Seputeh）",
+      "alias": "Vivo",
+      "region": 3,
+      "address": "9 Seputeh, Off Jalan Klang Lama, 58100, Kuala Lumpur",
+      "developer": "MRCB Land",
+      "tenure": "Leasehold 租赁地契",
+      "type": "公寓",
+      "completed": 2018,
+      "units": 412,
+      "floors": "N/A 层 × 2 栋",
+      "facilities": [
+        "24 小时保安",
+        "篮球场",
+        "烧烤区",
+        "咖啡座",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "跑道",
+        "Landscaped Garden",
+        "休息厅",
+        "多功能厅",
+        "儿童游乐场",
+        "足底按摩步道",
+        "桑拿",
+        "泳池",
+        "Tennis courts"
+      ],
+      "flags": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": true,
+        "squash": false,
+        "tennis": true,
+        "bbq": true,
+        "minimart": false
+      },
+      "transit": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_min": 14,
+        "walk_m": 1063,
+        "walk_est": true,
+        "other": [
+          "Pantai Dalam KTM 约 1.3 km",
+          "Kerinchi LRT 约 1.5 km"
+        ],
+        "buses": [],
+        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 3.1 km）。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "notes": [
+        "Tower A 44 层 234 户，Tower B 42 层 178 户",
+        "9 楼有无边泳池、篮球半场、户外健身区（iProperty 项目页描述）"
+      ],
+      "tags": [
+        "无 LRT",
+        "离 UM 远"
+      ],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-vivo-residential-suites-6797",
+        "iproperty_building": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/seputeh",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Vivo%20Residential%20Suites%209%20Seputeh%2C%20Off%20Jalan%20Klang%20Lama%2C%2058100%2C%20Kuala%20Lumpur"
+      },
+      "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797"
+        }
+      ],
+      "lat": 3.105212,
+      "lng": 101.67699,
+      "no": 22,
+      "judgment": {
+        "daily": {
+          "score": 3,
+          "note": "9 Seputeh 综合项目，楼下有商铺"
+        },
+        "quiet": {
+          "score": 3,
+          "note": "临 Jalan Klang Lama，高层安静"
+        },
+        "walk_min_est": {
+          "minutes": 14,
+          "note": "按直线距离估算，未实测"
+        }
+      },
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "transit": {
+          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "at": "2026-09-08",
+          "method": "manual"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+          "at": "2026-09-08",
+          "method": "manual"
+        }
+      },
+      "verified_at": "2026-09-08"
+    },
+    {
+      "id": "southbank",
+      "name": "Southbank Residence",
+      "alias": "Southbank",
+      "region": 3,
+      "address": "Jalan Klang Lama, 58000, Kuala Lumpur",
+      "developer": "UOA Group",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2017,
+      "units": 674,
+      "floors": "37 层",
+      "facilities": [
+        "24 小时保安",
+        "烧烤区",
+        "咖啡座",
+        "健身房",
+        "按摩池",
+        "多功能厅",
+        "足底按摩步道",
+        "泳池",
+        "儿童池"
+      ],
+      "flags": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "transit": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_min": 12,
+        "walk_m": 900,
+        "walk_est": true,
+        "other": [
+          "Seputeh KTM 约 1.5 km",
+          "Kerinchi LRT 约 1.9 km"
+        ],
+        "buses": [],
+        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 11 分钟（直线 3.3 km）。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "notes": [
+        "2 栋 674 户，UOA 开发，商业地契（服务式公寓）",
+        "户型 779 到 978 平方英尺，多为三房"
+      ],
+      "tags": [
+        "无 LRT",
+        "离 UM 远"
+      ],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-southbank-residence-6428",
+        "iproperty_building": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/old-klang-road",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Southbank%20Residence%20Jalan%20Klang%20Lama%2C%2058000%2C%20Kuala%20Lumpur"
+      },
+      "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/southbank-residence-6428"
+        }
+      ],
+      "lat": 3.100784,
+      "lng": 101.676301,
+      "no": 23,
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "Old Klang Road 沿线餐饮多，Mid Valley 商场步行约 15 分钟"
+        },
+        "quiet": {
+          "score": 2,
+          "note": "临 Old Klang Road 主路，车流大"
+        },
+        "walk_min_est": {
+          "minutes": 12,
+          "note": "按直线距离估算，未实测"
+        }
+      },
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "transit": {
+          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "at": "2026-09-08",
+          "method": "manual"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+          "at": "2026-09-08",
+          "method": "manual"
+        }
+      },
+      "verified_at": "2026-09-08"
+    },
+    {
+      "id": "avantas",
+      "name": "Avantas Residences",
+      "alias": "Avantas",
+      "region": 3,
+      "address": "Old Klang Road, 58100, Kuala Lumpur",
+      "developer": "CPI Development",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2016,
+      "units": 198,
+      "floors": "28 层",
+      "facilities": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "Laundry",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "泳池",
+        "儿童池",
+        "瑜伽室"
+      ],
+      "flags": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "transit": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_min": 12,
+        "walk_m": 921,
+        "walk_est": true,
+        "other": [
+          "Seputeh KTM 约 1.6 km",
+          "Kerinchi LRT 约 1.9 km"
+        ],
+        "buses": [],
+        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 11 分钟（直线 3.4 km）。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "notes": [
+        "198 户，2016 年，密度低",
+        "商业地契（服务式公寓）"
+      ],
+      "tags": [
+        "无 LRT",
+        "离 UM 远",
+        "密度低"
+      ],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avantas-residences-6254",
+        "iproperty_building": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/old-klang-road",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Avantas%20Residences%20Old%20Klang%20Road%2C%2058100%2C%20Kuala%20Lumpur"
+      },
+      "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/avantas-residences-6254"
+        }
+      ],
+      "lat": 3.100352,
+      "lng": 101.67686,
+      "no": 24,
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "Old Klang Road 沿线，Scott Garden、Pearl Point 商场在附近"
+        },
+        "quiet": {
+          "score": 2,
+          "note": "临 Old Klang Road 主路"
+        },
+        "walk_min_est": {
+          "minutes": 12,
+          "note": "按直线距离估算，未实测"
+        }
+      },
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "transit": {
+          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "at": "2026-09-08",
+          "method": "manual"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+          "at": "2026-09-08",
+          "method": "manual"
+        }
+      },
+      "verified_at": "2026-09-08"
+    },
+    {
+      "id": "millerz",
+      "name": "Millerz Square",
+      "alias": "Millerz Square",
+      "region": 3,
+      "address": "Jalan Klang Lama, 58000, Kuala Lumpur",
+      "developer": "EXSIM Development Sdn Bhd",
+      "tenure": "Freehold 永久地契",
+      "type": "服务式公寓",
+      "completed": 2019,
+      "units": 339,
+      "floors": "43 / 44 层 × 4 栋",
+      "facilities": [
+        "24 小时保安",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "空中休息厅",
+        "Surau - Male & Female",
+        "泳池",
+        "儿童池"
+      ],
+      "flags": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": false
+      },
+      "transit": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_min": 13,
+        "walk_m": 990,
+        "walk_est": true,
+        "other": [
+          "Petaling KTM 约 1.0 km",
+          "Seputeh KTM 约 3.1 km"
+        ],
+        "buses": [],
+        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 14 分钟（直线 4.3 km）。"
+      },
+      "um_km": null,
+      "um_km_note": null,
+      "notes": [
+        "iProperty 这个条目是 Millerz Square 里的服务式公寓部分，339 户；整个项目多栋合计约 1,600 户",
+        "EXSIM 开发，2019 年"
+      ],
+      "tags": [
+        "无 LRT",
+        "离 UM 远"
+      ],
+      "links": {
+        "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-millerz-square-serviced-residence-9658",
+        "iproperty_building": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+        "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/old-klang-road",
+        "maps": "https://www.google.com/maps/search/?api=1&query=Millerz%20Square%20Serviced%20Residence%20Jalan%20Klang%20Lama%2C%2058000%2C%20Kuala%20Lumpur"
+      },
+      "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658"
+        }
+      ],
+      "lat": 3.087312,
+      "lng": 101.673231,
+      "no": 25,
+      "judgment": {
+        "daily": {
+          "score": 4,
+          "note": "楼下有商业裙楼，Pearl Shopping Gallery 在附近"
+        },
+        "quiet": {
+          "score": 2,
+          "note": "Millerz Square 整体是 4 栋约 1,600 户的大项目，临 Old Klang Road"
+        },
+        "walk_min_est": {
+          "minutes": 13,
+          "note": "按直线距离估算，未实测"
+        }
+      },
+      "provenance": {
+        "completed": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "units": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "floors": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "tenure": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "type": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "developer": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "address": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lat": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "lng": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "facilities": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "transit": {
+          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "at": "2026-09-08",
+          "method": "manual"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+          "at": "2026-09-08",
+          "method": "manual"
+        }
+      },
+      "verified_at": "2026-09-08"
     }
   ]
 }

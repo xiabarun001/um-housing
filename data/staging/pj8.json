@@ -1,0 +1,216 @@
+{
+  "id": "pj8",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
+    "final_url": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:45.126Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Serviced Residence @ PJ8",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 1310,
+    "completed": 2008,
+    "units": 380,
+    "floors": 39,
+    "buildings": [
+      {
+        "name": "Building @ PJ8",
+        "floors": 39,
+        "units": 380
+      }
+    ],
+    "developer": "IJM Land Berhad",
+    "address": "Jalan Barat, 46050, Selangor",
+    "lat": 3.101428,
+    "lng": 101.63982,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "Landscaped Garden",
+      "Laundry",
+      "多功能厅",
+      "桑拿",
+      "壁球场",
+      "泳池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Landscaped Garden",
+      "Laundry",
+      "Multi-purpose hall",
+      "Sauna",
+      "Squash court",
+      "Swimming pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": true,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-serviced-residence-pj8-1310"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Serviced Residence @ PJ8",
+      "proposed": "Serviced Residence @ PJ8",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2008,
+      "proposed": 2008,
+      "status": "same"
+    },
+    "units": {
+      "current": 380,
+      "proposed": 380,
+      "status": "same"
+    },
+    "floors": {
+      "current": "39 层",
+      "proposed": "39 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "IJM Land",
+      "proposed": "IJM Land Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Barat, Seksyen 8, 46050 Petaling Jaya",
+      "proposed": "Jalan Barat, 46050, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.101428,
+        101.63982
+      ],
+      "proposed": [
+        3.101428,
+        101.63982
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "健身房",
+        "桑拿",
+        "壁球场",
+        "烧烤区",
+        "多功能厅",
+        "洗衣房",
+        "园林",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "Landscaped Garden",
+        "Laundry",
+        "多功能厅",
+        "桑拿",
+        "壁球场",
+        "泳池"
+      ],
+      "added": [
+        "Landscaped Garden",
+        "Laundry"
+      ],
+      "removed": [
+        "洗衣房",
+        "园林"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": true,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": true,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [
+        "jacuzzi"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

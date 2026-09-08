@@ -1,0 +1,216 @@
+{
+  "id": "millerz",
+  "source": {
+    "url": "https://www.iproperty.com.my/condo/millerz-square-9658",
+    "final_url": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:24:35.065Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Millerz Square Serviced Residence",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Jalan Klang Lama (Old Klang Road)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 9658,
+    "completed": 2019,
+    "units": 339,
+    "floors": 43,
+    "buildings": [
+      {
+        "name": "Tower A @ Millerz Square Serviced Residence",
+        "floors": 43,
+        "units": 339
+      },
+      {
+        "name": "Tower B @ Millerz Square Serviced Residence",
+        "floors": 44,
+        "units": 339
+      },
+      {
+        "name": "Tower C @ Millerz Square Serviced Residence",
+        "floors": 44,
+        "units": 453
+      },
+      {
+        "name": "Tower E @ Millerz Square Serviced Residence",
+        "floors": 44,
+        "units": 502
+      }
+    ],
+    "developer": "EXSIM Development Sdn Bhd",
+    "address": "Jalan Klang Lama, 58000, Kuala Lumpur",
+    "lat": 3.087312,
+    "lng": 101.673231,
+    "facilities": [
+      "24 小时保安",
+      "落客点",
+      "健身房",
+      "按摩池",
+      "Landscaped Garden",
+      "多功能厅",
+      "围栏",
+      "儿童游乐场",
+      "空中休息厅",
+      "Surau - Male & Female",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "Drop Off Point",
+      "Gym",
+      "Jacuzzi",
+      "Landscaped Garden",
+      "Multi-purpose hall",
+      "Perimeter Fencing",
+      "Playground",
+      "Sky Lounge",
+      "Surau - Male & Female",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": false,
+      "minimart": false
+    },
+    "about": "Millerz Square Millerz Square is a distinctive serviced residence development situated along Jalan Klang Lama in the vibrant heart of Kuala Lumpur, Malaysia. Developed by the esteemed Exsim Group, this exceptional project consists of 1,633 residential units offering a variety of configurations, including two to three-bedroom apartments and serviced suites. Made to suit different needs, this freehold development integrates residential and commercial spaces seamlessly, incorporating retail outlets, clinics, and a childcare centre. With a multi-level car park and thoughtfully curated communal amenities, Millerz Square sets the stage for an elevated urban lifestyle. Unveiling the Unique Features of Millerz Square Millerz Square is well-placed on Old Klang Road. It connects easily to the city centre of Kuala Lumpur and more. This development aims to improve city living. It has excellent features like a rooftop garden, a shared lounge, and Smart Home systems. These help residents manage their appliances with ease. Its careful mix of easy access and comfort creates a lifestyle that feels good. Millerz Square shines as a home or a wise investment. It mixes luxury and usefulness well, makin",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-millerz-square-serviced-residence-9658"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": null,
+      "proposed": "Millerz Square Serviced Residence",
+      "status": "new"
+    },
+    "completed": {
+      "current": null,
+      "proposed": 2019,
+      "status": "new"
+    },
+    "units": {
+      "current": null,
+      "proposed": 339,
+      "status": "new"
+    },
+    "floors": {
+      "current": null,
+      "proposed": "43 / 44 层 × 4 栋",
+      "status": "new"
+    },
+    "tenure": {
+      "current": null,
+      "proposed": "Freehold 永久地契",
+      "status": "new"
+    },
+    "type": {
+      "current": null,
+      "proposed": "服务式公寓",
+      "status": "new"
+    },
+    "developer": {
+      "current": null,
+      "proposed": "EXSIM Development Sdn Bhd",
+      "status": "new"
+    },
+    "address": {
+      "current": null,
+      "proposed": "Jalan Klang Lama, 58000, Kuala Lumpur",
+      "status": "new"
+    },
+    "geo": {
+      "current": null,
+      "proposed": [
+        3.087312,
+        101.673231
+      ],
+      "status": "new",
+      "distance_m": null
+    },
+    "facilities": {
+      "current": null,
+      "proposed": [
+        "24 小时保安",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "空中休息厅",
+        "Surau - Male & Female",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "24 小时保安",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "空中休息厅",
+        "Surau - Male & Female",
+        "泳池",
+        "儿童池"
+      ],
+      "removed": [],
+      "status": "new"
+    },
+    "flags": {
+      "current": null,
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "new"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": true
+}

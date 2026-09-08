@@ -1,0 +1,256 @@
+{
+  "id": "ryan-miho",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
+    "final_url": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:19.674Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "RYAN & MIHO",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 9302,
+    "completed": 2021,
+    "units": 542,
+    "floors": 30,
+    "buildings": [
+      {
+        "name": "Block 1",
+        "floors": 30,
+        "units": 542
+      },
+      {
+        "name": "Block 2",
+        "floors": 30,
+        "units": 542
+      }
+    ],
+    "developer": "OSK Property Holdings Berhad",
+    "address": "46200, Selangor",
+    "lat": 3.118397,
+    "lng": 101.633049,
+    "facilities": [
+      "24 小时保安",
+      "Badminton hall",
+      "篮球场",
+      "烧烤区",
+      "Bus Stop",
+      "有顶停车场",
+      "Covered Linkways",
+      "落客点",
+      "休息厅",
+      "Multi-Storey Car Park",
+      "停车场",
+      "儿童游乐场",
+      "足底按摩步道",
+      "桑拿",
+      "蒸汽房",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "Badminton hall",
+      "Basketball court",
+      "BBQ",
+      "Bus Stop",
+      "Covered car park",
+      "Covered Linkways",
+      "Drop Off Point",
+      "Lounge",
+      "Multi-Storey Car Park",
+      "Parking",
+      "Playground",
+      "Reflexology Path",
+      "Sauna",
+      "Steam bath",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": false,
+      "sauna": true,
+      "steam": true,
+      "jacuzzi": false,
+      "badminton": true,
+      "basketball": true,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-ryan-miho-9302"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Ryan & Miho",
+      "proposed": "RYAN & MIHO",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2021,
+      "proposed": 2021,
+      "status": "same"
+    },
+    "units": {
+      "current": 542,
+      "proposed": 542,
+      "status": "same"
+    },
+    "floors": {
+      "current": "30 层 × 2 栋",
+      "proposed": "30 层 × 2 栋",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "OSK Property",
+      "proposed": "OSK Property Holdings Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Professor Diraja Ungku Aziz, Seksyen 13, 46200 Petaling Jaya",
+      "proposed": "46200, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.118397,
+        101.633049
+      ],
+      "proposed": [
+        3.118397,
+        101.633049
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "儿童池",
+        "健身房（室内加室外）",
+        "桑拿",
+        "蒸汽房",
+        "羽毛球馆",
+        "篮球场",
+        "烧烤区",
+        "儿童游乐场",
+        "足底按摩步道",
+        "休息厅",
+        "有顶连廊",
+        "落客点",
+        "门口公交站",
+        "多层停车楼",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "Badminton hall",
+        "篮球场",
+        "烧烤区",
+        "Bus Stop",
+        "有顶停车场",
+        "Covered Linkways",
+        "落客点",
+        "休息厅",
+        "Multi-Storey Car Park",
+        "停车场",
+        "儿童游乐场",
+        "足底按摩步道",
+        "桑拿",
+        "蒸汽房",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "Badminton hall",
+        "Bus Stop",
+        "有顶停车场",
+        "Covered Linkways",
+        "Multi-Storey Car Park",
+        "停车场"
+      ],
+      "removed": [
+        "健身房（室内加室外）",
+        "羽毛球馆",
+        "有顶连廊",
+        "门口公交站",
+        "多层停车楼"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": true,
+        "jacuzzi": false,
+        "badminton": true,
+        "basketball": true,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": false,
+        "sauna": true,
+        "steam": true,
+        "jacuzzi": false,
+        "badminton": true,
+        "basketball": true,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [
+        "gym",
+        "minimart"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

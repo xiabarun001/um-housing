@@ -1,0 +1,224 @@
+{
+  "id": "saville",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
+    "final_url": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:21.734Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Saville @ The Park",
+    "property_type_en": "Condominium",
+    "type": "公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Pantai",
+    "region_name": "Kuala Lumpur",
+    "project_id": 4685,
+    "completed": 2015,
+    "units": 408,
+    "floors": 27,
+    "buildings": [
+      {
+        "name": "Building 1@Pantai, Kuala Lumpur",
+        "floors": 27,
+        "units": 408
+      }
+    ],
+    "developer": "MKH Berhad",
+    "address": "Jalan Pantai Murni 8, 59200, Kuala Lumpur",
+    "lat": 3.102912,
+    "lng": 101.661941,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "会所",
+      "有顶停车场",
+      "健身房",
+      "按摩池",
+      "多功能厅",
+      "儿童游乐场",
+      "桑拿",
+      "Surau - Male & Female",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Clubhouse",
+      "Covered car park",
+      "Gym",
+      "Jacuzzi",
+      "Multi-purpose hall",
+      "Playground",
+      "Sauna",
+      "Surau - Male & Female",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "Saville @ The Park is a freehold condominium located in Pantai Hillpark, Kuala Lumpur. The condominium features several of the finest facilities, like 24-hour security, clubhouse, gymnasium, games room, children’s play area, outdoor spa, infinity pool, children’s wading pool, and jacuzzi.&nbsp; Saville @ The Park was developed by Amona Metro Development Sdn Bhd, which is a joint venture company between Amona Group and Metro Kajang Holdings (MKH) Berhad. The project was completed in the year 2015. There are 2 blocks of 27 floors of condominiums each with a total of 408 units, and 2 ½ storey Semi-D Villas with a total of 18 units. The build-up size is ranging from 1,019 sq ft to 4612 sq ft. Type A - 1,019 sq ft Type A2 - 1,390 sq ft Type B - 1,253 sq ft Type C - 1,646 sq ft Penthouse A - 2,415 sq ft Penthouse B - 2,528 sq ft Semi-D Villas - 3,295 sq ft - 4,612 sq ft Some of the nearest landmarks surrounding Saville @ The Park include Mid Valley Megamall, The Gardens Mall, KL Eco City Mall, KL Gateway Mall, Amcorp Mall, Bangsar Village, Nexus Bangsar South, The Sphere, Jaya Shopping Centre and Digital Mall - PJ Seksyen 14. Saville @ The Park is easily accessible from various routes of",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-saville-the-park-4685"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Saville @ The Park",
+      "proposed": "Saville @ The Park",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2015,
+      "proposed": 2015,
+      "status": "same"
+    },
+    "units": {
+      "current": 408,
+      "proposed": 408,
+      "status": "same"
+    },
+    "floors": {
+      "current": "27 层 × 2 栋",
+      "proposed": "27 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Freehold 永久地契",
+      "proposed": "Freehold 永久地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "公寓",
+      "proposed": "公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "MKH（Amona Metro）",
+      "proposed": "MKH Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Pantai Murni 8, Bukit Kerinchi, 59200 KL",
+      "proposed": "Jalan Pantai Murni 8, 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.102912,
+        101.661941
+      ],
+      "proposed": [
+        3.102912,
+        101.661941
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "无边泳池",
+        "儿童池",
+        "健身房",
+        "按摩池",
+        "桑拿",
+        "会所",
+        "游戏室",
+        "烧烤区",
+        "多功能厅",
+        "儿童游乐场",
+        "祈祷室",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "会所",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "多功能厅",
+        "儿童游乐场",
+        "桑拿",
+        "Surau - Male & Female",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "Surau - Male & Female",
+        "泳池"
+      ],
+      "removed": [
+        "无边泳池",
+        "游戏室",
+        "祈祷室"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

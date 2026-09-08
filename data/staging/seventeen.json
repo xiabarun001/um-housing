@@ -1,0 +1,209 @@
+{
+  "id": "seventeen",
+  "source": {
+    "url": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+    "final_url": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:07.720Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Seventeen Mall & Residences (Biji Living)",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 21634,
+    "completed": 2019,
+    "units": 425,
+    "floors": 27,
+    "buildings": [
+      {
+        "name": "Building @ Seventeen Mall & Residences (Biji Living)",
+        "floors": 27,
+        "units": 425
+      }
+    ],
+    "developer": "Conlay Construction Sdn Bhd",
+    "address": "Jalan 17/29, 46400, Selangor",
+    "lat": 3.12888024,
+    "lng": 101.6349092,
+    "facilities": [
+      "多功能厅",
+      "停车场",
+      "儿童游乐场",
+      "泳池"
+    ],
+    "facilities_en": [
+      "Multi-purpose hall",
+      "Parking",
+      "Playground",
+      "Swimming pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": false,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": false,
+      "minimart": false
+    },
+    "about": "Seventeen Residences (Biji Living) Seventeen Residences, known as Biji Living, is a distinguished freehold serviced residence at Jalan 17/29, Seksyen 17, Petaling Jaya, Selangor. Situated in one of Petaling Jaya's most vibrant and accessible neighbourhoods, this development offers residents a modern urban lifestyle complemented by various amenities and convenient access to nearby shopping malls, schools, and public transportation. Developed by Kampung Manis Realty Sdn. Bhd. in 2019, an associate of Conlay Construction Sdn. Bhd. Seventeen Residences comprises two 27-storey towers with 425 residential units. The serviced residence range from studio units to spacious three-bedroom layouts, catering to diverse living preferences and needs. The development combines residential comfort with commercial convenience. It features a podium mall and ample parking across multiple basement and podium levels. Residents enjoy lifestyle facilities such as a gymnasium, a 33-metre lap pool, a mini herb garden, and secure three-tier access control. Unique Selling Points Seventeen Residences (Biji Living) boasts a prime location in Section 17, Petaling Jaya. It offers exceptional connectivity to variou",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-seventeen-mall-residences-biji-living-21634"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Seventeen Mall & Residences（Biji Living）",
+      "proposed": "Seventeen Mall & Residences (Biji Living)",
+      "status": "changed"
+    },
+    "completed": {
+      "current": 2019,
+      "proposed": 2019,
+      "status": "same"
+    },
+    "units": {
+      "current": 425,
+      "proposed": 425,
+      "status": "same"
+    },
+    "floors": {
+      "current": "27 层 × 2 栋",
+      "proposed": "27 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Freehold 永久地契",
+      "proposed": "Freehold 永久地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "Conlay Construction（Kampung Manis Realty）",
+      "proposed": "Conlay Construction Sdn Bhd",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan 17/29, Seksyen 17, 46400 Petaling Jaya",
+      "proposed": "Jalan 17/29, 46400, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.12888,
+        101.634909
+      ],
+      "proposed": [
+        3.12888024,
+        101.6349092
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "33 米泳道池",
+        "儿童池",
+        "健身房",
+        "慢跑道",
+        "儿童游乐场",
+        "宴会厅",
+        "园林",
+        "香草园",
+        "楼下商场",
+        "三层门禁",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "多功能厅",
+        "停车场",
+        "儿童游乐场",
+        "泳池"
+      ],
+      "added": [
+        "多功能厅",
+        "停车场",
+        "泳池"
+      ],
+      "removed": [
+        "33 米泳道池",
+        "儿童池",
+        "健身房",
+        "慢跑道",
+        "宴会厅",
+        "园林",
+        "香草园",
+        "楼下商场",
+        "三层门禁",
+        "24 小时保安"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": false,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": false
+      },
+      "changed_keys": [
+        "gym",
+        "minimart"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

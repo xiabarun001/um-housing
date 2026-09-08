@@ -1,0 +1,226 @@
+{
+  "id": "secoya",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
+    "final_url": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:29.672Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Secoya Residence",
+    "property_type_en": "Condominium",
+    "type": "公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Kampung Kerinchi (Bangsar South)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 7619,
+    "completed": 2019,
+    "units": 243,
+    "floors": 41,
+    "buildings": [
+      {
+        "name": "Secoya Residences",
+        "floors": 41,
+        "units": 243
+      }
+    ],
+    "developer": "IJM Land Berhad",
+    "address": "59200, Kuala Lumpur",
+    "lat": 3.101723,
+    "lng": 101.66466,
+    "facilities": [
+      "24 小时保安",
+      "篮球场",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "按摩池",
+      "Landscaped Garden",
+      "多功能厅",
+      "围栏",
+      "儿童游乐场",
+      "桑拿",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "Basketball court",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Jacuzzi",
+      "Landscaped Garden",
+      "Multi-purpose hall",
+      "Perimeter Fencing",
+      "Playground",
+      "Sauna",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": true,
+      "badminton": false,
+      "basketball": true,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-secoya-residence-7619"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Secoya Residences @ Pantai Sentral Park",
+      "proposed": "Secoya Residence",
+      "status": "changed"
+    },
+    "completed": {
+      "current": 2019,
+      "proposed": 2019,
+      "status": "same"
+    },
+    "units": {
+      "current": 243,
+      "proposed": 243,
+      "status": "same"
+    },
+    "floors": {
+      "current": "41 层",
+      "proposed": "41 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "公寓",
+      "proposed": "公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "IJM Land",
+      "proposed": "IJM Land Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "No. 2A Pantai Sentral Park, off Jalan Pantai Murni, 59200 KL",
+      "proposed": "59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.101723,
+        101.66466
+      ],
+      "proposed": [
+        3.101723,
+        101.66466
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "无边泳池",
+        "儿童池",
+        "健身房",
+        "按摩池",
+        "桑拿",
+        "篮球场",
+        "烧烤区",
+        "多功能厅",
+        "儿童游乐场",
+        "园林",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "篮球场",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "桑拿",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "Landscaped Garden",
+        "围栏",
+        "泳池"
+      ],
+      "removed": [
+        "无边泳池",
+        "园林"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": true,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": true,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

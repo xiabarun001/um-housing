@@ -1,0 +1,263 @@
+{
+  "id": "tiara-damansara",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
+    "final_url": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:49.588Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Tiara Damansara",
+    "property_type_en": "Condominium",
+    "type": "公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 1319,
+    "completed": null,
+    "units": 351,
+    "floors": 5,
+    "buildings": [
+      {
+        "name": "Building 1@Petaling Jaya, Selangor",
+        "floors": 5,
+        "units": 351
+      },
+      {
+        "name": "Building 2@Petaling Jaya, Selangor",
+        "floors": 5,
+        "units": 351
+      },
+      {
+        "name": "Building 3@Petaling Jaya, Selangor",
+        "floors": 5,
+        "units": 351
+      },
+      {
+        "name": "Building 4@Petaling Jaya, Selangor",
+        "floors": 5,
+        "units": 351
+      }
+    ],
+    "developer": null,
+    "address": "Jalan 17/1, 46400, Selangor",
+    "lat": 3.125104,
+    "lng": 101.639088,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "咖啡座",
+      "有顶停车场",
+      "健身房",
+      "Laundry",
+      "休息厅",
+      "多功能厅",
+      "托儿所",
+      "儿童游乐场",
+      "Recreation Lake",
+      "Retail stores",
+      "桑拿",
+      "壁球场",
+      "泳池",
+      "Tennis courts"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Cafe",
+      "Covered car park",
+      "Gym",
+      "Laundry",
+      "Lounge",
+      "Multi-purpose hall",
+      "Nursery",
+      "Playground",
+      "Recreation Lake",
+      "Retail stores",
+      "Sauna",
+      "Squash court",
+      "Swimming pool",
+      "Tennis courts"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": true,
+      "tennis": true,
+      "bbq": true,
+      "minimart": true
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-tiara-damansara-1319"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Tiara Damansara",
+      "proposed": "Tiara Damansara",
+      "status": "same"
+    },
+    "completed": {
+      "current": null,
+      "proposed": null,
+      "status": "none"
+    },
+    "units": {
+      "current": 351,
+      "proposed": 351,
+      "status": "same"
+    },
+    "floors": {
+      "current": "5 层 × 4 栋",
+      "proposed": "5 层 × 4 栋",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Freehold 永久地契",
+      "proposed": "Freehold 永久地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "低层公寓",
+      "proposed": "公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "—",
+      "proposed": null,
+      "status": "missing"
+    },
+    "address": {
+      "current": "Jalan 17/1, Seksyen 17, 46400 Petaling Jaya",
+      "proposed": "Jalan 17/1, 46400, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.125104,
+        101.639088
+      ],
+      "proposed": [
+        3.125104,
+        101.639088
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "儿童池",
+        "按摩池",
+        "健身房",
+        "桑拿",
+        "壁球场",
+        "网球场",
+        "烧烤区",
+        "咖啡座",
+        "洗衣店",
+        "休息厅",
+        "多功能厅",
+        "托儿所",
+        "儿童游乐场",
+        "景观湖",
+        "零售店",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "咖啡座",
+        "有顶停车场",
+        "健身房",
+        "Laundry",
+        "休息厅",
+        "多功能厅",
+        "托儿所",
+        "儿童游乐场",
+        "Recreation Lake",
+        "Retail stores",
+        "桑拿",
+        "壁球场",
+        "泳池",
+        "Tennis courts"
+      ],
+      "added": [
+        "有顶停车场",
+        "Laundry",
+        "Recreation Lake",
+        "Retail stores",
+        "Tennis courts"
+      ],
+      "removed": [
+        "儿童池",
+        "按摩池",
+        "网球场",
+        "洗衣店",
+        "景观湖",
+        "零售店"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": true,
+        "tennis": true,
+        "bbq": true,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": true,
+        "tennis": true,
+        "bbq": true,
+        "minimart": true
+      },
+      "changed_keys": [
+        "jacuzzi"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

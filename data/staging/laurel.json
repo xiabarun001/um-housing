@@ -1,0 +1,220 @@
+{
+  "id": "laurel",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
+    "final_url": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:17.744Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Laurel Residence",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Kampung Kerinchi (Bangsar South)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 17871,
+    "completed": 2025,
+    "units": null,
+    "floors": 42,
+    "buildings": [
+      {
+        "name": "Laurel Residence @ Bangsar South ",
+        "floors": 42,
+        "units": "N/A"
+      }
+    ],
+    "developer": "UOA Development Berhad",
+    "address": "Jalan Pantai Permai, 59200, Kuala Lumpur",
+    "lat": 3.108608,
+    "lng": 101.666382,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "Community Garden",
+      "有顶停车场",
+      "落客点",
+      "休息厅",
+      "停车场",
+      "儿童游乐场",
+      "足底按摩步道",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Community Garden",
+      "Covered car park",
+      "Drop Off Point",
+      "Lounge",
+      "Parking",
+      "Playground",
+      "Reflexology Path",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": false,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-laurel-residence-17871"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Laurel Residence",
+      "proposed": "Laurel Residence",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2025,
+      "proposed": 2025,
+      "status": "same"
+    },
+    "units": {
+      "current": null,
+      "proposed": null,
+      "status": "none"
+    },
+    "floors": {
+      "current": "42 层",
+      "proposed": "42 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "UOA Development",
+      "proposed": "UOA Development Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Pantai Permai, Bangsar South, 59200 KL",
+      "proposed": "Jalan Pantai Permai, 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.108608,
+        101.666382
+      ],
+      "proposed": [
+        3.108608,
+        101.666382
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "儿童池",
+        "健身房",
+        "烧烤区",
+        "社区花园",
+        "休息厅",
+        "儿童游乐场",
+        "足底按摩步道",
+        "落客点",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "Community Garden",
+        "有顶停车场",
+        "落客点",
+        "休息厅",
+        "停车场",
+        "儿童游乐场",
+        "足底按摩步道",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "Community Garden",
+        "停车场"
+      ],
+      "removed": [
+        "健身房",
+        "社区花园"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": false,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [
+        "gym"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

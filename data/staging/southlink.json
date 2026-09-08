@@ -1,0 +1,208 @@
+{
+  "id": "southlink",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/southlink-pty_61383/",
+    "final_url": "https://www.iproperty.com.my/condo/southlink-8399",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:09.667Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Southlink",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Kampung Kerinchi (Bangsar South)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 8399,
+    "completed": 2022,
+    "units": 1422,
+    "floors": 52,
+    "buildings": [
+      {
+        "name": "Tower A",
+        "floors": 52,
+        "units": 1422
+      }
+    ],
+    "developer": "UOA Group",
+    "address": "Lebuhraya Persekutuan, 59200, Kuala Lumpur",
+    "lat": 3.113848,
+    "lng": 101.666596,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "健身房",
+      "多功能厅",
+      "围栏",
+      "儿童游乐场",
+      "Surau - Male & Female",
+      "泳池",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Gym",
+      "Multi-purpose hall",
+      "Perimeter Fencing",
+      "Playground",
+      "Surau - Male & Female",
+      "Swimming pool",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/southlink-8399",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-southlink-8399"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Southlink Lifestyle Apartments",
+      "proposed": "Southlink",
+      "status": "changed"
+    },
+    "completed": {
+      "current": 2022,
+      "proposed": 2022,
+      "status": "same"
+    },
+    "units": {
+      "current": 1422,
+      "proposed": 1422,
+      "status": "same"
+    },
+    "floors": {
+      "current": "52 层单栋",
+      "proposed": "52 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Freehold 永久地契",
+      "proposed": "Freehold 永久地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "UOA Group",
+      "proposed": "UOA Group",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Kerinchi / Lebuhraya Persekutuan, Bangsar South, 59200 KL",
+      "proposed": "Lebuhraya Persekutuan, 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.113848,
+        101.666596
+      ],
+      "proposed": [
+        3.113848,
+        101.666596
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "儿童池",
+        "健身房",
+        "烧烤区",
+        "多功能厅",
+        "儿童游乐场",
+        "祈祷室",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "健身房",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "Surau - Male & Female",
+        "泳池",
+        "儿童池"
+      ],
+      "added": [
+        "围栏",
+        "Surau - Male & Female"
+      ],
+      "removed": [
+        "祈祷室"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

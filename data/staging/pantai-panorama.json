@@ -1,0 +1,254 @@
+{
+  "id": "pantai-panorama",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
+    "final_url": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:22:01.522Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Pantai Panorama Condominiums",
+    "property_type_en": "Condominium",
+    "type": "公寓",
+    "tenure_code": "F",
+    "tenure": "Freehold 永久地契",
+    "district": "Kampung Kerinchi (Bangsar South)",
+    "region_name": "Kuala Lumpur",
+    "project_id": 105,
+    "completed": 1996,
+    "units": 708,
+    "floors": 18,
+    "buildings": [
+      {
+        "name": "Building 1@Kampung Kerinchi (Bangsar South), Kuala Lumpur",
+        "floors": 18,
+        "units": 708
+      },
+      {
+        "name": "Building 2@Kampung Kerinchi (Bangsar South), Kuala Lumpur",
+        "floors": 18,
+        "units": 708
+      },
+      {
+        "name": "Building 5@Kampung Kerinchi (Bangsar South), Kuala Lumpur",
+        "floors": 18,
+        "units": 708
+      },
+      {
+        "name": "Building 3@Kampung Kerinchi (Bangsar South), Kuala Lumpur",
+        "floors": 18,
+        "units": 708
+      },
+      {
+        "name": "Building 4@Kampung Kerinchi (Bangsar South), Kuala Lumpur",
+        "floors": 18,
+        "units": 708
+      }
+    ],
+    "developer": "Amcorp Properties Berhad",
+    "address": "Jalan 112h, 59200, Kuala Lumpur",
+    "lat": 3.109804,
+    "lng": 101.662215,
+    "facilities": [
+      "24 小时保安",
+      "Badminton hall",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "Laundry",
+      "休息厅",
+      "儿童游乐场",
+      "Retail stores",
+      "桑拿",
+      "壁球场",
+      "泳池",
+      "Tennis courts",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "Badminton hall",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Laundry",
+      "Lounge",
+      "Playground",
+      "Retail stores",
+      "Sauna",
+      "Squash court",
+      "Swimming pool",
+      "Tennis courts",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": true,
+      "basketball": false,
+      "squash": true,
+      "tennis": true,
+      "bbq": true,
+      "minimart": true
+    },
+    "about": "Pantai Panorama Condominiums is a freehold condominium development located in Kampung Kerinchi (Bangsar South), Kuala Lumpur. This high-rise development is superbly placed in the prime location of Bangsar South, a self-sufficient and thriving neighbourhood. Pantai Panorama Condominiums was completed in the year 1996 and was developed by Amcorp Properties Berhad. It contains 5 blocks of the 18-storey residential tower. There is a total of 708 residential units in this development with the built-up area starting from 750 to 1,300 sq ft. Recreational and leisure facilities are also available for enjoyment. These facilities include a swimming pool, wading pool, badminton hall, BBQ area, gymnasium room, sauna, spa pool, squash court, tennis courts and children's playground. Other than that, this unique development comes with a covered car park and a 24-hour security system as well. Bangsar South is also well-known for its nightlife offerings as plenty of bars, cafés, restaurants and other nightlife hotspots could be found around the area. Other than that, it also features top shopping destinations like KL Gateway Mall ( 650m ), Nexus Bangsar South ( 800m ), The Sphere ( 1km ), Mid Valle",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pantai-panorama-condominiums-105"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Pantai Panorama Condominiums",
+      "proposed": "Pantai Panorama Condominiums",
+      "status": "same"
+    },
+    "completed": {
+      "current": 1996,
+      "proposed": 1996,
+      "status": "same"
+    },
+    "units": {
+      "current": 708,
+      "proposed": 708,
+      "status": "same"
+    },
+    "floors": {
+      "current": "18 层 × 5 栋",
+      "proposed": "18 层 × 5 栋",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Freehold 永久地契",
+      "proposed": "Freehold 永久地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "公寓",
+      "proposed": "公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "Amcorp Properties",
+      "proposed": "Amcorp Properties Berhad",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan 112H, Kampung Kerinchi, 59200 KL",
+      "proposed": "Jalan 112h, 59200, Kuala Lumpur",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.109804,
+        101.662215
+      ],
+      "proposed": [
+        3.109804,
+        101.662215
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "儿童池",
+        "健身房",
+        "桑拿",
+        "羽毛球馆",
+        "壁球场",
+        "网球场",
+        "烧烤区",
+        "洗衣店",
+        "休息厅",
+        "便利店",
+        "儿童游乐场",
+        "有顶停车场",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "Badminton hall",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "Laundry",
+        "休息厅",
+        "儿童游乐场",
+        "Retail stores",
+        "桑拿",
+        "壁球场",
+        "泳池",
+        "Tennis courts",
+        "儿童池"
+      ],
+      "added": [
+        "Badminton hall",
+        "Laundry",
+        "Retail stores",
+        "Tennis courts"
+      ],
+      "removed": [
+        "羽毛球馆",
+        "网球场",
+        "洗衣店",
+        "便利店"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": true,
+        "basketball": false,
+        "squash": true,
+        "tennis": true,
+        "bbq": true,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": true,
+        "basketball": false,
+        "squash": true,
+        "tennis": true,
+        "bbq": true,
+        "minimart": true
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

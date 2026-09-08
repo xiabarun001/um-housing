@@ -1,0 +1,236 @@
+{
+  "id": "pj-midtown",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
+    "final_url": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:36.074Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "PJ Midtown",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 6911,
+    "completed": 2019,
+    "units": 758,
+    "floors": 30,
+    "buildings": [
+      {
+        "name": "PJ Midtown, Section 13",
+        "floors": 30,
+        "units": 758
+      }
+    ],
+    "developer": "IOI Properties and Sime Darby Brunsfield",
+    "address": "46200, Selangor",
+    "lat": 3.11381,
+    "lng": 101.640488,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "有顶停车场",
+      "健身房",
+      "跑道",
+      "多功能厅",
+      "儿童游乐场",
+      "桑拿",
+      "Surau - Male & Female",
+      "泳池",
+      "Tennis courts",
+      "儿童池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Covered car park",
+      "Gym",
+      "Jogging track",
+      "Multi-purpose hall",
+      "Playground",
+      "Sauna",
+      "Surau - Male & Female",
+      "Swimming pool",
+      "Tennis courts",
+      "Wading pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": true,
+      "bbq": true,
+      "minimart": false
+    },
+    "about": "Reviewed by iProperty Editorial Team, June 2025 Quick Summary PJ Midtown is a leasehold serviced residence in Seksyen 13, Petaling Jaya, Selangor, developed by PJ Midtown Development Sdn Bhd, a joint venture between IOI Properties Group Berhad and Sime Darby Brunsfield. 758 units are distributed across 2 blocks of 29 to 30 storeys on 5.5 acres, completed in 2019. Built-up sizes are 613 sq ft (1 bedroom), 915 sq ft (2 bedrooms), and 1,227 sq ft (3 bedrooms), all with single-load corridor design for natural ventilation and light. Asia Jaya LRT is approximately 1.5 km away. The development is integrated with shop offices and retail on its lower floors. Main trade-offs include the commercial strata title, leasehold tenure, and the 1.5 km distance to Asia Jaya LRT. Key Facts Project name: PJ Midtown Developer: PJ Midtown Development Sdn Bhd Parent companies: IOI Properties Group Berhad and Sime Darby Brunsfield (joint venture) Location: Jalan Kemajuan, Seksyen 13, 46200 Petaling Jaya, Selangor Property type: Serviced residence (mixed development with offices and retail) Tenure: Leasehold Land title type: Commercial Individual Site area: 5.5 acres Total units: 758 (serviced residence com",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pj-midtown-6911"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "PJ Midtown",
+      "proposed": "PJ Midtown",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2019,
+      "proposed": 2019,
+      "status": "same"
+    },
+    "units": {
+      "current": 758,
+      "proposed": 758,
+      "status": "same"
+    },
+    "floors": {
+      "current": "29–30 层 × 2 栋",
+      "proposed": "30 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契（商业地契，水电按商业费率）",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "IOI Properties + Sime Darby Brunsfield",
+      "proposed": "IOI Properties and Sime Darby Brunsfield",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan Kemajuan, Seksyen 13, 46200 Petaling Jaya",
+      "proposed": "46200, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.11381,
+        101.640488
+      ],
+      "proposed": [
+        3.11381,
+        101.640488
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "无边泳池",
+        "儿童池",
+        "健身房",
+        "网球场",
+        "慢跑道",
+        "桑拿",
+        "烧烤区",
+        "日光平台",
+        "多功能厅",
+        "会议室",
+        "图书室",
+        "小型影院",
+        "幼儿园",
+        "祈祷室",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "跑道",
+        "多功能厅",
+        "儿童游乐场",
+        "桑拿",
+        "Surau - Male & Female",
+        "泳池",
+        "Tennis courts",
+        "儿童池"
+      ],
+      "added": [
+        "有顶停车场",
+        "跑道",
+        "儿童游乐场",
+        "Surau - Male & Female",
+        "泳池",
+        "Tennis courts"
+      ],
+      "removed": [
+        "无边泳池",
+        "网球场",
+        "慢跑道",
+        "日光平台",
+        "会议室",
+        "图书室",
+        "小型影院",
+        "幼儿园",
+        "祈祷室"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": true,
+        "bbq": true,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": true,
+        "bbq": true,
+        "minimart": false
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

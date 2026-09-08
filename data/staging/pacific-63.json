@@ -1,0 +1,200 @@
+{
+  "id": "pacific-63",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
+    "final_url": "https://www.iproperty.com.my/condo/pacific-63-8858",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:31.599Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Pacific 63",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 8858,
+    "completed": 2014,
+    "units": 260,
+    "floors": 21,
+    "buildings": [
+      {
+        "name": "Building @ Pacific 63",
+        "floors": 21,
+        "units": 260
+      }
+    ],
+    "developer": "Island Circle Development (M) Sdn. Bhd.",
+    "address": "Jalan 13/6, 46200, Selangor",
+    "lat": 3.116098,
+    "lng": 101.634939,
+    "facilities": [
+      "会所",
+      "健身房",
+      "多功能厅",
+      "停车场",
+      "泳池"
+    ],
+    "facilities_en": [
+      "Clubhouse",
+      "Gym",
+      "Multi-purpose hall",
+      "Parking",
+      "Swimming pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": false,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": false,
+      "minimart": false
+    },
+    "about": "",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/pacific-63-8858",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pacific-63-8858"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Pacific 63",
+      "proposed": "Pacific 63",
+      "status": "same"
+    },
+    "completed": {
+      "current": 2014,
+      "proposed": 2014,
+      "status": "same"
+    },
+    "units": {
+      "current": 260,
+      "proposed": 260,
+      "status": "same"
+    },
+    "floors": {
+      "current": "21 层单栋",
+      "proposed": "21 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "SOHO 服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "Island Circle Development",
+      "proposed": "Island Circle Development (M) Sdn. Bhd.",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan 13/6, Seksyen 13, 46200 Petaling Jaya",
+      "proposed": "Jalan 13/6, 46200, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.116098,
+        101.634939
+      ],
+      "proposed": [
+        3.116098,
+        101.634939
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "儿童池",
+        "按摩池",
+        "蒸汽房",
+        "健身房",
+        "会所",
+        "多功能厅",
+        "停车场",
+        "门禁与对讲"
+      ],
+      "proposed": [
+        "会所",
+        "健身房",
+        "多功能厅",
+        "停车场",
+        "泳池"
+      ],
+      "added": [],
+      "removed": [
+        "儿童池",
+        "按摩池",
+        "蒸汽房",
+        "门禁与对讲"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": true,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": false
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": false
+      },
+      "changed_keys": [
+        "steam",
+        "jacuzzi"
+      ],
+      "status": "changed"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}

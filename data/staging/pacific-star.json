@@ -1,0 +1,222 @@
+{
+  "id": "pacific-star",
+  "source": {
+    "url": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
+    "final_url": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+    "site": "iProperty 项目页"
+  },
+  "fetched_at": "2026-09-08T11:21:27.617Z",
+  "date_myt": "2026-09-08",
+  "status": "ok",
+  "proposed": {
+    "name": "Pacific Star (Service Residence)",
+    "property_type_en": "Service Residence",
+    "type": "服务式公寓",
+    "tenure_code": "L",
+    "tenure": "Leasehold 租赁地契",
+    "district": "Petaling Jaya",
+    "region_name": "Selangor",
+    "project_id": 8261,
+    "completed": 2016,
+    "units": 657,
+    "floors": 33,
+    "buildings": [
+      {
+        "name": "Building @ Pacific Star (Service Residence)",
+        "floors": 33,
+        "units": 657
+      }
+    ],
+    "developer": "Island Circle Development (M) Sdn. Bhd.",
+    "address": "Jalan 13/6, 46200, Selangor",
+    "lat": 3.117448,
+    "lng": 101.636993,
+    "facilities": [
+      "24 小时保安",
+      "烧烤区",
+      "咖啡座",
+      "会所",
+      "健身房",
+      "多功能厅",
+      "围栏",
+      "儿童游乐场",
+      "Retail stores",
+      "桑拿",
+      "泳池"
+    ],
+    "facilities_en": [
+      "24-hour security",
+      "BBQ",
+      "Cafe",
+      "Clubhouse",
+      "Gym",
+      "Multi-purpose hall",
+      "Perimeter Fencing",
+      "Playground",
+      "Retail stores",
+      "Sauna",
+      "Swimming pool"
+    ],
+    "flags": {
+      "pool": true,
+      "gym": true,
+      "sauna": true,
+      "steam": false,
+      "jacuzzi": false,
+      "badminton": false,
+      "basketball": false,
+      "squash": false,
+      "tennis": false,
+      "bbq": true,
+      "minimart": true
+    },
+    "about": "Pacific Star Pacific Star is a contemporary leasehold apartment development in Petaling Jaya, Selangor 46200, Malaysia. This offers a well-balanced lifestyle of convenience and luxury. Island Circle Development, a subsidiary of Pacific Star Group, developed this high-rise residential and commercial project in 2016. This leasehold development features 657 service apartment units and 258 office suites, making it a versatile choice for residents and businesses. Pacific Star is in a great location with easy access to transport, making it simple to travel around the city. It offers modern facilities and a comfortable living space, making it a good choice for those who want to enjoy city life in Malaysia. Unique Features of Pacific Star Pacific Star stands out due to its seamless integration of modern architecture, sustainability, and practical living. The development has been recognised for its eco-friendly design, earning a Green Building Index award. This ensures a sustainable living environment with energy-efficient features and thoughtfully designed spaces. Residents can enjoy modern facilities like a gym, swimming pool, sauna, and multi-purpose hall. With homes, office spaces, and ",
+    "links": {
+      "iproperty_building": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+      "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pacific-star-service-residence-8261"
+    },
+    "counts": {
+      "rent": null,
+      "sale": null
+    }
+  },
+  "diff": {
+    "name": {
+      "current": "Pacific Star Service Residence",
+      "proposed": "Pacific Star (Service Residence)",
+      "status": "changed"
+    },
+    "completed": {
+      "current": 2016,
+      "proposed": 2016,
+      "status": "same"
+    },
+    "units": {
+      "current": 657,
+      "proposed": 657,
+      "status": "same"
+    },
+    "floors": {
+      "current": "24–33 层 × 3 栋",
+      "proposed": "33 层",
+      "status": "same"
+    },
+    "tenure": {
+      "current": "Leasehold 租赁地契",
+      "proposed": "Leasehold 租赁地契",
+      "status": "same"
+    },
+    "type": {
+      "current": "服务式公寓",
+      "proposed": "服务式公寓",
+      "status": "same"
+    },
+    "developer": {
+      "current": "Island Circle Development",
+      "proposed": "Island Circle Development (M) Sdn. Bhd.",
+      "status": "same"
+    },
+    "address": {
+      "current": "Jalan 13/6, Seksyen 13, 46200 Petaling Jaya",
+      "proposed": "Jalan 13/6, 46200, Selangor",
+      "status": "same"
+    },
+    "geo": {
+      "current": [
+        3.1174481,
+        101.636993
+      ],
+      "proposed": [
+        3.117448,
+        101.636993
+      ],
+      "status": "same",
+      "distance_m": 0
+    },
+    "facilities": {
+      "current": [
+        "泳池",
+        "健身房",
+        "桑拿",
+        "会所",
+        "便利店",
+        "餐厅",
+        "商务中心",
+        "烧烤区",
+        "儿童游乐场",
+        "多功能厅",
+        "三层门禁",
+        "24 小时保安"
+      ],
+      "proposed": [
+        "24 小时保安",
+        "烧烤区",
+        "咖啡座",
+        "会所",
+        "健身房",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "Retail stores",
+        "桑拿",
+        "泳池"
+      ],
+      "added": [
+        "咖啡座",
+        "围栏",
+        "Retail stores"
+      ],
+      "removed": [
+        "便利店",
+        "餐厅",
+        "商务中心",
+        "三层门禁"
+      ],
+      "status": "changed"
+    },
+    "flags": {
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": true
+      },
+      "proposed": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": false,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": true
+      },
+      "changed_keys": [],
+      "status": "same"
+    }
+  },
+  "assessment": {
+    "name": "单源（iProperty）",
+    "completed": "单源（iProperty）",
+    "units": "单源（iProperty）",
+    "floors": "单源（iProperty）",
+    "tenure": "单源（iProperty）",
+    "type": "单源（iProperty）",
+    "developer": "单源（iProperty）",
+    "address": "单源（iProperty）",
+    "geo": "单源（iProperty）",
+    "facilities": "单源（iProperty）",
+    "flags": "单源（iProperty）"
+  },
+  "is_new": false
+}
