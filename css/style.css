@@ -940,3 +940,15 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .around-group .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin-top: auto; }
 .around-group .chips a { border-radius: 6px; padding: 4px 8px 4px 5px; background: var(--bg); }
 @media (max-width: 960px) { .around-groups { grid-template-rows: none; } }
+
+/* 三大租房区域：和"熟悉校园"同款的两个面板 */
+.cs-key.rg { color: #fff; }
+.cs-key.rg.r1 { background: var(--r1); } .cs-key.rg.r2 { background: var(--r2); } .cs-key.rg.r3 { background: var(--r3); }
+.campus-list .cn.r1 { background: var(--r1); color: #fff; } .campus-list .cn.r2 { background: var(--r2); color: #fff; } .campus-list .cn.r3 { background: var(--r3); color: #fff; }
+.around-list .campus-group li a { display: flex; gap: 8px; align-items: center; color: var(--ink); text-decoration: none; }
+.around-list .campus-group li a:hover b { text-decoration: underline; }
+.around-list .campus-group { grid-column: 1 / -1; }
+.around-list .campus-group ol { columns: 2; column-gap: 24px; }
+.around-list .campus-group li { break-inside: avoid; }
+@media (min-width: 961px) { .around-list { align-content: space-evenly; } }
+@media (max-width: 720px) { .around-list { grid-template-columns: 1fr; } .around-list .campus-group ol { columns: 2; column-gap: 12px; } }

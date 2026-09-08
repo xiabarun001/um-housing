@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090130';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090145';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -774,7 +774,10 @@ async function renderCampus(geo) {
     for (const l of labels) s += `<text class="cs-region-lbl r${l.r}" x="${l.x.toFixed(1)}" y="${l.y.toFixed(1)}" text-anchor="middle">${esc(l.text)}</text>`;
     s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
     aroundBox.innerHTML = s;
-    if (groups) groups.innerHTML = Object.keys(regionsMeta).map((r) => `<div class="around-group r${r}"><h4>${esc(regionsMeta[r].label)}</h4><p class="muted">${esc(regionsMeta[r].desc || '')}</p><div class="chips">${condos.filter((c) => String(c.region) === r).map((c) => `<a href="#card-${c.id}"><i>${c.no}</i>${esc(shortAlias(c))}</a>`).join('')}</div></div>`).join('');
+    if (groups) {
+      groups.innerHTML = Object.keys(regionsMeta).map((r) => `<div class="campus-group region r${r}"><h4>${esc(regionsMeta[r].label)}</h4><ol>${condos.filter((c) => String(c.region) === r).map((c) => `<li><a href="#card-${c.id}"><i class="cn r${r}">${c.no}</i><span><b>${esc(shortAlias(c))}</b></span></a></li>`).join('')}</ol></div>`).join('');
+      const lb = $('#around-list-box'); if (lb && window.innerWidth <= 720) lb.open = false;
+    }
   }
 }
 
