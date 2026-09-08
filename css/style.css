@@ -971,3 +971,14 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .swatch.ktm-line { height: 0; border-top: 2.5px dashed var(--ktm); background: none; border-radius: 0; }
 .cs-key.mrt { width: 12px; height: 12px; border: 2.5px solid var(--mrt); background: var(--card, #fff); margin: 0 3px; }
 .campus-group .group-transit { margin: -2px 0 8px; font-size: 12px; color: var(--ink-3); line-height: 1.55; }
+
+/* 公交线路：PJ 免费巴士（棕色点线）、780 路（灰蓝实线） */
+:root { --bus-pj: #B5651D; --bus-780: #5C6B7A; }
+.cs-bus { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.cs-bus.pj { stroke: var(--bus-pj); stroke-width: 2.5; stroke-dasharray: 1 5; }
+.cs-bus.rapid { stroke: var(--bus-780); stroke-width: 2; opacity: .9; }
+.cs-lbl-bus { font-size: 10.5px; font-weight: 600; stroke-width: 3px; }
+.cs-lbl-bus.pj { fill: var(--bus-pj); }
+.cs-lbl-bus.rapid { fill: var(--bus-780); }
+.swatch.bus-pj { height: 0; border-top: 3px dotted var(--bus-pj); background: none; border-radius: 0; }
+.swatch.bus-780 { height: 2.5px; background: var(--bus-780); border-radius: 2px; }

@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090215';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090230';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -682,8 +682,8 @@ const svgPath = (ring, xy) => ring.map(([lng, lat], i) => (i ? 'L' : 'M') + xy({
 async function renderCampus(geo) {
   const mapBox = $('#campus-map'), list = $('#campus-list'), aroundBox = $('#around-map'), groups = $('#around-groups');
   if (!mapBox || !geo) return;
-  let data;
-  try { data = await fetch('data/campus.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
+  let data, bus = null;
+  try { [data, bus] = await Promise.all([fetch('data/campus.json', { cache: 'no-cache' }).then((r) => r.json()), fetch('data/bus-routes.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => null)]); } catch { return; }
   const rings = (geo.features ? geo.features[0] : geo).geometry.coordinates.map((p) => p[0]);
   const main = rings.reduce((a, b) => (b.length > a.length ? b : a));
   const uni = (state.meta.stations || []).find((s) => s.name === 'Universiti');
@@ -764,6 +764,25 @@ async function renderCampus(geo) {
     }
     s += `<path class="cs-campus" d="${svgPath(main, xy)}"/>`;
     { const [x, y] = xy({ lat: ringPts.reduce((a, q) => a + q.lat, 0) / ringPts.length, lng: ringPts.reduce((a, q) => a + q.lng, 0) / ringPts.length }); s += `<text class="cs-lbl cs-lbl-campus" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">马来亚大学</text>`; }
+    // 公交：PJ 免费巴士（PJ01 / PJ02）和 Rapid KL 780，走向来自 OpenStreetMap，只画进图框的部分
+    if (bus?.routes?.length) {
+      const inView = (x, y) => x >= 0 && x <= W && y >= 0 && y <= H;
+      for (const rt of bus.routes) {
+        const pts = [];
+        for (const seg of rt.segments) {
+          const xys = seg.map(([lat, lng]) => xy({ lat, lng }));
+          if (!xys.some(([x, y]) => inView(x, y))) continue;
+          s += `<polyline class="cs-bus ${rt.kind}" points="${xys.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' ')}"><title>${esc(rt.name)}</title></polyline>`;
+          xys.forEach(([x, y]) => { if (inView(x, y)) pts.push([x, y]); });
+        }
+        if (!pts.length) continue;
+        if (rt.ref === 'PJ02') { const p = pts.reduce((a, b) => (b[0] < a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus pj" x="${(p[0] + 4).toFixed(1)}" y="${(p[1] - 8).toFixed(1)}">PJ 免费巴士 PJ01 / PJ02</text>`; }
+        if (rt.kind === 'rapid') {
+          const top = pts.reduce((a, b) => (b[1] < a[1] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${Math.min(Math.max(top[0], 70), W - 80).toFixed(1)}" y="${(top[1] + 16).toFixed(1)}" text-anchor="middle">780 路 ↑ Kota Damansara</text>`;
+          const right = pts.reduce((a, b) => (b[0] > a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${(right[0] - 6).toFixed(1)}" y="${(right[1] - 8).toFixed(1)}" text-anchor="end">780 路 → Pasar Seni</text>`;
+        }
+      }
+    }
     const stnLabel = (x, y, text, cls, anchor) => `<text class="cs-lbl cs-lbl-stn ${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor || 'start'}">${esc(text)}</text>`;
     // KTM：按数据顺序连成线（Mid Valley → Seputeh → Pantai Dalam → Petaling）
     if (ktm.length > 1) {
