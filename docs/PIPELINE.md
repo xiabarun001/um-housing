@@ -27,6 +27,7 @@
                          →  crosscheck.mjs --all（坐标、步行）
                          →  collect.mjs --report-only（合成 REVIEW.md）→ status.mjs → 只提交 staging 和 status
 人审        看 data/staging/REVIEW.md → publish.mjs <id> --accept=… → condos.json + provenance + changelog.json → 提交 → 部署
+            或在后台 /console/「采集与审核」勾选发布 → 触发 console-action.yml 在云端跑同一个 publish.mjs
 仲裁        两个来源不一致时 arbitrate.mjs <id> <字段> --verdict=… --note=理由 → provenance.<字段>.second 记下结论和理由（不改值）
 ```
 

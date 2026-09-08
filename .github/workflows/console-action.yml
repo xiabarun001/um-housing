@@ -1,0 +1,120 @@
+name: console action
+
+# 后台（UMH Console）触发的动作：发布 staging、仲裁两源冲突、立即采集 / 刷新。
+# 后台不直接改文件，而是让这条工作流跑同一套脚本并提交，留痕和命令行完全一致。
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: publish | arbitrate | collect | crosscheck | refresh | status
+        required: true
+        type: string
+      id:
+        description: 小区 id（publish / arbitrate / crosscheck 用）
+        required: false
+        type: string
+        default: ""
+      accept:
+        description: 要接受的字段，逗号分隔，或 all（publish 用）
+        required: false
+        type: string
+        default: ""
+      field:
+        description: 字段（arbitrate 用）
+        required: false
+        type: string
+        default: ""
+      verdict:
+        description: agree | conflict | second-only（arbitrate 用）
+        required: false
+        type: string
+        default: ""
+      reason:
+        description: 理由
+        required: false
+        type: string
+        default: ""
+      note:
+        description: 对外一句话说明
+        required: false
+        type: string
+        default: ""
+      who:
+        description: 操作人（后台填管理员邮箱）
+        required: true
+        type: string
+
+run-name: "console: ${{ inputs.action }} ${{ inputs.id }} by ${{ inputs.who }}"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: data-writes
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ARG_ACTION: ${{ inputs.action }}
+      ARG_ID: ${{ inputs.id }}
+      ARG_ACCEPT: ${{ inputs.accept }}
+      ARG_FIELD: ${{ inputs.field }}
+      ARG_VERDICT: ${{ inputs.verdict }}
+      ARG_REASON: ${{ inputs.reason }}
+      ARG_NOTE: ${{ inputs.note }}
+      ARG_WHO: ${{ inputs.who }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: install curl-impersonate
+        if: ${{ inputs.action == 'collect' || inputs.action == 'refresh' || inputs.action == 'crosscheck' }}
+        run: |
+          set -e
+          V=v2.2.2
+          mkdir -p "$HOME/ci"
+          curl -sSL -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
+          tar -xzf /tmp/ci.tar.gz -C "$HOME/ci"
+          chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
+          echo "CURL_BIN=$HOME/ci/curl_safari184_ios" >> "$GITHUB_ENV"
+      - name: run the action
+        run: |
+          set -e
+          case "$ARG_ACTION" in
+            publish)
+              if [ -n "$ARG_ACCEPT" ]; then
+                node scripts/publish.mjs "$ARG_ID" --accept="$ARG_ACCEPT" --who="$ARG_WHO" --reason="${ARG_REASON:-后台发布}" --note="$ARG_NOTE"
+              else
+                node scripts/publish.mjs "$ARG_ID" --who="$ARG_WHO" --reason="${ARG_REASON:-后台核对}" --note="$ARG_NOTE"
+              fi ;;
+            arbitrate)
+              node scripts/arbitrate.mjs "$ARG_ID" "$ARG_FIELD" --verdict="$ARG_VERDICT" --note="$ARG_NOTE" --who="$ARG_WHO" ;;
+            collect)
+              node scripts/collect.mjs --all
+              node scripts/crosscheck.mjs --all
+              node scripts/collect.mjs --report-only ;;
+            crosscheck)
+              if [ -n "$ARG_ID" ]; then node scripts/crosscheck.mjs "$ARG_ID"; else node scripts/crosscheck.mjs --all; fi
+              node scripts/collect.mjs --report-only ;;
+            refresh)
+              node scripts/refresh.mjs ;;
+            status) ;;
+            *) echo "unknown action $ARG_ACTION"; exit 1 ;;
+          esac
+          node scripts/status.mjs
+      - name: commit and push
+        run: |
+          git config user.name "um-housing-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "console: $ARG_ACTION $ARG_ID by $ARG_WHO"
+            git pull --rebase --autostash origin main
+            git push
+          fi
