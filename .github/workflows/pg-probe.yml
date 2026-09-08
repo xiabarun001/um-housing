@@ -1,15 +1,12 @@
-name: propertyguru probe
+name: fetch probe
 
-# 手动运行：从 GitHub 的机器上抓 PropertyGuru 的搜索页和项目页（本机被拦），把 HTML 存成 artifact 供本地分析页面结构。
+# 手动运行：从 GitHub 的机器上用 iOS Safari 指纹抓一组网址（本机被拦的网站），把 HTML 存成 artifact 供本地分析页面结构。
 on:
   workflow_dispatch:
     inputs:
-      query:
-        description: "搜索词"
-        default: "KL Gateway Residences"
-      project_url:
-        description: "项目页链接（可空）"
-        default: ""
+      urls:
+        description: "要抓的网址，用空格分开"
+        default: "https://speedhome.com/rent/kuala-lumpur/bangsar-south https://speedhome.com/rent/kuala-lumpur?q=KL%20Gateway"
 
 jobs:
   probe:
@@ -26,28 +23,21 @@ jobs:
           chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
       - name: fetch
         env:
-          Q: ${{ github.event.inputs.query }}
-          P: ${{ github.event.inputs.project_url }}
+          URLS: ${{ github.event.inputs.urls }}
         run: |
           mkdir -p out
           C="$HOME/ci/curl_safari184_ios"
-          enc=$(python3 -c "import urllib.parse,os;print(urllib.parse.quote(os.environ['Q']))")
-          for u in \
-            "https://www.propertyguru.com.my/property-for-rent?freetext=$enc" \
-            "https://www.propertyguru.com.my/new-property-launch?freetext=$enc" \
-            "https://www.propertyguru.com.my/property-for-sale?freetext=$enc" ; do
-            n=$(echo "$u" | md5sum | cut -c1-8)
-            code=$($C -sL --max-time 60 -o "out/$n.html" -w '%{http_code}' "$u")
-            echo "$code $u -> out/$n.html ($(wc -c < out/$n.html) bytes)"
-            grep -o 'href="[^"]*/project/[^"]*"' "out/$n.html" | sort -u | head -20 || true
+          i=0
+          for u in $URLS; do
+            i=$((i+1))
+            code=$($C -sL --max-time 60 -o "out/$i.html" -w '%{http_code}' "$u")
+            echo "$code $u -> out/$i.html ($(wc -c < out/$i.html) bytes)"
+            echo "$u" > "out/$i.url"
+            sleep 2
           done
-          if [ -n "$P" ]; then
-            code=$($C -sL --max-time 60 -o out/project.html -w '%{http_code}' "$P")
-            echo "$code $P -> out/project.html ($(wc -c < out/project.html) bytes)"
-          fi
           ls -la out
       - uses: actions/upload-artifact@v4
         with:
-          name: pg-html
+          name: probe-html
           path: out
           retention-days: 3
