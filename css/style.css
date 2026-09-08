@@ -905,3 +905,16 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
   .campus-details { padding: 20px 24px; }
   .campus-list { align-content: space-between; }
 }
+
+/* 首屏标题：印章式"马来亚" + 大字"租房指南"；三条信息层标记靠右下 */
+.lead-head { align-items: flex-end; justify-content: space-between; gap: 14px 28px; }
+.title-art { display: inline-flex; align-items: baseline; gap: 16px; margin: 0; line-height: 1; }
+.title-art .t1 { font-family: var(--serif); font-size: .42em; font-weight: 700; letter-spacing: .22em; color: var(--accent); border: 2px solid var(--accent); border-radius: 6px; padding: .3em .3em .3em .52em; line-height: 1; white-space: nowrap; }
+.title-art .t2 { font-family: var(--serif); font-size: 1.28em; font-weight: 900; letter-spacing: .06em; white-space: nowrap; }
+.lead-head .tiers { margin: 0 0 4px; flex-direction: column; align-items: flex-end; gap: 6px; }
+@media (max-width: 720px) {
+  .lead-head { align-items: flex-start; }
+  .lead-head .tiers { align-items: flex-start; }
+  .title-art { gap: 12px; }
+  .title-art .t2 { font-size: 1.1em; }
+}
