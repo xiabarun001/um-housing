@@ -6,10 +6,10 @@
 
 ### FR-1 数据块带层级标记
 
-- [x] Given 任意小区卡片、详情弹窗、地图侧栏条目、排行榜条目，When 页面渲染完成，Then 其中每个数据块（年份户数、设施、交通、行情、判断类评价）旁边都有「档案」「行情」「判断」三者之一的标记，没有裸数字。
-- [x] Given 一个「档案」标记，When 查看，Then 显示「档案 · 核实于 YYYY-MM-DD」，日期来自该记录的 `verified_at`。
-- [x] Given 一个「行情」标记，When 查看，Then 显示「行情 · 抓取于 YYYY-MM-DD HH:mm」，时间来自 `prices.json` 的 `updated_myt`。
-- [x] Given 一个「判断」标记，When 查看，Then 显示「判断」，不带日期。
+- [x] Given 任意小区卡片、详情弹窗、地图侧栏条目、排行榜条目，When 页面渲染完成，Then 其中每个数据块（年份户数、设施、交通、行情、判断类评价）旁边都有「固定信息」「实时信息」「主观判断」三者之一的标记，没有裸数字。
+- [x] Given 一个「固定信息」标记，When 查看，Then 显示「固定信息 · 核实于 YYYY-MM-DD」，日期来自该记录的 `verified_at`。
+- [x] Given 一个「实时信息」标记，When 查看，Then 显示「实时信息 · 抓取于 YYYY-MM-DD HH:mm」，时间来自 `prices.json` 的 `updated_myt`。
+- [x] Given 一个「主观判断」标记，When 查看，Then 显示「主观判断」，不带日期。
 
 ### FR-2 顶部徽章拆三层
 
@@ -22,17 +22,17 @@
 
 ### FR-4 行情过期提示
 
-- [ ] （逻辑已实现，尚未在真实过期时观察）Given `prices.json` 的 `updated_myt` 距现在超过 36 小时，When 页面渲染，Then 所有「行情」标记变为「行情 · 已 X 小时未更新」并换成警示色。
+- [ ] （逻辑已实现，尚未在真实过期时观察）Given `prices.json` 的 `updated_myt` 距现在超过 36 小时，When 页面渲染，Then 所有「实时信息」标记变为「实时信息 · 已 X 小时未更新」并换成警示色。
 - [x] Given 未超过 36 小时，When 页面渲染，Then 显示正常的「抓取于」。
 
 ### FR-5 先想清楚里的粗略项
 
-- [x] Given 「先想清楚」的 8 项，When 查看"吃饭购物方便""安静"两项，Then 说明文字末尾带「判断」标记。
+- [x] Given 「先想清楚」的 8 项，When 查看"吃饭购物方便""安静"两项，Then 说明文字末尾带「主观判断」标记。
 
 ### FR-6 标记可追溯
 
-- [x] Given 任一「档案」标记，When 点击，Then 弹出该记录的来源链接列表（来自 `provenance` 或 `sources`）和核实日期。
-- [x] Given 任一「行情」标记，When 点击，Then 弹出抓取来源（iProperty、iBilik）和抓取时间，以及"为什么可能有误差"的两句话。
+- [x] Given 任一「固定信息」标记，When 点击，Then 弹出该记录的来源链接列表（来自 `provenance` 或 `sources`）和核实日期。
+- [x] Given 任一「实时信息」标记，When 点击，Then 弹出抓取来源（iProperty、iBilik）和抓取时间，以及"为什么可能有误差"的两句话。
 
 ### 数据约定（ADR-001）
 
@@ -52,8 +52,8 @@
 - [x] Given 一个小区，When 运行 `node scripts/crosscheck.mjs <id>`，Then 坐标和 OpenStreetMap 地理编码比对（一致 / 接近 / 冲突 / 单源），步行距离和 OSM 路网步行路线比对（一致 / 冲突），结果写进 staging 的 `crosscheck`，`--report-only` 后出现在 REVIEW.md。
 - [x] Given 交叉验证有冲突或原值是估算，When 运行 `publish.mjs <id> --accept=walk`，Then 采纳路线值（超过 1.2 km 记为"无步行可达"并在说明里写路线距离），provenance 记 `method: route`，页面档案弹层显示核对结果。
 - [x] Given 2026-09-08 对 25 个小区跑完，Then 坐标 22 个一致或接近、3 个 OSM 无记录；步行 12 个采纳路线值，3 个实测值保留，Laurel 因帖子与路网不符保留为估算并注明。
-- [ ] （待做）Given PropertyGuru 项目页（仅 GitHub 机器可抓），When 比对年份、户数、地契、开发商、设施，Then 每个字段标「一致」「单源」「冲突」。
-- [ ] （待做）Given Mudah 或 iBilik 的行情，When 与 iProperty 比对，Then 标出差异过大的小区。
+- [ ] （搁置：2026-09-08 核实 PropertyGuru 与 iProperty 同库，不能当二源；PropWall、NuProp、EdgeProp、StarProperty 均被拦，档案的独立二源暂只有开发商官网，需人工）Given 独立第二来源，When 比对年份、户数、地契、开发商、设施，Then 每个字段标「一致」「单源」「冲突」。
+- [x] Given 每次行情刷新，When 跑完 iProperty 和 iBilik，Then 再搜 Mudah 的整套和单间，最低价相差 35% 以内标 agree、否则标 gap，写进 `prices.json` 的 `check.mudah`；页面行情弹层显示"另一来源 Mudah"和差异提示。
 
 ### FR-9 审核报告
 
@@ -77,7 +77,7 @@
 ### FR-14 到 FR-16 区域 3
 
 - [x] Given 区域 3，When 查看数据，Then 有 6 个小区（编号 20–25）：Avara Seputeh、Tria Seputeh、Vivo、Southbank、Avantas、Millerz Square，档案字段来自 iProperty 项目页并带 provenance。
-- [x] Given 区域 3 的小区，When 查看交通，Then 写明最近的 KTM 站和估算分钟数（标「判断」），以及去 UM 靠 Grab 的车程估算。
+- [x] Given 区域 3 的小区，When 查看交通，Then 写明最近的 KTM 站和估算分钟数（标「主观判断」），以及去 UM 靠 Grab 的车程估算。
 - [x] Given 地图、侧栏、筛选、排行榜、先想清楚、出图页，When 加载，Then 都包含区域 3，用紫色区分，KTM 站用青色圆点。
 
 ## P3 读者纠错

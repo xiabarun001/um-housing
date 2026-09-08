@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081500';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081700';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -810,7 +810,7 @@ function renderRankings() {
     </div>
     <div class="rank">
       <h3>交通便利 ${tierMark('profile')}</h3>
-      <p class="muted">走到最近轨道站的分钟数；标"估"的是按直线距离估算的，属于 ${tierMark('judgment')}</p>
+      <p class="muted">走到最近轨道站的分钟数；标"估"的是按直线距离估算的，属于${tierMark('judgment')}</p>
       <ol>${byTransit.map(({ c, r }) => `<li>${name(c)}<span class="rk-v"><b>${r.min}</b> 分钟${r.est ? '<small>估</small>' : ''} · ${esc(r.label)}</span></li>`).join('')}</ol>
     </div>
     <div class="rank">
@@ -821,7 +821,7 @@ function renderRankings() {
 }
 
 /* ---------- 三层标记：档案 / 行情 / 判断（ADR-001） ---------- */
-const TIER_LABEL = { profile: '档案', market: '行情', judgment: '判断' };
+const TIER_LABEL = { profile: '固定信息', market: '实时信息', judgment: '主观判断' };
 const MARKET_STALE_HOURS = 36;
 function mytToDate(s) {
   // "2026-09-08 14:49" 是马来西亚时间（UTC+8）
@@ -833,13 +833,13 @@ function marketAgeHours() {
   return d ? (Date.now() - d.getTime()) / 3600e3 : null;
 }
 function tierText(kind, c) {
-  if (kind === 'profile') return `档案 · 核实于 ${(c && c.verified_at) || state.meta.verified_at || '未知'}`;
+  if (kind === 'profile') return `固定信息 · 核实于 ${(c && c.verified_at) || state.meta.verified_at || '未知'}`;
   if (kind === 'market') {
     const h = marketAgeHours();
-    if (h != null && h > MARKET_STALE_HOURS) return `行情 · 已 ${Math.round(h)} 小时未更新`;
-    return `行情 · 抓取于 ${state.meta.prices_updated_myt || '未知'}`;
+    if (h != null && h > MARKET_STALE_HOURS) return `实时信息 · 已 ${Math.round(h)} 小时未更新`;
+    return `实时信息 · 抓取于 ${state.meta.prices_updated_myt || '未知'}`;
   }
-  return '判断';
+  return '主观判断';
 }
 function tierMark(kind, c) {
   const stale = kind === 'market' && (marketAgeHours() ?? 0) > MARKET_STALE_HOURS;
@@ -848,7 +848,7 @@ function tierMark(kind, c) {
 function renderTierPills() {
   const box = $('#tiers-top');
   if (!box) return;
-  box.innerHTML = `${tierMark('profile')}${tierMark('market')}<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>判断 · 估算和主观评价</button>`;
+  box.innerHTML = `${tierMark('profile')}${tierMark('market')}<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>主观判断 · 估算和个人看法</button>`;
 }
 function renderAboutTiers() {
   const box = $('#about-tiers');
@@ -859,7 +859,7 @@ function renderAboutTiers() {
     market: `最近一次抓取 ${state.meta.prices_updated_myt || '未知'}（马来西亚时间）。真正下决定前，点"iProperty 在租房源"看当下挂牌，价格以中介当场报的为准。`,
     judgment: '出现在"先想清楚"的打分、交通里标"估"的分钟数、卡片里的"要知道的"。有实测或一手来源后会升级为档案。',
   };
-  box.innerHTML = ['profile', 'market', 'judgment'].map((k) => `<div class="about-tier tier-${k}"><h3><i class="tier-dot"></i>${esc(tiers[k].label)}${k === 'profile' ? '：可以直接信' : k === 'market' ? '：只能当参考' : '：我们的看法'}</h3><p>${esc(tiers[k].desc)}</p><p class="muted">${esc(extra[k])}</p></div>`).join('');
+  box.innerHTML = ['profile', 'market', 'judgment'].map((k) => `<div class="about-tier tier-${k}"><h3><i class="tier-dot"></i>${esc(tiers[k].label)}${k === 'profile' ? '：可以直接信' : k === 'market' ? '：只能当参考' : '：我们的看法，别当事实'}</h3><p>${esc(tiers[k].desc)}</p><p class="muted">${esc(extra[k])}</p></div>`).join('');
 }
 // 对外版变更记录：只显示日期、小区、"更新了什么"，不显示人（ADR-002）
 const FIELD_ZH = { record: '新增小区', name: '名称', completed: '建成年份', units: '户数', floors: '楼层', tenure: '地契', type: '类型', developer: '开发商', address: '地址', geo: '坐标', facilities: '设施清单', flags: '设施开关', transit: '交通', verified_at: '核实日期' };
@@ -898,14 +898,23 @@ function tierPopHTML(kind, c) {
     if (geoK) checks.push(`坐标和 ${geoK.with} ${geoK.status === 'agree' ? '一致' : geoK.status === 'near' ? '接近' : geoK.status === 'conflict' ? '不一致，待复核' : '未能核对'}${geoK.distance_m != null ? `（相差 ${geoK.distance_m} m）` : ''}`);
     const tr = c?.provenance?.transit;
     if (tr?.check) checks.push(tr.method === 'route' ? `步行距离按 OpenStreetMap 路网计算（${tr.check.route_m} m，${tr.check.route_min} 分钟），未实地走过` : `步行距离和 OSM 路网${tr.check.status === 'agree' ? '一致' : tr.check.status === 'conflict' ? '不符，待复核' : '未能核对'}${tr.check.route_m != null ? `（路线 ${tr.check.route_m} m，${tr.check.route_min} 分钟）` : ''}`);
-    return `<h4><i class="tier-dot tier-profile"></i>档案：可以直接信</h4><p>${esc(t.desc || '')}</p><p>${c ? `${esc(shortAlias(c))} 核实于 ${esc(c.verified_at || state.meta.verified_at)}` : `核实于 ${esc(state.meta.verified_at)}`}。</p>${checks.length ? `<p>交叉验证：</p><ul>${checks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}${src ? `<p>来源：</p><ul>${src}</ul>` : ''}`;
+    return `<h4><i class="tier-dot tier-profile"></i>固定信息：可以直接信</h4><p>${esc(t.desc || '')}</p><p>${c ? `${esc(shortAlias(c))} 核实于 ${esc(c.verified_at || state.meta.verified_at)}` : `核实于 ${esc(state.meta.verified_at)}`}。</p>${checks.length ? `<p>交叉验证：</p><ul>${checks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}${src ? `<p>来源：</p><ul>${src}</ul>` : ''}`;
   }
   if (kind === 'market') {
     const h = marketAgeHours();
     const links = c ? `<ul><li><a href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租列表</a></li>${c.links.ibilik ? `<li><a href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 单间列表</a></li>` : ''}</ul>` : '';
-    return `<h4><i class="tier-dot tier-market"></i>行情：只能当参考</h4><p>${esc(t.desc || '')}</p><p>最近一次抓取 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今约 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>已超过 36 小时，可能过期</b>' : ''}。</p>${links}`;
+    // 二源比对（Mudah）
+    const mu = c?.snapshot?.check?.mudah;
+    let cross = '';
+    if (mu) {
+      const bits = [];
+      if (mu.unit_n) bits.push(`整套 RM ${fmt(mu.unit_min)} 起（${mu.unit_n} 条${mu.unit_status === 'agree' ? '，和 iProperty 一致' : mu.unit_status === 'gap' ? '，<b>和 iProperty 差得多，看清楚是不是单间冒充整套</b>' : ''}）`);
+      if (mu.room_n) bits.push(`单间 RM ${fmt(mu.room_min)} 起（${mu.room_n} 条${mu.room_status === 'agree' ? '，和上面一致' : mu.room_status === 'gap' ? '，<b>和上面差得多</b>' : ''}）`);
+      cross = `<p>另一来源 Mudah（${esc(mu.at)}）：${bits.length ? bits.join('；') : '没搜到这个小区的帖子'}。</p>`;
+    }
+    return `<h4><i class="tier-dot tier-market"></i>实时信息：只能当参考</h4><p>${esc(t.desc || '')}</p><p>最近一次抓取 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今约 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>已超过 36 小时，可能过期</b>' : ''}。</p>${cross}${links}`;
   }
-  return `<h4><i class="tier-dot tier-judgment"></i>判断：我们的看法</h4><p>${esc(t.desc || '')}</p>${c && c.judgment ? `<ul>${c.judgment.daily ? `<li>吃饭购物：${esc(c.judgment.daily.note)}</li>` : ''}${c.judgment.quiet ? `<li>安静程度：${esc(c.judgment.quiet.note)}</li>` : ''}${c.judgment.walk_min_est ? `<li>步行分钟：${esc(c.judgment.walk_min_est.note)}</li>` : ''}</ul>` : ''}`;
+  return `<h4><i class="tier-dot tier-judgment"></i>主观判断：我们的看法</h4><p>${esc(t.desc || '')}</p>${c && c.judgment ? `<ul>${c.judgment.daily ? `<li>吃饭购物：${esc(c.judgment.daily.note)}</li>` : ''}${c.judgment.quiet ? `<li>安静程度：${esc(c.judgment.quiet.note)}</li>` : ''}${c.judgment.walk_min_est ? `<li>步行分钟：${esc(c.judgment.walk_min_est.note)}</li>` : ''}</ul>` : ''}`;
 }
 function bindTierPop() {
   let pop = $('#tier-pop');

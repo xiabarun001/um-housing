@@ -25,7 +25,7 @@ status: draft
 
 四个模块，按依赖顺序建：
 
-1. **三层信息模型**：把所有数据分成「档案」「行情」「判断」三层，数据文件、页面标记、后台都按这三层组织（[ADR-001](ADR-001-信息分层.md)）。
+1. **三层信息模型**：把所有数据分成「固定信息」「实时信息」「主观判断」三层，数据文件、页面标记、后台都按这三层组织（[ADR-001](ADR-001-信息分层.md)）。
 2. **采集与审核流水线**：采集 → 校验 → 评估 → 审核 → 发布 → 留痕，档案类信息只能经审核后发布（[ADR-002](ADR-002-采集与审核.md)）。
 3. **区域 3**：作为流水线的第一个用例上线，6 个小区。
 4. **管理后台 UMH Console**：只登录、不注册，把采集审核、纠错、意向表、出图收进一个工作台（[ADR-003](ADR-003-管理后台.md)，放在最后做）。
@@ -97,15 +97,15 @@ status: draft
   总览 · 采集与审核 · 小区档案 · 纠错 · 意向表 · 出图 · 日志
 ```
 
-**标签原则**：用读者的词，不用工程词。三层叫「档案」「行情」「判断」，不叫 static / dynamic / estimate。导航深度不超过 3 层。每个数字旁边都有层级标记，标记形状和颜色固定，不只靠颜色区分。
+**标签原则**：用读者的词，不用工程词。三层叫「固定信息」「实时信息」「主观判断」，不叫 static / dynamic / estimate。导航深度不超过 3 层。每个数字旁边都有层级标记，标记形状和颜色固定，不只靠颜色区分。
 
 **内容模型（三层）**
 
 | 层 | 含义 | 典型字段 | 来源 | 更新方式 | 页面标记 | 文件 |
 |---|---|---|---|---|---|---|
-| **档案** | 不会变或很少变的事实 | 开发商、地址、坐标、建成年份、户数、楼层、地契、类型、设施清单、最近轨道站、实测步行分钟、链接 | 开发商官网、iProperty / PropertyGuru 项目页、实地 | 流水线采集 + 人工审核；每 30–45 天复核 | 绿色实心点「档案 · 核实于 日期」 | `data/condos.json` |
-| **行情** | 随市场变的数字 | 在租数量、整套最低价、各房型最低价、单间行情 | iProperty、iBilik 挂牌 | 机器每 12 小时 | 琥珀色实心点「行情 · 抓取于 时间」 | `data/prices.json`、`data/price-history.json` |
-| **判断** | 我们的估算或主观评价 | 吃饭购物方便度、安静程度、估算的步行分钟、区域适合人群 | 直线距离估算、住户评价、我们的判断 | 人工，随复核更新 | 灰色空心点「判断」 | `condos.json` 里的 `judgment` 子对象 |
+| **固定信息** | 不会变或很少变的事实 | 开发商、地址、坐标、建成年份、户数、楼层、地契、类型、设施清单、最近轨道站、实测步行分钟、链接 | 开发商官网、iProperty / PropertyGuru 项目页、实地 | 流水线采集 + 人工审核；每 30–45 天复核 | 绿色实心点「固定信息 · 核实于 日期」 | `data/condos.json` |
+| **实时信息** | 随市场变的数字 | 在租数量、整套最低价、各房型最低价、单间行情 | iProperty、iBilik 挂牌 | 机器每 12 小时 | 琥珀色实心点「实时信息 · 抓取于 时间」 | `data/prices.json`、`data/price-history.json` |
+| **主观判断** | 我们的估算或主观评价 | 吃饭购物方便度、安静程度、估算的步行分钟、区域适合人群 | 直线距离估算、住户评价、我们的判断 | 人工，随复核更新 | 灰色空心点「主观判断」 | `condos.json` 里的 `judgment` 子对象 |
 
 每条档案记录带 `provenance`：每个字段的来源链接、获取时间、方式（自动 / 人工 / 实地），以及整条记录的 `verified_at`。
 
@@ -123,7 +123,7 @@ status: draft
 **B. 采集与审核**
 
 - FR-7 `node scripts/collect.mjs <id 或 iProperty 项目链接>`：抓取档案字段，写入 `data/staging/<id>.json`，含来源、时间、原始值。
-- FR-8 交叉验证：坐标对 OpenStreetMap，步行距离对 OSM 路网步行路线，年份/户数/地契/开发商/设施对 PropertyGuru 项目页（仅 GitHub 机器可抓），行情对 iBilik 和 Mudah；每个字段评估为「一致」「接近」「单源」「冲突」，结果写进 provenance 并在页面标记弹层显示。
+- FR-8 交叉验证：坐标对 OpenStreetMap，步行距离对 OSM 路网步行路线，年份/户数/地契/开发商/设施暂无可抓的独立二源（PropertyGuru 与 iProperty 同库，不算），行情对 Mudah 和 iBilik；每个字段评估为「一致」「接近」「单源」「冲突」，结果写进 provenance 并在页面标记弹层显示。
 - FR-9 生成 `data/staging/REVIEW.md`：现有值、采集值、二源值、评估结论、建议动作，一眼能审。
 - FR-10 `node scripts/publish.mjs <id>` 把审核通过的字段写入 `condos.json`，更新 provenance 和 `verified_at`，追加 `data/changelog.json`（每条含 at、who、condo、field、from、to、source、reason、public_note）。
 - FR-10b 读者页「说明」下方显示对外版变更记录：只列日期、小区、"更新了什么"（public_note），不显示人。后台显示完整字段。
@@ -134,7 +134,7 @@ status: draft
 **C. 区域 3**
 
 - FR-14 新增「区域 3 · Seputeh / Old Klang Road 一侧」：Avara Seputeh、Tria Seputeh、Vivo Residential Suites、Southbank Residence、Avantas Residences、Millerz Square，编号 20–25。
-- FR-15 交通如实写：没有步行可达轨道站的，写清靠什么（KTM Seputeh、公交、Grab）和到 UM 的车程范围；实测前标「判断」。
+- FR-15 交通如实写：没有步行可达轨道站的，写清靠什么（KTM Seputeh、公交、Grab）和到 UM 的车程范围；实测前标「主观判断」。
 - FR-16 地图、排行榜、先想清楚、出图页自动包含区域 3，颜色用第三色。
 
 **D. 管理后台 UMH Console（最后做）**
@@ -178,7 +178,7 @@ status: draft
 | 依赖 | Cloudflare Access（免费版 ≤ 50 用户）在控制台配置应用和白名单 | Sasha |
 | 依赖 | GitHub fine-grained token（只限本仓库 contents:write）存 Pages 密钥 | Sasha |
 | 风险 | iProperty 再改反爬，采集失败 | 本机脚本兜底；probe workflow 定期试 |
-| 风险 | 区域 3 来源少、交通复杂，容易写错 | 走流水线双源核对；交通标「判断」直到实测 |
+| 风险 | 区域 3 来源少、交通复杂，容易写错 | 走流水线双源核对；交通标「主观判断」直到实测 |
 | 风险 | 后台过度设计拖慢主线 | P4 严格排在 P1–P3 之后；v1 只做六个页面 |
 
 ## 8. 里程碑

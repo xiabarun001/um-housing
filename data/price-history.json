@@ -110,7 +110,7 @@
           "rooms_min": null
         },
         "atwater": {
-          "for_rent": 76,
+          "for_rent": 77,
           "rent_from": 2500,
           "rooms_min": null
         },
@@ -120,7 +120,7 @@
           "rooms_min": 950
         },
         "pacific-star": {
-          "for_rent": 208,
+          "for_rent": 206,
           "rent_from": 1800,
           "rooms_min": 780
         },
@@ -130,7 +130,7 @@
           "rooms_min": null
         },
         "pj-midtown": {
-          "for_rent": 145,
+          "for_rent": 149,
           "rent_from": 1300,
           "rooms_min": 1300
         },
@@ -155,7 +155,7 @@
           "rooms_min": null
         },
         "kl-gateway": {
-          "for_rent": 149,
+          "for_rent": 150,
           "rent_from": 2000,
           "rooms_min": 650
         },
@@ -165,12 +165,12 @@
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 418,
+          "for_rent": 426,
           "rent_from": 1900,
           "rooms_min": 750
         },
         "southlink": {
-          "for_rent": 544,
+          "for_rent": 545,
           "rent_from": 1299,
           "rooms_min": 1300
         },
@@ -205,7 +205,7 @@
           "rooms_min": null
         },
         "tria-seputeh": {
-          "for_rent": 96,
+          "for_rent": 97,
           "rent_from": 2000,
           "rooms_min": 1500
         },

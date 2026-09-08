@@ -49,6 +49,7 @@ async function fetchText(url, tries = 3) {
       if (status === 200 && body.length > 1000) return body;
       if (status === 404) return null;
       console.warn(`  ${status} ${url}`);
+      if (status === 429) { await sleep(12000 * (i + 1)); continue; } // 被限速：多等一会再试
     } catch (e) {
       console.warn(`  curl error ${url}: ${e.message.slice(0, 120)}`);
     }
@@ -205,6 +206,57 @@ for (const c of condos) {
   await sleep(DELAY);
 }
 
+// 1b) Mudah 二源：按小区名搜整套和单间，和 iProperty 的最低价比对（只记录，不改 iProperty 的数）
+const RUN_MUDAH = !ARGS.includes('--no-mudah');
+function mudahAds(html) {
+  const m = html.match(/<script[^>]*__NEXT_DATA__[^>]*>([\s\S]*?)<\/script>/);
+  if (!m) return null;
+  try { return (JSON.parse(m[1])?.props?.pageProps?.initialStore?.ads || []).filter((x) => x.type === 'ads').map((x) => x.attributes || {}); } catch { return null; }
+}
+const GENERIC = new Set(['residence', 'residences', 'residensi', 'the', 'park', 'condominium', 'condo', 'suites', 'suite', 'residential', 'serviced', 'service', 'apartment', 'apartments', 'mall', '@', '&', 'and']);
+function keyTokens(c) {
+  const base = String(c.alias || c.name).replace(/[（(].*?[）)]/g, '').toLowerCase();
+  const toks = base.split(/[^a-z0-9']+/).filter((t) => t && !GENERIC.has(t));
+  return toks.length ? toks : base.split(/\s+/).slice(0, 1);
+}
+const priceOf = (a) => { const n = Number(String(a.monthlyRent ?? a.priceLabel ?? '').replace(/[^\d.]/g, '')); return Number.isFinite(n) && n > 0 ? n : null; };
+if (RUN_MUDAH) {
+  for (const c of condos) {
+    if (ONLY.length && !ONLY.includes(c.id)) continue;
+    if (!refreshed.has(c.id)) continue;
+    const s = prices.condos[c.id];
+    const toks = keyTokens(c);
+    const hit = (txt) => { const t = String(txt || '').toLowerCase(); return toks.every((k) => t.includes(k)); };
+    const area = c.region === 1 ? 'selangor' : 'kuala-lumpur';
+    const q = encodeURIComponent(toks.join(' '));
+    process.stdout.write(`Mudah ${c.id} ... `);
+    const out = { at: today, unit_min: null, unit_n: 0, room_min: null, room_n: 0, status: 'single' };
+    const uHtml = await fetchText(`https://www.mudah.my/${area}/apartment-condominium-for-rent?q=${q}`);
+    // 整套低于 RM 900 的基本是把单间发到整套分类里，不算
+    const units = uHtml ? (mudahAds(uHtml) || []).filter((a) => hit(a.buildingName) || hit(a.subject)).map(priceOf).filter((p) => p && p >= 900) : [];
+    await sleep(4500); // Mudah 限速比较严，请求间隔放长
+    const rHtml = await fetchText(`https://www.mudah.my/${area}/rooms-for-rent?q=${q}`);
+    const rooms = rHtml ? (mudahAds(rHtml) || []).filter((a) => hit(a.subject) || hit(a.buildingName)).map(priceOf).filter((p) => p && p >= 300 && p <= 3000) : [];
+    await sleep(4500);
+    if (units.length) { out.unit_min = Math.min(...units); out.unit_n = units.length; }
+    if (rooms.length) { out.room_min = Math.min(...rooms); out.room_n = rooms.length; }
+    s.check = { mudah: out }; // 结论在第 3 步单间汇总之后再算
+    console.log(`整套 ${out.unit_n} 条最低 RM ${out.unit_min ?? '—'} · 单间 ${out.room_n} 条最低 RM ${out.room_min ?? '—'}`);
+  }
+}
+// 两边都有数时比最低价，差 35% 以内算一致；单间价在第 3 步汇总后才定，所以放在函数里最后调用
+function finishMudahChecks() {
+  const cmp = (a, b) => (a && b) ? (Math.abs(Math.log(a / b)) <= 0.35 ? 'agree' : 'gap') : null;
+  for (const c of condos) {
+    const s = prices.condos[c.id]; const out = s?.check?.mudah;
+    if (!out || out.at !== today) continue;
+    const u = cmp(s.rent_from, out.unit_min), r = cmp(s.rooms_min, out.room_min);
+    out.unit_status = u; out.room_status = r;
+    out.status = [u, r].includes('gap') ? 'gap' : [u, r].includes('agree') ? 'agree' : 'single';
+    log.mudah = log.mudah || {}; log.mudah[c.id] = `units ${out.unit_n} min ${out.unit_min ?? '-'} (${u ?? '-'}), rooms ${out.room_n} min ${out.room_min ?? '-'} (${r ?? '-'})`;
+  }
+}
+
 // 2) iBilik Bangsar South（区域 2 的单间，补充 iProperty 上没有的）
 if (RUN_IBILIK) {
   let page = 1, total = null;
@@ -251,6 +303,9 @@ for (const c of condos) {
   s.rooms_source = `${srcs}，${today}`;
   s.rooms_min = Math.min(...list.map((r) => r.price));
 }
+
+// 3b) Mudah 二源的结论
+if (RUN_MUDAH) finishMudahChecks();
 
 // 4) 写文件
 const okN = Object.values(log.iproperty).filter((v) => v.startsWith('ok')).length;

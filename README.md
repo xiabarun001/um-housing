@@ -52,9 +52,9 @@ docs/               规格、决策记录、验收标准
 
 ### 信息分三层（ADR-001）
 
-- **档案**（`condos.json`）：不会变的事实，人审后发布，每条记录带 `verified_at` 和字段级 `provenance`（来源、时间、方式）。
-- **行情**（`prices.json`）：挂牌数字，机器每 12 小时写。
-- **判断**（`condos.json` 里的 `judgment`）：吃饭购物、安静程度、估算的步行分钟，只用于打分排序。
+- **固定信息**（`condos.json`）：不会变的事实，人审后发布，每条记录带 `verified_at` 和字段级 `provenance`（来源、时间、方式）。
+- **实时信息**（`prices.json`）：挂牌数字，机器每 12 小时写。
+- **主观判断**（`condos.json` 里的 `judgment`）：吃饭购物、安静程度、估算的步行分钟，只用于打分排序。
 
 页面上每个数字旁边有对应标记，点开看来源和时间。
 
@@ -89,6 +89,8 @@ node scripts/publish.mjs <id> --accept=all --region=3 --no=26 --alias="别名" -
 
 1. 逐个打开每条记录的 `links.iproperty_rent`，按价格从低到高最多翻 3 页，读出在租总数、整套最低价、各房型最低价，写进 `prices.json` 该小区的 `for_rent` / `rent_from` / `whole`；页面里的单间帖子（Master / Middle / Single Room）单独归到 `rooms` / `rooms_min`。
 2. 翻 iBilik 的 Bangsar South 单间列表，按小区名匹配，补进区域 2 各小区的单间行情。
+3. Mudah 二源：按小区名搜整套（按 buildingName 精确匹配，低于 RM 900 的不算）和单间（按标题匹配），取最低价和条数，和 iProperty 的最低价比对，相差 35% 以内算一致，否则标 gap。结果在 `prices.json` 每个小区的 `check.mudah`，页面行情弹层里显示。加 `--no-mudah` 可跳过。
+   注意：PropertyGuru 马来西亚站和 iProperty 是同一集团同一数据库，不能当二源。
 
 跑完把 `prices.json` 的 `updated_myt` 改成当次时间（页面顶部的“最近一次更新”就读这个字段），并往 `price-history.json` 追加当天一行，有变化才提交，提交后 Cloudflare Pages 自动重新部署。抓取用 curl 带浏览器 UA，两次请求间隔 3 秒。iProperty 按 TLS 指纹拦爬虫：本机 Windows 的 curl 能过，GitHub Actions 的 Linux curl 会被 403（模仿 Chrome 的也不行，模仿 iOS Safari 的能过），所以 workflow 先装 curl-impersonate，把 `curl_safari184_ios` 通过环境变量 `CURL_BIN` 交给脚本。哪些网站给不给抓，可以手动跑一下 `probe sources` 这个 workflow 看状态码。某个小区抓失败会记在 `data/refresh-log.json` 的 `errors` 里并保留旧值；失败超过 2 个小区，脚本以非零退出、不改“最近一次更新”时间，workflow 也不会提交。
 
