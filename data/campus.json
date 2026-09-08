@@ -2,33 +2,228 @@
   "verified_at": "2026-09-08",
   "source": "OpenStreetMap（Overpass API，2026-09-08）。坐标取建筑轮廓的中心点；标了 approx 的是按公开帖子位置估的，待实地核。",
   "places": [
-    { "id": "islamic", "zh": "回教研究院", "en": "Academy of Islamic Studies", "lat": 3.13289, "lng": 101.65741, "osm": "way/996053340" },
-    { "id": "sports", "zh": "体育学院 · 运动中心", "en": "Centre for Sport & Exercise Sciences", "lat": 3.13016, "lng": 101.65927, "osm": "way/993738076" },
-    { "id": "fcsit", "zh": "计算机与信息学院", "en": "Faculty of Computer Science & IT", "lat": 3.12772, "lng": 101.65026, "osm": "node/9197001771" },
-    { "id": "ips", "zh": "研究生院 IPS", "en": "Institute for Advanced Studies / Graduate Studies", "lat": 3.12468, "lng": 101.65998, "osm": "node/9197001766" },
-    { "id": "malay", "zh": "马来研究院", "en": "Academy of Malay Studies", "lat": 3.12476, "lng": 101.65248, "osm": "node/9197840692" },
-    { "id": "science", "zh": "理学院", "en": "Faculty of Science", "lat": 3.12411, "lng": 101.65381, "osm": "relation/13828714" },
-    { "id": "lang", "zh": "语言与语言学学院", "en": "Faculty of Languages & Linguistics", "lat": 3.12243, "lng": 101.65092, "osm": "way/1031983519" },
-    { "id": "dtc", "zh": "大礼堂 DTC", "en": "Dewan Tunku Canselor", "lat": 3.12146, "lng": 101.65656, "osm": "way/278144675", "kind": "service" },
-    { "id": "creative", "zh": "创意艺术学院", "en": "Faculty of Creative Arts", "lat": 3.12106, "lng": 101.65695, "osm": "relation/5549564" },
-    { "id": "arts", "zh": "人文社科学院", "en": "Faculty of Arts & Social Sciences", "lat": 3.12109, "lng": 101.65185, "osm": "relation/14768850" },
-    { "id": "library", "zh": "总图书馆", "en": "Main Library", "lat": 3.12036, "lng": 101.65406, "osm": "way/263611204", "kind": "service" },
-    { "id": "edu", "zh": "教育学院", "en": "Faculty of Education", "lat": 3.12014, "lng": 101.65239, "osm": "relation/14768851" },
-    { "id": "biz", "zh": "商业与经济学院", "en": "Faculty of Business & Economics", "lat": 3.1186, "lng": 101.65275, "osm": "way/995983171" },
-    { "id": "eng", "zh": "工程学院", "en": "Faculty of Engineering", "lat": 3.11747, "lng": 101.6551, "osm": "way/992791287" },
-    { "id": "law", "zh": "法学院", "en": "Faculty of Law", "lat": 3.11799, "lng": 101.66122, "osm": "way/996093251" },
-    { "id": "built", "zh": "建筑环境学院", "en": "Faculty of Built Environment", "lat": 3.11633, "lng": 101.6552, "osm": "way/992791288" },
-    { "id": "isc", "zh": "国际学生中心 ISC（签证、EMGS）", "en": "International Student Centre", "lat": 3.1165, "lng": 101.6605, "osm": null, "approx": true, "kind": "service" },
-    { "id": "pharm", "zh": "药学院", "en": "Faculty of Pharmacy", "lat": 3.11529, "lng": 101.65187, "osm": "node/9197859029" },
-    { "id": "med", "zh": "医学院", "en": "Faculty of Medicine", "lat": 3.11519, "lng": 101.65286, "osm": "node/9197859038" },
-    { "id": "ummc", "zh": "UM 医院 UMMC", "en": "University Malaya Medical Centre", "lat": 3.11269, "lng": 101.65415, "osm": "nominatim", "kind": "service" },
-    { "id": "dent", "zh": "牙医学院", "en": "Faculty of Dentistry", "lat": 3.11123, "lng": 101.65319, "osm": "way/996093253" }
+    {
+      "id": "islamic",
+      "zh": "回教研究院",
+      "en": "Academy of Islamic Studies",
+      "lat": 3.13289,
+      "lng": 101.65741,
+      "osm": "way/996053340"
+    },
+    {
+      "id": "sports",
+      "zh": "体育学院 · 运动中心",
+      "en": "Centre for Sport & Exercise Sciences",
+      "lat": 3.13016,
+      "lng": 101.65927,
+      "osm": "way/993738076"
+    },
+    {
+      "id": "fcsit",
+      "zh": "计算机与信息学院",
+      "en": "Faculty of Computer Science & IT",
+      "lat": 3.12772,
+      "lng": 101.65026,
+      "osm": "node/9197001771"
+    },
+    {
+      "id": "ips",
+      "zh": "研究生院 IPS",
+      "en": "Institute for Advanced Studies / Graduate Studies",
+      "lat": 3.12468,
+      "lng": 101.65998,
+      "osm": "node/9197001766",
+      "kind": "service"
+    },
+    {
+      "id": "malay",
+      "zh": "马来研究院",
+      "en": "Academy of Malay Studies",
+      "lat": 3.12476,
+      "lng": 101.65248,
+      "osm": "node/9197840692"
+    },
+    {
+      "id": "science",
+      "zh": "理学院",
+      "en": "Faculty of Science",
+      "lat": 3.12411,
+      "lng": 101.65381,
+      "osm": "relation/13828714"
+    },
+    {
+      "id": "lang",
+      "zh": "语言与语言学学院",
+      "en": "Faculty of Languages & Linguistics",
+      "lat": 3.12243,
+      "lng": 101.65092,
+      "osm": "way/1031983519"
+    },
+    {
+      "id": "dtc",
+      "zh": "大礼堂 DTC",
+      "en": "Dewan Tunku Canselor",
+      "lat": 3.12146,
+      "lng": 101.65656,
+      "osm": "way/278144675",
+      "kind": "service"
+    },
+    {
+      "id": "creative",
+      "zh": "创意艺术学院",
+      "en": "Faculty of Creative Arts",
+      "lat": 3.12106,
+      "lng": 101.65695,
+      "osm": "relation/5549564"
+    },
+    {
+      "id": "arts",
+      "zh": "人文社科学院",
+      "en": "Faculty of Arts & Social Sciences",
+      "lat": 3.12109,
+      "lng": 101.65185,
+      "osm": "relation/14768850"
+    },
+    {
+      "id": "library",
+      "zh": "总图书馆",
+      "en": "Main Library",
+      "lat": 3.12036,
+      "lng": 101.65406,
+      "osm": "way/263611204",
+      "kind": "service"
+    },
+    {
+      "id": "edu",
+      "zh": "教育学院",
+      "en": "Faculty of Education",
+      "lat": 3.12014,
+      "lng": 101.65239,
+      "osm": "relation/14768851"
+    },
+    {
+      "id": "biz",
+      "zh": "商业与经济学院",
+      "en": "Faculty of Business & Economics",
+      "lat": 3.1186,
+      "lng": 101.65275,
+      "osm": "way/995983171"
+    },
+    {
+      "id": "eng",
+      "zh": "工程学院",
+      "en": "Faculty of Engineering",
+      "lat": 3.11747,
+      "lng": 101.6551,
+      "osm": "way/992791287"
+    },
+    {
+      "id": "law",
+      "zh": "法学院",
+      "en": "Faculty of Law",
+      "lat": 3.11799,
+      "lng": 101.66122,
+      "osm": "way/996093251"
+    },
+    {
+      "id": "built",
+      "zh": "建筑环境学院",
+      "en": "Faculty of Built Environment",
+      "lat": 3.11633,
+      "lng": 101.6552,
+      "osm": "way/992791288"
+    },
+    {
+      "id": "isc",
+      "zh": "国际学生中心 ISC（签证、EMGS）",
+      "en": "International Student Centre",
+      "lat": 3.1165,
+      "lng": 101.6605,
+      "osm": null,
+      "approx": true,
+      "kind": "service"
+    },
+    {
+      "id": "pharm",
+      "zh": "药学院",
+      "en": "Faculty of Pharmacy",
+      "lat": 3.11529,
+      "lng": 101.65187,
+      "osm": "node/9197859029"
+    },
+    {
+      "id": "med",
+      "zh": "医学院",
+      "en": "Faculty of Medicine",
+      "lat": 3.11519,
+      "lng": 101.65286,
+      "osm": "node/9197859038"
+    },
+    {
+      "id": "ummc",
+      "zh": "UM 医院 UMMC",
+      "en": "University Malaya Medical Centre",
+      "lat": 3.11269,
+      "lng": 101.65415,
+      "osm": "nominatim",
+      "kind": "service"
+    },
+    {
+      "id": "dent",
+      "zh": "牙医学院",
+      "en": "Faculty of Dentistry",
+      "lat": 3.11123,
+      "lng": 101.65319,
+      "osm": "way/996093253"
+    }
   ],
   "gates": [
-    { "id": "kl", "zh": "KL 门（正门）", "lat": null, "lng": null, "note": "出 Universiti LRT 站过天桥；坐标取校园边界离车站最近的点", "regions": [2, 3] },
-    { "id": "damansara", "zh": "Damansara 门", "lat": 3.13067, "lng": 101.66064, "regions": [2] },
-    { "id": "s16", "zh": "Section 16 门", "lat": 3.1293, "lng": 101.6483, "regions": [1] },
-    { "id": "pj", "zh": "PJ 门", "lat": 3.122159, "lng": 101.6340447, "regions": [1] },
-    { "id": "elmu", "zh": "Jalan Elmu 门", "lat": 3.11955, "lng": 101.65022, "regions": [1] }
+    {
+      "id": "kl",
+      "zh": "KL 门（正门）",
+      "lat": null,
+      "lng": null,
+      "note": "出 Universiti LRT 站过天桥就是",
+      "regions": [
+        2,
+        3
+      ]
+    },
+    {
+      "id": "damansara",
+      "zh": "Damansara 门",
+      "lat": 3.13067,
+      "lng": 101.66064,
+      "regions": [
+        2
+      ]
+    },
+    {
+      "id": "s16",
+      "zh": "Section 16 门",
+      "lat": 3.1293,
+      "lng": 101.6483,
+      "regions": [
+        1
+      ]
+    },
+    {
+      "id": "pj",
+      "zh": "PJ 门",
+      "lat": 3.122159,
+      "lng": 101.6340447,
+      "regions": [
+        1
+      ]
+    },
+    {
+      "id": "elmu",
+      "zh": "Jalan Elmu 门",
+      "lat": 3.11955,
+      "lng": 101.65022,
+      "regions": [
+        1
+      ]
+    }
   ]
 }

@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090010';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090030';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -694,7 +694,10 @@ async function renderCampus(geo) {
   const regionsMeta = state.meta.regions || {};
   const listBox = $('#campus-list-box');
   if (listBox && window.innerWidth <= 720) listBox.open = false;
-  const places = data.places.map((p, i) => { let g = null, bd = Infinity; for (const x of gates) { const d = dm(p, x); if (d < bd) { bd = d; g = x; } } return { ...p, n: i + 1, gate: g, gate_m: Math.round(bd) }; });
+  const byLat = (a, b) => b.lat - a.lat;
+  const ordered = [...data.places.filter((p) => p.kind !== 'service').sort(byLat), ...data.places.filter((p) => p.kind === 'service').sort(byLat)];
+  const places = ordered.map((p, i) => { let g = null, bd = Infinity; for (const x of gates) { const d = dm(p, x); if (d < bd) { bd = d; g = x; } } return { ...p, n: i + 1, gate: g, gate_m: Math.round(bd) }; });
+  gates.forEach((g, i) => { g.letter = String.fromCharCode(65 + i); });
 
   /* 校园图 */
   {
@@ -705,12 +708,18 @@ async function renderCampus(geo) {
     let s = `<svg class="campus-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="马来亚大学校园示意图：各学院、校门和 Universiti 站的位置">`;
     s += rings.map((r) => `<path class="cs-campus${r === main ? '' : ' minor'}" d="${svgPath(r, xy)}"/>`).join('');
     if (uni) { const [x, y] = xy(uni); s += `<circle class="cs-lrt" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7"/>` + label(x - 11, y + 20, 'Universiti 站', 'cs-lbl cs-lbl-lrt', 'end'); }
-    const GATE_LBL = { kl: ['end', -10, 20], elmu: ['end', -10, 4], s16: ['start', 10, -6], damansara: ['end', -10, -8], pj: ['start', 10, 4] };
-    for (const g of gates) { const [x, y] = xy(g); const [anchor, dx, dy] = GATE_LBL[g.id] || ['start', 10, -8]; s += `<circle class="cs-gate" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6"/>` + label(x + dx, y + dy, g.zh, 'cs-lbl cs-lbl-gate', anchor); }
+    const GATE_LBL = { kl: ['end', -14, 24], elmu: ['end', -14, 5], s16: ['start', 14, -8], damansara: ['end', -14, -10], pj: ['start', 14, 5] };
+    for (const g of gates) { const [x, y] = xy(g); const [anchor, dx, dy] = GATE_LBL[g.id] || ['start', 14, -8]; s += `<g class="cs-gate-mk"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="10"/><text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="middle">${g.letter}</text><title>${esc(g.zh)}</title></g>` + label(x + dx, y + dy, g.zh, 'cs-lbl cs-lbl-gate', anchor); }
     for (const p of places) { const [x, y] = xy(p); s += `<g class="cs-place${p.kind === 'service' ? ' service' : ''}${p.approx ? ' approx' : ''}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11"/><text x="${x.toFixed(1)}" y="${(y + 4.5).toFixed(1)}" text-anchor="middle">${p.n}</text><title>${esc(p.zh)}</title></g>`; }
     s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
     mapBox.innerHTML = s;
-    if (list) list.innerHTML = places.map((p) => `<li class="${p.kind === 'service' ? 'service' : ''}"><i class="cn">${p.n}</i><span><b>${esc(p.zh)}</b>${p.approx ? ' <em class="approx">位置是估的</em>' : ''}<small><span class="en">${esc(p.en)} · </span>最近 ${esc(p.gate.zh)} ${p.gate_m >= 1000 ? (p.gate_m / 1000).toFixed(1) + ' km' : p.gate_m + ' m'} · 顺路 ${p.gate.regions.map((r) => '区域 ' + r).join('、')}</small></span></li>`).join('');
+    if (list) {
+      const item = (p) => `<li class="${p.kind === 'service' ? 'service' : ''}${p.approx ? ' approx' : ''}"><i class="cn">${p.n}</i><span><b>${esc(p.zh)}</b>${p.approx ? ' <em class="approx">位置是估的</em>' : ''}</span></li>`;
+      const fac = places.filter((p) => p.kind !== 'service'), other = places.filter((p) => p.kind === 'service');
+      list.innerHTML = `<div class="campus-group"><h4>学院 <small>从北到南</small></h4><ol>${fac.map(item).join('')}</ol></div>` +
+        `<div class="campus-group"><h4>其他地点</h4><ol>${other.map(item).join('')}</ol></div>` +
+        `<div class="campus-group"><h4>校门</h4><ol>${gates.map((g) => `<li class="gate"><i class="cn gate">${g.letter}</i><span><b>${esc(g.zh)}</b>${g.note ? `<small>${esc(g.note)}</small>` : ''}</span></li>`).join('')}</ol></div>`;
+    }
   }
 
   /* 周边三片 */
