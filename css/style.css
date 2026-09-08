@@ -580,7 +580,7 @@ main { max-width: 1400px; }
 .lead-steps-line { gap: 8px; margin-top: 16px; }
 .lead-steps-line a { background: var(--card); border-color: var(--line); padding: 5px 13px; box-shadow: var(--shadow-sm); font-weight: 500; transition: transform .12s, box-shadow .12s, border-color .12s; }
 .lead-steps-line a:hover { transform: translateY(-1px); box-shadow: var(--shadow); border-color: var(--line-2); }
-.lead-steps-line a:first-child { border-color: var(--accent); color: var(--accent); }
+.lead-steps-line a.primary { border-color: var(--accent); color: var(--accent); }
 
 /* 章节 */
 .section { padding-top: 64px; }
@@ -775,3 +775,66 @@ main { max-width: 1400px; }
 .card .rank-badge.fail { color: var(--r1); }
 .card.collapsed .more { display: none; }
 .card.collapsed { padding-bottom: 14px; }
+
+/* ===== 认地方：校园示意图 + 周边三片 ===== */
+:root { --r3-soft: rgba(106, 76, 168, .12); }
+.campus-wrap, .around-wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 20px 26px; align-items: start; margin-top: 8px; }
+.campus-fig { margin: 0; }
+.campus-fig figcaption { font-size: 12px; color: var(--ink-3); margin-top: 6px; }
+.campus-svg-box { border: 1px solid var(--line); border-radius: 8px; background: var(--card, var(--bg)); overflow: hidden; }
+.campus-svg { display: block; width: 100%; height: auto; font-family: var(--sans); }
+.cs-campus { fill: color-mix(in srgb, var(--campus) 16%, transparent); stroke: var(--campus); stroke-width: 1.5; }
+.cs-campus.minor { fill: color-mix(in srgb, var(--campus) 8%, transparent); stroke-dasharray: 3 3; }
+.cs-lbl { font-size: 13px; font-weight: 600; fill: var(--ink-2); paint-order: stroke; stroke: var(--card, var(--bg)); stroke-width: 3px; stroke-linejoin: round; }
+.cs-lbl-gate { fill: #1f4f33; }
+.cs-lbl-lrt { fill: var(--lrt); }
+.cs-lbl-campus { font-family: var(--serif); font-size: 15px; fill: #2b6b44; }
+.cs-gate { fill: #2b6b44; stroke: var(--card, var(--bg)); stroke-width: 2; }
+.cs-lrt { fill: var(--lrt); stroke: var(--card, var(--bg)); stroke-width: 2; }
+.cs-place circle { fill: var(--ink); stroke: var(--card, var(--bg)); stroke-width: 2; }
+.cs-place text { font-size: 12px; font-weight: 700; fill: var(--bg); }
+.cs-place.service circle { fill: var(--card, var(--bg)); stroke: var(--ink); stroke-width: 1.5; }
+.cs-place.service text { fill: var(--ink); }
+.cs-place.approx circle { stroke-dasharray: 3 2; }
+.cs-north { font-size: 12px; fill: var(--ink-3); }
+.campus-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 2px 14px; font-size: 13px; }
+.campus-list li { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; border-bottom: 1px dashed var(--line); }
+.campus-list li:last-child { border-bottom: 0; }
+.campus-list .cn { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--bg); font-style: normal; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; margin-top: 1px; }
+.campus-list li.service .cn { background: var(--card, var(--bg)); color: var(--ink); border: 1.5px solid var(--ink); }
+.campus-list b { font-weight: 600; }
+.campus-list small { display: block; color: var(--ink-3); font-size: 12px; line-height: 1.5; }
+.campus-list .approx { font-style: normal; font-size: 11px; color: var(--r1); }
+.around-title { font-size: 17px; margin: 26px 0 4px; }
+.cs-region { stroke-width: 1.5; }
+.cs-region.r1 { fill: color-mix(in srgb, var(--r1) 12%, transparent); stroke: var(--r1); }
+.cs-region.r2 { fill: color-mix(in srgb, var(--r2) 12%, transparent); stroke: var(--r2); }
+.cs-region.r3 { fill: color-mix(in srgb, var(--r3) 12%, transparent); stroke: var(--r3); }
+.cs-region-lbl { font-family: var(--serif); font-size: 15px; font-weight: 700; paint-order: stroke; stroke: var(--card, var(--bg)); stroke-width: 4px; stroke-linejoin: round; }
+.cs-region-lbl.r1 { fill: var(--r1); } .cs-region-lbl.r2 { fill: var(--r2); } .cs-region-lbl.r3 { fill: var(--r3); }
+.cs-line { fill: none; stroke: var(--lrt); stroke-width: 3; stroke-linecap: round; opacity: .85; }
+.cs-stn { fill: var(--card, var(--bg)); stroke: var(--lrt); stroke-width: 2; }
+.cs-stn.major { fill: var(--lrt); }
+.cs-condo circle { stroke: var(--card, var(--bg)); stroke-width: 2; }
+.cs-condo.r1 circle { fill: var(--r1); } .cs-condo.r2 circle { fill: var(--r2); } .cs-condo.r3 circle { fill: var(--r3); }
+.cs-condo text { font-size: 10.5px; font-weight: 700; fill: #fff; }
+.around-groups { display: grid; gap: 12px; }
+.around-group { border: 1px solid var(--line); border-left-width: 4px; border-radius: 8px; padding: 12px 14px; background: var(--card, var(--bg)); }
+.around-group.r1 { border-left-color: var(--r1); } .around-group.r2 { border-left-color: var(--r2); } .around-group.r3 { border-left-color: var(--r3); }
+.around-group h4 { margin: 0 0 4px; font-size: 15px; }
+.around-group .muted { font-size: 12px; margin: 0 0 8px; line-height: 1.5; }
+.around-group .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.around-group .chips a { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px 2px 3px; background: var(--bg); }
+.around-group .chips a:hover { border-color: var(--ink); }
+.around-group .chips i { width: 18px; height: 18px; border-radius: 50%; color: #fff; font-style: normal; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+.around-group.r1 .chips i { background: var(--r1); } .around-group.r2 .chips i { background: var(--r2); } .around-group.r3 .chips i { background: var(--r3); }
+@media (max-width: 960px) { .campus-wrap, .around-wrap { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .campus-list { grid-template-columns: 1fr; } .cs-lbl { font-size: 15px; } .cs-place text { font-size: 13px; } .cs-region-lbl { font-size: 17px; } }
+
+@media (max-width: 720px) { .campus-list .en { display: none; } .campus-list li { padding: 4px 0; } }
+
+.campus-details summary { list-style: none; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--ink-2); padding: 6px 0 8px; display: flex; align-items: center; gap: 8px; }
+.campus-details summary::-webkit-details-marker { display: none; }
+.campus-details summary::before { content: '▸'; font-size: 12px; color: var(--ink-3); transition: transform .15s; }
+.campus-details[open] summary::before { transform: rotate(90deg); }
+@media (min-width: 721px) { .campus-details summary { display: none; } }

@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082300';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082345';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -52,6 +52,7 @@ async function init() {
   bindTierPop();
   bindReport();
   renderChangelog();
+  renderCampus(campus);
   drawMap(campus);
   buildPanel();
   bindFilters();
@@ -662,6 +663,83 @@ function openDetail(id) {
   $('[data-close]', dlg).addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }, { once: true });
   dlg.showModal();
+}
+
+/* ---------- 认地方：校园示意图 + 周边三片（替代小红书那两张图，数据来自 data/campus.json 和 condos.json） ---------- */
+const dm = (a, b) => { const R = 6371000, r = Math.PI / 180; const x = (b.lng - a.lng) * r * Math.cos(((a.lat + b.lat) / 2) * r), y = (b.lat - a.lat) * r; return Math.sqrt(x * x + y * y) * R; };
+// 经纬度 → SVG 坐标：给定范围和宽度，按纬度校正横向比例
+function makeProj(pts, W, pad) {
+  const lats = pts.map((p) => p.lat), lngs = pts.map((p) => p.lng);
+  const minLat = Math.min(...lats), maxLat = Math.max(...lats), minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+  const kx = Math.cos(((minLat + maxLat) / 2) * Math.PI / 180);
+  const scale = (W - 2 * pad) / ((maxLng - minLng) * kx);
+  const H = Math.round((maxLat - minLat) * scale + 2 * pad);
+  return { W, H, xy: (p) => [pad + (p.lng - minLng) * kx * scale, pad + (maxLat - p.lat) * scale] };
+}
+const svgPath = (ring, xy) => ring.map(([lng, lat], i) => (i ? 'L' : 'M') + xy({ lat, lng }).map((v) => v.toFixed(1)).join(' ')).join('') + 'Z';
+async function renderCampus(geo) {
+  const mapBox = $('#campus-map'), list = $('#campus-list'), aroundBox = $('#around-map'), groups = $('#around-groups');
+  if (!mapBox || !geo) return;
+  let data;
+  try { data = await fetch('data/campus.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
+  const rings = (geo.features ? geo.features[0] : geo).geometry.coordinates.map((p) => p[0]);
+  const main = rings.reduce((a, b) => (b.length > a.length ? b : a));
+  const uni = (state.meta.stations || []).find((s) => s.name === 'Universiti');
+  // KL 门：校园边界上离 Universiti 站最近的点
+  const kl = data.gates.find((g) => g.id === 'kl');
+  if (uni && kl) { let best = null, bd = Infinity; for (const [lng, lat] of main) { const d = (lat - uni.lat) ** 2 + (lng - uni.lng) ** 2; if (d < bd) { bd = d; best = { lat, lng }; } } Object.assign(kl, best); }
+  const gates = data.gates.filter((g) => g.lat != null);
+  const regionsMeta = state.meta.regions || {};
+  const listBox = $('#campus-list-box');
+  if (listBox && window.innerWidth <= 720) listBox.open = false;
+  const places = data.places.map((p, i) => { let g = null, bd = Infinity; for (const x of gates) { const d = dm(p, x); if (d < bd) { bd = d; g = x; } } return { ...p, n: i + 1, gate: g, gate_m: Math.round(bd) }; });
+
+  /* 校园图 */
+  {
+    const ringPts = main.map(([lng, lat]) => ({ lat, lng }));
+    const all = [...ringPts, ...places, ...gates, ...(uni ? [uni] : [])];
+    const { W, H, xy } = makeProj(all, 640, 34);
+    const label = (x, y, text, cls, anchor) => `<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor || 'start'}">${esc(text)}</text>`;
+    let s = `<svg class="campus-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="马来亚大学校园示意图：各学院、校门和 Universiti 站的位置">`;
+    s += rings.map((r) => `<path class="cs-campus${r === main ? '' : ' minor'}" d="${svgPath(r, xy)}"/>`).join('');
+    if (uni) { const [x, y] = xy(uni); s += `<circle class="cs-lrt" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7"/>` + label(x - 11, y + 20, 'Universiti 站', 'cs-lbl cs-lbl-lrt', 'end'); }
+    const GATE_LBL = { kl: ['end', -10, 20], elmu: ['end', -10, 4], s16: ['start', 10, -6], damansara: ['end', -10, -8], pj: ['start', 10, 4] };
+    for (const g of gates) { const [x, y] = xy(g); const [anchor, dx, dy] = GATE_LBL[g.id] || ['start', 10, -8]; s += `<circle class="cs-gate" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6"/>` + label(x + dx, y + dy, g.zh, 'cs-lbl cs-lbl-gate', anchor); }
+    for (const p of places) { const [x, y] = xy(p); s += `<g class="cs-place${p.kind === 'service' ? ' service' : ''}${p.approx ? ' approx' : ''}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11"/><text x="${x.toFixed(1)}" y="${(y + 4.5).toFixed(1)}" text-anchor="middle">${p.n}</text><title>${esc(p.zh)}</title></g>`; }
+    s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
+    mapBox.innerHTML = s;
+    if (list) list.innerHTML = places.map((p) => `<li class="${p.kind === 'service' ? 'service' : ''}"><i class="cn">${p.n}</i><span><b>${esc(p.zh)}</b>${p.approx ? ' <em class="approx">位置是估的</em>' : ''}<small><span class="en">${esc(p.en)} · </span>最近 ${esc(p.gate.zh)} ${p.gate_m >= 1000 ? (p.gate_m / 1000).toFixed(1) + ' km' : p.gate_m + ' m'} · 顺路 ${p.gate.regions.map((r) => '区域 ' + r).join('、')}</small></span></li>`).join('');
+  }
+
+  /* 周边三片 */
+  if (aroundBox) {
+    const ringPts = main.map(([lng, lat]) => ({ lat, lng }));
+    const condos = state.condos;
+    const stations = (state.meta.stations || []).slice().sort((a, b) => Number(a.code.replace(/\D/g, '')) - Number(b.code.replace(/\D/g, '')));
+    const all = [...ringPts, ...condos, ...stations];
+    const { W, H, xy } = makeProj(all, 640, 56);
+    let s = `<svg class="campus-svg around" viewBox="0 0 ${W} ${H}" role="img" aria-label="三片小区相对校园的位置示意图">`;
+    // 区域圈：质心 + 覆盖所有点的半径
+    const byRegion = {};
+    condos.forEach((c) => { (byRegion[c.region] = byRegion[c.region] || []).push(c); });
+    // 每片画一个椭圆：按该片小区的外接框加一圈边，标签放在椭圆里靠上，不会被裁掉
+    for (const [r, cs] of Object.entries(byRegion)) {
+      const xs = cs.map((c) => xy(c)[0]), ys = cs.map((c) => xy(c)[1]);
+      const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+      const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, rx = Math.max(56, (x1 - x0) / 2 + 30), ry = Math.max(50, (y1 - y0) / 2 + 34);
+      s += `<ellipse class="cs-region r${r}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}"/>`;
+      // 标签：区域 1 放椭圆顶部，2、3 放底部（顶部会和校园轮廓挤在一起）；横向夹在图内，用短名
+      const ly = r === '1' ? cy - ry + 18 : cy + ry - 10, lx = Math.min(Math.max(cx, 84), W - 84);
+      s += `<text class="cs-region-lbl r${r}" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">区域 ${r} · ${esc(regionsMeta[r]?.short || '')}</text>`;
+    }
+    s += rings.map((r) => `<path class="cs-campus${r === main ? '' : ' minor'}" d="${svgPath(r, xy)}"/>`).join('');
+    { const [x, y] = xy({ lat: ringPts.reduce((a, p) => a + p.lat, 0) / ringPts.length, lng: ringPts.reduce((a, p) => a + p.lng, 0) / ringPts.length }); s += `<text class="cs-lbl cs-lbl-campus" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">马来亚大学</text>`; }
+    if (stations.length > 1) s += `<polyline class="cs-line" points="${stations.map((st) => xy(st).map((v) => v.toFixed(1)).join(',')).join(' ')}"/>` + stations.map((st) => { const [x, y] = xy(st); return `<circle class="cs-stn${st.name === 'Universiti' ? ' major' : ''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${st.name === 'Universiti' ? 6 : 3.5}"><title>${esc(st.zh)}</title></circle>`; }).join('');
+    for (const c of condos) { const [x, y] = xy(c); s += `<g class="cs-condo r${c.region}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9"/><text x="${x.toFixed(1)}" y="${(y + 3.8).toFixed(1)}" text-anchor="middle">${c.no}</text><title>${esc(shortAlias(c))}</title></g>`; }
+    s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
+    aroundBox.innerHTML = s;
+    if (groups) groups.innerHTML = Object.keys(regionsMeta).map((r) => `<div class="around-group r${r}"><h4>${esc(regionsMeta[r].label)}</h4><p class="muted">${esc(regionsMeta[r].desc || '')}</p><div class="chips">${condos.filter((c) => String(c.region) === r).map((c) => `<a href="#card-${c.id}"><i>${c.no}</i>${esc(shortAlias(c))}</a>`).join('')}</div></div>`).join('');
+  }
 }
 
 /* ---------- reader reports（读者纠错）---------- */

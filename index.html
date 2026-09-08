@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609082300">
+<link rel="stylesheet" href="css/style.css?v=202609082345">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -23,6 +23,7 @@
 <header class="top">
   <a class="brand" href="#top">UM 租房指南</a>
   <nav class="nav" aria-label="步骤导航" id="stepnav">
+    <a href="#campus">认地方</a>
     <a href="#s0">先想清楚</a>
     <a href="#s1">1 地形</a>
     <a href="#s2">2 预算</a>
@@ -47,8 +48,28 @@
       <p>怎么用：先花两分钟做“先想清楚”，把在意的事打个分，页面会按你的权重给 25 个小区排序；然后按 7 步走，从看地图到签合同。价格是行情参考，不是报价，以中介发来的房源为准。最后有一张同学意向表，想找室友、想拼整租的可以填。</p>
     </div>
     <p class="lead-steps-line">
-      <a href="#s0">先想清楚</a><a href="#s1">1 地形</a><a href="#s2">2 预算</a><a href="#s3">3 挑候选</a><a href="#s4">4 逐个看</a><a href="#s5">5 找中介</a><a href="#s6">6 看房签约</a><a href="#s7">7 时间表</a>
+      <a href="#campus">认地方</a><a href="#s0" class="primary">先想清楚</a><a href="#s1">1 地形</a><a href="#s2">2 预算</a><a href="#s3">3 挑候选</a><a href="#s4">4 逐个看</a><a href="#s5">5 找中介</a><a href="#s6">6 看房签约</a><a href="#s7">7 时间表</a>
     </p>
+  </section>
+
+  <!-- 认地方：校园里各学院、周边三片（数据驱动的示意图） -->
+  <section class="section" id="campus">
+    <p class="step-eyebrow">先看一眼</p>
+    <h2 class="section-title">校园和周边：你的学院在哪，三片小区在哪</h2>
+    <p class="section-lede">选区域前先知道自己每天去哪栋楼。理学院、计算机、语言学院在校园北半边，出 Section 16 门或 PJ 门就是区域 1；工程、商学、法学院和医院在南半边，出 KL 门过天桥是 Universiti 站和区域 2。编号和右边名单对应，点小区名字跳到卡片。</p>
+    <div class="campus-wrap">
+      <figure class="campus-fig"><div class="campus-svg-box" id="campus-map"></div><figcaption>校园示意图，北在上，按 OpenStreetMap 的建筑坐标画的。绿点是校门，粉点是 Universiti LRT 站。</figcaption></figure>
+      <details class="campus-details" id="campus-list-box" open>
+        <summary>21 个地点：最近的校门、顺路的区域</summary>
+        <ol class="campus-list" id="campus-list"></ol>
+      </details>
+    </div>
+    <h3 class="around-title">三片小区在校园的哪一边</h3>
+    <div class="around-wrap">
+      <figure class="campus-fig"><div class="campus-svg-box" id="around-map"></div><figcaption>示意图，同色是同一片；粉线是 LRT。</figcaption></figure>
+      <div class="around-groups" id="around-groups"></div>
+    </div>
+    <p class="src-line">整理：um-housing.evasuka.com · 学院和校门坐标来自 OpenStreetMap，国际学生中心的位置是估的 · 非商业，转载请注明来源</p>
   </section>
 
   <!-- 开始之前：想清楚要什么 -->
@@ -566,7 +587,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609082300"></script>
-<script type="module" src="js/app.js?v=202609082300"></script>
+<script src="js/config.js?v=202609082345"></script>
+<script type="module" src="js/app.js?v=202609082345"></script>
 </body>
 </html>

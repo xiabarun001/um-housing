@@ -21,6 +21,7 @@ css/style.css       样式（含深色模式）
 js/app.js           渲染、筛选、距离带 SVG、意向表读写
 js/config.js        Supabase 地址与 publishable key（公开的，只允许匿名读和写入）
 data/condos.json    固定信息：设施、楼龄、户数、地契、坐标、链接。人工维护，半个月到一个月复核一次
+data/campus.json    校园地点（学院、校门）坐标，来自 OpenStreetMap；首屏"认地方"示意图用它画
 data/prices.json    实时信息：在租数量、整套最低价、各房型价、单间行情。脚本每 12 小时自动写，按小区 id 对应 condos.json
 data/price-history.json  每次成功刷新追加一天（在租数量、最低价、单间起价），只留最近 90 天
 data/refresh-log.json  最近一次自动刷新的结果（每个小区成功与否、抓到多少条）
