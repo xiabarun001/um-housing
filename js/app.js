@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090200';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090215';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -727,7 +727,8 @@ async function renderCampus(geo) {
     const ringPts = main.map(([lng, lat]) => ({ lat, lng }));
     const condos = state.condos;
     const stations = (state.meta.stations || []).slice().sort((a, b) => Number(a.code.replace(/\D/g, '')) - Number(b.code.replace(/\D/g, '')));
-    const all = [...ringPts, ...condos, ...stations];
+    const ktm = state.meta.ktm || [], mrt = state.meta.mrt || [];
+    const all = [...ringPts, ...condos, ...stations, ...ktm, ...mrt];
     const { W, H, xy } = makeProj(all, 640, 64);
     // 编号点：真实位置太近的轻轻推开，避免互相压住（只动画面坐标，不动数据）
     const R_DOT = 10, MIN_D = R_DOT * 2 + 4;
@@ -763,19 +764,48 @@ async function renderCampus(geo) {
     }
     s += `<path class="cs-campus" d="${svgPath(main, xy)}"/>`;
     { const [x, y] = xy({ lat: ringPts.reduce((a, q) => a + q.lat, 0) / ringPts.length, lng: ringPts.reduce((a, q) => a + q.lng, 0) / ringPts.length }); s += `<text class="cs-lbl cs-lbl-campus" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">马来亚大学</text>`; }
+    const stnLabel = (x, y, text, cls, anchor) => `<text class="cs-lbl cs-lbl-stn ${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor || 'start'}">${esc(text)}</text>`;
+    // KTM：按数据顺序连成线（Mid Valley → Seputeh → Pantai Dalam → Petaling）
+    if (ktm.length > 1) {
+      const line = ktm.map((st) => xy(st).map((v) => v.toFixed(1)).join(',')).join(' ');
+      s += `<polyline class="cs-line-case" points="${line}"/><polyline class="cs-ktm-line" points="${line}"/>`;
+      s += ktm.map((st) => { const [x, y] = xy(st); const below = ['Mid Valley', 'Pantai Dalam'].includes(st.name); const lbl = below ? stnLabel(Math.min(x, W - 50), y + 17, st.name + ' KTM', 'ktm', 'middle') : (x > W - 90 ? stnLabel(x - 8, y + 4, st.name + ' KTM', 'ktm', 'end') : stnLabel(x + 8, y + 4, st.name + ' KTM', 'ktm')); return `<circle class="cs-ktm" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4"><title>${esc(st.zh)}</title></circle>` + lbl; }).join('');
+    }
+    // LRT：线 + 车站 + 站名（西边三站标在线下，东边两站标在线上）
     if (stations.length > 1) {
       const line = stations.map((st) => xy(st).map((v) => v.toFixed(1)).join(',')).join(' ');
       s += `<polyline class="cs-line-case" points="${line}"/><polyline class="cs-line" points="${line}"/>`;
       s += stations.map((st) => { const [x, y] = xy(st); const major = st.name === 'Universiti'; return `<circle class="cs-stn${major ? ' major' : ''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${major ? 6.5 : 3.5}"><title>${esc(st.zh)}</title></circle>`; }).join('');
-      const f0 = xy(stations[0]); s += `<text class="cs-lbl cs-lbl-lrt" x="${(f0[0] + 2).toFixed(1)}" y="${(f0[1] - 11).toFixed(1)}">LRT</text>`;
-      const u = stations.find((st) => st.name === 'Universiti'); if (u) { const [x, y] = xy(u); s += `<text class="cs-lbl cs-lbl-lrt" x="${(x - 11).toFixed(1)}" y="${(y + 5).toFixed(1)}" text-anchor="end">Universiti 站</text>`; }
+      for (const st of stations) {
+        const [x, y] = xy(st);
+        if (st.name === 'Universiti') s += stnLabel(x - 11, y + 5, 'Universiti 站', 'lrt', 'end');
+        else if (['Kerinchi', 'Abdullah Hukum'].includes(st.name)) s += stnLabel(x + (st.name === 'Abdullah Hukum' ? -8 : 8), y - 9, st.name, 'lrt', st.name === 'Abdullah Hukum' ? 'end' : 'start');
+        else s += stnLabel(x, y + 16, st.name, 'lrt', 'middle');
+      }
+      const w0 = xy(stations[stations.length - 1]); s += stnLabel(w0[0] - 6, w0[1] - 14, 'LRT Kelana Jaya 线', 'lrt');
     }
+    // MRT：只有 Phileo Damansara 一站在图内
+    for (const st of mrt) { const [x, y] = xy(st); s += `<circle class="cs-mrt" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"><title>${esc(st.zh)}</title></circle>` + stnLabel(x + 9, y + 4, st.name + ' MRT', 'mrt'); }
     for (const q of pts) s += `<g class="cs-condo r${q.c.region}"><circle cx="${q.x.toFixed(1)}" cy="${q.y.toFixed(1)}" r="${R_DOT}"/><text x="${q.x.toFixed(1)}" y="${(q.y + 4).toFixed(1)}" text-anchor="middle">${q.c.no}</text><title>${esc(shortAlias(q.c))}</title></g>`;
     for (const l of labels) s += `<text class="cs-region-lbl r${l.r}" x="${l.x.toFixed(1)}" y="${l.y.toFixed(1)}" text-anchor="middle">${esc(l.text)}</text>`;
     s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
     aroundBox.innerHTML = s;
     if (groups) {
-      groups.innerHTML = Object.keys(regionsMeta).map((r) => `<div class="campus-group region r${r}"><h4>${esc(regionsMeta[r].label)}</h4><ol>${condos.filter((c) => String(c.region) === r).map((c) => `<li><a href="#card-${c.id}"><i class="cn r${r}">${c.no}</i><span><b>${esc(shortAlias(c))}</b></span></a></li>`).join('')}</ol></div>`).join('');
+      const transitLine = (cs) => {
+        const near = {}; let none = 0; const buses = new Set(); let freeBus = false;
+        for (const c of cs) {
+          const t = c.transit || {};
+          if (t.walk_min == null) none++; else { const k = String(t.nearest || '').replace(/（.*?）/g, ''); (near[k] = near[k] || []).push(t.walk_min); }
+          for (const b of t.buses || []) { if (/免费/.test(b)) freeBus = true; if (/^[A-Z]{0,2}\d{2,3}$/.test(String(b))) buses.add(String(b)); }
+        }
+        const rail = Object.entries(near).sort((a, b) => Math.min(...a[1]) - Math.min(...b[1])).map(([k, mins]) => { const lo = Math.min(...mins), hi = Math.max(...mins); return `${k} 走 ${lo === hi ? lo : lo + '–' + hi} 分钟（${mins.length} 个小区）`; });
+        const bits = [];
+        if (rail.length) bits.push('轨道：' + rail.join('、'));
+        if (none) bits.push(`${none} 个小区没有走得到的轨道站，靠${freeBus ? ' PJ 免费巴士、' : ''}公交或 Grab`);
+        if (buses.size) bits.push('公交 ' + [...buses].sort().join(' / '));
+        return bits.join('；') + '。';
+      };
+      groups.innerHTML = Object.keys(regionsMeta).map((r) => `<div class="campus-group region r${r}"><h4>${esc(regionsMeta[r].label)}</h4><p class="group-transit">${esc(transitLine(condos.filter((c) => String(c.region) === r)))}</p><ol>${condos.filter((c) => String(c.region) === r).map((c) => `<li><a href="#card-${c.id}"><i class="cn r${r}">${c.no}</i><span><b>${esc(shortAlias(c))}</b></span></a></li>`).join('')}</ol></div>`).join('');
       const lb = $('#around-list-box'); if (lb && window.innerWidth <= 720) lb.open = false;
     }
   }
