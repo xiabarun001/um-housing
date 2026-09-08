@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082230';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082300';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -11,6 +11,9 @@ const state = {
   sort: 'no',
   intents: [],
   intentsOk: null,
+  expanded: new Set(),
+  expandAll: false,
+  needsRank: null,
   map: null,
   markers: {},
 };
@@ -413,6 +416,12 @@ function bindFilters() {
   $('#f-lrt').addEventListener('change', (e) => { state.lrt = e.target.checked; renderList(); });
   $('#f-budget').addEventListener('change', (e) => { state.budget = e.target.checked; renderList(); });
   $('#sort').addEventListener('change', (e) => { state.sort = e.target.value; renderList(); });
+  const ex = $('#f-expand');
+  if (ex) {
+    try { state.expandAll = localStorage.getItem('um-cards-expand') === '1'; } catch { /* ignore */ }
+    ex.checked = state.expandAll;
+    ex.addEventListener('change', () => { state.expandAll = ex.checked; state.expanded.clear(); try { localStorage.setItem('um-cards-expand', ex.checked ? '1' : '0'); } catch { /* ignore */ } renderList(); });
+  }
   $$('.tool-flags input').forEach((i) => i.addEventListener('change', () => {
     if (i.checked) state.flags.add(i.dataset.flag); else state.flags.delete(i.dataset.flag);
     const n = state.flags.size;
@@ -439,11 +448,13 @@ function filtered() {
   if (state.lrt) list = list.filter((c) => c.transit.walk_min != null && c.transit.walk_min <= 10);
   if (state.budget) list = list.filter((c) => { const m = roomsMin(c); return m != null && m <= 1300; });
   for (const f of state.flags) list = list.filter((c) => c.flags[f]);
+  if (state.sort === 'needs') computeNeedsRank(); else state.needsRank = null;
   const cmp = {
     no: (a, b) => a.no - b.no,
     walk: (a, b) => (a.transit.walk_min ?? 99) - (b.transit.walk_min ?? 99) || a.no - b.no,
     rent: (a, b) => (a.snapshot.rent_from ?? 1e9) - (b.snapshot.rent_from ?? 1e9),
     year: (a, b) => (b.completed ?? 0) - (a.completed ?? 0),
+    needs: (a, b) => (state.needsRank?.[a.id]?.rank ?? 99) - (state.needsRank?.[b.id]?.rank ?? 99),
   }[state.sort];
   return list.sort(cmp);
 }
@@ -454,10 +465,43 @@ function renderList() {
   const grid = $('#grid');
   grid.innerHTML = list.map(cardHTML).join('');
   $('#empty').hidden = list.length > 0;
-  $('#result-count').textContent = `显示 ${list.length} 个，共 ${state.condos.length} 个`;
+  $('#result-count').textContent = `显示 ${list.length} 个，共 ${state.condos.length} 个${state.sort === 'needs' ? '，按"先想清楚"里的权重排序' : ''}`;
   $$('[data-detail]', grid).forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.detail)));
   $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
+  $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
   paintIntentCounts();
+  expandFromHash();
+}
+
+/* ---------- 卡片折叠：默认只看名字、去学校、一句价格，点开看全部 ---------- */
+function toggleCard(id, force) {
+  if (state.expandAll) {
+    // 全部展开时收起某一张：退出"全部展开"，把其他已显示的卡片记为单独展开
+    state.expandAll = false; const cb = $('#f-expand'); if (cb) cb.checked = false;
+    $$('#grid .card').forEach((el) => state.expanded.add(el.id.replace('card-', '')));
+  }
+  const on = force != null ? force : !state.expanded.has(id);
+  if (on) state.expanded.add(id); else state.expanded.delete(id);
+  const el = document.getElementById(`card-${id}`); if (!el) return;
+  el.classList.toggle('collapsed', !on);
+  const b = $('[data-toggle]', el); if (b) { b.textContent = on ? '收起' : '展开'; b.setAttribute('aria-expanded', String(on)); }
+}
+function expandFromHash() {
+  const m = location.hash.match(/^#card-([a-z0-9-]+)$/); if (!m) return;
+  if (!state.expandAll && !state.expanded.has(m[1])) toggleCard(m[1], true);
+}
+window.addEventListener('hashchange', expandFromHash);
+// "先想清楚"的打分：按保存的权重给全部小区排名，供排序和卡片上的名次用
+function loadNeeds() {
+  let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
+  try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* ignore */ }
+  if (!NEEDS_MODES[o.mode]) o.mode = 'room';
+  return o;
+}
+function computeNeedsRank() {
+  const res = needsCompute(loadNeeds(), needsCriteria());
+  state.needsRank = {};
+  res.forEach((r, i) => { state.needsRank[r.c.id] = { rank: i + 1, score: Math.round(r.score * 100), fails: r.fails }; });
 }
 
 function locate(id) {
@@ -543,11 +587,16 @@ function cardHTML(c) {
   if (c.tags.includes('整租适合三人')) flagBits.push('<span class="ok">适合三人整租</span>');
   if (c.tags.includes('最新楼盘')) flagBits.push('新楼');
   if (c.tags.includes('家庭户型')) flagBits.push('家庭大户型');
+  const collapsed = !(state.expandAll || state.expanded.has(c.id));
+  const nr = state.needsRank?.[c.id];
+  const brief = [rmin != null ? `单间 RM ${fmt(rmin)} 起` : '没找到在租单间', c.snapshot.rent_from ? `整套 RM ${fmt(c.snapshot.rent_from)} 起` : null, c.completed ? `${c.completed} 年` : null, c.units ? `${fmt(c.units)} 户` : null].filter(Boolean).join(' · ');
   return `
-  <article class="card r${c.region}" id="card-${c.id}">
+  <article class="card r${c.region}${collapsed ? ' collapsed' : ''}" id="card-${c.id}">
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
+    <p class="brief">${nr ? `<b class="rank-badge${nr.fails.length ? ' fail' : ''}" title="按你在“先想清楚”里的权重算的">第 ${nr.rank} 名 · ${nr.score} 分${nr.fails.length ? ' · 有必须项不满足' : ''}</b>` : ''}<span>${esc(brief)}</span><button type="button" class="linkish toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}">${collapsed ? '展开' : '收起'}</button></p>
+    <div class="more">
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
     <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
     <div class="price">
@@ -563,6 +612,7 @@ function cardHTML(c) {
       <a class="linkish" href="${esc(c.links.maps)}" target="_blank" rel="noopener">Google 地图</a>
       <button type="button" class="linkish" data-detail="${c.id}">来源与详情</button>
       <button type="button" class="linkish" data-report="${c.id}">反馈</button>
+    </div>
     </div>
     <span class="who" data-count-for="${c.id}" hidden></span>
   </article>`;
@@ -1124,7 +1174,7 @@ function bindNeeds() {
   let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
   try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* 隐私模式下忽略 */ }
   if (!NEEDS_MODES[o.mode]) o.mode = 'room';
-  const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } };
+  const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } if (state.sort === 'needs') renderList(); };
   const crit = needsCriteria();
   let showAll = false;
   rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}${x.k === 'daily' || x.k === 'quiet' ? ' ' + tierMark('judgment') : ''}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');

@@ -767,3 +767,11 @@ main { max-width: 1400px; }
   /* 正门标签在窄屏上贴着右边缘会被切掉：改成向左展开 */
   .lm-icon.lm-up .lm { flex-direction: row-reverse; transform: translateX(calc(-100% + 14px)); }
 }
+
+/* 卡片折叠：默认三行（名字、去学校、一句价格），展开看全部 */
+.card .brief { margin: 4px 0 0; font-size: 13px; color: var(--ink-2); display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.card .brief .toggle { font-size: 13px; padding: 0; }
+.card .rank-badge { font-size: 12px; font-weight: 600; color: var(--ok); border: 1px solid currentColor; border-radius: 999px; padding: 0 8px; white-space: nowrap; }
+.card .rank-badge.fail { color: var(--r1); }
+.card.collapsed .more { display: none; }
+.card.collapsed { padding-bottom: 14px; }
