@@ -125,7 +125,8 @@ status: draft
 - FR-7 `node scripts/collect.mjs <id 或 iProperty 项目链接>`：抓取档案字段，写入 `data/staging/<id>.json`，含来源、时间、原始值。
 - FR-8 用 PropertyGuru 项目页做第二来源交叉比对；每个字段评估为「一致」「单源」「冲突」。
 - FR-9 生成 `data/staging/REVIEW.md`：现有值、采集值、二源值、评估结论、建议动作，一眼能审。
-- FR-10 `node scripts/publish.mjs <id>` 把审核通过的字段写入 `condos.json`，更新 provenance 和 `verified_at`，追加 `data/changelog.json`。
+- FR-10 `node scripts/publish.mjs <id>` 把审核通过的字段写入 `condos.json`，更新 provenance 和 `verified_at`，追加 `data/changelog.json`（每条含 at、who、condo、field、from、to、source、reason、public_note）。
+- FR-10b 读者页「说明」下方显示对外版变更记录：只列日期、小区、"更新了什么"（public_note），不显示人。后台显示完整字段。
 - FR-11 GitHub Actions 每 30 天对全部小区跑一次采集，只出报告，不自动发布。档案变更必须人审。
 - FR-12 新增小区只需项目链接：生成完整 staging 记录，坐标自动取，区域和编号由人定。
 - FR-13 读者纠错：卡片上「报错」按钮 → Supabase `reports` 表（小区、字段、说明、可选联系方式），后台可见。
@@ -190,11 +191,15 @@ status: draft
 | P4 | UMH Console v1 | 3–5 天，需 Sasha 配 Access 和 token |
 | P5 | 持续：30 天复核、价格走势、校园地图 | 之后 |
 
-## 9. 开放问题
+## 9. 已定事项（2026-09-08，Sasha）
 
-- Millerz Square 纳不纳入区域 3（小红书表格有、列表没有）。建议纳入，共 6 个。
-- 后台需要几个管理员邮箱。
-- changelog 是否对读者公开。建议公开，增加可信度。
+- 区域 3 纳入 Millerz Square，共 6 个小区。
+- 变更记录分两个视图：对外只显示"更新了什么"（字段级，不显示人）；后台显示谁、何时、改了什么、来源和理由。两者来自同一份 `data/changelog.json`。
+- 管理后台先按 2 个管理员邮箱设计（邮箱待 Sasha 提供）。
+
+## 开放问题
+
+- 暂无。
 
 ## 10. 执行契约
 
