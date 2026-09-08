@@ -1,40 +1,40 @@
 {
-  "started_at": "2026-09-07T18:29:47.736Z",
+  "started_at": "2026-09-08T06:44:44.270Z",
   "date_myt": "2026-09-08",
   "only": [],
   "iproperty": {
     "seventeen": "ok 78 listings (60 read), whole from RM 1800, rooms 0",
     "atwater": "ok 76 listings (60 read), whole from RM 2500, rooms 0",
-    "ryan-miho": "ok 142 listings (60 read), whole from RM 1800, rooms 15",
-    "pacific-star": "ok 205 listings (60 read), whole from RM 1800, rooms 5",
-    "pacific-63": "ok 10 listings (10 read), whole from RM 1700, rooms 0",
+    "ryan-miho": "ok 143 listings (60 read), whole from RM 1800, rooms 15",
+    "pacific-star": "ok 208 listings (60 read), whole from RM 1800, rooms 3",
+    "pacific-63": "ok 11 listings (11 read), whole from RM 1700, rooms 0",
     "pj-midtown": "ok 145 listings (60 read), whole from RM 1300, rooms 5",
     "centrestage": "ok 147 listings (60 read), whole from RM 1099, rooms 2",
-    "pj8": "ok 18 listings (18 read), whole from RM 230, rooms 0",
+    "pj8": "ok 18 listings (18 read), whole from RM 1900, rooms 0",
     "tiara-damansara": "ok 6 listings (6 read), whole from RM 2500, rooms 0",
     "dvogue": "ok 50 listings (50 read), whole from RM 1599, rooms 0",
     "kl-gateway": "ok 149 listings (60 read), whole from RM 2000, rooms 0",
-    "pantai-panorama": "ok 33 listings (33 read), whole from RM 2000, rooms 2",
-    "south-view": "ok 414 listings (60 read), whole from RM 1900, rooms 1",
+    "pantai-panorama": "ok 34 listings (34 read), whole from RM 2000, rooms 2",
+    "south-view": "ok 418 listings (60 read), whole from RM 1900, rooms 1",
     "southlink": "ok 544 listings (60 read), whole from RM 1299, rooms 8",
-    "novum": "ok 260 listings (60 read), whole from RM 2100, rooms 2",
-    "laurel": "ok 343 listings (60 read), whole from RM 1600, rooms 3",
+    "novum": "ok 261 listings (60 read), whole from RM 2100, rooms 2",
+    "laurel": "ok 344 listings (60 read), whole from RM 1600, rooms 3",
     "saville": "ok 54 listings (54 read), whole from RM 2400, rooms 2",
     "inwood": "ok 64 listings (60 read), whole from RM 3200, rooms 0",
-    "secoya": "ok 61 listings (60 read), whole from RM 1600, rooms 1"
+    "secoya": "ok 59 listings (59 read), whole from RM 3200, rooms 1"
   },
   "ibilik": {
     "ran": true,
     "pages": 6,
-    "products": 90,
+    "products": 93,
     "matched": {
-      "kl-gateway": 34,
-      "south-view": 13,
+      "kl-gateway": 35,
       "novum": 2,
+      "south-view": 13,
       "laurel": 1
     }
   },
   "errors": [],
-  "finished_at": "2026-09-07T18:34:22.047Z",
+  "finished_at": "2026-09-08T06:49:22.210Z",
   "ok": true
 }

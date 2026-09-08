@@ -115,17 +115,17 @@
           "rooms_min": null
         },
         "ryan-miho": {
-          "for_rent": 142,
+          "for_rent": 143,
           "rent_from": 1800,
           "rooms_min": 950
         },
         "pacific-star": {
-          "for_rent": 205,
+          "for_rent": 208,
           "rent_from": 1800,
           "rooms_min": 780
         },
         "pacific-63": {
-          "for_rent": 10,
+          "for_rent": 11,
           "rent_from": 1700,
           "rooms_min": null
         },
@@ -141,7 +141,7 @@
         },
         "pj8": {
           "for_rent": 18,
-          "rent_from": 230,
+          "rent_from": 1900,
           "rooms_min": null
         },
         "tiara-damansara": {
@@ -160,12 +160,12 @@
           "rooms_min": 650
         },
         "pantai-panorama": {
-          "for_rent": 33,
+          "for_rent": 34,
           "rent_from": 2000,
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 414,
+          "for_rent": 418,
           "rent_from": 1900,
           "rooms_min": 750
         },
@@ -175,12 +175,12 @@
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 260,
+          "for_rent": 261,
           "rent_from": 2100,
-          "rooms_min": 1300
+          "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 343,
+          "for_rent": 344,
           "rent_from": 1600,
           "rooms_min": 1550
         },
@@ -195,8 +195,8 @@
           "rooms_min": null
         },
         "secoya": {
-          "for_rent": 61,
-          "rent_from": 1600,
+          "for_rent": 59,
+          "rent_from": 3200,
           "rooms_min": 1100
         }
       }
