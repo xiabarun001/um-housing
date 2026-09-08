@@ -5,6 +5,13 @@
 - 线上：`um-housing.evasuka.com`（DNS 生效前可用 `https://xiabarun001.github.io/um-housing/`）
 - 无构建步骤，纯静态 HTML / CSS / JS，GitHub Pages 直接托管。
 
+## 文档
+
+- [docs/SPEC.md](docs/SPEC.md)：2.0 的产品需求（三区覆盖、信息分层、采集审核、管理后台）
+- [docs/ADR-001-信息分层.md](docs/ADR-001-信息分层.md)：档案 / 行情 / 判断三层的定义和字段约定
+- [docs/ADR-002-采集与审核.md](docs/ADR-002-采集与审核.md)：档案信息的流水线
+- [docs/ADR-003-管理后台.md](docs/ADR-003-管理后台.md)：UMH Console 的登录与写入方式（提议中）
+
 ## 目录
 
 ```
