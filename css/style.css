@@ -890,3 +890,18 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
   .campus-group li { break-inside: avoid; padding: 5px 0; }
   .campus-group h4 { margin-bottom: 8px; }
 }
+
+/* 熟悉校园：左右两个等宽等高的面板；左面板 = 图 + 底部图例，右面板 = 名单（学院在顶，其他地点和校门贴底） */
+.campus-svg-box { display: flex; flex-direction: column; }
+.campus-svg-host { flex: 1; display: flex; align-items: center; }
+.campus-svg-host .campus-svg { flex: 1; min-height: 0; }
+.campus-svg-box .campus-legend { margin: 0; padding: 10px 14px 12px; border-top: 1px solid var(--line); }
+.campus-details { border: 1px solid var(--line); border-radius: 8px; background: var(--card, var(--bg)); padding: 14px 16px; }
+.campus-details summary { padding: 0; }
+.campus-details[open] summary { padding-bottom: 10px; }
+@media (min-width: 961px) {
+  .campus-fig { display: flex; flex-direction: column; }
+  .campus-svg-box { flex: 1; }
+  .campus-details { padding: 20px 24px; }
+  .campus-list { align-content: space-between; }
+}
