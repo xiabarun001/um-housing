@@ -1,6 +1,8 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082345';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090010';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
+// fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
+const FIT_OPTS = { padding: [18, 18] };
 const state = {
   condos: [],
   meta: {},
@@ -65,7 +67,7 @@ async function init() {
   bindCopy();
   bindNeeds();
   // 页面都摆好之后再定一次全图视野，避免地图在排版没完成时算错缩放
-  if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds); });
+  if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds, FIT_OPTS); });
   bindChecklists();
   bindNav();
   // 地图气泡里的"看详情"按钮
@@ -297,8 +299,8 @@ function drawMap(campus) {
   });
 
   state.allBounds = bounds.pad(0.03);
-  map.fitBounds(state.allBounds);
-  $('#map-reset')?.addEventListener('click', () => { clearSelection(); endTour(); map.fitBounds(state.allBounds); });
+  map.fitBounds(state.allBounds, FIT_OPTS);
+  $('#map-reset')?.addEventListener('click', () => { clearSelection(); endTour(); map.fitBounds(state.allBounds, FIT_OPTS); });
   // 容器尺寸变了（页面还在排版、标签页从后台切回来、手机转屏）要告诉 Leaflet；
   // 如果之前是在 0 尺寸下算的视野（会缩成世界地图），顺手重新定位到全图
   let lastSize = map.getSize();
@@ -306,7 +308,7 @@ function drawMap(campus) {
     const prev = lastSize;
     map.invalidateSize();
     lastSize = map.getSize();
-    if (prev.x === 0 || prev.y === 0 || map.getZoom() <= 3) map.fitBounds(state.allBounds);
+    if (prev.x === 0 || prev.y === 0 || map.getZoom() <= 3) map.fitBounds(state.allBounds, FIT_OPTS);
   };
   if (typeof ResizeObserver !== 'undefined') new ResizeObserver(refit).observe($('#map'));
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refit(); });
@@ -397,7 +399,7 @@ function setupTour(ctx) {
       if (campusLayer) campusLayer.setStyle({ weight: 1.5, fillOpacity: 0.22 });
       walkLayers.forEach((l) => l.setStyle({ weight: 1.4, fillOpacity: 0.05 }));
       lrtLine.setStyle({ weight: 5 });
-      map.fitBounds(state.allBounds);
+      map.fitBounds(state.allBounds, FIT_OPTS);
     },
   };
   $('#tour-start')?.addEventListener('click', () => tour.start());
@@ -1257,6 +1259,13 @@ function bindNeeds() {
   let showAll = false;
   rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}${x.k === 'daily' || x.k === 'quiet' ? ' ' + tierMark('judgment') : ''}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');
   $('#needs-ask').innerHTML = NEEDS_ASK.map(([k, t]) => `<label><input type="checkbox" value="${k}"${o.ask.includes(k) ? ' checked' : ''}> ${esc(t)}</label>`).join('');
+  // 手机上每项的说明默认收起，点一下再看；"要问的"整块默认收起，标题上显示勾了几项
+  const hintsBtn = $('#needs-hints');
+  if (hintsBtn) hintsBtn.addEventListener('click', () => { const on = rows.classList.toggle('show-hints'); hintsBtn.textContent = on ? '隐藏说明' : '显示每一项的说明'; hintsBtn.setAttribute('aria-expanded', String(on)); });
+  const askBox = $('#needs-ask-box');
+  if (askBox && window.innerWidth <= 720) askBox.open = false;
+  const askCount = () => { const el = $('#needs-ask-count'); if (el) el.textContent = o.ask.length ? `（已勾 ${o.ask.length} 项）` : `（${NEEDS_ASK.length} 项）`; };
+  askCount();
   $$('#needs-mode button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === o.mode)));
   const budgetEl = $('#needs-budget');
   budgetEl.value = o.budget;
@@ -1275,7 +1284,7 @@ function bindNeeds() {
     save(); render();
   });
   budgetEl.addEventListener('input', () => { const v = Number(budgetEl.value); if (v >= 100) { o.budget = v; save(); render(); } });
-  $('#needs-ask').addEventListener('change', () => { o.ask = $$('#needs-ask input:checked').map((i) => i.value); save(); render(); });
+  $('#needs-ask').addEventListener('change', () => { o.ask = $$('#needs-ask input:checked').map((i) => i.value); save(); askCount(); render(); });
   box.addEventListener('click', async (e) => {
     if (e.target.id === 'needs-more') { showAll = !showAll; render(); return; }
     if (e.target.id === 'needs-copy') {

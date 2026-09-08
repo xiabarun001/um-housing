@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609082345">
+<link rel="stylesheet" href="css/style.css?v=202609090010">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -91,13 +91,14 @@
         <div class="needs-block">
           <h3>下面这些事你有多在意</h3>
           <p class="muted">这些能用数据比。点“必须”的话，不满足的小区会排到最后。</p>
+          <button type="button" class="linkish needs-hints-toggle" id="needs-hints" aria-expanded="false">显示每一项的说明</button>
           <div class="needs-rows" id="needs-rows"></div>
         </div>
-        <div class="needs-block">
-          <h3>数据比不了、看房时要问的</h3>
+        <details class="needs-block needs-details" id="needs-ask-box" open>
+          <summary><h3>数据比不了、看房时要问的<span class="muted" id="needs-ask-count"></span></h3></summary>
           <p class="muted">勾上你在意的，右边会整理成问题清单，找中介时直接发。</p>
           <div class="ask-grid" id="needs-ask"></div>
-        </div>
+        </details>
       </div>
       <aside class="needs-summary" id="needs-summary" aria-live="polite"></aside>
     </div>
@@ -587,7 +588,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609082345"></script>
-<script type="module" src="js/app.js?v=202609082345"></script>
+<script src="js/config.js?v=202609090010"></script>
+<script type="module" src="js/app.js?v=202609090010"></script>
 </body>
 </html>

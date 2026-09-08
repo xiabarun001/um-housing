@@ -529,7 +529,17 @@ main { max-width: 1400px; }
 .needs-ask-list li { margin: 4px 0; }
 .needs-acts { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 @media (max-width: 960px) { .needs { grid-template-columns: 1fr; } .needs-summary { position: static; } }
-@media (max-width: 720px) { .needs-row { flex-direction: column; align-items: flex-start; gap: 6px; } .ask-grid { grid-template-columns: 1fr; } .needs-block { padding: 14px; } }
+@media (max-width: 720px) {
+  /* 打分行：标签和四个按钮同一行，说明默认收起 */
+  .needs-row { flex-direction: row; align-items: center; gap: 8px; padding: 7px 0; }
+  .needs-rows:not(.show-hints) .needs-label span { display: none; }
+  .needs-label b { font-size: 13.5px; }
+  .needs-rows .seg { flex: none; flex-wrap: nowrap; gap: 4px; }
+  .needs-rows .seg.small button { padding: 3px 7px; font-size: 12px; }
+  .ask-grid { grid-template-columns: 1fr; }
+  .needs-block { padding: 14px; }
+  .match small.why { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}
 
 /* ---------- 署名、水印、授权 ---------- */
 .wm { position: absolute; left: 8px; bottom: 8px; z-index: 500; font-size: 11px; line-height: 1; padding: 4px 7px; border-radius: 3px; background: rgba(255, 255, 255, .8); color: #4a4a4a; letter-spacing: .02em; pointer-events: none; user-select: none; }
@@ -838,3 +848,14 @@ main { max-width: 1400px; }
 .campus-details summary::before { content: '▸'; font-size: 12px; color: var(--ink-3); transition: transform .15s; }
 .campus-details[open] summary::before { transform: rotate(90deg); }
 @media (min-width: 721px) { .campus-details summary { display: none; } }
+
+/* 先想清楚：说明开关只在手机上出现；"要问的"用 details 可收起 */
+.needs-hints-toggle { display: none; font-size: 12px; margin: -4px 0 8px; padding: 0; }
+@media (max-width: 720px) { .needs-hints-toggle { display: inline-block; } }
+details.needs-details summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+details.needs-details summary::-webkit-details-marker { display: none; }
+details.needs-details summary::before { content: '▸'; font-size: 12px; color: var(--ink-3); transition: transform .15s; }
+details.needs-details[open] summary::before { transform: rotate(90deg); }
+details.needs-details summary h3 { margin: 0; }
+details.needs-details[open] summary { margin-bottom: 10px; }
+details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; margin-left: 6px; }
