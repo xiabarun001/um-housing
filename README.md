@@ -32,7 +32,7 @@ scripts/collect.mjs 固定信息采集脚本（iProperty 项目页 + StarPropert
 scripts/publish.mjs 固定信息发布脚本（staging → condos.json + provenance + changelog）
 scripts/arbitrate.mjs 两源冲突仲裁脚本（结论和理由写进 provenance）
 scripts/status.mjs 数据健康检查（data/status.json）
-scripts/reports.mjs 读者报错处理（需要 SUPABASE_SERVICE_KEY 环境变量）
+scripts/reports.mjs 读者反馈处理（需要 SUPABASE_SERVICE_KEY 环境变量）
 .github/workflows/refresh.yml  每 12 小时刷新行情并提交
 .github/workflows/collect.yml  每月 1 日全量采集档案，只提交 staging 和报告
 docs/               规格、决策记录、验收标准

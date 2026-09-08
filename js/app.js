@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082130';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082145';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -562,7 +562,7 @@ function cardHTML(c) {
       <button type="button" class="linkish" data-locate="${c.id}">在地图上看</button>
       <a class="linkish" href="${esc(c.links.maps)}" target="_blank" rel="noopener">Google 地图</a>
       <button type="button" class="linkish" data-detail="${c.id}">来源与详情</button>
-      <button type="button" class="linkish" data-report="${c.id}">报错</button>
+      <button type="button" class="linkish" data-report="${c.id}">反馈</button>
     </div>
     <span class="who" data-count-for="${c.id}" hidden></span>
   </article>`;
@@ -606,7 +606,7 @@ function openDetail(id) {
       <a class="btn" href="${esc(c.links.iproperty_building)}" target="_blank" rel="noopener">iProperty 项目页</a>
       <a class="btn" href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 找单间</a>
       <a class="btn" href="${esc(c.links.maps)}" target="_blank" rel="noopener">Google 地图</a>
-      <button type="button" class="btn" data-report="${c.id}">信息不对？报错</button>
+      <button type="button" class="btn" data-report="${c.id}">信息不对？反馈</button>
     </div>`;
   const dlg = $('#detail');
   $('[data-close]', dlg).addEventListener('click', () => dlg.close());
@@ -1004,7 +1004,7 @@ function bindTierPop() {
     if (!b) { if (!e.target.closest('#tier-pop')) hide(); return; }
     const c = b.dataset.id ? state.condos.find((x) => x.id === b.dataset.id) : null;
     pop.innerHTML = tierPopHTML(b.dataset.tier, c);
-    if (c) pop.insertAdjacentHTML('beforeend', `<p class="pop-act"><button type="button" class="linkish" data-report="${esc(c.id)}" data-report-tier="${esc(b.dataset.tier)}">这条信息不对？报错</button></p>`);
+    if (c) pop.insertAdjacentHTML('beforeend', `<p class="pop-act"><button type="button" class="linkish" data-report="${esc(c.id)}" data-report-tier="${esc(b.dataset.tier)}">这条信息不对？反馈</button></p>`);
     // 弹窗里的标记要把气泡放进弹窗，否则会被遮住
     const host = b.closest('.detail-inner') || document.body;
     if (pop.parentElement !== host) host.appendChild(pop);

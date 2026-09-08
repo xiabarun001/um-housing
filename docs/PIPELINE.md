@@ -15,7 +15,7 @@
 | iProperty 在租列表 | 实时信息 | 主来源 | 在租总数、各房型最低价、单间帖子 | `refresh.mjs` | 每 12 小时 |
 | iBilik | 实时信息 | 第二来源（区域 2 单间） | 单间价格 | `refresh.mjs` | 每 12 小时 |
 | Mudah | 实时信息 | 第二来源（全部） | 整套和单间最低价、条数 | `refresh.mjs`，比对后标一致 / 差异 | 每 12 小时 |
-| 读者纠错 | 全部 | 反馈 | 小区、哪一类、哪一项、说明、可选联系方式 | 页面「报错」按钮 → Supabase `reports`（匿名只写不读，10 分钟 30 条限速）；`reports.mjs` 处理，改数据走 `publish.mjs` | 随时；`status.mjs` 显示待处理数 |
+| 读者纠错 | 全部 | 反馈 | 小区、哪一类、哪一项、说明、可选联系方式 | 页面「反馈」按钮 → Supabase `reports`（匿名只写不读，10 分钟 30 条限速）；`reports.mjs` 处理，改数据走 `publish.mjs` | 随时；`status.mjs` 显示待处理数 |
 
 已确认不能用的：PropertyGuru（和 iProperty 同库，不是独立来源）；EdgeProp、PropWall、NuProp、PropSocial、Speedhome、Carousell、Instahome（拦截）；FazWaz、Dot Property、Ohmyhome（转载 iProperty 的房源，无独立价值）。
 
@@ -40,8 +40,8 @@ npm run collect                 # 固定信息采集，iProperty + StarProperty�
 npm run crosscheck              # 坐标、步行交叉验证（约 2.5 分钟）
 npm run review                  # 用已有 staging 重出 REVIEW.md
 npm run publish -- <id> --accept=units,facilities --who=名字 --reason="…" --note="对外一句话"
-npm run status                  # 数据健康汇总，写 data/status.json（含读者报错待处理数）
-SUPABASE_SERVICE_KEY=… node scripts/reports.mjs list        # 读者报错：list / show / done / reject / accept / delete
+npm run status                  # 数据健康汇总，写 data/status.json（含读者反馈待处理数）
+SUPABASE_SERVICE_KEY=… node scripts/reports.mjs list        # 读者反馈：list / show / done / reject / accept / delete
 node scripts/arbitrate.mjs <id> <字段> --verdict=agree|conflict|second-only --note="理由" --who=名字   # 两源不一致的人工仲裁
 npm run monthly                 # 采集 + 交叉验证 + 报告 + 状态，一条龙
 ```

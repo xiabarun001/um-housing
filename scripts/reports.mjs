@@ -40,7 +40,7 @@ const TIER = { profile: '固定信息', market: '实时信息', judgment: '观�
 
 if (cmd === 'list') {
   const rows = await rest('GET', `reports?select=*&order=created_at.desc${opts.all ? '' : '&status=eq.new'}&limit=200`);
-  if (!rows.length) { console.log(opts.all ? '没有报错记录' : '没有待处理的报错'); process.exit(0); }
+  if (!rows.length) { console.log(opts.all ? '没有反馈记录' : '没有待处理的反馈'); process.exit(0); }
   for (const r of rows) console.log(`${r.id.slice(0, 8)}  ${fmtT(r.created_at)}  [${r.status}]  ${r.condo_id} · ${TIER[r.tier] || r.tier}${r.field ? ' · ' + r.field : ''}\n          ${r.message.replace(/\s+/g, ' ').slice(0, 140)}${r.contact ? `\n          联系：${r.contact}` : ''}`);
   console.log(`\n共 ${rows.length} 条。处理：node scripts/reports.mjs done <id前8位> --who=名字 --note="…"`);
 } else if (cmd === 'show' && id) {

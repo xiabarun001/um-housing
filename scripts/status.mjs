@@ -62,7 +62,7 @@ try {
   if (url && key) {
     const { stdout } = await promisify(execFile)(process.env.CURL_BIN || 'curl', ['-s', '--max-time', '15', '-X', 'POST', `${url}/rest/v1/rpc/report_counts`, '-H', `apikey: ${key}`, '-H', 'Content-Type: application/json', '-d', '{}']);
     const r = JSON.parse(stdout);
-    if (r && typeof r.new === 'number') { st.reports = { new: r.new, total: r.total, last_at: r.last_at }; if (r.new > 0) st.alerts.push({ level: 'info', text: `${r.new} 条读者报错待处理（node scripts/reports.mjs list）` }); }
+    if (r && typeof r.new === 'number') { st.reports = { new: r.new, total: r.total, last_at: r.last_at }; if (r.new > 0) st.alerts.push({ level: 'info', text: `${r.new} 条读者反馈待处理（node scripts/reports.mjs list）` }); }
   }
 } catch { /* 离线或接口不可用 */ }
 
@@ -76,6 +76,6 @@ if (!process.argv.includes('--quiet')) {
   console.log(`固定信息：最旧 ${st.profile.oldest_days} 天 · 上次采集 ${lastCollect ? lastCollect.slice(0, 10) : '—'} · 待审核差异 ${st.profile.pending_changes.length} 个`);
   console.log(`交叉验证：坐标 一致 ${st.crosscheck.geo.agree} / 接近 ${st.crosscheck.geo.near} / 冲突 ${st.crosscheck.geo.conflict} / 无 ${st.crosscheck.geo.single + st.crosscheck.geo.none}；步行 路线值 ${st.crosscheck.walk.route_adopted} 个`);
   console.log(`第二来源：${st.second_source.with_link}/${st.condos} 有 StarProperty 页 · 字段一致 ${agree} / 冲突待复核 ${conflict} / 冲突已复核 ${reviewed} / 单源 ${single}`);
-  console.log(`读者报错：${st.reports ? `待处理 ${st.reports.new} / 累计 ${st.reports.total}` : '未能读取'}`);
+  console.log(`读者反馈：${st.reports ? `待处理 ${st.reports.new} / 累计 ${st.reports.total}` : '未能读取'}`);
   for (const a of st.alerts) console.log(`[${a.level}] ${a.text}`);
 }
