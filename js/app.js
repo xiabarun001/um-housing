@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082145';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082230';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -254,11 +254,11 @@ function drawMap(campus) {
   }
   // 简洁模式只标：正门、两边各一个商场；其余（校园中心、医院、宿舍、Nexus、Mid Valley）放进"详细"
   const landmarks = [
-    gate && { ll: gate, cls: 'gate', label: 'KL 门（正门）· 出 Universiti 站过天桥', base: true },
+    gate && { ll: gate, cls: 'gate', label: 'KL 门（正门）<span class="lm-long">· 出 Universiti 站过天桥</span>', base: true },
     { ll: [3.122159, 101.6340447], cls: 'gate', label: 'PJ 门', base: true },
-    { ll: [3.1293, 101.6483], cls: 'gate', label: 'Section 16 门', base: true },
-    { ll: [3.13067, 101.66064], cls: 'gate', label: 'Damansara 门', base: true },
-    { ll: ELMU_GATE, cls: 'gate', label: 'Jalan Elmu 门', base: true },
+    { ll: [3.1293, 101.6483], cls: 'gate', label: 'Section 16 门', base: true, minor: true },
+    { ll: [3.13067, 101.66064], cls: 'gate', label: 'Damansara 门', base: true, minor: true },
+    { ll: ELMU_GATE, cls: 'gate', label: 'Jalan Elmu 门', base: true, minor: true },
     { ll: [3.1136176, 101.6632626], cls: 'mall', label: 'KL Gateway Mall · 超市', base: true },
     { ll: [3.1171354, 101.6350289], cls: 'mall', label: 'Jaya One · PJ 侧吃饭购物', base: true },
     { ll: [3.1214914, 101.6565469], cls: 'edu', label: '大礼堂 DTC · 校园中心' },
@@ -269,7 +269,7 @@ function drawMap(campus) {
     { ll: [3.1176552, 101.6773741], cls: 'mall', label: 'Mid Valley 大商场' },
   ].filter(Boolean);
   landmarks.forEach((l) => {
-    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon' + (l.cls === 'gate' && l.base && /KL/.test(l.label) ? ' lm-up' : ''), html: `<span class="lm ${l.cls}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: (l.cls === 'gate' && /KL/.test(l.label)) ? [6, 34] : [6, 11] }), interactive: false, zIndexOffset: -200 });
+    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon' + (l.cls === 'gate' && l.base && /KL/.test(l.label) ? ' lm-up' : ''), html: `<span class="lm ${l.cls}${l.minor ? ' lm-minor' : ''}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: (l.cls === 'gate' && /KL/.test(l.label)) ? [6, 34] : [6, 11] }), interactive: false, zIndexOffset: -200 });
     if (l.base) m.addTo(map); else detail.addLayer(m);
   });
   // "详细"开关
@@ -508,7 +508,7 @@ function selectCondo(id, { pan = false } = {}) {
   pd.innerHTML = `
     <button type="button" class="btn pd-close" data-pd-close aria-label="关闭">关闭</button>
     <h3>${c.no} · ${esc(shortAlias(c))}</h3>
-    <p>${goSentence(c)} ${tierMark(c.transit.walk_est ? 'judgment' : 'profile', c)}</p>
+    <p>${goSentence(c)} ${c.transit.walk_est ? tierMark('judgment', c) : ''}</p>
     <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)} ${tierMark('profile', c)}</p>
     ${c.snapshot.rooms ? `<p><b>单间</b> ${esc(c.snapshot.rooms)}</p>` : '<p><b>单间</b> 这次没有找到在租的单间</p>'}
     ${c.snapshot.whole ? `<p><b>整套</b> ${esc(c.snapshot.whole)}</p>` : ''}
@@ -547,7 +547,7 @@ function cardHTML(c) {
   <article class="card r${c.region}" id="card-${c.id}">
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
-    <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${tierMark(t.walk_est ? 'judgment' : 'profile', c)}</p>
+    <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
     <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
     <div class="price">
