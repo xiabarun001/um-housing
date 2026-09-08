@@ -49,7 +49,11 @@
 
 ### FR-8 二源比对
 
-- [ ] （v1 只有 iProperty 单源，评估一律「单源」；PropertyGuru 二源待补）Given 两个来源都有值，When 比对，Then 每个字段标「一致」「单源」「冲突」。
+- [x] Given 一个小区，When 运行 `node scripts/crosscheck.mjs <id>`，Then 坐标和 OpenStreetMap 地理编码比对（一致 / 接近 / 冲突 / 单源），步行距离和 OSM 路网步行路线比对（一致 / 冲突），结果写进 staging 的 `crosscheck`，`--report-only` 后出现在 REVIEW.md。
+- [x] Given 交叉验证有冲突或原值是估算，When 运行 `publish.mjs <id> --accept=walk`，Then 采纳路线值（超过 1.2 km 记为"无步行可达"并在说明里写路线距离），provenance 记 `method: route`，页面档案弹层显示核对结果。
+- [x] Given 2026-09-08 对 25 个小区跑完，Then 坐标 22 个一致或接近、3 个 OSM 无记录；步行 12 个采纳路线值，3 个实测值保留，Laurel 因帖子与路网不符保留为估算并注明。
+- [ ] （待做）Given PropertyGuru 项目页（仅 GitHub 机器可抓），When 比对年份、户数、地契、开发商、设施，Then 每个字段标「一致」「单源」「冲突」。
+- [ ] （待做）Given Mudah 或 iBilik 的行情，When 与 iProperty 比对，Then 标出差异过大的小区。
 
 ### FR-9 审核报告
 

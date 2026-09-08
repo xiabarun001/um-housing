@@ -44,13 +44,32 @@ if (!c) {
   opts.accept = 'all';
 }
 
-const changed = Object.entries(s.diff).filter(([, v]) => v.status === 'changed' || v.status === 'new').map(([k]) => k);
+const diff = s.diff || {};
+const changed = Object.entries(diff).filter(([, v]) => v.status === 'changed' || v.status === 'new').map(([k]) => k);
 const accept = opts.accept === 'all' ? changed : opts.accept ? String(opts.accept).split(',').map((x) => x.trim()).filter(Boolean) : [];
-const bad = accept.filter((k) => !(k in s.diff));
+const bad = accept.filter((k) => !(k in diff) && k !== 'walk');
 if (bad.length) { console.error(`staging 里没有这些字段：${bad.join(',')}`); process.exit(1); }
 
-for (const k of accept) {
-  const d = s.diff[k];
+// 交叉验证结果先记进 provenance（不改值），walk 可用 --accept=walk 采纳路线值
+const cc = s.crosscheck;
+if (cc?.geo) { c.provenance.lat = { ...(c.provenance.lat || {}), check: { with: cc.geo.with, status: cc.geo.status, distance_m: cc.geo.distance_m ?? null, at: today } }; c.provenance.lng = { ...(c.provenance.lng || {}), check: { with: cc.geo.with, status: cc.geo.status, distance_m: cc.geo.distance_m ?? null, at: today } }; }
+if (cc?.walk) c.provenance.transit = { ...(c.provenance.transit || {}), check: { with: cc.walk.with, status: cc.walk.status, route_m: cc.walk.proposed?.walk_m ?? null, route_min: cc.walk.proposed?.walk_min ?? null, at: today } };
+if (accept.includes('walk')) {
+  if (!cc?.walk?.proposed) { console.error('crosscheck 里没有可采纳的步行路线'); process.exit(1); }
+  const w = cc.walk.proposed;
+  const WALKABLE_M = 1200; // 路线超过 1.2 km 就不算"走得到"，只在说明里写最近的站
+  const walkable = w.walk_m <= WALKABLE_M;
+  const next = walkable ? { nearest: w.nearest, walk_m: w.walk_m, walk_min: w.walk_min } : { nearest: '无步行可达轨道站', walk_m: null, walk_min: null };
+  record('transit', { nearest: c.transit.nearest, walk_m: c.transit.walk_m, walk_min: c.transit.walk_min }, next);
+  const oldNote = (c.transit.note || '').replace(/按直线距离估算，未实测。?/, '').replace(/步行距离按 OpenStreetMap 路网计算，未实地走过。?/, '').replace(/最近的轨道站都在 1\.2 km 以外。?/, '').trim();
+  c.transit = { ...c.transit, ...next, walk_est: false };
+  c.transit.note = (walkable ? '步行距离按 OpenStreetMap 路网计算，未实地走过。' : `最近的 ${w.nearest} 按路网步行约 ${w.walk_m} m、${w.walk_min} 分钟，超过 1.2 km，日常不算走得到。`) + (oldNote ? ' ' + oldNote : '');
+  if (c.judgment) delete c.judgment.walk_min_est;
+  c.provenance.transit = { ...(c.provenance.transit || {}), source: cc.walk.with, at: today, method: 'route' };
+}
+
+for (const k of accept.filter((x) => x !== 'walk')) {
+  const d = diff[k];
   if (k === 'facilities') { record('facilities', c.facilities, p.facilities); c.facilities = p.facilities; c.provenance.facilities = prov('facilities'); continue; }
   if (k === 'flags') { record('flags', c.flags, p.flags); c.flags = { ...c.flags, ...p.flags }; c.provenance.flags = prov('flags'); continue; }
   if (k === 'geo') { record('geo', [c.lat, c.lng], [p.lat, p.lng]); c.lat = p.lat; c.lng = p.lng; c.provenance.lat = prov('lat'); c.provenance.lng = prov('lng'); continue; }
@@ -59,7 +78,7 @@ for (const k of accept) {
   if (['completed', 'units', 'tenure', 'type', 'developer', 'address'].includes(k)) { record(k, c[k], d.proposed); c[k] = d.proposed; c.provenance[k] = prov(k); continue; }
 }
 // 没接受的字段也算核实过（看过报告、决定不改）
-for (const k of Object.keys(s.diff)) if (!accept.includes(k) && s.diff[k].status === 'same') {
+for (const k of Object.keys(diff)) if (!accept.includes(k) && diff[k].status === 'same') {
   const keys = k === 'geo' ? ['lat', 'lng'] : [k];
   for (const kk of keys) c.provenance[kk] = { ...(c.provenance[kk] || {}), source: s.source.final_url || s.source.url, at: today, method: c.provenance[kk]?.method === 'field' ? 'field' : 'auto' };
 }

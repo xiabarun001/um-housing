@@ -220,5 +220,55 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:46:55.121Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.11365,
+        101.6633084
+      ],
+      "distance_m": 48,
+      "display": "KL Gateway, 2, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/1112744188"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 240,
+        "walk_min": 2,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 164,
+          "route_m": 280,
+          "route_min": 3
+        },
+        {
+          "station": "Kerinchi LRT（KJ18）",
+          "straight_m": 656,
+          "route_m": 1049,
+          "route_min": 13
+        }
+      ],
+      "to_universiti": {
+        "route_m": 280,
+        "route_min": 3
+      },
+      "proposed": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 280,
+        "walk_min": 3
+      }
+    },
+    "notes": [
+      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
+    ]
+  }
 }

@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081300';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081500';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -782,6 +782,9 @@ function nearestRailMin(c) {
   const st = [...(state.meta.stations || []), ...(state.meta.mrt || []), ...(state.meta.ktm || [])];
   let best = null;
   st.forEach((s) => { const km = distKm([c.lat, c.lng], [s.lat, s.lng]); if (!best || km < best.km) best = { km, s }; });
+  // 交叉验证过的（OSM 路网算出的路线分钟）优先于直线估算
+  const chk = c.provenance?.transit?.check;
+  if (chk && chk.route_min != null) return { min: chk.route_min, label: best.s.zh.replace(/（.*?）/, ''), est: false, route: true };
   return { min: Math.round(best.km * 1000 / 75), label: best.s.zh.replace(/（.*?）/, ''), est: true, straight: true };
 }
 function renderRankings() {
@@ -889,7 +892,13 @@ function tierPopHTML(kind, c) {
   const t = tiers[kind] || {};
   if (kind === 'profile') {
     const src = c ? (c.sources || []).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('') : '';
-    return `<h4><i class="tier-dot tier-profile"></i>档案：可以直接信</h4><p>${esc(t.desc || '')}</p><p>${c ? `${esc(shortAlias(c))} 核实于 ${esc(c.verified_at || state.meta.verified_at)}` : `核实于 ${esc(state.meta.verified_at)}`}。</p>${src ? `<p>来源：</p><ul>${src}</ul>` : ''}`;
+    // 交叉验证结果（provenance.*.check）
+    const checks = [];
+    const geoK = c?.provenance?.lat?.check;
+    if (geoK) checks.push(`坐标和 ${geoK.with} ${geoK.status === 'agree' ? '一致' : geoK.status === 'near' ? '接近' : geoK.status === 'conflict' ? '不一致，待复核' : '未能核对'}${geoK.distance_m != null ? `（相差 ${geoK.distance_m} m）` : ''}`);
+    const tr = c?.provenance?.transit;
+    if (tr?.check) checks.push(tr.method === 'route' ? `步行距离按 OpenStreetMap 路网计算（${tr.check.route_m} m，${tr.check.route_min} 分钟），未实地走过` : `步行距离和 OSM 路网${tr.check.status === 'agree' ? '一致' : tr.check.status === 'conflict' ? '不符，待复核' : '未能核对'}${tr.check.route_m != null ? `（路线 ${tr.check.route_m} m，${tr.check.route_min} 分钟）` : ''}`);
+    return `<h4><i class="tier-dot tier-profile"></i>档案：可以直接信</h4><p>${esc(t.desc || '')}</p><p>${c ? `${esc(shortAlias(c))} 核实于 ${esc(c.verified_at || state.meta.verified_at)}` : `核实于 ${esc(state.meta.verified_at)}`}。</p>${checks.length ? `<p>交叉验证：</p><ul>${checks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}${src ? `<p>来源：</p><ul>${src}</ul>` : ''}`;
   }
   if (kind === 'market') {
     const h = marketAgeHours();

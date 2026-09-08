@@ -220,5 +220,53 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:47:39.610Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1029152,
+        101.6619852
+      ],
+      "distance_m": 5,
+      "display": "Saville @ The Park Bangsar, 25, Pantai Dalam, Kuala Lumpur, 59200, Malaysia",
+      "osm": "way/396121126"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 1211,
+          "route_m": 1973,
+          "route_min": 27
+        },
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 1293,
+          "route_m": 2774,
+          "route_min": 37
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2774,
+        "route_min": 37
+      },
+      "proposed": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 1973,
+        "walk_min": 27
+      }
+    },
+    "notes": []
+  }
 }

@@ -78,56 +78,69 @@
   },
   "diff": {
     "name": {
-      "current": null,
+      "current": "Southbank Residence",
       "proposed": "Southbank Residence",
-      "status": "new"
+      "status": "same"
     },
     "completed": {
-      "current": null,
+      "current": 2017,
       "proposed": 2017,
-      "status": "new"
+      "status": "same"
     },
     "units": {
-      "current": null,
+      "current": 674,
       "proposed": 674,
-      "status": "new"
+      "status": "same"
     },
     "floors": {
-      "current": null,
+      "current": "37 层",
       "proposed": "37 层",
-      "status": "new"
+      "status": "same"
     },
     "tenure": {
-      "current": null,
+      "current": "Freehold 永久地契",
       "proposed": "Freehold 永久地契",
-      "status": "new"
+      "status": "same"
     },
     "type": {
-      "current": null,
+      "current": "服务式公寓",
       "proposed": "服务式公寓",
-      "status": "new"
+      "status": "same"
     },
     "developer": {
-      "current": null,
+      "current": "UOA Group",
       "proposed": "UOA Group",
-      "status": "new"
+      "status": "same"
     },
     "address": {
-      "current": null,
+      "current": "Jalan Klang Lama, 58000, Kuala Lumpur",
       "proposed": "Jalan Klang Lama, 58000, Kuala Lumpur",
-      "status": "new"
+      "status": "same"
     },
     "geo": {
-      "current": null,
+      "current": [
+        3.100784,
+        101.676301
+      ],
       "proposed": [
         3.100784,
         101.676301
       ],
-      "status": "new",
-      "distance_m": null
+      "status": "same",
+      "distance_m": 0
     },
     "facilities": {
-      "current": null,
+      "current": [
+        "24 小时保安",
+        "烧烤区",
+        "咖啡座",
+        "健身房",
+        "按摩池",
+        "多功能厅",
+        "足底按摩步道",
+        "泳池",
+        "儿童池"
+      ],
       "proposed": [
         "24 小时保安",
         "烧烤区",
@@ -139,22 +152,24 @@
         "泳池",
         "儿童池"
       ],
-      "added": [
-        "24 小时保安",
-        "烧烤区",
-        "咖啡座",
-        "健身房",
-        "按摩池",
-        "多功能厅",
-        "足底按摩步道",
-        "泳池",
-        "儿童池"
-      ],
+      "added": [],
       "removed": [],
-      "status": "new"
+      "status": "same"
     },
     "flags": {
-      "current": null,
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
       "proposed": {
         "pool": true,
         "gym": true,
@@ -169,7 +184,7 @@
         "minimart": false
       },
       "changed_keys": [],
-      "status": "new"
+      "status": "same"
     }
   },
   "assessment": {
@@ -185,5 +200,53 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": true
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:48:23.241Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1011899,
+        101.6761667
+      ],
+      "distance_m": 48,
+      "display": "Southbank, Old Klang Road, Taman Desa, Kuala Lumpur, 58000, Malaysia",
+      "osm": "way/656378566"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 900,
+        "walk_min": 12,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 900,
+          "route_m": 1306,
+          "route_min": 16
+        },
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 1543,
+          "route_m": 1942,
+          "route_min": 25
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3396,
+        "route_min": 44
+      },
+      "proposed": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 1306,
+        "walk_min": 16
+      }
+    },
+    "notes": []
+  }
 }

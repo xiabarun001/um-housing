@@ -229,5 +229,54 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:50:05.520Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1176632,
+        101.6323881
+      ],
+      "distance_m": 31,
+      "display": "ATWATER, Section 13, Petaling Jaya, Petaling, Selangor, Malaysia",
+      "osm": "relation/17752547",
+      "query": "Atwater Petaling Jaya"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 1623,
+          "route_m": 2580,
+          "route_min": 34
+        },
+        {
+          "station": "Phileo Damansara MRT（KG12）",
+          "straight_m": 1716,
+          "route_m": 2505,
+          "route_min": 32
+        }
+      ],
+      "to_universiti": {
+        "route_m": 4328,
+        "route_min": 56
+      },
+      "proposed": {
+        "nearest": "Phileo Damansara MRT（KG12）",
+        "walk_m": 2505,
+        "walk_min": 32
+      }
+    },
+    "notes": []
+  }
 }

@@ -84,56 +84,67 @@
   },
   "diff": {
     "name": {
-      "current": null,
+      "current": "TRIA Seputeh（9 Seputeh）",
       "proposed": "TRIA Seputeh in 9 Seputeh, Kuala Lumpur",
-      "status": "new"
+      "status": "changed"
     },
     "completed": {
-      "current": null,
+      "current": 2022,
       "proposed": 2022,
-      "status": "new"
+      "status": "same"
     },
     "units": {
-      "current": null,
+      "current": 734,
       "proposed": 734,
-      "status": "new"
+      "status": "same"
     },
     "floors": {
-      "current": null,
+      "current": "38 / N/A 层 × 3 栋",
       "proposed": "38 / N/A 层 × 3 栋",
-      "status": "new"
+      "status": "same"
     },
     "tenure": {
-      "current": null,
+      "current": "Leasehold 租赁地契",
       "proposed": "Leasehold 租赁地契",
-      "status": "new"
+      "status": "same"
     },
     "type": {
-      "current": null,
+      "current": "公寓",
       "proposed": "公寓",
-      "status": "new"
+      "status": "same"
     },
     "developer": {
-      "current": null,
+      "current": "MRCB Land",
       "proposed": "MRCB Land",
-      "status": "new"
+      "status": "same"
     },
     "address": {
-      "current": null,
+      "current": "No.1, Jalan Telok Datok, Off Jalan Klang Lama, 58100, Kuala Lumpur",
       "proposed": "No.1, Jalan Telok Datok, Off Jalan Klang Lama, 58100, Kuala Lumpur",
-      "status": "new"
+      "status": "same"
     },
     "geo": {
-      "current": null,
+      "current": [
+        3.108319,
+        101.676874
+      ],
       "proposed": [
         3.108319,
         101.676874
       ],
-      "status": "new",
-      "distance_m": null
+      "status": "same",
+      "distance_m": 0
     },
     "facilities": {
-      "current": null,
+      "current": [
+        "24 小时保安",
+        "烧烤区",
+        "落客点",
+        "按摩池",
+        "围栏",
+        "泳池",
+        "儿童池"
+      ],
       "proposed": [
         "24 小时保安",
         "烧烤区",
@@ -143,20 +154,24 @@
         "泳池",
         "儿童池"
       ],
-      "added": [
-        "24 小时保安",
-        "烧烤区",
-        "落客点",
-        "按摩池",
-        "围栏",
-        "泳池",
-        "儿童池"
-      ],
+      "added": [],
       "removed": [],
-      "status": "new"
+      "status": "same"
     },
     "flags": {
-      "current": null,
+      "current": {
+        "pool": true,
+        "gym": false,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
       "proposed": {
         "pool": true,
         "gym": false,
@@ -171,7 +186,7 @@
         "minimart": false
       },
       "changed_keys": [],
-      "status": "new"
+      "status": "same"
     }
   },
   "assessment": {
@@ -187,5 +202,53 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": true
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:48:08.476Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.10823,
+        101.6771045
+      ],
+      "distance_m": 27,
+      "display": "Tria Seputeh, Taman Desa, Kuala Lumpur, Malaysia",
+      "osm": "way/892106028"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 782,
+        "walk_min": 10,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 782,
+          "route_m": 1316,
+          "route_min": 16
+        },
+        {
+          "station": "Mid Valley KTM（KB01）",
+          "straight_m": 1178,
+          "route_m": 1388,
+          "route_min": 18
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2796,
+        "route_min": 39
+      },
+      "proposed": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 1316,
+        "walk_min": 16
+      }
+    },
+    "notes": []
+  }
 }

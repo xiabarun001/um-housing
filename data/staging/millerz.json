@@ -99,56 +99,72 @@
   },
   "diff": {
     "name": {
-      "current": null,
+      "current": "Millerz Square",
       "proposed": "Millerz Square Serviced Residence",
-      "status": "new"
+      "status": "changed"
     },
     "completed": {
-      "current": null,
+      "current": 2019,
       "proposed": 2019,
-      "status": "new"
+      "status": "same"
     },
     "units": {
-      "current": null,
+      "current": 339,
       "proposed": 339,
-      "status": "new"
+      "status": "same"
     },
     "floors": {
-      "current": null,
+      "current": "43 / 44 层 × 4 栋",
       "proposed": "43 / 44 层 × 4 栋",
-      "status": "new"
+      "status": "same"
     },
     "tenure": {
-      "current": null,
+      "current": "Freehold 永久地契",
       "proposed": "Freehold 永久地契",
-      "status": "new"
+      "status": "same"
     },
     "type": {
-      "current": null,
+      "current": "服务式公寓",
       "proposed": "服务式公寓",
-      "status": "new"
+      "status": "same"
     },
     "developer": {
-      "current": null,
+      "current": "EXSIM Development Sdn Bhd",
       "proposed": "EXSIM Development Sdn Bhd",
-      "status": "new"
+      "status": "same"
     },
     "address": {
-      "current": null,
+      "current": "Jalan Klang Lama, 58000, Kuala Lumpur",
       "proposed": "Jalan Klang Lama, 58000, Kuala Lumpur",
-      "status": "new"
+      "status": "same"
     },
     "geo": {
-      "current": null,
+      "current": [
+        3.087312,
+        101.673231
+      ],
       "proposed": [
         3.087312,
         101.673231
       ],
-      "status": "new",
-      "distance_m": null
+      "status": "same",
+      "distance_m": 0
     },
     "facilities": {
-      "current": null,
+      "current": [
+        "24 小时保安",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "空中休息厅",
+        "Surau - Male & Female",
+        "泳池",
+        "儿童池"
+      ],
       "proposed": [
         "24 小时保安",
         "落客点",
@@ -163,25 +179,24 @@
         "泳池",
         "儿童池"
       ],
-      "added": [
-        "24 小时保安",
-        "落客点",
-        "健身房",
-        "按摩池",
-        "Landscaped Garden",
-        "多功能厅",
-        "围栏",
-        "儿童游乐场",
-        "空中休息厅",
-        "Surau - Male & Female",
-        "泳池",
-        "儿童池"
-      ],
+      "added": [],
       "removed": [],
-      "status": "new"
+      "status": "same"
     },
     "flags": {
-      "current": null,
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": false,
+        "minimart": false
+      },
       "proposed": {
         "pool": true,
         "gym": true,
@@ -196,7 +211,7 @@
         "minimart": false
       },
       "changed_keys": [],
-      "status": "new"
+      "status": "same"
     }
   },
   "assessment": {
@@ -212,5 +227,54 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": true
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:51:31.998Z",
+    "geo": {
+      "status": "near",
+      "with": "OpenStreetMap",
+      "value": [
+        3.0899417,
+        101.6731656
+      ],
+      "distance_m": 292,
+      "display": "Millerz Square, 357, Kuchai Lama, Kuala Lumpur, 58000, Malaysia",
+      "osm": "way/760484985",
+      "query": "Millerz Square Kuala Lumpur"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 990,
+        "walk_min": 13,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 990,
+          "route_m": 2148,
+          "route_min": 26
+        },
+        {
+          "station": "Petaling KTM（KD04）",
+          "straight_m": 1009,
+          "route_m": 1968,
+          "route_min": 24
+        }
+      ],
+      "to_universiti": {
+        "route_m": 4849,
+        "route_min": 61
+      },
+      "proposed": {
+        "nearest": "Petaling KTM（KD04）",
+        "walk_m": 1968,
+        "walk_min": 24
+      }
+    },
+    "notes": []
+  }
 }

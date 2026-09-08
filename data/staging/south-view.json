@@ -216,5 +216,55 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:47:08.695Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1137603,
+        101.6646561
+      ],
+      "distance_m": 58,
+      "display": "South View Serviced Apartments, No. 2, Pantai Dalam, Kuala Lumpur, 59200, Malaysia",
+      "osm": "way/662363649"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 450,
+        "walk_min": 5,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 363,
+          "route_m": 552,
+          "route_min": 7
+        },
+        {
+          "station": "Kerinchi LRT（KJ18）",
+          "straight_m": 490,
+          "route_m": 777,
+          "route_min": 11
+        }
+      ],
+      "to_universiti": {
+        "route_m": 552,
+        "route_min": 7
+      },
+      "proposed": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 552,
+        "walk_min": 7
+      }
+    },
+    "notes": [
+      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
+    ]
+  }
 }

@@ -222,5 +222,53 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:47:54.168Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.101734,
+        101.6646787
+      ],
+      "distance_m": 2,
+      "display": "Secoya Residences @ Pantai Sentral Park, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/919829677"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 904,
+          "route_m": 1755,
+          "route_min": 23
+        },
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 1463,
+          "route_m": 2683,
+          "route_min": 36
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2683,
+        "route_min": 36
+      },
+      "proposed": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 1755,
+        "walk_min": 23
+      }
+    },
+    "notes": []
+  }
 }

@@ -196,7 +196,17 @@ for (const s of rows) {
     md += `| ${k} | ${fmtV(v.current)} | ${fmtV(v.proposed)} | ${s.assessment[k]} | ${v.status} |\n`;
   }
   const changed = Object.entries(s.diff).filter(([, v]) => v.status === 'changed').map(([k]) => k);
-  md += `\n建议：${s.is_new ? '补 region、no、alias、transit 后发布全部字段' : changed.length ? '核对 ' + changed.join('、') + ' 后决定接受哪些' : '无需动作，发布可只更新核实日期'}。\n\n`;
+  if (s.crosscheck) {
+    const cc = s.crosscheck;
+    md += `\n交叉验证（${(cc.at || '').slice(0, 16).replace('T', ' ')} UTC）：\n\n`;
+    if (cc.geo) md += `- 坐标 vs OpenStreetMap：**${cc.geo.status}**${cc.geo.distance_m != null ? `，相差 ${cc.geo.distance_m} m` : ''}${cc.geo.note ? `（${cc.geo.note}）` : ''}\n`;
+    if (cc.walk) {
+      const w = cc.walk;
+      md += `- 步行 vs OSM 路网：**${w.status}**；现有 ${w.current.nearest} ${w.current.walk_m ?? '—'} m / ${w.current.walk_min ?? '—'} 分钟${w.current.est ? '（估）' : ''}；路线：${w.routes.map((r) => `${r.station} ${r.route_m ?? '?'} m / ${r.route_min ?? '?'} 分钟`).join('；')}${w.to_universiti && w.to_universiti.route_m ? `；到 Universiti 站 ${w.to_universiti.route_m} m / ${w.to_universiti.route_min} 分钟` : ''}\n`;
+    }
+    for (const n of cc.notes || []) md += `- 注：${n}\n`;
+  }
+  md += `\n建议：${s.is_new ? '补 region、no、alias、transit 后发布全部字段' : changed.length ? '核对 ' + changed.join('、') + ' 后决定接受哪些' : '无需动作，发布可只更新核实日期'}${s.crosscheck?.walk?.status === 'conflict' ? '；步行数据和路线不符，用 --accept=walk 采纳路线值或实地核' : ''}。\n\n`;
 }
 writeFileSync(join(STAGING, 'REVIEW.md'), md);
 console.log(`\n报告：data/staging/REVIEW.md（${rows.length} 个小区）`);

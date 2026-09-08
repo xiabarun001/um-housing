@@ -212,32 +212,32 @@
           "note": "住宅区，楼下是市场和商场"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
@@ -247,27 +247,46 @@
         "transit": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 1588,
+            "route_min": 20,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "single",
+            "distance_m": null,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "single",
+            "distance_m": null,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
-          "at": "2026-09-06",
-          "method": "manual"
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -347,6 +366,10 @@
       },
       "sources": [
         {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/atwater-service-residences-9936"
+        },
+        {
           "label": "Paramount Property 官网",
           "url": "https://paramountproperty.my/developments/atwater/"
         },
@@ -368,32 +391,32 @@
           "note": "临 Jalan Universiti 主路"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://paramountproperty.my/developments/atwater/",
@@ -403,27 +426,46 @@
         "transit": {
           "source": "https://paramountproperty.my/developments/atwater/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 2505,
+            "route_min": 32,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 31,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 31,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://paramountproperty.my/developments/atwater/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -505,6 +547,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/ryan-miho-9302"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/"
         },
         {
@@ -525,32 +571,32 @@
           "note": "商场旁边"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
@@ -560,27 +606,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 2343,
+            "route_min": 31,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 78,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 78,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -657,6 +727,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/pacific-star-pty_63707/"
         },
         {
@@ -677,32 +751,32 @@
           "note": "商业区"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
@@ -712,27 +786,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 2075,
+            "route_min": 27,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 126,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 126,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -805,6 +903,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/pacific-63-8858"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/pacific-63-pty_65022/"
         },
         {
@@ -825,32 +927,32 @@
           "note": "商业区"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
@@ -860,27 +962,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 2139,
+            "route_min": 28,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 25,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 25,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -927,10 +1053,10 @@
         "minimart": false
       },
       "transit": {
-        "nearest": "Taman Jaya LRT（KJ20）",
-        "walk_min": 13,
-        "walk_m": 1000,
-        "walk_est": true,
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
         "other": [
           "Asia Jaya LRT 约 1.5 km",
           "Phileo Damansara MRT 约 2.7 km"
@@ -938,7 +1064,7 @@
         "buses": [
           "Jalan Kemajuan 沿线公交"
         ],
-        "note": "iProperty 编辑评测（2025-06）：到 Asia Jaya LRT 1.5 km 不适合每天步行，需要接驳。"
+        "note": "最近的 Asia Jaya LRT（KJ21） 按路网步行约 1534 m、19 分钟，超过 1.2 km，日常不算走得到。 iProperty 编辑评测（2025-06）：到 Asia Jaya LRT 1.5 km 不适合每天步行，需要接驳。"
       },
       "um_km": 3,
       "um_km_note": "iProperty 标注约 3 km",
@@ -959,6 +1085,10 @@
       },
       "sources": [
         {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/pj-midtown-6911"
+        },
+        {
           "label": "iProperty 项目页与编辑评测（2025-06）",
           "url": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/"
         }
@@ -974,38 +1104,34 @@
         "quiet": {
           "score": 3,
           "note": "临 Jalan Kemajuan"
-        },
-        "walk_min_est": {
-          "minutes": 13,
-          "note": "按直线距离或平台描述估算，未实测"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
@@ -1013,29 +1139,58 @@
           "method": "manual"
         },
         "transit": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
+          "at": "2026-09-08",
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1534,
+            "route_min": 19,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 24,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 24,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -1114,6 +1269,10 @@
       },
       "sources": [
         {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546"
+        },
+        {
           "label": "iProperty 项目页与编辑评测（2026-05）",
           "url": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/"
         }
@@ -1131,12 +1290,12 @@
           "note": "商业区，楼里共用设施拥挤"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
           "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
@@ -1149,9 +1308,9 @@
           "method": "manual"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
           "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
@@ -1166,27 +1325,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 1261,
+            "route_min": 17,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 14,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 14,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -1229,15 +1412,15 @@
       },
       "transit": {
         "nearest": "Asia Jaya LRT（KJ21）",
-        "walk_min": 5,
-        "walk_m": null,
-        "walk_est": true,
+        "walk_min": 9,
+        "walk_m": 763,
+        "walk_est": false,
         "other": [
           "Taman Jaya LRT",
           "Taman Paramount LRT"
         ],
         "buses": [],
-        "note": "iProperty 描述“步行 5 分钟到 Asia Jaya LRT”。坐 LRT 到 Universiti 站 2 站。"
+        "note": "步行距离按 OpenStreetMap 路网计算，未实地走过。 iProperty 描述“步行 5 分钟到 Asia Jaya LRT”。坐 LRT 到 Universiti 站 2 站。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -1258,6 +1441,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/pj-8-pty_64056/"
         }
       ],
@@ -1272,38 +1459,34 @@
         "quiet": {
           "score": 3,
           "note": "临主路"
-        },
-        "walk_min_est": {
-          "minutes": 5,
-          "note": "按直线距离或平台描述估算，未实测"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
@@ -1311,29 +1494,53 @@
           "method": "manual"
         },
         "transit": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
+          "at": "2026-09-08",
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 763,
+            "route_min": 9,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "single",
+            "distance_m": null,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "single",
+            "distance_m": null,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -1382,16 +1589,16 @@
         "minimart": true
       },
       "transit": {
-        "nearest": "无步行可达轨道站",
-        "walk_min": null,
-        "walk_m": null,
+        "nearest": "Phileo Damansara MRT（KG12）",
+        "walk_min": 15,
+        "walk_m": 1105,
         "walk_est": false,
         "other": [
           "Phileo Damansara MRT",
           "TTDI MRT"
         ],
         "buses": [],
-        "note": "Section 17 山坡上的老牌家庭公寓。"
+        "note": "步行距离按 OpenStreetMap 路网计算，未实地走过。 Section 17 山坡上的老牌家庭公寓。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -1410,6 +1617,10 @@
         "maps": "https://www.google.com/maps/search/?api=1&query=Tiara+Damansara+Jalan+17/1+Petaling+Jaya"
       },
       "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/tiara-damansara-1319"
+        },
         {
           "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/"
@@ -1432,27 +1643,27 @@
           "note": "山坡上的老牌家庭公寓，很安静"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "units": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
@@ -1460,19 +1671,38 @@
           "method": "manual"
         },
         "transit": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
+          "at": "2026-09-08",
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1105,
+            "route_min": 15,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 126,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 126,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
           "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
@@ -1480,9 +1710,14 @@
           "method": "manual"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -1524,10 +1759,10 @@
         "minimart": false
       },
       "transit": {
-        "nearest": "Asia Jaya LRT（KJ21）",
-        "walk_min": 16,
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
         "walk_m": null,
-        "walk_est": true,
+        "walk_est": false,
         "other": [
           "Taman Jaya LRT"
         ],
@@ -1538,7 +1773,7 @@
           "T786",
           "T815"
         ],
-        "note": "iProperty 列 Asia Jaya 为最近 LRT，未给距离；按地图约 1.2–1.5 km 估算。"
+        "note": "最近的 Asia Jaya LRT（KJ21） 按路网步行约 1567 m、20 分钟，超过 1.2 km，日常不算走得到。 iProperty 列 Asia Jaya 为最近 LRT，未给距离；按地图约 1.2–1.5 km 估算。"
       },
       "um_km": 2,
       "um_km_note": "iProperty 标注 2 km",
@@ -1556,6 +1791,10 @@
         "maps": "https://www.google.com/maps/search/?api=1&query=Avenue+D%27Vogue+Jalan+13/2+Petaling+Jaya"
       },
       "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543"
+        },
         {
           "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/"
@@ -1576,23 +1815,19 @@
         "quiet": {
           "score": 3,
           "note": "住宅区边上"
-        },
-        "walk_min_est": {
-          "minutes": 16,
-          "note": "按直线距离或平台描述估算，未实测"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
           "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
@@ -1600,14 +1835,14 @@
           "method": "manual"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
@@ -1615,29 +1850,58 @@
           "method": "manual"
         },
         "transit": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
+          "at": "2026-09-08",
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 1567,
+            "route_min": 20,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "single",
+            "distance_m": null,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "single",
+            "distance_m": null,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -1715,6 +1979,10 @@
       },
       "sources": [
         {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093"
+        },
+        {
           "label": "iProperty 项目页（设施、年份、户数、LRT 240 m）",
           "url": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/"
         },
@@ -1736,32 +2004,32 @@
           "note": "紧邻 Federal Highway，旧评价集中在大道和商场噪音"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
@@ -1771,27 +2039,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 280,
+            "route_min": 3,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 48,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 48,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -1838,8 +2130,8 @@
       },
       "transit": {
         "nearest": "Universiti LRT（KJ19）",
-        "walk_min": 7,
-        "walk_m": 600,
+        "walk_min": 13,
+        "walk_m": 1034,
         "walk_est": false,
         "other": [
           "Kerinchi LRT（KJ18）"
@@ -1849,7 +2141,7 @@
           "821",
           "T791"
         ],
-        "note": "KL Gateway Mall 650 m，Nexus 800 m。"
+        "note": "步行距离按 OpenStreetMap 路网计算，未实地走过。 KL Gateway Mall 650 m，Nexus 800 m。"
       },
       "um_km": 2,
       "um_km_note": "iProperty 标注 2 km",
@@ -1872,6 +2164,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/"
         },
         {
@@ -1892,32 +2188,32 @@
           "note": "老小区，密度中等"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
@@ -1925,29 +2221,58 @@
           "method": "manual"
         },
         "transit": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
+          "at": "2026-09-08",
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1034,
+            "route_min": 13,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 57,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 57,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -2025,6 +2350,10 @@
       },
       "sources": [
         {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/south-view-6431"
+        },
+        {
           "label": "iProperty 项目页与编辑评测（2025-06）",
           "url": "https://www.iproperty.com.my/building/south-view-pty_62814/"
         },
@@ -2050,17 +2379,17 @@
           "note": "1,204 户，高峰时电梯和泳池都挤"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
           "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
@@ -2068,14 +2397,14 @@
           "method": "manual"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
@@ -2085,27 +2414,46 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 552,
+            "route_min": 7,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 58,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 58,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/south-view-6431",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -2146,9 +2494,9 @@
       },
       "transit": {
         "nearest": "Kerinchi LRT（KJ18）",
-        "walk_min": 7,
-        "walk_m": null,
-        "walk_est": true,
+        "walk_min": 9,
+        "walk_m": 664,
+        "walk_est": false,
         "other": [
           "Universiti LRT（KJ19）"
         ],
@@ -2156,7 +2504,7 @@
           "772",
           "780"
         ],
-        "note": "在租帖子写“步行到 Kerinchi 和 Universiti LRT”，具体分钟数未实测。"
+        "note": "步行距离按 OpenStreetMap 路网计算，未实地走过。 在租帖子写“步行到 Kerinchi 和 Universiti LRT”，具体分钟数未实测。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -2177,6 +2525,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/southlink-8399"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/southlink-pty_61383/"
         },
         {
@@ -2195,38 +2547,34 @@
         "quiet": {
           "score": 2,
           "note": "单栋 1,422 户"
-        },
-        "walk_min_est": {
-          "minutes": 7,
-          "note": "按直线距离或平台描述估算，未实测"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
@@ -2234,29 +2582,53 @@
           "method": "manual"
         },
         "transit": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
+          "at": "2026-09-08",
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 664,
+            "route_min": 9,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "near",
+            "distance_m": 158,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "near",
+            "distance_m": 158,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/southlink-pty_61383/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/southlink-8399",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -2301,9 +2673,9 @@
       },
       "transit": {
         "nearest": "Kerinchi LRT（KJ18）",
-        "walk_min": 4,
-        "walk_m": null,
-        "walk_est": true,
+        "walk_min": 9,
+        "walk_m": 687,
+        "walk_est": false,
         "other": [
           "Universiti LRT（KJ19）"
         ],
@@ -2313,7 +2685,7 @@
           "821",
           "T789"
         ],
-        "note": "有天桥连 Kerinchi LRT（住户评测与中介视频提及，未实测分钟数）。"
+        "note": "步行距离按 OpenStreetMap 路网计算，未实地走过。 有天桥连 Kerinchi LRT（住户评测与中介视频提及，未实测分钟数）。"
       },
       "um_km": 2.4,
       "um_km_note": "iProperty 标注 2.4 km",
@@ -2335,6 +2707,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/novum-7847"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/novum-pty_62918/"
         },
         {
@@ -2353,18 +2729,14 @@
         "quiet": {
           "score": 3,
           "note": "密度中等"
-        },
-        "walk_min_est": {
-          "minutes": 4,
-          "note": "按直线距离或平台描述估算，未实测"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
           "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
@@ -2372,19 +2744,19 @@
           "method": "manual"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
@@ -2392,29 +2764,53 @@
           "method": "manual"
         },
         "transit": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
+          "at": "2026-09-08",
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 687,
+            "route_min": 9,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 27,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 27,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/novum-pty_62918/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/novum-7847",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -2466,7 +2862,7 @@
           "Pantai Dalam MRT / KTM"
         ],
         "buses": [],
-        "note": "在租帖子写“步行 5–10 分钟到 KL Gateway Mall 和 LRT”，未实测。"
+        "note": "在租帖子写“步行 5–10 分钟到 KL Gateway Mall 和 LRT”；按 OpenStreetMap 路网算到 Kerinchi 站 1,381 m、约 17 分钟（新楼周边的人行道可能还没画进地图）。两者不一致，实地核实前按估算处理。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -2485,6 +2881,10 @@
         "maps": "https://www.google.com/maps/search/?api=1&query=Laurel+Residence+Bangsar+South"
       },
       "sources": [
+        {
+          "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/laurel-residence-17871"
+        },
         {
           "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/"
@@ -2508,30 +2908,30 @@
         },
         "walk_min_est": {
           "minutes": 8,
-          "note": "按直线距离或平台描述估算，未实测"
+          "note": "帖子说 5–10 分钟，路网算 17 分钟，未实测"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
@@ -2541,27 +2941,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1381,
+            "route_min": 17,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 103,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 103,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/laurel-residence-pty_126120/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -2640,6 +3064,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/saville-the-park-4685"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/"
         },
         {
@@ -2660,32 +3088,32 @@
           "note": "山坡​上，很安静"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
@@ -2695,27 +3123,56 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 1973,
+            "route_min": 27,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 5,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 5,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "name": {
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -2787,6 +3244,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/inwood-residences-6806"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/"
         }
       ],
@@ -2803,32 +3264,32 @@
           "note": "低密度，森林旁"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
@@ -2838,27 +3299,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 1771,
+            "route_min": 24,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 28,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 28,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/inwood-residences-pty_65050/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -2930,6 +3415,10 @@
       "sources": [
         {
           "label": "iProperty 项目页",
+          "url": "https://www.iproperty.com.my/condo/secoya-residence-7619"
+        },
+        {
+          "label": "iProperty 项目页",
           "url": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/"
         }
       ],
@@ -2946,32 +3435,32 @@
           "note": "低密度，森林旁"
         }
       },
-      "verified_at": "2026-09-06",
+      "verified_at": "2026-09-08",
       "provenance": {
         "completed": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "units": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "floors": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "tenure": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "type": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
@@ -2981,27 +3470,51 @@
         "transit": {
           "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "agree",
+            "route_m": 1755,
+            "route_min": 23,
+            "at": "2026-09-08"
+          }
         },
         "lat": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 2,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 2,
+            "at": "2026-09-08"
+          }
         },
         "developer": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
         },
         "address": {
-          "source": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
-          "at": "2026-09-06",
-          "method": "manual"
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
+        },
+        "flags": {
+          "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+          "at": "2026-09-08",
+          "method": "auto"
         }
       }
     },
@@ -3049,15 +3562,15 @@
       },
       "transit": {
         "nearest": "Seputeh KTM（KB02）",
-        "walk_min": 3,
-        "walk_m": 256,
-        "walk_est": true,
+        "walk_min": 5,
+        "walk_m": 422,
+        "walk_est": false,
         "other": [
           "Mid Valley KTM 约 0.6 km",
           "Abdullah Hukum LRT 约 0.9 km"
         ],
         "buses": [],
-        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 2.9 km）。"
+        "note": "步行距离按 OpenStreetMap 路网计算，未实地走过。 KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 2.9 km）。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -3094,10 +3607,6 @@
         "quiet": {
           "score": 4,
           "note": "Seputeh 山坡住宅区，离主路有一段"
-        },
-        "walk_min_est": {
-          "minutes": 3,
-          "note": "按直线距离估算，未实测"
         }
       },
       "provenance": {
@@ -3139,12 +3648,24 @@
         "lat": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 51,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 51,
+            "at": "2026-09-08"
+          }
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
@@ -3157,9 +3678,16 @@
           "method": "auto"
         },
         "transit": {
-          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 422,
+            "route_min": 5,
+            "at": "2026-09-08"
+          }
         },
         "name": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
@@ -3204,16 +3732,16 @@
         "minimart": false
       },
       "transit": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_min": 10,
-        "walk_m": 782,
-        "walk_est": true,
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
         "other": [
           "Mid Valley KTM 约 1.2 km",
           "Kerinchi LRT 约 1.2 km"
         ],
         "buses": [],
-        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 2.9 km）。"
+        "note": "最近的 Seputeh KTM（KB02） 按路网步行约 1316 m、16 分钟，超过 1.2 km，日常不算走得到。 KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 2.9 km）。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -3250,10 +3778,6 @@
         "quiet": {
           "score": 3,
           "note": "项目内部安静，外围是 Jalan Klang Lama"
-        },
-        "walk_min_est": {
-          "minutes": 10,
-          "note": "按直线距离估算，未实测"
         }
       },
       "provenance": {
@@ -3295,12 +3819,24 @@
         "lat": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 27,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 27,
+            "at": "2026-09-08"
+          }
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
@@ -3313,9 +3849,16 @@
           "method": "auto"
         },
         "transit": {
-          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1316,
+            "route_min": 16,
+            "at": "2026-09-08"
+          }
         },
         "name": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
@@ -3369,16 +3912,16 @@
         "minimart": false
       },
       "transit": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_min": 14,
-        "walk_m": 1063,
-        "walk_est": true,
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
         "other": [
           "Pantai Dalam KTM 约 1.3 km",
           "Kerinchi LRT 约 1.5 km"
         ],
         "buses": [],
-        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 3.1 km）。"
+        "note": "最近的 Seputeh KTM（KB02） 按路网步行约 1599 m、20 分钟，超过 1.2 km，日常不算走得到。 KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 10 分钟（直线 3.1 km）。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -3413,10 +3956,6 @@
         "quiet": {
           "score": 3,
           "note": "临 Jalan Klang Lama，高层安静"
-        },
-        "walk_min_est": {
-          "minutes": 14,
-          "note": "按直线距离估算，未实测"
         }
       },
       "provenance": {
@@ -3458,12 +3997,24 @@
         "lat": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 107,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 107,
+            "at": "2026-09-08"
+          }
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
@@ -3476,9 +4027,16 @@
           "method": "auto"
         },
         "transit": {
-          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1599,
+            "route_min": 20,
+            "at": "2026-09-08"
+          }
         },
         "name": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
@@ -3525,16 +4083,16 @@
         "minimart": false
       },
       "transit": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_min": 12,
-        "walk_m": 900,
-        "walk_est": true,
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
         "other": [
           "Seputeh KTM 约 1.5 km",
           "Kerinchi LRT 约 1.9 km"
         ],
         "buses": [],
-        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 11 分钟（直线 3.3 km）。"
+        "note": "最近的 Pantai Dalam KTM（KD03） 按路网步行约 1306 m、16 分钟，超过 1.2 km，日常不算走得到。 KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 11 分钟（直线 3.3 km）。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -3569,10 +4127,6 @@
         "quiet": {
           "score": 2,
           "note": "临 Old Klang Road 主路，车流大"
-        },
-        "walk_min_est": {
-          "minutes": 12,
-          "note": "按直线距离估算，未实测"
         }
       },
       "provenance": {
@@ -3614,12 +4168,24 @@
         "lat": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 48,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 48,
+            "at": "2026-09-08"
+          }
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
@@ -3632,9 +4198,16 @@
           "method": "auto"
         },
         "transit": {
-          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1306,
+            "route_min": 16,
+            "at": "2026-09-08"
+          }
         },
         "name": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
@@ -3684,16 +4257,16 @@
         "minimart": false
       },
       "transit": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_min": 12,
-        "walk_m": 921,
-        "walk_est": true,
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
         "other": [
           "Seputeh KTM 约 1.6 km",
           "Kerinchi LRT 约 1.9 km"
         ],
         "buses": [],
-        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 11 分钟（直线 3.4 km）。"
+        "note": "最近的 Pantai Dalam KTM（KD03） 按路网步行约 1442 m、18 分钟，超过 1.2 km，日常不算走得到。 KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 11 分钟（直线 3.4 km）。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -3729,10 +4302,6 @@
         "quiet": {
           "score": 2,
           "note": "临 Old Klang Road 主路"
-        },
-        "walk_min_est": {
-          "minutes": 12,
-          "note": "按直线距离估算，未实测"
         }
       },
       "provenance": {
@@ -3774,12 +4343,24 @@
         "lat": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 33,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "agree",
+            "distance_m": 33,
+            "at": "2026-09-08"
+          }
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
@@ -3792,9 +4373,16 @@
           "method": "auto"
         },
         "transit": {
-          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1442,
+            "route_min": 18,
+            "at": "2026-09-08"
+          }
         },
         "name": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
@@ -3844,16 +4432,16 @@
         "minimart": false
       },
       "transit": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_min": 13,
-        "walk_m": 990,
-        "walk_est": true,
+        "nearest": "无步行可达轨道站",
+        "walk_min": null,
+        "walk_m": null,
+        "walk_est": false,
         "other": [
           "Petaling KTM 约 1.0 km",
           "Seputeh KTM 约 3.1 km"
         ],
         "buses": [],
-        "note": "按直线距离估算，未实测。KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 14 分钟（直线 4.3 km）。"
+        "note": "最近的 Petaling KTM（KD04） 按路网步行约 1968 m、24 分钟，超过 1.2 km，日常不算走得到。 KTM 电动火车班次疏（15 到 30 分钟一班），去 UM 要在 KL Sentral 换乘轻轨到 Universiti 站，全程约 40 分钟；日常去学校多靠 Grab，车程约 14 分钟（直线 4.3 km）。"
       },
       "um_km": null,
       "um_km_note": null,
@@ -3888,10 +4476,6 @@
         "quiet": {
           "score": 2,
           "note": "Millerz Square 整体是 4 栋约 1,600 户的大项目，临 Old Klang Road"
-        },
-        "walk_min_est": {
-          "minutes": 13,
-          "note": "按直线距离估算，未实测"
         }
       },
       "provenance": {
@@ -3933,12 +4517,24 @@
         "lat": {
           "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "near",
+            "distance_m": 292,
+            "at": "2026-09-08"
+          }
         },
         "lng": {
           "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "check": {
+            "with": "OpenStreetMap",
+            "status": "near",
+            "distance_m": 292,
+            "at": "2026-09-08"
+          }
         },
         "facilities": {
           "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
@@ -3951,9 +4547,16 @@
           "method": "auto"
         },
         "transit": {
-          "source": "OpenStreetMap 车站坐标 + 直线距离估算",
+          "source": "OpenStreetMap 路网（Valhalla 步行路线）",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "route",
+          "check": {
+            "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+            "status": "conflict",
+            "route_m": 1968,
+            "route_min": 24,
+            "at": "2026-09-08"
+          }
         },
         "name": {
           "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",

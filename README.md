@@ -67,7 +67,14 @@ node scripts/collect.mjs <iProperty 项目链接> --id=<新id>   # 新小区
 node scripts/collect.mjs --report-only         # 不抓取，用已有 staging 重出报告
 ```
 
-看 `data/staging/REVIEW.md`，确认后发布：
+交叉验证（坐标对 OpenStreetMap，步行距离对 OSM 路网步行路线；免费、无密钥）：
+
+```bash
+node scripts/crosscheck.mjs --all            # 或指定 id
+node scripts/collect.mjs --report-only       # 把结果并进审核报告
+```
+
+看 `data/staging/REVIEW.md`，确认后发布（`--accept=walk` 可直接采纳路线算出的步行距离）：
 
 ```bash
 node scripts/publish.mjs <id> --accept=facilities,flags --who=名字 --reason="核对理由" --note="对外一句话"

@@ -250,5 +250,55 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:47:01.412Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1100335,
+        101.6617537
+      ],
+      "distance_m": 57,
+      "display": "Pantai Panorama, Pantai Dalam, Kuala Lumpur, 59200, Malaysia",
+      "osm": "way/383257669"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 600,
+        "walk_min": 7,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 530,
+          "route_m": 1034,
+          "route_min": 13
+        },
+        {
+          "station": "Kerinchi LRT（KJ18）",
+          "straight_m": 941,
+          "route_m": 1507,
+          "route_min": 19
+        }
+      ],
+      "to_universiti": {
+        "route_m": 1034,
+        "route_min": 13
+      },
+      "proposed": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 1034,
+        "walk_min": 13
+      }
+    },
+    "notes": [
+      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
+    ]
+  }
 }

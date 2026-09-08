@@ -84,56 +84,72 @@
   },
   "diff": {
     "name": {
-      "current": null,
+      "current": "Avantas Residences",
       "proposed": "Avantas Residences",
-      "status": "new"
+      "status": "same"
     },
     "completed": {
-      "current": null,
+      "current": 2016,
       "proposed": 2016,
-      "status": "new"
+      "status": "same"
     },
     "units": {
-      "current": null,
+      "current": 198,
       "proposed": 198,
-      "status": "new"
+      "status": "same"
     },
     "floors": {
-      "current": null,
+      "current": "28 层",
       "proposed": "28 层",
-      "status": "new"
+      "status": "same"
     },
     "tenure": {
-      "current": null,
+      "current": "Freehold 永久地契",
       "proposed": "Freehold 永久地契",
-      "status": "new"
+      "status": "same"
     },
     "type": {
-      "current": null,
+      "current": "服务式公寓",
       "proposed": "服务式公寓",
-      "status": "new"
+      "status": "same"
     },
     "developer": {
-      "current": null,
+      "current": "CPI Development",
       "proposed": "CPI Development",
-      "status": "new"
+      "status": "same"
     },
     "address": {
-      "current": null,
+      "current": "Old Klang Road, 58100, Kuala Lumpur",
       "proposed": "Old Klang Road, 58100, Kuala Lumpur",
-      "status": "new"
+      "status": "same"
     },
     "geo": {
-      "current": null,
+      "current": [
+        3.100352,
+        101.67686
+      ],
       "proposed": [
         3.100352,
         101.67686
       ],
-      "status": "new",
-      "distance_m": null
+      "status": "same",
+      "distance_m": 0
     },
     "facilities": {
-      "current": null,
+      "current": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "Laundry",
+        "多功能厅",
+        "围栏",
+        "儿童游乐场",
+        "泳池",
+        "儿童池",
+        "瑜伽室"
+      ],
       "proposed": [
         "24 小时保安",
         "烧烤区",
@@ -148,25 +164,24 @@
         "儿童池",
         "瑜伽室"
       ],
-      "added": [
-        "24 小时保安",
-        "烧烤区",
-        "有顶停车场",
-        "健身房",
-        "按摩池",
-        "Laundry",
-        "多功能厅",
-        "围栏",
-        "儿童游乐场",
-        "泳池",
-        "儿童池",
-        "瑜伽室"
-      ],
+      "added": [],
       "removed": [],
-      "status": "new"
+      "status": "same"
     },
     "flags": {
-      "current": null,
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
       "proposed": {
         "pool": true,
         "gym": true,
@@ -181,7 +196,7 @@
         "minimart": false
       },
       "changed_keys": [],
-      "status": "new"
+      "status": "same"
     }
   },
   "assessment": {
@@ -197,5 +212,53 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": true
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:48:30.624Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1000567,
+        101.6768246
+      ],
+      "distance_m": 33,
+      "display": "Avantas Residences, 162, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/1396188854"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 921,
+        "walk_min": 12,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 921,
+          "route_m": 1442,
+          "route_min": 18
+        },
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 1567,
+          "route_m": 2075,
+          "route_min": 26
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3673,
+        "route_min": 47
+      },
+      "proposed": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 1442,
+        "walk_min": 18
+      }
+    },
+    "notes": []
+  }
 }

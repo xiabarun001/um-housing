@@ -232,5 +232,54 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:50:36.609Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1136693,
+        101.6406572
+      ],
+      "distance_m": 24,
+      "display": "PJ Midtown, Jalan 13/2, Section 13, Petaling Jaya, Petaling, Selangor, 46200, Malaysia",
+      "osm": "way/881960593",
+      "query": "PJ Midtown Petaling Jaya"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Taman Jaya LRT（KJ20）",
+        "walk_m": 1000,
+        "walk_min": 13,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 1095,
+          "route_m": 1534,
+          "route_min": 19
+        },
+        {
+          "station": "Taman Jaya LRT（KJ20）",
+          "straight_m": 1211,
+          "route_m": 2211,
+          "route_min": 27
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3783,
+        "route_min": 49
+      },
+      "proposed": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 1534,
+        "walk_min": 19
+      }
+    },
+    "notes": []
+  }
 }

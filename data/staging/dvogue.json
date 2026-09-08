@@ -206,5 +206,47 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:51:10.874Z",
+    "geo": {
+      "status": "single",
+      "with": "OpenStreetMap",
+      "note": "not found"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": null,
+        "walk_min": 16,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 1103,
+          "route_m": 1567,
+          "route_min": 20
+        },
+        {
+          "station": "Taman Jaya LRT（KJ20）",
+          "straight_m": 1292,
+          "route_m": 2244,
+          "route_min": 28
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3835,
+        "route_min": 49
+      },
+      "proposed": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 1567,
+        "walk_min": 20
+      }
+    },
+    "notes": []
+  }
 }

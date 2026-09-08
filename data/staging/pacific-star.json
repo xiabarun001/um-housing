@@ -218,5 +218,54 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:50:20.918Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1164521,
+        101.6364431
+      ],
+      "distance_m": 126,
+      "display": "Pacific Towers, Section 13, Petaling Jaya, Petaling, Selangor, Malaysia",
+      "osm": "relation/17752561",
+      "query": "Pacific Star Petaling Jaya"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 1458,
+          "route_m": 2389,
+          "route_min": 31
+        },
+        {
+          "station": "Phileo Damansara MRT（KG12）",
+          "straight_m": 1466,
+          "route_m": 2075,
+          "route_min": 27
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3854,
+        "route_min": 50
+      },
+      "proposed": {
+        "nearest": "Phileo Damansara MRT（KG12）",
+        "walk_m": 2075,
+        "walk_min": 27
+      }
+    },
+    "notes": []
+  }
 }

@@ -988,6 +988,410 @@
       "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
       "reason": "iProperty 只列 7 项设施，未列健身房，待与开发商资料核对",
       "public_note": "标注设施清单可能不全，待核实"
+    },
+    {
+      "at": "2026-09-08T11:52:30.189Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "pantai-panorama",
+      "field": "transit",
+      "from": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 600,
+        "walk_min": 7
+      },
+      "to": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 1034,
+        "walk_min": 13
+      },
+      "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:30.314Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "novum",
+      "field": "transit",
+      "from": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_m": null,
+        "walk_min": 4
+      },
+      "to": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_m": 687,
+        "walk_min": 9
+      },
+      "source": "https://www.iproperty.com.my/condo/novum-7847",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:30.431Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "southlink",
+      "field": "transit",
+      "from": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_m": null,
+        "walk_min": 7
+      },
+      "to": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_m": 664,
+        "walk_min": 9
+      },
+      "source": "https://www.iproperty.com.my/condo/southlink-8399",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:30.564Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "tiara-damansara",
+      "field": "transit",
+      "from": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "to": {
+        "nearest": "Phileo Damansara MRT（KG12）",
+        "walk_m": 1105,
+        "walk_min": 15
+      },
+      "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:30.681Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "pj8",
+      "field": "transit",
+      "from": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": null,
+        "walk_min": 5
+      },
+      "to": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 763,
+        "walk_min": 9
+      },
+      "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:30.806Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "pj-midtown",
+      "field": "transit",
+      "from": {
+        "nearest": "Taman Jaya LRT（KJ20）",
+        "walk_m": 1000,
+        "walk_min": 13
+      },
+      "to": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:30.923Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "dvogue",
+      "field": "transit",
+      "from": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": null,
+        "walk_min": 16
+      },
+      "to": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.048Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "avara",
+      "field": "transit",
+      "from": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 256,
+        "walk_min": 3
+      },
+      "to": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 422,
+        "walk_min": 5
+      },
+      "source": "https://www.iproperty.com.my/condo/avara-10395",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.173Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "tria-seputeh",
+      "field": "transit",
+      "from": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 782,
+        "walk_min": 10
+      },
+      "to": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.290Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "vivo",
+      "field": "transit",
+      "from": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 1063,
+        "walk_min": 14
+      },
+      "to": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.406Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "southbank",
+      "field": "transit",
+      "from": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 900,
+        "walk_min": 12
+      },
+      "to": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.539Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "avantas",
+      "field": "transit",
+      "from": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 921,
+        "walk_min": 12
+      },
+      "to": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.655Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "millerz",
+      "field": "transit",
+      "from": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 990,
+        "walk_min": 13
+      },
+      "to": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null
+      },
+      "source": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "按路网重新核对了步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.773Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "kl-gateway",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:31.897Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "south-view",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/south-view-6431",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.031Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "centrestage",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.148Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "seventeen",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.264Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "atwater",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.390Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "ryan-miho",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.531Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "pacific-star",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.647Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "pacific-63",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.764Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "saville",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:32.897Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "inwood",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/inwood-residences-6806",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:33.032Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "secoya",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
+    },
+    {
+      "at": "2026-09-08T11:52:33.155Z",
+      "date_myt": "2026-09-08",
+      "who": "Claude",
+      "condo": "laurel",
+      "field": "verified_at",
+      "from": null,
+      "to": "2026-09-08",
+      "source": "https://www.iproperty.com.my/condo/laurel-residence-17871",
+      "reason": "OpenStreetMap路网与地理编码交叉验证（2026-09-08）",
+      "public_note": "交叉验证了坐标和步行距离"
     }
   ]
 }

@@ -123,7 +123,7 @@ status: draft
 **B. 采集与审核**
 
 - FR-7 `node scripts/collect.mjs <id 或 iProperty 项目链接>`：抓取档案字段，写入 `data/staging/<id>.json`，含来源、时间、原始值。
-- FR-8 用 PropertyGuru 项目页做第二来源交叉比对；每个字段评估为「一致」「单源」「冲突」。
+- FR-8 交叉验证：坐标对 OpenStreetMap，步行距离对 OSM 路网步行路线，年份/户数/地契/开发商/设施对 PropertyGuru 项目页（仅 GitHub 机器可抓），行情对 iBilik 和 Mudah；每个字段评估为「一致」「接近」「单源」「冲突」，结果写进 provenance 并在页面标记弹层显示。
 - FR-9 生成 `data/staging/REVIEW.md`：现有值、采集值、二源值、评估结论、建议动作，一眼能审。
 - FR-10 `node scripts/publish.mjs <id>` 把审核通过的字段写入 `condos.json`，更新 provenance 和 `verified_at`，追加 `data/changelog.json`（每条含 at、who、condo、field、from、to、source、reason、public_note）。
 - FR-10b 读者页「说明」下方显示对外版变更记录：只列日期、小区、"更新了什么"（public_note），不显示人。后台显示完整字段。

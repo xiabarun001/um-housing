@@ -210,5 +210,54 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:50:44.242Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1118092,
+        101.6389507
+      ],
+      "distance_m": 14,
+      "display": "Centrestage, Jalan Kemajuan, Section 13, Petaling Jaya, Petaling, Selangor, 46200, Malaysia",
+      "osm": "way/881960594",
+      "query": "Centrestage Petaling Jaya"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 1050,
+        "walk_min": 13,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 853,
+          "route_m": 1261,
+          "route_min": 17
+        },
+        {
+          "station": "Taman Jaya LRT（KJ20）",
+          "straight_m": 1127,
+          "route_m": 2110,
+          "route_min": 26
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3607,
+        "route_min": 47
+      },
+      "proposed": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 1261,
+        "walk_min": 17
+      }
+    },
+    "notes": []
+  }
 }

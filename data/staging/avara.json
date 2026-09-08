@@ -95,56 +95,75 @@
   },
   "diff": {
     "name": {
-      "current": null,
+      "current": "Avara Seputeh",
       "proposed": "Avara",
-      "status": "new"
+      "status": "changed"
     },
     "completed": {
-      "current": null,
+      "current": 2020,
       "proposed": 2020,
-      "status": "new"
+      "status": "same"
     },
     "units": {
-      "current": null,
+      "current": 183,
       "proposed": 183,
-      "status": "new"
+      "status": "same"
     },
     "floors": {
-      "current": null,
+      "current": "35 层 × 2 栋",
       "proposed": "35 层 × 2 栋",
-      "status": "new"
+      "status": "same"
     },
     "tenure": {
-      "current": null,
+      "current": "Freehold 永久地契",
       "proposed": "Freehold 永久地契",
-      "status": "new"
+      "status": "same"
     },
     "type": {
-      "current": null,
+      "current": "服务式公寓",
       "proposed": "服务式公寓",
-      "status": "new"
+      "status": "same"
     },
     "developer": {
-      "current": null,
+      "current": "Unity Realty Sdn. Bhd.",
       "proposed": "Unity Realty Sdn. Bhd.",
-      "status": "new"
+      "status": "same"
     },
     "address": {
-      "current": null,
+      "current": "Jalan Seputeh, 58000, Kuala Lumpur",
       "proposed": "Jalan Seputeh, 58000, Kuala Lumpur",
-      "status": "new"
+      "status": "same"
     },
     "geo": {
-      "current": null,
+      "current": [
+        3.11349,
+        101.679127
+      ],
       "proposed": [
         3.11349,
         101.679127
       ],
-      "status": "new",
-      "distance_m": null
+      "status": "same",
+      "distance_m": 0
     },
     "facilities": {
-      "current": null,
+      "current": [
+        "24 小时保安",
+        "烧烤区",
+        "有顶停车场",
+        "落客点",
+        "健身房",
+        "按摩池",
+        "Landscaped Garden",
+        "休息厅",
+        "多功能厅",
+        "停车场",
+        "儿童游乐场",
+        "足底按摩步道",
+        "空中休息厅",
+        "泳池",
+        "儿童池"
+      ],
       "proposed": [
         "24 小时保安",
         "烧烤区",
@@ -162,28 +181,24 @@
         "泳池",
         "儿童池"
       ],
-      "added": [
-        "24 小时保安",
-        "烧烤区",
-        "有顶停车场",
-        "落客点",
-        "健身房",
-        "按摩池",
-        "Landscaped Garden",
-        "休息厅",
-        "多功能厅",
-        "停车场",
-        "儿童游乐场",
-        "足底按摩步道",
-        "空中休息厅",
-        "泳池",
-        "儿童池"
-      ],
+      "added": [],
       "removed": [],
-      "status": "new"
+      "status": "same"
     },
     "flags": {
-      "current": null,
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": false,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": false,
+        "squash": false,
+        "tennis": false,
+        "bbq": true,
+        "minimart": false
+      },
       "proposed": {
         "pool": true,
         "gym": true,
@@ -198,7 +213,7 @@
         "minimart": false
       },
       "changed_keys": [],
-      "status": "new"
+      "status": "same"
     }
   },
   "assessment": {
@@ -214,5 +229,53 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": true
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:48:01.801Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1130352,
+        101.6791019
+      ],
+      "distance_m": 51,
+      "display": "Avara Seputeh, Seputeh, Kuala Lumpur, Malaysia",
+      "osm": "way/541296766"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 256,
+        "walk_min": 3,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 256,
+          "route_m": 422,
+          "route_min": 5
+        },
+        {
+          "station": "Mid Valley KTM（KB01）",
+          "straight_m": 582,
+          "route_m": 726,
+          "route_min": 9
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2124,
+        "route_min": 31
+      },
+      "proposed": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 422,
+        "walk_min": 5
+      }
+    },
+    "notes": []
+  }
 }

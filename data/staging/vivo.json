@@ -97,56 +97,76 @@
   },
   "diff": {
     "name": {
-      "current": null,
+      "current": "Vivo Residential Suites（9 Seputeh）",
       "proposed": "Vivo Residential Suites",
-      "status": "new"
+      "status": "same"
     },
     "completed": {
-      "current": null,
+      "current": 2018,
       "proposed": 2018,
-      "status": "new"
+      "status": "same"
     },
     "units": {
-      "current": null,
+      "current": 412,
       "proposed": 412,
-      "status": "new"
+      "status": "same"
     },
     "floors": {
-      "current": null,
+      "current": "N/A 层 × 2 栋",
       "proposed": "N/A 层 × 2 栋",
-      "status": "new"
+      "status": "changed"
     },
     "tenure": {
-      "current": null,
+      "current": "Leasehold 租赁地契",
       "proposed": "Leasehold 租赁地契",
-      "status": "new"
+      "status": "same"
     },
     "type": {
-      "current": null,
+      "current": "公寓",
       "proposed": "公寓",
-      "status": "new"
+      "status": "same"
     },
     "developer": {
-      "current": null,
+      "current": "MRCB Land",
       "proposed": "MRCB Land",
-      "status": "new"
+      "status": "same"
     },
     "address": {
-      "current": null,
+      "current": "9 Seputeh, Off Jalan Klang Lama, 58100, Kuala Lumpur",
       "proposed": "9 Seputeh, Off Jalan Klang Lama, 58100, Kuala Lumpur",
-      "status": "new"
+      "status": "same"
     },
     "geo": {
-      "current": null,
+      "current": [
+        3.105212,
+        101.67699
+      ],
       "proposed": [
         3.105212,
         101.67699
       ],
-      "status": "new",
-      "distance_m": null
+      "status": "same",
+      "distance_m": 0
     },
     "facilities": {
-      "current": null,
+      "current": [
+        "24 小时保安",
+        "篮球场",
+        "烧烤区",
+        "咖啡座",
+        "有顶停车场",
+        "健身房",
+        "按摩池",
+        "跑道",
+        "Landscaped Garden",
+        "休息厅",
+        "多功能厅",
+        "儿童游乐场",
+        "足底按摩步道",
+        "桑拿",
+        "泳池",
+        "Tennis courts"
+      ],
       "proposed": [
         "24 小时保安",
         "篮球场",
@@ -165,29 +185,24 @@
         "泳池",
         "Tennis courts"
       ],
-      "added": [
-        "24 小时保安",
-        "篮球场",
-        "烧烤区",
-        "咖啡座",
-        "有顶停车场",
-        "健身房",
-        "按摩池",
-        "跑道",
-        "Landscaped Garden",
-        "休息厅",
-        "多功能厅",
-        "儿童游乐场",
-        "足底按摩步道",
-        "桑拿",
-        "泳池",
-        "Tennis courts"
-      ],
+      "added": [],
       "removed": [],
-      "status": "new"
+      "status": "same"
     },
     "flags": {
-      "current": null,
+      "current": {
+        "pool": true,
+        "gym": true,
+        "sauna": true,
+        "steam": false,
+        "jacuzzi": true,
+        "badminton": false,
+        "basketball": true,
+        "squash": false,
+        "tennis": true,
+        "bbq": true,
+        "minimart": false
+      },
       "proposed": {
         "pool": true,
         "gym": true,
@@ -202,7 +217,7 @@
         "minimart": false
       },
       "changed_keys": [],
-      "status": "new"
+      "status": "same"
     }
   },
   "assessment": {
@@ -218,5 +233,54 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": true
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T11:51:22.916Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1061496,
+        101.676775
+      ],
+      "distance_m": 107,
+      "display": "Vivo Residential Suites @ 9 Seputeh, Taman Desa, Kuala Lumpur, Malaysia",
+      "osm": "way/541295825",
+      "query": "Vivo Residential Suites"
+    },
+    "walk": {
+      "status": "conflict",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 1063,
+        "walk_min": 14,
+        "est": true
+      },
+      "routes": [
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 1063,
+          "route_m": 1599,
+          "route_min": 20
+        },
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 1315,
+          "route_m": 1606,
+          "route_min": 20
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2784,
+        "route_min": 36
+      },
+      "proposed": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 1599,
+        "walk_min": 20
+      }
+    },
+    "notes": []
+  }
 }
