@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090030';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090045';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -716,9 +716,9 @@ async function renderCampus(geo) {
     if (list) {
       const item = (p) => `<li class="${p.kind === 'service' ? 'service' : ''}${p.approx ? ' approx' : ''}"><i class="cn">${p.n}</i><span><b>${esc(p.zh)}</b>${p.approx ? ' <em class="approx">位置是估的</em>' : ''}</span></li>`;
       const fac = places.filter((p) => p.kind !== 'service'), other = places.filter((p) => p.kind === 'service');
-      list.innerHTML = `<div class="campus-group"><h4>学院 <small>从北到南</small></h4><ol>${fac.map(item).join('')}</ol></div>` +
-        `<div class="campus-group"><h4>其他地点</h4><ol>${other.map(item).join('')}</ol></div>` +
-        `<div class="campus-group"><h4>校门</h4><ol>${gates.map((g) => `<li class="gate"><i class="cn gate">${g.letter}</i><span><b>${esc(g.zh)}</b>${g.note ? `<small>${esc(g.note)}</small>` : ''}</span></li>`).join('')}</ol></div>`;
+      list.innerHTML = `<div class="campus-group faculties"><h4>学院 <small>从北到南</small></h4><ol>${fac.map(item).join('')}</ol></div>` +
+        `<div class="campus-group others"><h4>其他地点</h4><ol>${other.map(item).join('')}</ol></div>` +
+        `<div class="campus-group gates"><h4>校门</h4><ol>${gates.map((g) => `<li class="gate"><i class="cn gate">${g.letter}</i><span><b>${esc(g.zh)}</b>${g.note ? `<small>${esc(g.note)}</small>` : ''}</span></li>`).join('')}</ol></div>`;
     }
   }
 

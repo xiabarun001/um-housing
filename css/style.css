@@ -879,3 +879,14 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .campus-list li.approx .cn { background: var(--card, var(--bg)); color: var(--ink); border: 1.5px dashed var(--ink); }
 .campus-group li small { display: block; color: var(--ink-3); font-size: 12px; }
 @media (max-width: 720px) { .campus-list { grid-template-columns: 1fr 1fr; } .campus-group:first-child { grid-column: 1 / -1; } .campus-group:first-child ol { columns: 2; column-gap: 14px; } .campus-group li { break-inside: avoid; } }
+
+/* 熟悉校园（宽屏）：右边名单和左边的图等高，学院两列在上，其他地点和校门并排在下 */
+@media (min-width: 961px) {
+  .campus-wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
+  .campus-details { display: flex; flex-direction: column; }
+  .campus-list { flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 22px 28px; align-content: space-evenly; }
+  .campus-group.faculties { grid-column: 1 / -1; }
+  .campus-group.faculties ol { columns: 2; column-gap: 28px; }
+  .campus-group li { break-inside: avoid; padding: 5px 0; }
+  .campus-group h4 { margin-bottom: 8px; }
+}
