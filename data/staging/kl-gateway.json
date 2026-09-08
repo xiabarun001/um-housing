@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:40:10.853Z",
+  "fetched_at": "2026-09-08T12:55:09.274Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -253,7 +253,7 @@
         "Natural light maximisation"
       ],
       "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
-      "fetched_at": "2026-09-08T12:40:14.617Z"
+      "fetched_at": "2026-09-08T12:55:12.754Z"
     }
   },
   "second_assessment": {
@@ -287,5 +287,56 @@
       "starproperty": "泳池/健身房",
       "status": "agree"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:57:48.831Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.11365,
+        101.6633084
+      ],
+      "distance_m": 48,
+      "display": "KL Gateway, 2, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/1112744188",
+      "query": "KL Gateway Kuala Lumpur"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 240,
+        "walk_min": 2,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 164,
+          "route_m": 280,
+          "route_min": 3
+        },
+        {
+          "station": "Kerinchi LRT（KJ18）",
+          "straight_m": 656,
+          "route_m": 1049,
+          "route_min": 13
+        }
+      ],
+      "to_universiti": {
+        "route_m": 280,
+        "route_min": 3
+      },
+      "proposed": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 280,
+        "walk_min": 3
+      }
+    },
+    "notes": [
+      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
+    ]
   }
 }

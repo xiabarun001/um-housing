@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/pacific-63-8858",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:39:23.163Z",
+  "fetched_at": "2026-09-08T12:54:23.005Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -220,7 +220,7 @@
         "Access card system"
       ],
       "url": "https://www.starproperty.my/insight/4874/pacific-63",
-      "fetched_at": "2026-09-08T12:39:26.889Z"
+      "fetched_at": "2026-09-08T12:54:26.565Z"
     }
   },
   "second_assessment": {
@@ -254,5 +254,54 @@
       "starproperty": "泳池/无健身房",
       "status": "conflict"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:57:09.746Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1158852,
+        101.6350121
+      ],
+      "distance_m": 25,
+      "display": "Pacific 63, Section 13, Petaling Jaya, Petaling, Selangor, Malaysia",
+      "osm": "relation/17752560",
+      "query": "Pacific 63 Petaling Jaya"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 1342,
+          "route_m": 2139,
+          "route_min": 28
+        },
+        {
+          "station": "Phileo Damansara MRT（KG12）",
+          "straight_m": 1709,
+          "route_m": 2360,
+          "route_min": 30
+        }
+      ],
+      "to_universiti": {
+        "route_m": 4132,
+        "route_min": 53
+      },
+      "proposed": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 2139,
+        "walk_min": 28
+      }
+    },
+    "notes": []
   }
 }

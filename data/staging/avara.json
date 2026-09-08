@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/avara-10395",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:41:06.905Z",
+  "fetched_at": "2026-09-08T12:56:01.773Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -243,7 +243,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
-      "fetched_at": "2026-09-08T12:41:10.711Z"
+      "fetched_at": "2026-09-08T12:56:05.344Z"
     }
   },
   "second_assessment": {
@@ -277,5 +277,54 @@
       "starproperty": null,
       "status": "single"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:58:37.004Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1130352,
+        101.6791019
+      ],
+      "distance_m": 51,
+      "display": "Avara Seputeh, Seputeh, Kuala Lumpur, Malaysia",
+      "osm": "way/541296766",
+      "query": "Avara Seputeh Kuala Lumpur"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 422,
+        "walk_min": 5,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 256,
+          "route_m": 422,
+          "route_min": 5
+        },
+        {
+          "station": "Mid Valley KTM（KB01）",
+          "straight_m": 582,
+          "route_m": 726,
+          "route_min": 9
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2124,
+        "route_min": 31
+      },
+      "proposed": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 422,
+        "walk_min": 5
+      }
+    },
+    "notes": []
   }
 }

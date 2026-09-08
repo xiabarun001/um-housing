@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:40:02.812Z",
+  "fetched_at": "2026-09-08T12:55:01.619Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -233,7 +233,7 @@
         "Western hotel chain"
       ],
       "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
-      "fetched_at": "2026-09-08T12:40:06.517Z"
+      "fetched_at": "2026-09-08T12:55:05.527Z"
     }
   },
   "second_assessment": {
@@ -267,5 +267,47 @@
       "starproperty": "泳池/健身房",
       "status": "agree"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:57:41.166Z",
+    "geo": {
+      "status": "single",
+      "with": "OpenStreetMap",
+      "note": "not found"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 1103,
+          "route_m": 1567,
+          "route_min": 20
+        },
+        {
+          "station": "Taman Jaya LRT（KJ20）",
+          "straight_m": 1292,
+          "route_m": 2244,
+          "route_min": 28
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3835,
+        "route_min": 49
+      },
+      "proposed": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 1567,
+        "walk_min": 20
+      }
+    },
+    "notes": []
   }
 }

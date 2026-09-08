@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/ryan-miho-9302",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:39:06.159Z",
+  "fetched_at": "2026-09-08T12:54:06.898Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -266,7 +266,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
-      "fetched_at": "2026-09-08T12:39:10.965Z"
+      "fetched_at": "2026-09-08T12:54:10.566Z"
     }
   },
   "second_assessment": {
@@ -300,5 +300,54 @@
       "starproperty": null,
       "status": "single"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:56:57.252Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1180589,
+        101.6336625
+      ],
+      "distance_m": 78,
+      "display": "Ryan & Miho, Section 13, Petaling Jaya, Petaling, Selangor, Malaysia",
+      "osm": "relation/17752550",
+      "query": "Ryan & Miho Petaling Jaya"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Phileo Damansara MRT（KG12）",
+          "straight_m": 1631,
+          "route_m": 2343,
+          "route_min": 31
+        },
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 1646,
+          "route_m": 2580,
+          "route_min": 34
+        }
+      ],
+      "to_universiti": {
+        "route_m": 4172,
+        "route_min": 54
+      },
+      "proposed": {
+        "nearest": "Phileo Damansara MRT（KG12）",
+        "walk_m": 2343,
+        "walk_min": 31
+      }
+    },
+    "notes": []
   }
 }

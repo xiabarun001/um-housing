@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/novum-7847",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:40:38.941Z",
+  "fetched_at": "2026-09-08T12:55:35.620Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -228,5 +228,56 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false
+  "is_new": false,
+  "crosscheck": {
+    "at": "2026-09-08T12:58:11.717Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1137429,
+        101.6665036
+      ],
+      "distance_m": 27,
+      "display": "Novum, 12A, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/919695660",
+      "query": "Novum Kuala Lumpur"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_m": 687,
+        "walk_min": 9,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Kerinchi LRT（KJ18）",
+          "straight_m": 286,
+          "route_m": 687,
+          "route_min": 9
+        },
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 528,
+          "route_m": 848,
+          "route_min": 11
+        }
+      ],
+      "to_universiti": {
+        "route_m": 848,
+        "route_min": 11
+      },
+      "proposed": {
+        "nearest": "Kerinchi LRT（KJ18）",
+        "walk_m": 687,
+        "walk_min": 9
+      }
+    },
+    "notes": [
+      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
+    ]
+  }
 }

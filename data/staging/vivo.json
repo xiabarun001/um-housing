@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:45:16.259Z",
+  "fetched_at": "2026-09-08T12:56:16.122Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -247,7 +247,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
-      "fetched_at": "2026-09-08T12:45:20.035Z",
+      "fetched_at": "2026-09-08T12:56:19.570Z",
       "http_status": 404
     }
   },
@@ -282,5 +282,54 @@
       "starproperty": null,
       "status": "single"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:58:48.953Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1061496,
+        101.676775
+      ],
+      "distance_m": 107,
+      "display": "Vivo Residential Suites @ 9 Seputeh, Taman Desa, Kuala Lumpur, Malaysia",
+      "osm": "way/541295825",
+      "query": "Vivo Residential Suites"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 1063,
+          "route_m": 1599,
+          "route_min": 20
+        },
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 1315,
+          "route_m": 1606,
+          "route_min": 20
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2784,
+        "route_min": 36
+      },
+      "proposed": {
+        "nearest": "Seputeh KTM（KB02）",
+        "walk_m": 1599,
+        "walk_min": 20
+      }
+    },
+    "notes": []
   }
 }

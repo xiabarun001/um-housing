@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:40:18.628Z",
+  "fetched_at": "2026-09-08T12:55:16.526Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -273,7 +273,7 @@
         "Launderette"
       ],
       "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
-      "fetched_at": "2026-09-08T12:40:22.442Z"
+      "fetched_at": "2026-09-08T12:55:19.960Z"
     }
   },
   "second_assessment": {
@@ -308,5 +308,56 @@
       "starproperty": "泳池/健身房",
       "status": "agree"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:57:53.615Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1100335,
+        101.6617537
+      ],
+      "distance_m": 57,
+      "display": "Pantai Panorama, Pantai Dalam, Kuala Lumpur, 59200, Malaysia",
+      "osm": "way/383257669",
+      "query": "Pantai Panorama Kuala Lumpur"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 1034,
+        "walk_min": 13,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 530,
+          "route_m": 1034,
+          "route_min": 13
+        },
+        {
+          "station": "Kerinchi LRT（KJ18）",
+          "straight_m": 941,
+          "route_m": 1507,
+          "route_min": 19
+        }
+      ],
+      "to_universiti": {
+        "route_m": 1034,
+        "route_min": 13
+      },
+      "proposed": {
+        "nearest": "Universiti LRT（KJ19）",
+        "walk_m": 1034,
+        "walk_min": 13
+      }
+    },
+    "notes": [
+      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
+    ]
   }
 }

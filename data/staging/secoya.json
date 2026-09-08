@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/secoya-residence-7619",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:40:59.310Z",
+  "fetched_at": "2026-09-08T12:55:54.424Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -236,7 +236,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
-      "fetched_at": "2026-09-08T12:41:03.050Z"
+      "fetched_at": "2026-09-08T12:55:57.985Z"
     }
   },
   "second_assessment": {
@@ -270,5 +270,54 @@
       "starproperty": null,
       "status": "single"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:58:32.075Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.101734,
+        101.6646787
+      ],
+      "distance_m": 2,
+      "display": "Secoya Residences @ Pantai Sentral Park, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/919829677",
+      "query": "Secoya Kuala Lumpur"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 904,
+          "route_m": 1755,
+          "route_min": 23
+        },
+        {
+          "station": "Universiti LRT（KJ19）",
+          "straight_m": 1463,
+          "route_m": 2683,
+          "route_min": 36
+        }
+      ],
+      "to_universiti": {
+        "route_m": 2683,
+        "route_min": 36
+      },
+      "proposed": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 1755,
+        "walk_min": 23
+      }
+    },
+    "notes": []
   }
 }

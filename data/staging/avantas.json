@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/avantas-residences-6254",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:41:38.625Z",
+  "fetched_at": "2026-09-08T12:56:30.327Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -248,7 +248,7 @@
         "BBQ facilities"
       ],
       "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
-      "fetched_at": "2026-09-08T12:41:42.454Z"
+      "fetched_at": "2026-09-08T12:56:33.760Z"
     }
   },
   "second_assessment": {
@@ -282,5 +282,54 @@
       "starproperty": "泳池/健身房",
       "status": "agree"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:59:02.121Z",
+    "geo": {
+      "status": "agree",
+      "with": "OpenStreetMap",
+      "value": [
+        3.1000567,
+        101.6768246
+      ],
+      "distance_m": 33,
+      "display": "Avantas Residences, 162, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/1396188854",
+      "query": "Avantas Kuala Lumpur"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "无步行可达轨道站",
+        "walk_m": null,
+        "walk_min": null,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Pantai Dalam KTM（KD03）",
+          "straight_m": 921,
+          "route_m": 1442,
+          "route_min": 18
+        },
+        {
+          "station": "Seputeh KTM（KB02）",
+          "straight_m": 1567,
+          "route_m": 2075,
+          "route_min": 26
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3673,
+        "route_min": 47
+      },
+      "proposed": {
+        "nearest": "Pantai Dalam KTM（KD03）",
+        "walk_m": 1442,
+        "walk_min": 18
+      }
+    },
+    "notes": []
   }
 }

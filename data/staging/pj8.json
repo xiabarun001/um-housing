@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:39:47.044Z",
+  "fetched_at": "2026-09-08T12:54:45.740Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -235,7 +235,7 @@
         "Multi-purpose hall"
       ],
       "url": "https://www.starproperty.my/insight/741/pj8",
-      "fetched_at": "2026-09-08T12:39:50.848Z"
+      "fetched_at": "2026-09-08T12:54:49.259Z"
     }
   },
   "second_assessment": {
@@ -269,5 +269,47 @@
       "starproperty": "泳池/健身房",
       "status": "agree"
     }
+  },
+  "crosscheck": {
+    "at": "2026-09-08T12:57:26.201Z",
+    "geo": {
+      "status": "single",
+      "with": "OpenStreetMap",
+      "note": "not found"
+    },
+    "walk": {
+      "status": "agree",
+      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
+      "current": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 763,
+        "walk_min": 9,
+        "est": false
+      },
+      "routes": [
+        {
+          "station": "Asia Jaya LRT（KJ21）",
+          "straight_m": 399,
+          "route_m": 763,
+          "route_min": 9
+        },
+        {
+          "station": "Taman Jaya LRT（KJ20）",
+          "straight_m": 676,
+          "route_m": 1252,
+          "route_min": 16
+        }
+      ],
+      "to_universiti": {
+        "route_m": 3480,
+        "route_min": 48
+      },
+      "proposed": {
+        "nearest": "Asia Jaya LRT（KJ21）",
+        "walk_m": 763,
+        "walk_min": 9
+      }
+    },
+    "notes": []
   }
 }
