@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-08T12:59:13.725Z",
-  "generated_myt": "2026-09-08 20:59",
+  "generated_at": "2026-09-08T13:08:23.130Z",
+  "generated_myt": "2026-09-08 21:08",
   "condos": 25,
   "regions": 3,
   "market": {
@@ -74,6 +74,11 @@
     "conflicts": []
   },
   "alerts": [],
+  "reports": {
+    "new": 0,
+    "total": 0,
+    "last_at": null
+  },
   "changelog_entries": 123,
   "last_change": "2026-09-08"
 }

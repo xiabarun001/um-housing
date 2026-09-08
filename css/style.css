@@ -746,3 +746,12 @@ main { max-width: 1400px; }
 .changelog li time { color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .changelog li b { color: var(--ink); font-weight: 600; }
 @media (max-width: 720px) { .changelog li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* reader reports（报错） */
+.report { max-width: min(560px, 94vw); }
+.report .intent-form { border: 0; padding: 0; margin-top: 14px; }
+.report-condo { font-size: 14px; margin: 0; }
+.report-condo b { font-weight: 600; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.pop-act { margin: 10px 0 0; padding-top: 8px; border-top: 1px solid var(--line); }
+.pop-act .linkish { font-size: 12px; }

@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082100';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082130';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -47,6 +47,7 @@ async function init() {
   renderTierPills();
   renderAboutTiers();
   bindTierPop();
+  bindReport();
   renderChangelog();
   drawMap(campus);
   buildPanel();
@@ -561,6 +562,7 @@ function cardHTML(c) {
       <button type="button" class="linkish" data-locate="${c.id}">在地图上看</button>
       <a class="linkish" href="${esc(c.links.maps)}" target="_blank" rel="noopener">Google 地图</a>
       <button type="button" class="linkish" data-detail="${c.id}">来源与详情</button>
+      <button type="button" class="linkish" data-report="${c.id}">报错</button>
     </div>
     <span class="who" data-count-for="${c.id}" hidden></span>
   </article>`;
@@ -604,11 +606,68 @@ function openDetail(id) {
       <a class="btn" href="${esc(c.links.iproperty_building)}" target="_blank" rel="noopener">iProperty 项目页</a>
       <a class="btn" href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 找单间</a>
       <a class="btn" href="${esc(c.links.maps)}" target="_blank" rel="noopener">Google 地图</a>
+      <button type="button" class="btn" data-report="${c.id}">信息不对？报错</button>
     </div>`;
   const dlg = $('#detail');
   $('[data-close]', dlg).addEventListener('click', () => dlg.close());
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }, { once: true });
   dlg.showModal();
+}
+
+/* ---------- reader reports（读者纠错）---------- */
+// 匿名只能往 Supabase 的 reports 表写，读不到别人写的；管理员用 scripts/reports.mjs 或后台处理
+const REPORT_FIELDS = {
+  profile: ['建成年份', '户数', '楼层', '地契', '开发商', '地址或坐标', '设施（泳池、健身房等）', '最近轨道站或步行分钟', '其他'],
+  market: ['在租数量', '整套最低价', '某房型最低价', '单间行情', '其他'],
+  judgment: ['生活便利', '安静程度', '步行估计', '其他'],
+  other: ['网页显示问题', '建议', '其他'],
+};
+function fillReportFields() {
+  const f = $('#report-form'); if (!f) return;
+  const tier = f.elements.tier.value;
+  f.elements.field.innerHTML = (REPORT_FIELDS[tier] || REPORT_FIELDS.other).map((x) => `<option>${esc(x)}</option>`).join('');
+}
+function openReport(id, tier) {
+  const dlg = $('#report'), f = $('#report-form'); if (!dlg || !f) return;
+  const c = state.condos.find((x) => x.id === id);
+  f.reset();
+  f.elements.condo_id.value = c ? c.id : 'site';
+  $('#report-condo').textContent = c ? `${c.no ? c.no + '. ' : ''}${shortAlias(c)}` : '整个网站';
+  f.elements.tier.value = tier && REPORT_FIELDS[tier] ? tier : (c ? 'profile' : 'other');
+  fillReportFields();
+  const msg = $('#report-msg'); msg.textContent = ''; msg.className = 'form-msg';
+  $('#report-done').hidden = true; f.hidden = false;
+  const pop = $('#tier-pop'); if (pop) pop.hidden = true;
+  const det = $('#detail'); if (det && det.open) det.close();
+  dlg.showModal();
+  setTimeout(() => f.elements.message.focus(), 50);
+}
+function bindReport() {
+  const dlg = $('#report'), f = $('#report-form'); if (!dlg || !f) return;
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-report]'); if (b) { e.preventDefault(); openReport(b.dataset.report, b.dataset.reportTier); } });
+  $$('[data-close]', dlg).forEach((b) => b.addEventListener('click', () => dlg.close()));
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  f.elements.tier.addEventListener('change', fillReportFields);
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('#report-msg'), btn = $('button[type=submit]', f);
+    const say = (t, cls) => { msg.textContent = t; msg.className = 'form-msg ' + (cls || ''); };
+    if (f.elements.website.value) return; // 机器人才会填的隐藏框
+    const text = f.elements.message.value.trim();
+    if (text.length < 5) { say('再多写几个字，说清楚哪里不对、正确的是什么。', 'err'); return; }
+    let last = 0; try { last = Number(localStorage.getItem('um-report-at') || 0); } catch { /* ignore */ }
+    if (Date.now() - last < 30000) { say('刚提交过一条，请等半分钟再提交。', 'err'); return; }
+    const c = cfg(); if (!c) { say('现在提交不了，请稍后再试。', 'err'); return; }
+    btn.disabled = true; say('提交中…');
+    const row = { condo_id: f.elements.condo_id.value || 'site', tier: f.elements.tier.value, field: String(f.elements.field.value || '').slice(0, 40), message: text.slice(0, 500), contact: f.elements.contact.value.trim().slice(0, 60) || null, page: (location.pathname + location.hash).slice(0, 200) };
+    try {
+      const r = await fetch(`${c.SUPABASE_URL}/rest/v1/reports`, { method: 'POST', headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(row) });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      try { localStorage.setItem('um-report-at', String(Date.now())); } catch { /* ignore */ }
+      f.hidden = true; $('#report-done').hidden = false;
+    } catch (err) { console.warn('report failed', err); say('没发出去，请稍后再试。', 'err'); }
+    btn.disabled = false;
+  });
 }
 
 /* ---------- intents (shared sheet) ---------- */
@@ -945,6 +1004,7 @@ function bindTierPop() {
     if (!b) { if (!e.target.closest('#tier-pop')) hide(); return; }
     const c = b.dataset.id ? state.condos.find((x) => x.id === b.dataset.id) : null;
     pop.innerHTML = tierPopHTML(b.dataset.tier, c);
+    if (c) pop.insertAdjacentHTML('beforeend', `<p class="pop-act"><button type="button" class="linkish" data-report="${esc(c.id)}" data-report-tier="${esc(b.dataset.tier)}">这条信息不对？报错</button></p>`);
     // 弹窗里的标记要把气泡放进弹窗，否则会被遮住
     const host = b.closest('.detail-inner') || document.body;
     if (pop.parentElement !== host) host.appendChild(pop);
