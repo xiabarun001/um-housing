@@ -1,0 +1,53 @@
+name: propertyguru probe
+
+# 手动运行：从 GitHub 的机器上抓 PropertyGuru 的搜索页和项目页（本机被拦），把 HTML 存成 artifact 供本地分析页面结构。
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: "搜索词"
+        default: "KL Gateway Residences"
+      project_url:
+        description: "项目页链接（可空）"
+        default: ""
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: install curl-impersonate
+        run: |
+          set -e
+          V=v2.2.2
+          mkdir -p "$HOME/ci"
+          curl -sSL -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
+          tar -xzf /tmp/ci.tar.gz -C "$HOME/ci"
+          chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
+      - name: fetch
+        env:
+          Q: ${{ github.event.inputs.query }}
+          P: ${{ github.event.inputs.project_url }}
+        run: |
+          mkdir -p out
+          C="$HOME/ci/curl_safari184_ios"
+          enc=$(python3 -c "import urllib.parse,os;print(urllib.parse.quote(os.environ['Q']))")
+          for u in \
+            "https://www.propertyguru.com.my/property-for-rent?freetext=$enc" \
+            "https://www.propertyguru.com.my/new-property-launch?freetext=$enc" \
+            "https://www.propertyguru.com.my/property-for-sale?freetext=$enc" ; do
+            n=$(echo "$u" | md5sum | cut -c1-8)
+            code=$($C -sL --max-time 60 -o "out/$n.html" -w '%{http_code}' "$u")
+            echo "$code $u -> out/$n.html ($(wc -c < out/$n.html) bytes)"
+            grep -o 'href="[^"]*/project/[^"]*"' "out/$n.html" | sort -u | head -20 || true
+          done
+          if [ -n "$P" ]; then
+            code=$($C -sL --max-time 60 -o out/project.html -w '%{http_code}' "$P")
+            echo "$code $P -> out/project.html ($(wc -c < out/project.html) bytes)"
+          fi
+          ls -la out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pg-html
+          path: out
+          retention-days: 3
