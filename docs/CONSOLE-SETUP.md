@@ -14,7 +14,7 @@
    - Policy name：`admins`，Action：`Allow`
    - Include → Selector `Emails` → 填管理员邮箱：`xiabarun001@gmail.com`（第二个邮箱定了再加一行）。
 4. 保存后进入这个应用的 **Overview**，复制 **Application Audience (AUD) Tag**（一串 64 位的字符）。
-5. **Settings → Custom Pages** 里能看到 **Team domain**，形如 `xxx.cloudflareaccess.com`。
+5. Team domain 在 Zero Trust 首页右侧 Account details 里：`snowy-pine-d1ec.cloudflareaccess.com`。
 
 ## 2. GitHub token：让后台能触发工作流
 
@@ -36,7 +36,7 @@ Cloudflare 控制台 → **Workers & Pages → um-housing → Settings → Varia
 
 | 名称 | 值 |
 |---|---|
-| `CF_ACCESS_TEAM_DOMAIN` | `https://xxx.cloudflareaccess.com`（第 1 步第 5 点，前面加 https://） |
+| `CF_ACCESS_TEAM_DOMAIN` | `https://snowy-pine-d1ec.cloudflareaccess.com`（Sasha 账号的 Team domain，Zero Trust 首页右侧能看到） |
 | `CF_ACCESS_AUD` | 第 1 步第 4 点复制的 AUD |
 | `GITHUB_TOKEN` | 第 2 步的 token |
 | `GITHUB_REPO` | `xiabarun001/um-housing` |
