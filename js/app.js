@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090145';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090200';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -1077,7 +1077,7 @@ function renderTierPills() {
   // 首屏右下角的三条：固定信息精确到日，实时信息精确到时
   const h = marketAgeHours(); const stale = h != null && h > MARKET_STALE_HOURS;
   const m = String(state.meta.prices_updated_myt || '').match(/^(\d{4}-\d{2}-\d{2}) (\d{2}):/);
-  const hourText = m ? `${m[1]} ${Number(m[2])} 时` : (state.meta.prices_updated_myt || '未知');
+  const hourText = m ? `${m[1]} ${m[2]}:00` : (state.meta.prices_updated_myt || '未知');
   box.innerHTML = `<button type="button" class="tier tier-profile" data-tier="profile"><i></i>固定信息：更新 ${esc(state.meta.verified_at || '未知')}</button>` +
     `<button type="button" class="tier tier-market${stale ? ' stale' : ''}" data-tier="market"><i></i>实时信息：更新 ${esc(hourText)}${stale ? `（已 ${Math.round(h)} 小时未更新）` : ''}</button>` +
     `<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>观点：估算和主观判断</button>`;

@@ -952,3 +952,9 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .around-list .campus-group li { break-inside: avoid; }
 @media (min-width: 961px) { .around-list { align-content: space-evenly; } }
 @media (max-width: 720px) { .around-list { grid-template-columns: 1fr; } .around-list .campus-group ol { columns: 2; column-gap: 12px; } }
+
+/* 首屏标题：整组换成站酷小薇艺术宋体；"马来亚"同大小、橙色、带一道下划线，和"租房指南"并排 */
+.lead h1.title-art { font-family: "ZCOOL XiaoWei", var(--serif); font-weight: 400; font-size: clamp(40px, 6vw, 74px); letter-spacing: .05em; line-height: 1.1; gap: .22em; align-items: baseline; }
+.title-art .t1 { font-family: inherit; font-size: 1em; color: var(--accent); border: 0; border-radius: 0; padding: 0 0 .06em; letter-spacing: .08em; box-shadow: inset 0 -.09em 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+.title-art .t2 { font-family: inherit; font-size: 1em; font-weight: 400; letter-spacing: .05em; }
+@media (max-width: 720px) { .lead h1.title-art { font-size: clamp(34px, 10.5vw, 44px); gap: .18em; } .title-art .t2 { font-size: 1em; } }
