@@ -6,10 +6,10 @@
 
 ### FR-1 数据块带层级标记
 
-- [x] Given 任意小区卡片、详情弹窗、地图侧栏条目、排行榜条目，When 页面渲染完成，Then 其中每个数据块（年份户数、设施、交通、行情、判断类评价）旁边都有「固定信息」「实时信息」「主观判断」三者之一的标记，没有裸数字。
+- [x] Given 任意小区卡片、详情弹窗、地图侧栏条目、排行榜条目，When 页面渲染完成，Then 其中每个数据块（年份户数、设施、交通、行情、判断类评价）旁边都有「固定信息」「实时信息」「观点」三者之一的标记，没有裸数字。
 - [x] Given 一个「固定信息」标记，When 查看，Then 显示「固定信息 · 核实于 YYYY-MM-DD」，日期来自该记录的 `verified_at`。
 - [x] Given 一个「实时信息」标记，When 查看，Then 显示「实时信息 · 抓取于 YYYY-MM-DD HH:mm」，时间来自 `prices.json` 的 `updated_myt`。
-- [x] Given 一个「主观判断」标记，When 查看，Then 显示「主观判断」，不带日期。
+- [x] Given 一个「观点」标记，When 查看，Then 显示「观点」，不带日期。
 
 ### FR-2 顶部徽章拆三层
 
@@ -27,7 +27,7 @@
 
 ### FR-5 先想清楚里的粗略项
 
-- [x] Given 「先想清楚」的 8 项，When 查看"吃饭购物方便""安静"两项，Then 说明文字末尾带「主观判断」标记。
+- [x] Given 「先想清楚」的 8 项，When 查看"吃饭购物方便""安静"两项，Then 说明文字末尾带「观点」标记。
 
 ### FR-6 标记可追溯
 
@@ -77,7 +77,7 @@
 ### FR-14 到 FR-16 区域 3
 
 - [x] Given 区域 3，When 查看数据，Then 有 6 个小区（编号 20–25）：Avara Seputeh、Tria Seputeh、Vivo、Southbank、Avantas、Millerz Square，档案字段来自 iProperty 项目页并带 provenance。
-- [x] Given 区域 3 的小区，When 查看交通，Then 写明最近的 KTM 站和估算分钟数（标「主观判断」），以及去 UM 靠 Grab 的车程估算。
+- [x] Given 区域 3 的小区，When 查看交通，Then 写明最近的 KTM 站和估算分钟数（标「观点」），以及去 UM 靠 Grab 的车程估算。
 - [x] Given 地图、侧栏、筛选、排行榜、先想清楚、出图页，When 加载，Then 都包含区域 3，用紫色区分，KTM 站用青色圆点。
 
 ## P3 读者纠错

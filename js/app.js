@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081700';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081730';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -821,7 +821,7 @@ function renderRankings() {
 }
 
 /* ---------- 三层标记：档案 / 行情 / 判断（ADR-001） ---------- */
-const TIER_LABEL = { profile: '固定信息', market: '实时信息', judgment: '主观判断' };
+const TIER_LABEL = { profile: '固定信息', market: '实时信息', judgment: '观点' };
 const MARKET_STALE_HOURS = 36;
 function mytToDate(s) {
   // "2026-09-08 14:49" 是马来西亚时间（UTC+8）
@@ -839,7 +839,7 @@ function tierText(kind, c) {
     if (h != null && h > MARKET_STALE_HOURS) return `实时信息 · 已 ${Math.round(h)} 小时未更新`;
     return `实时信息 · 抓取于 ${state.meta.prices_updated_myt || '未知'}`;
   }
-  return '主观判断';
+  return '观点';
 }
 function tierMark(kind, c) {
   const stale = kind === 'market' && (marketAgeHours() ?? 0) > MARKET_STALE_HOURS;
@@ -848,7 +848,7 @@ function tierMark(kind, c) {
 function renderTierPills() {
   const box = $('#tiers-top');
   if (!box) return;
-  box.innerHTML = `${tierMark('profile')}${tierMark('market')}<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>主观判断 · 估算和个人看法</button>`;
+  box.innerHTML = `${tierMark('profile')}${tierMark('market')}<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>观点 · 估算和个人看法</button>`;
 }
 function renderAboutTiers() {
   const box = $('#about-tiers');
@@ -914,7 +914,7 @@ function tierPopHTML(kind, c) {
     }
     return `<h4><i class="tier-dot tier-market"></i>实时信息：只能当参考</h4><p>${esc(t.desc || '')}</p><p>最近一次抓取 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今约 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>已超过 36 小时，可能过期</b>' : ''}。</p>${cross}${links}`;
   }
-  return `<h4><i class="tier-dot tier-judgment"></i>主观判断：我们的看法</h4><p>${esc(t.desc || '')}</p>${c && c.judgment ? `<ul>${c.judgment.daily ? `<li>吃饭购物：${esc(c.judgment.daily.note)}</li>` : ''}${c.judgment.quiet ? `<li>安静程度：${esc(c.judgment.quiet.note)}</li>` : ''}${c.judgment.walk_min_est ? `<li>步行分钟：${esc(c.judgment.walk_min_est.note)}</li>` : ''}</ul>` : ''}`;
+  return `<h4><i class="tier-dot tier-judgment"></i>观点：我们的看法</h4><p>${esc(t.desc || '')}</p>${c && c.judgment ? `<ul>${c.judgment.daily ? `<li>吃饭购物：${esc(c.judgment.daily.note)}</li>` : ''}${c.judgment.quiet ? `<li>安静程度：${esc(c.judgment.quiet.note)}</li>` : ''}${c.judgment.walk_min_est ? `<li>步行分钟：${esc(c.judgment.walk_min_est.note)}</li>` : ''}</ul>` : ''}`;
 }
 function bindTierPop() {
   let pop = $('#tier-pop');
