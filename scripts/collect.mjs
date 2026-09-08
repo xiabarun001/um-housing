@@ -32,7 +32,7 @@ async function fetchPage(url, tries = 3) {
       const [status, finalUrl] = stdout.slice(idx + STATUS_MARK.length).trim().split('|');
       const body = stdout.slice(0, idx);
       if (Number(status) === 200 && body.length > 1000) return { body, finalUrl };
-      if (Number(status) === 404) return { error: '404' };
+      if (Number(status) === 404) return { error: '404', body, finalUrl };
       console.warn(`  ${status} ${url}`);
     } catch (e) { console.warn(`  curl error ${url}: ${e.message.slice(0, 120)}`); }
     await sleep(3000 * (i + 1));
@@ -102,6 +102,73 @@ function parseProject(html, finalUrl) {
 }
 const slugify = (s) => String(s).toLowerCase().replace(/&/g, ' ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
+/* ---------- 第二来源：StarProperty 楼盘页（星报集团，和 iProperty 不同库） ---------- */
+// 页面是服务器直出的文字块：Property Details Name: … Developer: … Completion Date: Aug 2016 (estimate) Tenure: Leasehold No. of Blocks: 5 No. of Storey …: 33 No. of Units …: 657 … Built-up: 617 - 802 sf Facilities … Analysis
+function parseStarProperty(html) {
+  const text = html.replace(/<script[\s\S]*?<\/script>/g, ' ').replace(/<style[\s\S]*?<\/style>/g, ' ').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+  const i = text.indexOf('Property Details');
+  if (i < 0) {
+    // 新版楼盘页没有"Property Details"文字块，只有标题行里的地契（"Leasehold L/H"），其余字段拿不到
+    const t = text.match(/\b(Leasehold|Freehold)\s+[LF]\/H\b/i);
+    if (!t) return null;
+    return { layout: 'new', developer: null, completed: null, completion_text: null, tenure_code: t[1][0].toUpperCase(), blocks: null, storeys: null, units: null, builtup: null, facilities_en: [] };
+  }
+  const block = text.slice(i, i + 3000);
+  const grab = (re) => { const m = block.match(re); return m ? m[1].trim() : null; };
+  // 字段后面可能直接跟值（"No. of Units: 708"），也可能是分项（"No. of Units Office Suite: 46 Service Suite: 380"）
+  const STOP = 'Type:|Tenure:|No\\. of |Land Area|Built-up|Facilities|Maintenance|Launch Price|Subsale|Rental:|Market Trends|Analysis';
+  const seg = (label) => grab(new RegExp(label + '\\s*:?\\s*(.+?)\\s+(?:' + STOP + ')'));
+  const pairs = (s) => [...String(s || '').matchAll(/([A-Za-z &/()'-]+?):\s*([^:]+?)(?=\s+[A-Za-z &/()'-]+?:|$)/g)].map((m) => ({ k: m[1].trim(), v: m[2].trim() }));
+  const isResi = (k) => /apart|resid|condo|suite|soho|home|tower|block/i.test(k) && !/office|shop|retail/i.test(k);
+  const developer = grab(/Developer:\s*(.+?)\s+(?:Completion|Type:|Tenure:)/);
+  const compSeg = seg('Completion Date');
+  let completed = null, completionText = compSeg;
+  if (compSeg) { const ps = pairs(compSeg); const pick = ps.find((p) => isResi(p.k)) || ps[0]; const src = pick ? pick.v : compSeg; const ys = [...src.matchAll(/(?:19|20)\d{2}/g)].map((m) => Number(m[0])); completed = ys.length ? Math.max(...ys) : null; }
+  const tenureText = grab(/Tenure:\s*(Leasehold|Freehold)/i);
+  const blocks = grab(/No\. of Blocks?:\s*(\d+)/);
+  const storSeg = seg('No\\. of Storeys?');
+  let storeys = null;
+  if (storSeg) { const ps = pairs(storSeg); const resi = ps.filter((p) => isResi(p.k)).map((p) => Number((p.v.match(/\d+/) || [])[0])).filter((n) => n >= 3 && n <= 90); const all = [...storSeg.matchAll(/\b(\d{1,2})\b/g)].map((m) => Number(m[1])).filter((n) => n >= 3 && n <= 90); storeys = resi.length ? Math.max(...resi) : all.length ? Math.max(...all) : null; }
+  const unitSeg = seg('No\\. of Units');
+  let units = null;
+  if (unitSeg) { const ps = pairs(unitSeg); const resi = ps.filter((p) => isResi(p.k)).map((p) => Number((p.v.match(/[\d,]+/) || ['0'])[0].replace(/,/g, ''))).filter(Boolean); const plain = unitSeg.match(/^([\d,]+)/); units = resi.length ? resi.reduce((a, b) => a + b, 0) : plain ? Number(plain[1].replace(/,/g, '')) : (ps[0] ? Number((ps[0].v.match(/[\d,]+/) || ['0'])[0].replace(/,/g, '')) || null : null); }
+  const builtup = grab(/Built-up:?\s*((?:from\s*)?[\d,]+\s*(?:-|–)?\s*[\d,]*\s*sf)/);
+  const facM = block.match(/Facilities\s+(.+?)\s+(?:Analysis|Property Details|Market Trends|Latest transaction|Layouts|Nearby|$)/);
+  const facilitiesEn = facM ? facM[1].split(/\s{2,}|(?<=[a-z])\s(?=[A-Z0-9])/).map((x) => x.trim()).filter((x) => x && x.length < 40) : [];
+  return { layout: 'classic', developer, completed, completion_text: completionText, tenure_code: tenureText ? tenureText[0].toUpperCase() : null, blocks: blocks ? Number(blocks) : null, storeys, units, builtup, facilities_en: facilitiesEn };
+}
+// 把第二来源和 iProperty 的采集值逐字段比：一致 / 冲突 / 单源
+function assessWith(second, p, current) {
+  const out = {};
+  const put = (k, a, b, same) => { out[k] = { iproperty: a ?? null, starproperty: b ?? null, status: a != null && b != null ? (same ? 'agree' : 'conflict') : b != null ? 'second-only' : a != null ? 'single' : 'none' }; };
+  if (!second) return out;
+  put('completed', p.completed, second.completed, p.completed === second.completed || (second.completion_text && /estimate/i.test(second.completion_text) && Math.abs((p.completed || 0) - (second.completed || 0)) <= 1));
+  put('units', p.units, second.units, p.units && second.units && Math.abs(p.units - second.units) / Math.max(p.units, second.units) <= 0.05);
+  put('tenure', p.tenure_code, second.tenure_code, p.tenure_code === second.tenure_code);
+  const devNorm = (s) => String(s || '').toLowerCase().replace(/sdn\.? ?bhd\.?|berhad|group|development|\(.*?\)/g, '').replace(/[^a-z0-9]/g, '');
+  // 括号里常写母公司（"Suez Domain (a member of Suez Capital)"），去括号和不去括号两种形式只要有一种对得上就算一致
+  const devFull = (s) => String(s || '').toLowerCase().replace(/sdn\.? ?bhd\.?|berhad|group|development/g, '').replace(/[^a-z0-9]/g, '');
+  const devSame = (x, y) => [devNorm, devFull].some((f) => [devNorm, devFull].some((g) => { const p = f(x), q = g(y); if (!p || !q) return false; if (p === q) return true; return p.length >= 4 && q.length >= 4 && (p.includes(q.slice(0, 6)) || q.includes(p.slice(0, 6))); }));
+  const DEV_ALIAS = [['amdb', 'amcorp', 'AMDB 是 Amcorp Properties 的旧名（2011 年改名）'], ['amonametro', 'mkh', 'Amona Metro Development 是 MKH Berhad 的子公司']];
+  const alias = DEV_ALIAS.find(([a, b]) => { const x = devFull(p.developer), y = devFull(second.developer); return (x.includes(a) && y.includes(b)) || (x.includes(b) && y.includes(a)); });
+  put('developer', p.developer, second.developer, devSame(p.developer, second.developer) || !!alias);
+  if (alias && out.developer.status === 'agree') out.developer.note = alias[2];
+  put('floors', p.floors, second.storeys, p.floors && second.storeys && Math.abs(p.floors - second.storeys) <= 2);
+  const poolA = p.flags?.pool, gymA = p.flags?.gym, poolB = second.facilities_en.some((f) => /pool/i.test(f)), gymB = second.facilities_en.some((f) => /gym/i.test(f));
+  put('pool_gym', `${poolA ? '泳池' : '无泳池'}/${gymA ? '健身房' : '无健身房'}`, second.facilities_en.length ? `${poolB ? '泳池' : '无泳池'}/${gymB ? '健身房' : '无健身房'}` : null, poolA === poolB && gymA === gymB);
+  return out;
+}
+
+// 把第二来源的逐字段结论写回 staging.assessment（主循环和 --report-only 都用）
+const SECOND_LABEL = { agree: '双源一致（iProperty、StarProperty）', conflict: '冲突（iProperty 与 StarProperty 不同）', single: '单源（iProperty）', 'second-only': '只有 StarProperty 有', none: '两边都无' };
+function applySecond(staging, p, current) {
+  const sp = staging.second?.starproperty;
+  if (!sp || sp.error) { delete staging.second_assessment; return; }
+  staging.second_assessment = assessWith(sp, p, current);
+  for (const [k, v] of Object.entries(staging.second_assessment)) if (k in staging.assessment) staging.assessment[k] = SECOND_LABEL[v.status] || v.status;
+  if (staging.second_assessment.pool_gym) staging.assessment.flags = SECOND_LABEL[staging.second_assessment.pool_gym.status] || staging.assessment.flags;
+}
+
 /* ---------- 比对 ---------- */
 const distM = (a, b) => { const R = 6371000, toR = (x) => x * Math.PI / 180; const dLat = toR(b[0] - a[0]), dLon = toR(b[1] - a[1]); const h = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a[0])) * Math.cos(toR(b[0])) * Math.sin(dLon / 2) ** 2; return 2 * R * Math.asin(Math.sqrt(h)); };
 function floorsText(p) {
@@ -154,6 +221,7 @@ if (opts['report-only']) {
     const cur = data.condos.find((c) => c.id === s.id) || null;
     s.diff = compare(cur, s.proposed); s.is_new = !cur;
     s.assessment = Object.fromEntries(Object.keys(s.diff).map((k) => [k, '单源（iProperty）']));
+    applySecond(s, s.proposed, cur);
     writeFileSync(join(STAGING, f), JSON.stringify(s, null, 2) + '\n');
   }
 }
@@ -172,11 +240,25 @@ for (const job of jobs) {
       staging.diff = compare(job.current, p);
       staging.assessment = Object.fromEntries(Object.keys(staging.diff).map((k) => [k, '单源（iProperty）']));
       staging.is_new = !job.current;
+      // 第二来源：StarProperty 楼盘页（有链接才抓）
+      const spUrl = opts.sp || job.current?.links?.starproperty;
+      if (spUrl) {
+        await sleep(DELAY);
+        const r2 = await fetchPage(spUrl);
+        // StarProperty 新版楼盘页会以 404 状态返回完整页面（软 404），页面够大就照样解析
+        const soft404 = r2.error === '404' && r2.body && r2.body.length > 50000;
+        const sp = (r2.error && !soft404) ? null : parseStarProperty(r2.body);
+        staging.second = { starproperty: sp ? { ...sp, url: r2.finalUrl || spUrl, fetched_at: now(), ...(soft404 ? { http_status: 404 } : {}) } : { url: spUrl, error: r2.error || 'parse failed' } };
+        applySecond(staging, p, job.current);
+      }
       const changed = Object.entries(staging.diff).filter(([, v]) => v.status === 'changed' || v.status === 'new').map(([k]) => k);
       console.log(`${p.name} · ${p.completed ?? '?'} 年 · ${p.units ?? '?'} 户 · 设施 ${p.facilities.length} · ${job.current ? (changed.length ? '有差异：' + changed.join(',') : '无差异') : '新小区'}`);
     }
   }
-  writeFileSync(join(STAGING, `${staging.id || slugify(job.url)}.json`), JSON.stringify(staging, null, 2) + '\n');
+  // 保留上一次的交叉验证结果（crosscheck.mjs 单独写入）
+  const outPath = join(STAGING, `${staging.id || slugify(job.url)}.json`);
+  if (existsSync(outPath)) { try { const prev = JSON.parse(readFileSync(outPath, 'utf8')); if (prev.crosscheck) staging.crosscheck = prev.crosscheck; } catch { /* ignore */ } }
+  writeFileSync(outPath, JSON.stringify(staging, null, 2) + '\n');
   await sleep(DELAY);
 }
 
@@ -196,6 +278,15 @@ for (const s of rows) {
     md += `| ${k} | ${fmtV(v.current)} | ${fmtV(v.proposed)} | ${s.assessment[k]} | ${v.status} |\n`;
   }
   const changed = Object.entries(s.diff).filter(([, v]) => v.status === 'changed').map(([k]) => k);
+  if (s.second?.starproperty) {
+    const sp = s.second.starproperty;
+    if (sp.error) md += `\n第二来源 StarProperty：抓取失败（${sp.error}）\n`;
+    else {
+      md += `\n第二来源 StarProperty（${sp.url}）：开发商 ${sp.developer ?? '—'} · 竣工 ${sp.completion_text ?? '—'} · 地契 ${sp.tenure_code ?? '—'} · 栋数 ${sp.blocks ?? '—'} · 最高层数 ${sp.storeys ?? '—'} · 户数 ${sp.units ?? '—'} · 面积 ${sp.builtup ?? '—'} · 设施 ${sp.facilities_en.length} 项\n\n`;
+      md += `| 字段 | iProperty | StarProperty | 结论 |\n|---|---|---|---|\n`;
+      for (const [k, v] of Object.entries(s.second_assessment || {})) md += `| ${k} | ${fmtV(v.iproperty)} | ${fmtV(v.starproperty)} | ${v.status} |\n`;
+    }
+  }
   if (s.crosscheck) {
     const cc = s.crosscheck;
     md += `\n交叉验证（${(cc.at || '').slice(0, 16).replace('T', ' ')} UTC）：\n\n`;

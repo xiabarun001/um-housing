@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/south-view-6431",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:05.454Z",
+  "fetched_at": "2026-09-08T12:40:26.532Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -205,66 +205,76 @@
   },
   "assessment": {
     "name": "单源（iProperty）",
-    "completed": "单源（iProperty）",
-    "units": "单源（iProperty）",
-    "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "completed": "双源一致（iProperty、StarProperty）",
+    "units": "冲突（iProperty 与 StarProperty 不同）",
+    "floors": "双源一致（iProperty、StarProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
-    "developer": "单源（iProperty）",
+    "developer": "双源一致（iProperty、StarProperty）",
     "address": "单源（iProperty）",
     "geo": "单源（iProperty）",
     "facilities": "单源（iProperty）",
-    "flags": "单源（iProperty）"
+    "flags": "双源一致（iProperty、StarProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:47:08.695Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1137603,
-        101.6646561
+  "second": {
+    "starproperty": {
+      "layout": "classic",
+      "developer": "UOA Group",
+      "completed": 2017,
+      "completion_text": "2017 (estimate)",
+      "tenure_code": "F",
+      "blocks": 2,
+      "storeys": 46,
+      "units": 1400,
+      "builtup": "621 – 1,121 sf",
+      "facilities_en": [
+        "Restrooms / changing rooms",
+        "Children’s playground",
+        "Gymnasium",
+        "Meeting room",
+        "Wading pool",
+        "Barbecue area",
+        "Swimming pool",
+        "Outdoor cafe",
+        "Catering / preparation area",
+        "Childcare centre",
+        "Surau"
       ],
-      "distance_m": 58,
-      "display": "South View Serviced Apartments, No. 2, Pantai Dalam, Kuala Lumpur, 59200, Malaysia",
-      "osm": "way/662363649"
+      "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
+      "fetched_at": "2026-09-08T12:40:30.310Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2017,
+      "starproperty": 2017,
+      "status": "agree"
     },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Universiti LRT（KJ19）",
-        "walk_m": 450,
-        "walk_min": 5,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Universiti LRT（KJ19）",
-          "straight_m": 363,
-          "route_m": 552,
-          "route_min": 7
-        },
-        {
-          "station": "Kerinchi LRT（KJ18）",
-          "straight_m": 490,
-          "route_m": 777,
-          "route_min": 11
-        }
-      ],
-      "to_universiti": {
-        "route_m": 552,
-        "route_min": 7
-      },
-      "proposed": {
-        "nearest": "Universiti LRT（KJ19）",
-        "walk_m": 552,
-        "walk_min": 7
-      }
+    "units": {
+      "iproperty": 1204,
+      "starproperty": 1400,
+      "status": "conflict"
     },
-    "notes": [
-      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
-    ]
+    "tenure": {
+      "iproperty": "F",
+      "starproperty": "F",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "UOA Group",
+      "starproperty": "UOA Group",
+      "status": "agree"
+    },
+    "floors": {
+      "iproperty": 47,
+      "starproperty": 46,
+      "status": "agree"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": "泳池/健身房",
+      "status": "agree"
+    }
   }
 }

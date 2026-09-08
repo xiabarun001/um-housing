@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/pacific-63-8858",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:21:31.599Z",
+  "fetched_at": "2026-09-08T12:39:23.163Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -185,65 +185,74 @@
   },
   "assessment": {
     "name": "单源（iProperty）",
-    "completed": "单源（iProperty）",
-    "units": "单源（iProperty）",
-    "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "completed": "双源一致（iProperty、StarProperty）",
+    "units": "双源一致（iProperty、StarProperty）",
+    "floors": "双源一致（iProperty、StarProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
-    "developer": "单源（iProperty）",
+    "developer": "双源一致（iProperty、StarProperty）",
     "address": "单源（iProperty）",
     "geo": "单源（iProperty）",
     "facilities": "单源（iProperty）",
-    "flags": "单源（iProperty）"
+    "flags": "冲突（iProperty 与 StarProperty 不同）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:50:29.185Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1158852,
-        101.6350121
+  "second": {
+    "starproperty": {
+      "layout": "classic",
+      "developer": "Island Circle Development",
+      "completed": 2014,
+      "completion_text": "2014 (estimate)",
+      "tenure_code": "L",
+      "blocks": 1,
+      "storeys": 21,
+      "units": 260,
+      "builtup": "480 - 1,181 sf",
+      "facilities_en": [
+        "Covered parking",
+        "Swimming pool",
+        "Children pool",
+        "Jacuzzi",
+        "Steam room",
+        "Multi-function room",
+        "Meeting room",
+        "CCTV Intercom",
+        "Access card system"
       ],
-      "distance_m": 25,
-      "display": "Pacific 63, Section 13, Petaling Jaya, Petaling, Selangor, Malaysia",
-      "osm": "relation/17752560",
-      "query": "Pacific 63 Petaling Jaya"
+      "url": "https://www.starproperty.my/insight/4874/pacific-63",
+      "fetched_at": "2026-09-08T12:39:26.889Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2014,
+      "starproperty": 2014,
+      "status": "agree"
     },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "无步行可达轨道站",
-        "walk_m": null,
-        "walk_min": null,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Asia Jaya LRT（KJ21）",
-          "straight_m": 1342,
-          "route_m": 2139,
-          "route_min": 28
-        },
-        {
-          "station": "Phileo Damansara MRT（KG12）",
-          "straight_m": 1709,
-          "route_m": 2360,
-          "route_min": 30
-        }
-      ],
-      "to_universiti": {
-        "route_m": 4132,
-        "route_min": 53
-      },
-      "proposed": {
-        "nearest": "Asia Jaya LRT（KJ21）",
-        "walk_m": 2139,
-        "walk_min": 28
-      }
+    "units": {
+      "iproperty": 260,
+      "starproperty": 260,
+      "status": "agree"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "L",
+      "starproperty": "L",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "Island Circle Development (M) Sdn. Bhd.",
+      "starproperty": "Island Circle Development",
+      "status": "agree"
+    },
+    "floors": {
+      "iproperty": 21,
+      "starproperty": 21,
+      "status": "agree"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": "泳池/无健身房",
+      "status": "conflict"
+    }
   }
 }

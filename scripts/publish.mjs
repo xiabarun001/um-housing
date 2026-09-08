@@ -50,6 +50,18 @@ const accept = opts.accept === 'all' ? changed : opts.accept ? String(opts.accep
 const bad = accept.filter((k) => !(k in diff) && k !== 'walk');
 if (bad.length) { console.error(`staging 里没有这些字段：${bad.join(',')}`); process.exit(1); }
 
+// 第二来源（StarProperty）的逐字段结论记进 provenance.<字段>.second（不改值，冲突留给人判断）
+if (s.second_assessment) {
+  const map = { completed: 'completed', units: 'units', tenure: 'tenure', developer: 'developer', floors: 'floors', pool_gym: 'flags' };
+  for (const [k, v] of Object.entries(s.second_assessment)) {
+    const field = map[k]; if (!field) continue;
+    const prev = c.provenance[field]?.second;
+    const fresh = { with: 'StarProperty', status: v.status, value: v.starproperty, url: s.second?.starproperty?.url || null, at: today, ...(v.note ? { note: v.note } : {}) };
+    // 人工仲裁过、且机器结论和来源值都没变的，保留仲裁（只更新日期）；变了就回到机器结论，重新等人看
+    const keep = prev?.arbitrated && (prev.machine_status || prev.status) === v.status && String(prev.value) === String(v.starproperty);
+    c.provenance[field] = { ...(c.provenance[field] || {}), second: keep ? { ...prev, at: today } : fresh };
+  }
+}
 // 交叉验证结果先记进 provenance（不改值），walk 可用 --accept=walk 采纳路线值
 const cc = s.crosscheck;
 if (cc?.geo) { c.provenance.lat = { ...(c.provenance.lat || {}), check: { with: cc.geo.with, status: cc.geo.status, distance_m: cc.geo.distance_m ?? null, at: today } }; c.provenance.lng = { ...(c.provenance.lng || {}), check: { with: cc.geo.with, status: cc.geo.status, distance_m: cc.geo.distance_m ?? null, at: today } }; }

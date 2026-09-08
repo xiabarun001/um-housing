@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/inwood-residences-6806",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:25.737Z",
+  "fetched_at": "2026-09-08T12:40:55.243Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -223,53 +223,5 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:47:46.435Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.101748,
-        101.6638923
-      ],
-      "distance_m": 28,
-      "display": "Inwood Residences @ Pantai Sentral Park, Pantai Dalam, Kuala Lumpur, Malaysia",
-      "osm": "way/788172028"
-    },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "无步行可达轨道站",
-        "walk_m": null,
-        "walk_min": null,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Pantai Dalam KTM（KD03）",
-          "straight_m": 966,
-          "route_m": 1771,
-          "route_min": 24
-        },
-        {
-          "station": "Universiti LRT（KJ19）",
-          "straight_m": 1458,
-          "route_m": 2712,
-          "route_min": 37
-        }
-      ],
-      "to_universiti": {
-        "route_m": 2712,
-        "route_min": 37
-      },
-      "proposed": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_m": 1771,
-        "walk_min": 24
-      }
-    },
-    "notes": []
-  }
+  "is_new": false
 }

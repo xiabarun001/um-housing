@@ -1,11 +1,11 @@
 {
   "id": "avantas",
   "source": {
-    "url": "https://www.iproperty.com.my/building/avantas-residences-pty_64549/",
+    "url": "https://www.iproperty.com.my/condo/avantas-residences-6254",
     "final_url": "https://www.iproperty.com.my/condo/avantas-residences-6254",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:50.735Z",
+  "fetched_at": "2026-09-08T12:41:38.625Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -201,64 +201,86 @@
   },
   "assessment": {
     "name": "单源（iProperty）",
-    "completed": "单源（iProperty）",
-    "units": "单源（iProperty）",
-    "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "completed": "双源一致（iProperty、StarProperty）",
+    "units": "双源一致（iProperty、StarProperty）",
+    "floors": "双源一致（iProperty、StarProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
-    "developer": "单源（iProperty）",
+    "developer": "双源一致（iProperty、StarProperty）",
     "address": "单源（iProperty）",
     "geo": "单源（iProperty）",
     "facilities": "单源（iProperty）",
-    "flags": "单源（iProperty）"
+    "flags": "双源一致（iProperty、StarProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:48:30.624Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1000567,
-        101.6768246
+  "second": {
+    "starproperty": {
+      "layout": "classic",
+      "developer": "CPI Development",
+      "completed": 2016,
+      "completion_text": "Mar 2016 (estimate)",
+      "tenure_code": "F",
+      "blocks": null,
+      "storeys": 28,
+      "units": 198,
+      "builtup": null,
+      "facilities_en": [
+        "Swimming pool",
+        "Shallow pool",
+        "Outdoor yoga / aerobics",
+        "Indoor gymnasium",
+        "Management office",
+        "Launderette",
+        "Kindergarten",
+        "Changing room / shower",
+        "Store",
+        "Open function area",
+        "Mini kiosk",
+        "Children's playground",
+        "Lift lobby",
+        "Service lift",
+        "Pool deck",
+        "Reflective pond",
+        "Timber deck",
+        "Cabana",
+        "Lounge pool",
+        "Jacuzzi seat",
+        "BBQ facilities"
       ],
-      "distance_m": 33,
-      "display": "Avantas Residences, 162, Pantai Dalam, Kuala Lumpur, Malaysia",
-      "osm": "way/1396188854"
+      "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
+      "fetched_at": "2026-09-08T12:41:42.454Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2016,
+      "starproperty": 2016,
+      "status": "agree"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_m": 921,
-        "walk_min": 12,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Pantai Dalam KTM（KD03）",
-          "straight_m": 921,
-          "route_m": 1442,
-          "route_min": 18
-        },
-        {
-          "station": "Seputeh KTM（KB02）",
-          "straight_m": 1567,
-          "route_m": 2075,
-          "route_min": 26
-        }
-      ],
-      "to_universiti": {
-        "route_m": 3673,
-        "route_min": 47
-      },
-      "proposed": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_m": 1442,
-        "walk_min": 18
-      }
+    "units": {
+      "iproperty": 198,
+      "starproperty": 198,
+      "status": "agree"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "F",
+      "starproperty": "F",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "CPI Development",
+      "starproperty": "CPI Development",
+      "status": "agree"
+    },
+    "floors": {
+      "iproperty": 28,
+      "starproperty": 28,
+      "status": "agree"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": "泳池/健身房",
+      "status": "agree"
+    }
   }
 }

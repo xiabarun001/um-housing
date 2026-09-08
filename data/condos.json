@@ -77,7 +77,7 @@
     "tiers": {
       "profile": {
         "label": "固定信息",
-        "desc": "不会变或很少变的事实：开发商、地址、坐标、建成年份、户数、楼层、地契、类型、设施、最近轨道站和实测步行分钟。来自开发商官网、iProperty / PropertyGuru 项目页和实地，人工审核后发布。"
+        "desc": "不会变或很少变的事实：开发商、地址、坐标、建成年份、户数、楼层、地契、类型、设施、最近轨道站和步行分钟。主来源是 iProperty 项目页，再用 StarProperty（另一家）逐字段比对、用 OpenStreetMap 校核坐标和步行路线，人工审核后发布；两个来源不一致的会写明原因。"
       },
       "market": {
         "label": "实时信息",
@@ -362,7 +362,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-atwater-service-residences-9936",
         "iproperty_building": "https://www.iproperty.com.my/building/atwater-pty_64499/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Atwater+Petaling+Jaya+Seksyen+13"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Atwater+Petaling+Jaya+Seksyen+13",
+        "starproperty": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860"
       },
       "sources": [
         {
@@ -396,22 +397,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
@@ -460,12 +489,28 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -542,7 +587,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-ryan-miho-9302",
         "iproperty_building": "https://www.iproperty.com.my/building/ryan-miho-pty_62924/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Ryan+%26+Miho+Seksyen+13+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Ryan+%26+Miho+Seksyen+13+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884"
       },
       "sources": [
         {
@@ -576,22 +622,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
@@ -640,7 +714,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
@@ -651,6 +732,15 @@
           "source": "https://www.iproperty.com.my/condo/ryan-miho-9302",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -722,7 +812,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pacific-star-8261",
         "iproperty_building": "https://www.iproperty.com.my/building/pacific-star-pty_63707/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Pacific+Star+Jalan+13/6+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Pacific+Star+Jalan+13/6+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/insight/4872/pacific-star"
       },
       "sources": [
         {
@@ -756,22 +847,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2016,
+            "url": "https://www.starproperty.my/insight/4872/pacific-star",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 657,
+            "url": "https://www.starproperty.my/insight/4872/pacific-star",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 33,
+            "url": "https://www.starproperty.my/insight/4872/pacific-star",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/insight/4872/pacific-star",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
@@ -820,7 +939,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "Island Circle Development",
+            "url": "https://www.starproperty.my/insight/4872/pacific-star",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
@@ -830,7 +956,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/insight/4872/pacific-star",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -898,7 +1031,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pacific-63-8858",
         "iproperty_building": "https://www.iproperty.com.my/building/pacific-63-pty_65022/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Pacific+63+Jalan+13/6+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Pacific+63+Jalan+13/6+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/insight/4874/pacific-63"
       },
       "sources": [
         {
@@ -932,22 +1066,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2014,
+            "url": "https://www.starproperty.my/insight/4874/pacific-63",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 260,
+            "url": "https://www.starproperty.my/insight/4874/pacific-63",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 21,
+            "url": "https://www.starproperty.my/insight/4874/pacific-63",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/insight/4874/pacific-63",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
@@ -996,7 +1158,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "Island Circle Development",
+            "url": "https://www.starproperty.my/insight/4874/pacific-63",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
@@ -1007,6 +1176,21 @@
           "source": "https://www.iproperty.com.my/condo/pacific-63-8858",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "conflict",
+            "value": "泳池/无健身房",
+            "url": "https://www.starproperty.my/insight/4874/pacific-63",
+            "at": "2026-09-08",
+            "machine_status": "conflict",
+            "note": "StarProperty 的设施清单没列健身房，iProperty 列了；待实地确认",
+            "arbitrated": {
+              "who": "Claude",
+              "at": "2026-09-08"
+            }
+          }
         }
       }
     },
@@ -1081,7 +1265,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pj-midtown-6911",
         "iproperty_building": "https://www.iproperty.com.my/building/pj-midtown-pty_64968/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=PJ+Midtown+Jalan+Kemajuan+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=PJ+Midtown+Jalan+Kemajuan+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/insight/8811/pj-midtown"
       },
       "sources": [
         {
@@ -1111,22 +1296,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8811/pj-midtown",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8811/pj-midtown",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8811/pj-midtown",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/insight/8811/pj-midtown",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
@@ -1175,7 +1388,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8811/pj-midtown",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
@@ -1190,7 +1410,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/pj-midtown-6911",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8811/pj-midtown",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -1265,7 +1492,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-centrestage-designer-suite-5546",
         "iproperty_building": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Centrestage+Jalan+13/1+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Centrestage+Jalan+13/1+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645"
       },
       "sources": [
         {
@@ -1295,22 +1523,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2014,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "second": {
+            "with": "StarProperty",
+            "status": "second-only",
+            "value": 352,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "second": {
+            "with": "StarProperty",
+            "status": "second-only",
+            "value": 14,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/building/centrestage-designer-suite-pty_64319/",
@@ -1359,7 +1615,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "Cherish Springs",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
@@ -1370,6 +1633,15 @@
           "source": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -1436,7 +1708,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pj8-1310",
         "iproperty_building": "https://www.iproperty.com.my/building/pj-8-pty_64056/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=PJ8+Service+Suites+Jalan+Barat+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=PJ8+Service+Suites+Jalan+Barat+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/insight/741/pj8"
       },
       "sources": [
         {
@@ -1466,22 +1739,56 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2008,
+            "url": "https://www.starproperty.my/insight/741/pj8",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "conflict",
+            "value": 38,
+            "url": "https://www.starproperty.my/insight/741/pj8",
+            "at": "2026-09-08",
+            "machine_status": "conflict",
+            "note": "StarProperty 页面把层数 38 误填进户数栏（Service Suite: 38），属来源笔误；以 iProperty 380 户为准",
+            "arbitrated": {
+              "who": "Claude",
+              "at": "2026-09-08"
+            }
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 38,
+            "url": "https://www.starproperty.my/insight/741/pj8",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/insight/741/pj8",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
@@ -1530,7 +1837,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "IJM Land Berhad",
+            "url": "https://www.starproperty.my/insight/741/pj8",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
@@ -1541,6 +1855,15 @@
           "source": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/insight/741/pj8",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -1614,7 +1937,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-tiara-damansara-1319",
         "iproperty_building": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Tiara+Damansara+Jalan+17/1+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Tiara+Damansara+Jalan+17/1+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/insight/1432/tiara-damansara"
       },
       "sources": [
         {
@@ -1648,17 +1972,38 @@
         "units": {
           "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 351,
+            "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "F",
+            "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
@@ -1707,7 +2052,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/building/tiara-damansara-pty_64399/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "second": {
+            "with": "StarProperty",
+            "status": "none",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
@@ -1718,6 +2070,24 @@
           "source": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "completed": {
+          "second": {
+            "with": "StarProperty",
+            "status": "none",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
+            "at": "2026-09-08"
+          }
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -1788,7 +2158,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avenue-d-vogue-5543",
         "iproperty_building": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/selangor/petaling-jaya",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Avenue+D%27Vogue+Jalan+13/2+Petaling+Jaya"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Avenue+D%27Vogue+Jalan+13/2+Petaling+Jaya",
+        "starproperty": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168"
       },
       "sources": [
         {
@@ -1822,22 +2193,56 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 360,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/building/avenue-d-vogue-pty_60522/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "second": {
+            "with": "StarProperty",
+            "status": "conflict",
+            "value": 16,
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
+            "at": "2026-09-08",
+            "machine_status": "conflict",
+            "note": "iProperty 写 10 层，StarProperty 写 16 层，待实地确认",
+            "arbitrated": {
+              "who": "Claude",
+              "at": "2026-09-08"
+            }
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
@@ -1886,7 +2291,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "Inspiration Group Malaysia",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
@@ -1901,7 +2313,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -1975,7 +2394,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-kl-gateway-residences-8093",
         "iproperty_building": "https://www.iproperty.com.my/building/kl-gateway-residences-pty_64484/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
-        "maps": "https://www.google.com/maps/search/?api=1&query=KL+Gateway+Residences+Jalan+Kerinchi+Kiri"
+        "maps": "https://www.google.com/maps/search/?api=1&query=KL+Gateway+Residences+Jalan+Kerinchi+Kiri",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640"
       },
       "sources": [
         {
@@ -2009,22 +2429,62 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2016,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 357,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
+            "at": "2026-09-08",
+            "machine_status": "conflict",
+            "note": "StarProperty 按单栋计 357 户，两栋合计 714，与 iProperty 一致",
+            "arbitrated": {
+              "who": "Claude",
+              "at": "2026-09-08"
+            }
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "conflict",
+            "value": 33,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
+            "at": "2026-09-08",
+            "machine_status": "conflict",
+            "note": "StarProperty 写 33 层，iProperty 写 38 层，两栋高度可能不同；暂以 iProperty 为准，待实地确认",
+            "arbitrated": {
+              "who": "Claude",
+              "at": "2026-09-08"
+            }
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
@@ -2073,7 +2533,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "Suez Domain (a member of Suez capital)",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
@@ -2084,6 +2551,15 @@
           "source": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -2159,7 +2635,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-pantai-panorama-condominiums-105",
         "iproperty_building": "https://www.iproperty.com.my/building/pantai-panorama-condominiums-pty_64067/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Pantai+Panorama+Condominiums+Jalan+112H"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Pantai+Panorama+Condominiums+Jalan+112H",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383"
       },
       "sources": [
         {
@@ -2193,22 +2670,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 1996,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 708,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 18,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "F",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
@@ -2257,7 +2762,15 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "AMDB",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
+            "at": "2026-09-08",
+            "note": "AMDB 是 Amcorp Properties 的旧名（2011 年改名）"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
@@ -2272,7 +2785,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -2346,7 +2866,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-south-view-6431",
         "iproperty_building": "https://www.iproperty.com.my/building/south-view-pty_62814/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
-        "maps": "https://www.google.com/maps/search/?api=1&query=South+View+Serviced+Apartments+Bangsar+South"
+        "maps": "https://www.google.com/maps/search/?api=1&query=South+View+Serviced+Apartments+Bangsar+South",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693"
       },
       "sources": [
         {
@@ -2384,22 +2905,56 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/south-view-6431",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2017,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/south-view-6431",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "conflict",
+            "value": 1400,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
+            "at": "2026-09-08",
+            "machine_status": "conflict",
+            "note": "StarProperty 写约 1,400 户，iProperty 写 1,204 户，相差 16%；以 iProperty 为准",
+            "arbitrated": {
+              "who": "Claude",
+              "at": "2026-09-08"
+            }
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/building/south-view-pty_62814/",
           "at": "2026-09-06",
-          "method": "manual"
+          "method": "manual",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 46,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/south-view-6431",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "F",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/south-view-6431",
@@ -2448,12 +3003,28 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/south-view-6431",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "UOA Group",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/south-view-6431",
           "at": "2026-09-08",
           "method": "auto"
+        },
+        "flags": {
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -3059,7 +3630,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-saville-the-park-4685",
         "iproperty_building": "https://www.iproperty.com.my/building/saville-the-park-pty_66099/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Saville+@+The+Park+Jalan+Pantai+Murni+8"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Saville+@+The+Park+Jalan+Pantai+Murni+8",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288"
       },
       "sources": [
         {
@@ -3093,22 +3665,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2015,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 408,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 27,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "F",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
@@ -3157,7 +3757,15 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "Amona Metro Development",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288",
+            "at": "2026-09-08",
+            "note": "Amona Metro Development 是 MKH Berhad 的子公司"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
@@ -3172,7 +3780,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/saville-the-park-4685",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -3410,7 +4025,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-secoya-residence-7619",
         "iproperty_building": "https://www.iproperty.com.my/building/secoya-residence-pty_65100/",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/pantai/bangsar-south",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Secoya+Residences+Pantai+Sentral+Park"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Secoya+Residences+Pantai+Sentral+Park",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632"
       },
       "sources": [
         {
@@ -3440,22 +4056,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
@@ -3504,7 +4148,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
@@ -3514,7 +4165,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/secoya-residence-7619",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
+            "at": "2026-09-08"
+          }
         }
       }
     },
@@ -3588,7 +4246,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avara-10395",
         "iproperty_building": "https://www.iproperty.com.my/condo/avara-10395",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/seputeh",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Avara%20Jalan%20Seputeh%2C%2058000%2C%20Kuala%20Lumpur"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Avara%20Jalan%20Seputeh%2C%2058000%2C%20Kuala%20Lumpur",
+        "starproperty": "https://www.starproperty.my/insight/8861/avara-seputeh"
       },
       "sources": [
         {
@@ -3613,22 +4272,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "F",
+            "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
@@ -3638,7 +4325,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
@@ -3675,7 +4369,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/avara-10395",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "transit": {
           "source": "OpenStreetMap 路网（Valhalla 步行路线）",
@@ -3759,7 +4460,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
         "iproperty_building": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/seputeh",
-        "maps": "https://www.google.com/maps/search/?api=1&query=TRIA%20Seputeh%20in%209%20Seputeh%2C%20Kuala%20Lumpur%20No.1%2C%20Jalan%20Telok%20Datok%2C%20Off%20Jalan%20Klang%20Lama%2C%2058100%2C%20Kuala%20Lumpur"
+        "maps": "https://www.google.com/maps/search/?api=1&query=TRIA%20Seputeh%20in%209%20Seputeh%2C%20Kuala%20Lumpur%20No.1%2C%20Jalan%20Telok%20Datok%2C%20Off%20Jalan%20Klang%20Lama%2C%2058100%2C%20Kuala%20Lumpur",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850"
       },
       "sources": [
         {
@@ -3784,22 +4486,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
@@ -3809,7 +4539,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
@@ -3846,7 +4583,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
+            "at": "2026-09-08"
+          }
         },
         "transit": {
           "source": "OpenStreetMap 路网（Valhalla 步行路线）",
@@ -3937,7 +4681,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-vivo-residential-suites-6797",
         "iproperty_building": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/seputeh",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Vivo%20Residential%20Suites%209%20Seputeh%2C%20Off%20Jalan%20Klang%20Lama%2C%2058100%2C%20Kuala%20Lumpur"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Vivo%20Residential%20Suites%209%20Seputeh%2C%20Off%20Jalan%20Klang%20Lama%2C%2058100%2C%20Kuala%20Lumpur",
+        "starproperty": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh"
       },
       "sources": [
         {
@@ -3962,22 +4707,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "none",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "L",
+            "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
@@ -3987,7 +4760,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
@@ -4024,7 +4804,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "single",
+            "value": null,
+            "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
+            "at": "2026-09-08"
+          }
         },
         "transit": {
           "source": "OpenStreetMap 路网（Valhalla 步行路线）",
@@ -4041,7 +4828,7 @@
         "name": {
           "source": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "auto"
         }
       },
       "verified_at": "2026-09-08"
@@ -4108,7 +4895,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-southbank-residence-6428",
         "iproperty_building": "https://www.iproperty.com.my/condo/southbank-residence-6428",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/old-klang-road",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Southbank%20Residence%20Jalan%20Klang%20Lama%2C%2058000%2C%20Kuala%20Lumpur"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Southbank%20Residence%20Jalan%20Klang%20Lama%2C%2058000%2C%20Kuala%20Lumpur",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306"
       },
       "sources": [
         {
@@ -4133,22 +4921,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2017,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 674,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 37,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "F",
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
@@ -4158,7 +4974,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "UOA Group",
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
@@ -4195,7 +5018,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
+            "at": "2026-09-08"
+          }
         },
         "transit": {
           "source": "OpenStreetMap 路网（Valhalla 步行路线）",
@@ -4212,7 +5042,7 @@
         "name": {
           "source": "https://www.iproperty.com.my/condo/southbank-residence-6428",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "auto"
         }
       },
       "verified_at": "2026-09-08"
@@ -4283,7 +5113,8 @@
         "iproperty_rent": "https://www.iproperty.com.my/property-for-rent/at-avantas-residences-6254",
         "iproperty_building": "https://www.iproperty.com.my/condo/avantas-residences-6254",
         "ibilik": "https://www.ibilik.com/locations/malaysia/kuala-lumpur/old-klang-road",
-        "maps": "https://www.google.com/maps/search/?api=1&query=Avantas%20Residences%20Old%20Klang%20Road%2C%2058100%2C%20Kuala%20Lumpur"
+        "maps": "https://www.google.com/maps/search/?api=1&query=Avantas%20Residences%20Old%20Klang%20Road%2C%2058100%2C%20Kuala%20Lumpur",
+        "starproperty": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955"
       },
       "sources": [
         {
@@ -4308,22 +5139,50 @@
         "completed": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 2016,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
+            "at": "2026-09-08"
+          }
         },
         "units": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 198,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
+            "at": "2026-09-08"
+          }
         },
         "floors": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": 28,
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
+            "at": "2026-09-08"
+          }
         },
         "tenure": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "F",
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
+            "at": "2026-09-08"
+          }
         },
         "type": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
@@ -4333,7 +5192,14 @@
         "developer": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "CPI Development",
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
+            "at": "2026-09-08"
+          }
         },
         "address": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
@@ -4370,7 +5236,14 @@
         "flags": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "auto"
+          "method": "auto",
+          "second": {
+            "with": "StarProperty",
+            "status": "agree",
+            "value": "泳池/健身房",
+            "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955",
+            "at": "2026-09-08"
+          }
         },
         "transit": {
           "source": "OpenStreetMap 路网（Valhalla 步行路线）",
@@ -4387,7 +5260,7 @@
         "name": {
           "source": "https://www.iproperty.com.my/condo/avantas-residences-6254",
           "at": "2026-09-08",
-          "method": "manual"
+          "method": "auto"
         }
       },
       "verified_at": "2026-09-08"

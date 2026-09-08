@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/laurel-residence-17871",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:17.744Z",
+  "fetched_at": "2026-09-08T12:40:42.950Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -216,55 +216,5 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:47:29.827Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1088714,
-        101.6654946
-      ],
-      "distance_m": 103,
-      "display": "Laurel Residence, Pantai Dalam, Kuala Lumpur, Malaysia",
-      "osm": "way/1224048106"
-    },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Universiti LRT（KJ19）",
-        "walk_m": null,
-        "walk_min": 8,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Kerinchi LRT（KJ18）",
-          "straight_m": 801,
-          "route_m": 1381,
-          "route_min": 17
-        },
-        {
-          "station": "Universiti LRT（KJ19）",
-          "straight_m": 840,
-          "route_m": 1582,
-          "route_min": 20
-        }
-      ],
-      "to_universiti": {
-        "route_m": 1582,
-        "route_min": 20
-      },
-      "proposed": {
-        "nearest": "Kerinchi LRT（KJ18）",
-        "walk_m": 1381,
-        "walk_min": 17
-      }
-    },
-    "notes": [
-      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
-    ]
-  }
+  "is_new": false
 }

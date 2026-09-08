@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/kl-gateway-residences-8093",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:21:57.563Z",
+  "fetched_at": "2026-09-08T12:40:10.853Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -209,66 +209,83 @@
   },
   "assessment": {
     "name": "单源（iProperty）",
-    "completed": "单源（iProperty）",
-    "units": "单源（iProperty）",
-    "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "completed": "双源一致（iProperty、StarProperty）",
+    "units": "冲突（iProperty 与 StarProperty 不同）",
+    "floors": "冲突（iProperty 与 StarProperty 不同）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
-    "developer": "单源（iProperty）",
+    "developer": "双源一致（iProperty、StarProperty）",
     "address": "单源（iProperty）",
     "geo": "单源（iProperty）",
     "facilities": "单源（iProperty）",
-    "flags": "单源（iProperty）"
+    "flags": "双源一致（iProperty、StarProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:46:55.121Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.11365,
-        101.6633084
+  "second": {
+    "starproperty": {
+      "layout": "classic",
+      "developer": "Suez Domain (a member of Suez capital)",
+      "completed": 2016,
+      "completion_text": "2016 (estimate)",
+      "tenure_code": "L",
+      "blocks": 6,
+      "storeys": 33,
+      "units": 357,
+      "builtup": null,
+      "facilities_en": [
+        "Sky lounge & bar",
+        "Business lounge",
+        "Grand central park",
+        "Iconic ring retail piazza",
+        "Infinity pool",
+        "Hydro gym",
+        "Outdoor jogging track & park",
+        "Private drop-off & grand lobby",
+        "Private access to retail mall",
+        "3 tier security system",
+        "Lift",
+        "Clean air technology",
+        "Rain water harvesting system",
+        "Individual control",
+        "FCU air-cond system",
+        "Public transportation hub",
+        "Brown field development",
+        "Natural light maximisation"
       ],
-      "distance_m": 48,
-      "display": "KL Gateway, 2, Pantai Dalam, Kuala Lumpur, Malaysia",
-      "osm": "way/1112744188"
+      "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/kl-gateway/property-insights/6640",
+      "fetched_at": "2026-09-08T12:40:14.617Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2017,
+      "starproperty": 2016,
+      "status": "agree"
     },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Universiti LRT（KJ19）",
-        "walk_m": 240,
-        "walk_min": 2,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Universiti LRT（KJ19）",
-          "straight_m": 164,
-          "route_m": 280,
-          "route_min": 3
-        },
-        {
-          "station": "Kerinchi LRT（KJ18）",
-          "straight_m": 656,
-          "route_m": 1049,
-          "route_min": 13
-        }
-      ],
-      "to_universiti": {
-        "route_m": 280,
-        "route_min": 3
-      },
-      "proposed": {
-        "nearest": "Universiti LRT（KJ19）",
-        "walk_m": 280,
-        "walk_min": 3
-      }
+    "units": {
+      "iproperty": 714,
+      "starproperty": 357,
+      "status": "conflict"
     },
-    "notes": [
-      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
-    ]
+    "tenure": {
+      "iproperty": "L",
+      "starproperty": "L",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "Suez Capital Sdn Bhd",
+      "starproperty": "Suez Domain (a member of Suez capital)",
+      "status": "agree"
+    },
+    "floors": {
+      "iproperty": 38,
+      "starproperty": 33,
+      "status": "conflict"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": "泳池/健身房",
+      "status": "agree"
+    }
   }
 }

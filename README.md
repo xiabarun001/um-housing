@@ -7,6 +7,7 @@
 
 ## 文档
 
+- [docs/PIPELINE.md](docs/PIPELINE.md)：数据抓取整理系统总览（来源、流程、命令、评估规则、健康检查）
 - [docs/SPEC.md](docs/SPEC.md)：2.0 的产品需求（三区覆盖、信息分层、采集审核、管理后台）
 - [docs/ADR-001-信息分层.md](docs/ADR-001-信息分层.md)：档案 / 行情 / 判断三层的定义和字段约定
 - [docs/ADR-002-采集与审核.md](docs/ADR-002-采集与审核.md)：档案信息的流水线
@@ -27,8 +28,10 @@ cards.html + js/cards.js  小红书出图页（不对外链接）：从 condos.j
 data/staging/       档案采集的暂存区和审核报告（REVIEW.md），人审后才发布
 data/changelog.json 档案变更记录：谁、何时、改了什么、来源、理由、对外说明
 scripts/refresh.mjs 行情自动刷新脚本
-scripts/collect.mjs 档案采集脚本（iProperty 项目页 → staging + 报告）
-scripts/publish.mjs 档案发布脚本（staging → condos.json + provenance + changelog）
+scripts/collect.mjs 固定信息采集脚本（iProperty 项目页 + StarProperty 二源 → staging + 报告）
+scripts/publish.mjs 固定信息发布脚本（staging → condos.json + provenance + changelog）
+scripts/arbitrate.mjs 两源冲突仲裁脚本（结论和理由写进 provenance）
+scripts/status.mjs 数据健康检查（data/status.json）
 .github/workflows/refresh.yml  每 12 小时刷新行情并提交
 .github/workflows/collect.yml  每月 1 日全量采集档案，只提交 staging 和报告
 docs/               规格、决策记录、验收标准
@@ -82,6 +85,10 @@ node scripts/publish.mjs <id> --accept=all --region=3 --no=26 --alias="别名" -
 ```
 
 发布会更新 `verified_at`、`provenance`，并往 `data/changelog.json` 追加记录；读者页只显示日期、小区和对外说明。档案不会自动发布：每月的 collect workflow 只提交 staging 和报告。
+
+### 常用命令（package.json）
+
+`npm run refresh` / `collect` / `crosscheck` / `review` / `publish -- <id> …` / `arbitrate -- <id> <字段> …` / `status` / `monthly`，含义见 [docs/PIPELINE.md](docs/PIPELINE.md)。两个来源不一致的字段用 arbitrate 写结论和理由，页面会显示。
 
 ### 价格自动刷新
 

@@ -32,13 +32,19 @@ jobs:
           chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
           test -x "$HOME/ci/curl_safari184_ios"
           echo "CURL_BIN=$HOME/ci/curl_safari184_ios" >> "$GITHUB_ENV"
-      - name: collect all profiles
+      - name: collect all profiles (iProperty + StarProperty)
         run: node scripts/collect.mjs --all
+      - name: cross-check coordinates and walking routes (OpenStreetMap)
+        run: node scripts/crosscheck.mjs --all
+      - name: review report and data health status
+        run: |
+          node scripts/collect.mjs --report-only
+          node scripts/status.mjs
       - name: commit staging and review report
         run: |
           git config user.name "um-housing-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add data/staging
+          git add data/staging data/status.json
           if git diff --cached --quiet; then
             echo "no changes"
           else

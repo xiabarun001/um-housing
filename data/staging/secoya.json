@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/secoya-residence-7619",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:29.672Z",
+  "fetched_at": "2026-09-08T12:40:59.310Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -214,7 +214,7 @@
     "completed": "单源（iProperty）",
     "units": "单源（iProperty）",
     "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
     "developer": "单源（iProperty）",
     "address": "单源（iProperty）",
@@ -223,52 +223,52 @@
     "flags": "单源（iProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:47:54.168Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.101734,
-        101.6646787
-      ],
-      "distance_m": 2,
-      "display": "Secoya Residences @ Pantai Sentral Park, Pantai Dalam, Kuala Lumpur, Malaysia",
-      "osm": "way/919829677"
+  "second": {
+    "starproperty": {
+      "layout": "new",
+      "developer": null,
+      "completed": null,
+      "completion_text": null,
+      "tenure_code": "L",
+      "blocks": null,
+      "storeys": null,
+      "units": null,
+      "builtup": null,
+      "facilities_en": [],
+      "url": "https://www.starproperty.my/kuala-lumpur/pantai/secoya-residences-pantai-sentral-park/property-insights/9632",
+      "fetched_at": "2026-09-08T12:41:03.050Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2019,
+      "starproperty": null,
+      "status": "single"
     },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "无步行可达轨道站",
-        "walk_m": null,
-        "walk_min": null,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Pantai Dalam KTM（KD03）",
-          "straight_m": 904,
-          "route_m": 1755,
-          "route_min": 23
-        },
-        {
-          "station": "Universiti LRT（KJ19）",
-          "straight_m": 1463,
-          "route_m": 2683,
-          "route_min": 36
-        }
-      ],
-      "to_universiti": {
-        "route_m": 2683,
-        "route_min": 36
-      },
-      "proposed": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_m": 1755,
-        "walk_min": 23
-      }
+    "units": {
+      "iproperty": 243,
+      "starproperty": null,
+      "status": "single"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "L",
+      "starproperty": "L",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "IJM Land Berhad",
+      "starproperty": null,
+      "status": "single"
+    },
+    "floors": {
+      "iproperty": 41,
+      "starproperty": null,
+      "status": "single"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": null,
+      "status": "single"
+    }
   }
 }

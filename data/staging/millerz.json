@@ -1,11 +1,11 @@
 {
   "id": "millerz",
   "source": {
-    "url": "https://www.iproperty.com.my/condo/millerz-square-9658",
+    "url": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
     "final_url": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:24:35.065Z",
+  "fetched_at": "2026-09-08T12:41:46.347Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -227,54 +227,5 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:51:31.998Z",
-    "geo": {
-      "status": "near",
-      "with": "OpenStreetMap",
-      "value": [
-        3.0899417,
-        101.6731656
-      ],
-      "distance_m": 292,
-      "display": "Millerz Square, 357, Kuchai Lama, Kuala Lumpur, 58000, Malaysia",
-      "osm": "way/760484985",
-      "query": "Millerz Square Kuala Lumpur"
-    },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_m": 990,
-        "walk_min": 13,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Pantai Dalam KTM（KD03）",
-          "straight_m": 990,
-          "route_m": 2148,
-          "route_min": 26
-        },
-        {
-          "station": "Petaling KTM（KD04）",
-          "straight_m": 1009,
-          "route_m": 1968,
-          "route_min": 24
-        }
-      ],
-      "to_universiti": {
-        "route_m": 4849,
-        "route_min": 61
-      },
-      "proposed": {
-        "nearest": "Petaling KTM（KD04）",
-        "walk_m": 1968,
-        "walk_min": 24
-      }
-    },
-    "notes": []
-  }
+  "is_new": false
 }

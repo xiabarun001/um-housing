@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/avara-10395",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:33.553Z",
+  "fetched_at": "2026-09-08T12:41:06.905Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -221,7 +221,7 @@
     "completed": "单源（iProperty）",
     "units": "单源（iProperty）",
     "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
     "developer": "单源（iProperty）",
     "address": "单源（iProperty）",
@@ -230,52 +230,52 @@
     "flags": "单源（iProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:48:01.801Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1130352,
-        101.6791019
-      ],
-      "distance_m": 51,
-      "display": "Avara Seputeh, Seputeh, Kuala Lumpur, Malaysia",
-      "osm": "way/541296766"
+  "second": {
+    "starproperty": {
+      "layout": "new",
+      "developer": null,
+      "completed": null,
+      "completion_text": null,
+      "tenure_code": "F",
+      "blocks": null,
+      "storeys": null,
+      "units": null,
+      "builtup": null,
+      "facilities_en": [],
+      "url": "https://www.starproperty.my/insight/8861/avara-seputeh",
+      "fetched_at": "2026-09-08T12:41:10.711Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2020,
+      "starproperty": null,
+      "status": "single"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_m": 256,
-        "walk_min": 3,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Seputeh KTM（KB02）",
-          "straight_m": 256,
-          "route_m": 422,
-          "route_min": 5
-        },
-        {
-          "station": "Mid Valley KTM（KB01）",
-          "straight_m": 582,
-          "route_m": 726,
-          "route_min": 9
-        }
-      ],
-      "to_universiti": {
-        "route_m": 2124,
-        "route_min": 31
-      },
-      "proposed": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_m": 422,
-        "walk_min": 5
-      }
+    "units": {
+      "iproperty": 183,
+      "starproperty": null,
+      "status": "single"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "F",
+      "starproperty": "F",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "Unity Realty Sdn. Bhd.",
+      "starproperty": null,
+      "status": "single"
+    },
+    "floors": {
+      "iproperty": 35,
+      "starproperty": null,
+      "status": "single"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": null,
+      "status": "single"
+    }
   }
 }

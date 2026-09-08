@@ -1,11 +1,11 @@
 {
   "id": "southbank",
   "source": {
-    "url": "https://www.iproperty.com.my/building/southbank-residence-pty_61153/",
+    "url": "https://www.iproperty.com.my/condo/southbank-residence-6428",
     "final_url": "https://www.iproperty.com.my/condo/southbank-residence-6428",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:46.410Z",
+  "fetched_at": "2026-09-08T12:41:30.125Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -189,64 +189,87 @@
   },
   "assessment": {
     "name": "单源（iProperty）",
-    "completed": "单源（iProperty）",
-    "units": "单源（iProperty）",
-    "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "completed": "双源一致（iProperty、StarProperty）",
+    "units": "双源一致（iProperty、StarProperty）",
+    "floors": "双源一致（iProperty、StarProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
-    "developer": "单源（iProperty）",
+    "developer": "双源一致（iProperty、StarProperty）",
     "address": "单源（iProperty）",
     "geo": "单源（iProperty）",
     "facilities": "单源（iProperty）",
-    "flags": "单源（iProperty）"
+    "flags": "双源一致（iProperty、StarProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:48:23.241Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1011899,
-        101.6761667
+  "second": {
+    "starproperty": {
+      "layout": "classic",
+      "developer": "UOA Group",
+      "completed": 2017,
+      "completion_text": "2017 (estimate)",
+      "tenure_code": "F",
+      "blocks": 2,
+      "storeys": 37,
+      "units": 674,
+      "builtup": "779 - 978 sf",
+      "facilities_en": [
+        "Seating area",
+        "Outdoor fitness",
+        "Gazebo",
+        "Reflexology path",
+        "Wading pool",
+        "Shower area",
+        "Main lap pool",
+        "Pool deck",
+        "Jacuzzi",
+        "Children playground",
+        "Meeting room",
+        "Gymnasium",
+        "Multipurpose hall",
+        "Cafe",
+        "Kindergarten",
+        "Toilets",
+        "Changing rooms",
+        "Trellis",
+        "Preparation area",
+        "BBQ pit",
+        "Parking",
+        "24 hour security"
       ],
-      "distance_m": 48,
-      "display": "Southbank, Old Klang Road, Taman Desa, Kuala Lumpur, 58000, Malaysia",
-      "osm": "way/656378566"
+      "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
+      "fetched_at": "2026-09-08T12:41:33.831Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2017,
+      "starproperty": 2017,
+      "status": "agree"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_m": 900,
-        "walk_min": 12,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Pantai Dalam KTM（KD03）",
-          "straight_m": 900,
-          "route_m": 1306,
-          "route_min": 16
-        },
-        {
-          "station": "Seputeh KTM（KB02）",
-          "straight_m": 1543,
-          "route_m": 1942,
-          "route_min": 25
-        }
-      ],
-      "to_universiti": {
-        "route_m": 3396,
-        "route_min": 44
-      },
-      "proposed": {
-        "nearest": "Pantai Dalam KTM（KD03）",
-        "walk_m": 1306,
-        "walk_min": 16
-      }
+    "units": {
+      "iproperty": 674,
+      "starproperty": 674,
+      "status": "agree"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "F",
+      "starproperty": "F",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "UOA Group",
+      "starproperty": "UOA Group",
+      "status": "agree"
+    },
+    "floors": {
+      "iproperty": 37,
+      "starproperty": 37,
+      "status": "agree"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": "泳池/健身房",
+      "status": "agree"
+    }
   }
 }

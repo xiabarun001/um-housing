@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-09-08T12:50:34.042Z",
+  "generated_myt": "2026-09-08 20:50",
+  "condos": 25,
+  "regions": 3,
+  "market": {
+    "updated_myt": "2026-09-08 20:15",
+    "age_hours": 1,
+    "condos_with_price": 25,
+    "last_run_ok": true,
+    "last_run_errors": 0,
+    "mudah": {
+      "agree": 12,
+      "gap": 7,
+      "single": 6,
+      "none": 0
+    }
+  },
+  "profile": {
+    "verified_at_meta": "2026-09-08",
+    "oldest_days": 1,
+    "stale_over_45d": [],
+    "last_collect_at": "2026-09-08T12:45:16.259Z",
+    "last_collect_days": 0,
+    "staging_failed": [],
+    "pending_changes": [
+      "atwater",
+      "avara",
+      "centrestage",
+      "dvogue",
+      "inwood",
+      "kl-gateway",
+      "laurel",
+      "millerz",
+      "novum",
+      "pacific-63",
+      "pacific-star",
+      "pantai-panorama",
+      "pj-midtown",
+      "pj8",
+      "ryan-miho",
+      "saville",
+      "secoya",
+      "seventeen",
+      "south-view",
+      "southlink",
+      "tiara-damansara",
+      "tria-seputeh",
+      "vivo"
+    ]
+  },
+  "crosscheck": {
+    "geo": {
+      "agree": 20,
+      "near": 2,
+      "conflict": 0,
+      "single": 3,
+      "none": 0
+    },
+    "walk": {
+      "agree": 13,
+      "conflict": 12,
+      "single": 0,
+      "none": 0,
+      "route_adopted": 13
+    }
+  },
+  "second_source": {
+    "with_link": 19,
+    "fields_agree": 68,
+    "fields_conflict": 0,
+    "fields_reviewed": 5,
+    "fields_single": 77,
+    "conflicts": []
+  },
+  "alerts": [],
+  "changelog_entries": 123,
+  "last_change": "2026-09-08"
+}

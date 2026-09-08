@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:21:07.720Z",
+  "fetched_at": "2026-09-08T12:38:54.117Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -205,47 +205,5 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:49:52.696Z",
-    "geo": {
-      "status": "single",
-      "with": "OpenStreetMap",
-      "note": "not found"
-    },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "无步行可达轨道站",
-        "walk_m": null,
-        "walk_min": null,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Phileo Damansara MRT（KG12）",
-          "straight_m": 897,
-          "route_m": 1588,
-          "route_min": 20
-        },
-        {
-          "station": "Asia Jaya LRT（KJ21）",
-          "straight_m": 2745,
-          "route_m": 3889,
-          "route_min": 49
-        }
-      ],
-      "to_universiti": {
-        "route_m": 5109,
-        "route_min": 64
-      },
-      "proposed": {
-        "nearest": "Phileo Damansara MRT（KG12）",
-        "walk_m": 1588,
-        "walk_min": 20
-      }
-    },
-    "notes": []
-  }
+  "is_new": false
 }

@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/pj-midtown-6911",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:21:36.074Z",
+  "fetched_at": "2026-09-08T12:39:31.371Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -224,7 +224,7 @@
     "completed": "单源（iProperty）",
     "units": "单源（iProperty）",
     "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
     "developer": "单源（iProperty）",
     "address": "单源（iProperty）",
@@ -233,53 +233,52 @@
     "flags": "单源（iProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:50:36.609Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1136693,
-        101.6406572
-      ],
-      "distance_m": 24,
-      "display": "PJ Midtown, Jalan 13/2, Section 13, Petaling Jaya, Petaling, Selangor, 46200, Malaysia",
-      "osm": "way/881960593",
-      "query": "PJ Midtown Petaling Jaya"
+  "second": {
+    "starproperty": {
+      "layout": "new",
+      "developer": null,
+      "completed": null,
+      "completion_text": null,
+      "tenure_code": "L",
+      "blocks": null,
+      "storeys": null,
+      "units": null,
+      "builtup": null,
+      "facilities_en": [],
+      "url": "https://www.starproperty.my/insight/8811/pj-midtown",
+      "fetched_at": "2026-09-08T12:39:35.188Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2019,
+      "starproperty": null,
+      "status": "single"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Taman Jaya LRT（KJ20）",
-        "walk_m": 1000,
-        "walk_min": 13,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Asia Jaya LRT（KJ21）",
-          "straight_m": 1095,
-          "route_m": 1534,
-          "route_min": 19
-        },
-        {
-          "station": "Taman Jaya LRT（KJ20）",
-          "straight_m": 1211,
-          "route_m": 2211,
-          "route_min": 27
-        }
-      ],
-      "to_universiti": {
-        "route_m": 3783,
-        "route_min": 49
-      },
-      "proposed": {
-        "nearest": "Asia Jaya LRT（KJ21）",
-        "walk_m": 1534,
-        "walk_min": 19
-      }
+    "units": {
+      "iproperty": 758,
+      "starproperty": null,
+      "status": "single"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "L",
+      "starproperty": "L",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "IOI Properties and Sime Darby Brunsfield",
+      "starproperty": null,
+      "status": "single"
+    },
+    "floors": {
+      "iproperty": 30,
+      "starproperty": null,
+      "status": "single"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": null,
+      "status": "single"
+    }
   }
 }

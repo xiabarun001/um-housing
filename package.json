@@ -1,0 +1,17 @@
+{
+  "name": "um-housing",
+  "private": true,
+  "type": "module",
+  "description": "UM 租房指南：数据抓取整理流水线（实时信息每 12 小时、固定信息每月采集人审、交叉验证、状态汇总）",
+  "scripts": {
+    "refresh": "node scripts/refresh.mjs",
+    "collect": "node scripts/collect.mjs --all",
+    "crosscheck": "node scripts/crosscheck.mjs --all",
+    "review": "node scripts/collect.mjs --report-only",
+    "publish": "node scripts/publish.mjs",
+    "status": "node scripts/status.mjs",
+    "monthly": "node scripts/collect.mjs --all && node scripts/crosscheck.mjs --all && node scripts/collect.mjs --report-only && node scripts/status.mjs",
+    "serve": "npx --yes serve -l 8765 .",
+    "arbitrate": "node scripts/arbitrate.mjs"
+  }
+}

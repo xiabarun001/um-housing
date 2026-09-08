@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/atwater-service-residences-9936",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:21:15.304Z",
+  "fetched_at": "2026-09-08T12:38:58.180Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -221,7 +221,7 @@
     "completed": "单源（iProperty）",
     "units": "单源（iProperty）",
     "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
     "developer": "单源（iProperty）",
     "address": "单源（iProperty）",
@@ -230,53 +230,52 @@
     "flags": "单源（iProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:50:05.520Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1176632,
-        101.6323881
-      ],
-      "distance_m": 31,
-      "display": "ATWATER, Section 13, Petaling Jaya, Petaling, Selangor, Malaysia",
-      "osm": "relation/17752547",
-      "query": "Atwater Petaling Jaya"
+  "second": {
+    "starproperty": {
+      "layout": "new",
+      "developer": null,
+      "completed": null,
+      "completion_text": null,
+      "tenure_code": "L",
+      "blocks": null,
+      "storeys": null,
+      "units": null,
+      "builtup": null,
+      "facilities_en": [],
+      "url": "https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860",
+      "fetched_at": "2026-09-08T12:39:02.108Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2024,
+      "starproperty": null,
+      "status": "single"
     },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "无步行可达轨道站",
-        "walk_m": null,
-        "walk_min": null,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Asia Jaya LRT（KJ21）",
-          "straight_m": 1623,
-          "route_m": 2580,
-          "route_min": 34
-        },
-        {
-          "station": "Phileo Damansara MRT（KG12）",
-          "straight_m": 1716,
-          "route_m": 2505,
-          "route_min": 32
-        }
-      ],
-      "to_universiti": {
-        "route_m": 4328,
-        "route_min": 56
-      },
-      "proposed": {
-        "nearest": "Phileo Damansara MRT（KG12）",
-        "walk_m": 2505,
-        "walk_min": 32
-      }
+    "units": {
+      "iproperty": 493,
+      "starproperty": null,
+      "status": "single"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "L",
+      "starproperty": "L",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "Paramount Property.",
+      "starproperty": null,
+      "status": "single"
+    },
+    "floors": {
+      "iproperty": 26,
+      "starproperty": null,
+      "status": "single"
+    },
+    "pool_gym": {
+      "iproperty": "无泳池/无健身房",
+      "starproperty": null,
+      "status": "single"
+    }
   }
 }

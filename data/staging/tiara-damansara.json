@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:21:49.588Z",
+  "fetched_at": "2026-09-08T12:39:54.801Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -248,65 +248,75 @@
   },
   "assessment": {
     "name": "单源（iProperty）",
-    "completed": "单源（iProperty）",
-    "units": "单源（iProperty）",
+    "completed": "两边都无",
+    "units": "双源一致（iProperty、StarProperty）",
     "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
-    "developer": "单源（iProperty）",
+    "developer": "两边都无",
     "address": "单源（iProperty）",
     "geo": "单源（iProperty）",
     "facilities": "单源（iProperty）",
-    "flags": "单源（iProperty）"
+    "flags": "双源一致（iProperty、StarProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:51:03.133Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1262325,
-        101.639208
+  "second": {
+    "starproperty": {
+      "layout": "classic",
+      "developer": null,
+      "completed": null,
+      "completion_text": null,
+      "tenure_code": "F",
+      "blocks": 4,
+      "storeys": null,
+      "units": 351,
+      "builtup": "1,300 - 1,700 sf",
+      "facilities_en": [
+        "Swimming pool",
+        "Squash courts",
+        "Tennis courts",
+        "Cafeteria",
+        "Sauna room",
+        "Gymnasium",
+        "Table tennis",
+        "Multi-purpose",
+        "Hall",
+        "Launderette"
       ],
-      "distance_m": 126,
-      "display": "Tiara Damansara, 33, Section 16, Petaling Jaya, Petaling, Selangor, Malaysia",
-      "osm": "relation/17082873",
-      "query": "Tiara Damansara Petaling Jaya"
+      "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
+      "fetched_at": "2026-09-08T12:39:58.546Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": null,
+      "starproperty": null,
+      "status": "none"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "无步行可达轨道站",
-        "walk_m": null,
-        "walk_min": null,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Phileo Damansara MRT（KG12）",
-          "straight_m": 628,
-          "route_m": 1105,
-          "route_min": 15
-        },
-        {
-          "station": "Asia Jaya LRT（KJ21）",
-          "straight_m": 2312,
-          "route_m": 3213,
-          "route_min": 43
-        }
-      ],
-      "to_universiti": {
-        "route_m": 4402,
-        "route_min": 57
-      },
-      "proposed": {
-        "nearest": "Phileo Damansara MRT（KG12）",
-        "walk_m": 1105,
-        "walk_min": 15
-      }
+    "units": {
+      "iproperty": 351,
+      "starproperty": 351,
+      "status": "agree"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "F",
+      "starproperty": "F",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": null,
+      "starproperty": null,
+      "status": "none"
+    },
+    "floors": {
+      "iproperty": 5,
+      "starproperty": null,
+      "status": "single"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": "泳池/健身房",
+      "status": "agree"
+    }
   }
 }

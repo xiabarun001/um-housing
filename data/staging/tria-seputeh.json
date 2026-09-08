@@ -1,11 +1,11 @@
 {
   "id": "tria-seputeh",
   "source": {
-    "url": "https://www.iproperty.com.my/building/tria-residences-pty_63616/",
+    "url": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
     "final_url": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:37.746Z",
+  "fetched_at": "2026-09-08T12:41:14.695Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -194,7 +194,7 @@
     "completed": "单源（iProperty）",
     "units": "单源（iProperty）",
     "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
     "developer": "单源（iProperty）",
     "address": "单源（iProperty）",
@@ -203,52 +203,52 @@
     "flags": "单源（iProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:48:08.476Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.10823,
-        101.6771045
-      ],
-      "distance_m": 27,
-      "display": "Tria Seputeh, Taman Desa, Kuala Lumpur, Malaysia",
-      "osm": "way/892106028"
+  "second": {
+    "starproperty": {
+      "layout": "new",
+      "developer": null,
+      "completed": null,
+      "completion_text": null,
+      "tenure_code": "L",
+      "blocks": null,
+      "storeys": null,
+      "units": null,
+      "builtup": null,
+      "facilities_en": [],
+      "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
+      "fetched_at": "2026-09-08T12:41:18.403Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2022,
+      "starproperty": null,
+      "status": "single"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_m": 782,
-        "walk_min": 10,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Seputeh KTM（KB02）",
-          "straight_m": 782,
-          "route_m": 1316,
-          "route_min": 16
-        },
-        {
-          "station": "Mid Valley KTM（KB01）",
-          "straight_m": 1178,
-          "route_m": 1388,
-          "route_min": 18
-        }
-      ],
-      "to_universiti": {
-        "route_m": 2796,
-        "route_min": 39
-      },
-      "proposed": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_m": 1316,
-        "walk_min": 16
-      }
+    "units": {
+      "iproperty": 734,
+      "starproperty": null,
+      "status": "single"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "L",
+      "starproperty": "L",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "MRCB Land",
+      "starproperty": null,
+      "status": "single"
+    },
+    "floors": {
+      "iproperty": 38,
+      "starproperty": null,
+      "status": "single"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/无健身房",
+      "starproperty": null,
+      "status": "single"
+    }
   }
 }

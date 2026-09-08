@@ -1,11 +1,11 @@
 {
   "id": "vivo",
   "source": {
-    "url": "https://www.iproperty.com.my/building/vivo-residential-suites-pty_61412/",
+    "url": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
     "final_url": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:42.169Z",
+  "fetched_at": "2026-09-08T12:45:16.259Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -224,8 +224,8 @@
     "name": "单源（iProperty）",
     "completed": "单源（iProperty）",
     "units": "单源（iProperty）",
-    "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "floors": "两边都无",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
     "developer": "单源（iProperty）",
     "address": "单源（iProperty）",
@@ -234,53 +234,53 @@
     "flags": "单源（iProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:51:22.916Z",
-    "geo": {
-      "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1061496,
-        101.676775
-      ],
-      "distance_m": 107,
-      "display": "Vivo Residential Suites @ 9 Seputeh, Taman Desa, Kuala Lumpur, Malaysia",
-      "osm": "way/541295825",
-      "query": "Vivo Residential Suites"
+  "second": {
+    "starproperty": {
+      "layout": "new",
+      "developer": null,
+      "completed": null,
+      "completion_text": null,
+      "tenure_code": "L",
+      "blocks": null,
+      "storeys": null,
+      "units": null,
+      "builtup": null,
+      "facilities_en": [],
+      "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
+      "fetched_at": "2026-09-08T12:45:20.035Z",
+      "http_status": 404
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 2018,
+      "starproperty": null,
+      "status": "single"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_m": 1063,
-        "walk_min": 14,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Seputeh KTM（KB02）",
-          "straight_m": 1063,
-          "route_m": 1599,
-          "route_min": 20
-        },
-        {
-          "station": "Pantai Dalam KTM（KD03）",
-          "straight_m": 1315,
-          "route_m": 1606,
-          "route_min": 20
-        }
-      ],
-      "to_universiti": {
-        "route_m": 2784,
-        "route_min": 36
-      },
-      "proposed": {
-        "nearest": "Seputeh KTM（KB02）",
-        "walk_m": 1599,
-        "walk_min": 20
-      }
+    "units": {
+      "iproperty": 412,
+      "starproperty": null,
+      "status": "single"
     },
-    "notes": []
+    "tenure": {
+      "iproperty": "L",
+      "starproperty": "L",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "MRCB Land",
+      "starproperty": null,
+      "status": "single"
+    },
+    "floors": {
+      "iproperty": null,
+      "starproperty": null,
+      "status": "none"
+    },
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": null,
+      "status": "single"
+    }
   }
 }

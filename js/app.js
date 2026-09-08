@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609081730';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609082100';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -879,11 +879,20 @@ async function renderChangelog() {
     if (e.public_note) g.notes.add(e.public_note);
     g.fields.add(FIELD_ZH[e.field] || e.field);
   }
-  const rows = [...groups.values()].slice(0, 12);
-  list.innerHTML = rows.map((g) => {
-    const c = state.condos.find((x) => x.id === g.condo);
+  // 同一天、同一句说明、涉及 3 个以上小区的（批量核对）再合并成一行
+  const byNote = new Map();
+  for (const g of groups.values()) {
     const what = g.notes.size ? [...g.notes].join('；') : `核对了${[...g.fields].join('、')}`;
-    return `<li><time>${esc(g.date)}</time><span><b>${esc(c ? shortAlias(c) : g.condo)}</b> · ${esc(what)}</span></li>`;
+    const key = `${g.date}|${what}`;
+    if (!byNote.has(key)) byNote.set(key, { date: g.date, what, condos: [] });
+    byNote.get(key).condos.push(g.condo);
+  }
+  const rows = [...byNote.values()].slice(0, 12);
+  const nameOf = (id) => { const c = state.condos.find((x) => x.id === id); return c ? shortAlias(c) : id; };
+  list.innerHTML = rows.map((g) => {
+    const who = g.condos.length >= 3 ? `${g.condos.length} 个小区` : g.condos.map(nameOf).join('、');
+    const title = g.condos.length >= 3 ? ` title="${esc(g.condos.map(nameOf).join('、'))}"` : '';
+    return `<li><time>${esc(g.date)}</time><span><b${title}>${esc(who)}</b> · ${esc(g.what)}</span></li>`;
   }).join('');
   box.hidden = false;
 }
@@ -894,6 +903,17 @@ function tierPopHTML(kind, c) {
     const src = c ? (c.sources || []).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('') : '';
     // 交叉验证结果（provenance.*.check）
     const checks = [];
+    // 第二来源（StarProperty）逐字段结论（provenance.*.second）
+    const secondFields = [['completed', '建成年份'], ['units', '户数'], ['tenure', '地契'], ['developer', '开发商'], ['floors', '楼层'], ['flags', '泳池健身房']];
+    const agree = [], conflict = [], reviewed = [];
+    for (const [f, zh] of secondFields) {
+      const sd = c?.provenance?.[f]?.second; if (!sd) continue;
+      if (sd.status === 'agree') agree.push(sd.note ? `${zh}（${sd.note}）` : zh);
+      else if (sd.status === 'conflict') (sd.arbitrated ? reviewed : conflict).push(sd.note ? `${zh}：${sd.note}` : `${zh}：StarProperty 写 ${sd.value ?? '—'}`);
+    }
+    if (agree.length) checks.push(`${agree.join('、')}：iProperty 和 StarProperty 两个来源一致`);
+    if (reviewed.length) checks.push(`两个来源不一致，已人工复核：${reviewed.join('；')}`);
+    if (conflict.length) checks.push(`两个来源不一致，待复核：${conflict.join('；')}`);
     const geoK = c?.provenance?.lat?.check;
     if (geoK) checks.push(`坐标和 ${geoK.with} ${geoK.status === 'agree' ? '一致' : geoK.status === 'near' ? '接近' : geoK.status === 'conflict' ? '不一致，待复核' : '未能核对'}${geoK.distance_m != null ? `（相差 ${geoK.distance_m} m）` : ''}`);
     const tr = c?.provenance?.transit;

@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/southlink-8399",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:09.667Z",
+  "fetched_at": "2026-09-08T12:40:34.566Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -204,55 +204,5 @@
     "facilities": "单源（iProperty）",
     "flags": "单源（iProperty）"
   },
-  "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:47:15.986Z",
-    "geo": {
-      "status": "near",
-      "with": "OpenStreetMap",
-      "value": [
-        3.113497,
-        101.6652165
-      ],
-      "distance_m": 158,
-      "display": "South Link, 2A, Pantai Dalam, Kuala Lumpur, 59200, Malaysia",
-      "osm": "way/1112744192"
-    },
-    "walk": {
-      "status": "agree",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Kerinchi LRT（KJ18）",
-        "walk_m": null,
-        "walk_min": 7,
-        "est": true
-      },
-      "routes": [
-        {
-          "station": "Kerinchi LRT（KJ18）",
-          "straight_m": 279,
-          "route_m": 664,
-          "route_min": 9
-        },
-        {
-          "station": "Universiti LRT（KJ19）",
-          "straight_m": 549,
-          "route_m": 825,
-          "route_min": 11
-        }
-      ],
-      "to_universiti": {
-        "route_m": 825,
-        "route_min": 11
-      },
-      "proposed": {
-        "nearest": "Kerinchi LRT（KJ18）",
-        "walk_m": 664,
-        "walk_min": 9
-      }
-    },
-    "notes": [
-      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
-    ]
-  }
+  "is_new": false
 }

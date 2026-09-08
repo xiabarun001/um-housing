@@ -5,7 +5,7 @@
     "final_url": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T11:22:01.522Z",
+  "fetched_at": "2026-09-08T12:40:18.628Z",
   "date_myt": "2026-09-08",
   "status": "ok",
   "proposed": {
@@ -239,66 +239,74 @@
   },
   "assessment": {
     "name": "单源（iProperty）",
-    "completed": "单源（iProperty）",
-    "units": "单源（iProperty）",
-    "floors": "单源（iProperty）",
-    "tenure": "单源（iProperty）",
+    "completed": "双源一致（iProperty、StarProperty）",
+    "units": "双源一致（iProperty、StarProperty）",
+    "floors": "双源一致（iProperty、StarProperty）",
+    "tenure": "双源一致（iProperty、StarProperty）",
     "type": "单源（iProperty）",
-    "developer": "单源（iProperty）",
+    "developer": "双源一致（iProperty、StarProperty）",
     "address": "单源（iProperty）",
     "geo": "单源（iProperty）",
     "facilities": "单源（iProperty）",
-    "flags": "单源（iProperty）"
+    "flags": "双源一致（iProperty、StarProperty）"
   },
   "is_new": false,
-  "crosscheck": {
-    "at": "2026-09-08T11:47:01.412Z",
-    "geo": {
+  "second": {
+    "starproperty": {
+      "layout": "classic",
+      "developer": "AMDB",
+      "completed": 1996,
+      "completion_text": "1996",
+      "tenure_code": "F",
+      "blocks": 5,
+      "storeys": 18,
+      "units": 708,
+      "builtup": "from 750 sf",
+      "facilities_en": [
+        "Swimming pool",
+        "Mini mart",
+        "Playground",
+        "BBQ area",
+        "Spa",
+        "Gymnasium",
+        "Restaurant",
+        "Launderette"
+      ],
+      "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
+      "fetched_at": "2026-09-08T12:40:22.442Z"
+    }
+  },
+  "second_assessment": {
+    "completed": {
+      "iproperty": 1996,
+      "starproperty": 1996,
+      "status": "agree"
+    },
+    "units": {
+      "iproperty": 708,
+      "starproperty": 708,
+      "status": "agree"
+    },
+    "tenure": {
+      "iproperty": "F",
+      "starproperty": "F",
+      "status": "agree"
+    },
+    "developer": {
+      "iproperty": "Amcorp Properties Berhad",
+      "starproperty": "AMDB",
       "status": "agree",
-      "with": "OpenStreetMap",
-      "value": [
-        3.1100335,
-        101.6617537
-      ],
-      "distance_m": 57,
-      "display": "Pantai Panorama, Pantai Dalam, Kuala Lumpur, 59200, Malaysia",
-      "osm": "way/383257669"
+      "note": "AMDB 是 Amcorp Properties 的旧名（2011 年改名）"
     },
-    "walk": {
-      "status": "conflict",
-      "with": "OpenStreetMap 路网（Valhalla 步行路线）",
-      "current": {
-        "nearest": "Universiti LRT（KJ19）",
-        "walk_m": 600,
-        "walk_min": 7,
-        "est": false
-      },
-      "routes": [
-        {
-          "station": "Universiti LRT（KJ19）",
-          "straight_m": 530,
-          "route_m": 1034,
-          "route_min": 13
-        },
-        {
-          "station": "Kerinchi LRT（KJ18）",
-          "straight_m": 941,
-          "route_m": 1507,
-          "route_min": 19
-        }
-      ],
-      "to_universiti": {
-        "route_m": 1034,
-        "route_min": 13
-      },
-      "proposed": {
-        "nearest": "Universiti LRT（KJ19）",
-        "walk_m": 1034,
-        "walk_min": 13
-      }
+    "floors": {
+      "iproperty": 18,
+      "starproperty": 18,
+      "status": "agree"
     },
-    "notes": [
-      "KL Gateway 一带有天桥，OSM 路网可能没画进去，路线距离可能偏长"
-    ]
+    "pool_gym": {
+      "iproperty": "泳池/健身房",
+      "starproperty": "泳池/健身房",
+      "status": "agree"
+    }
   }
 }

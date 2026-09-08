@@ -123,7 +123,7 @@ status: draft
 **B. 采集与审核**
 
 - FR-7 `node scripts/collect.mjs <id 或 iProperty 项目链接>`：抓取档案字段，写入 `data/staging/<id>.json`，含来源、时间、原始值。
-- FR-8 交叉验证：坐标对 OpenStreetMap，步行距离对 OSM 路网步行路线，年份/户数/地契/开发商/设施暂无可抓的独立二源（PropertyGuru 与 iProperty 同库，不算），行情对 Mudah 和 iBilik；每个字段评估为「一致」「接近」「单源」「冲突」，结果写进 provenance 并在页面标记弹层显示。
+- FR-8 交叉验证：坐标对 OpenStreetMap，步行距离对 OSM 路网步行路线，年份/户数/地契/开发商/层数/泳池健身房对 StarProperty 楼盘页（星报集团，和 iProperty 不同库；PropertyGuru 与 iProperty 同库，不算），实时信息对 Mudah 和 iBilik；每个字段评估为「一致」「接近」「单源」「冲突」，结果写进 provenance 并在页面标记弹层显示。两源冲突由人用 arbitrate.mjs 写结论和理由，页面显示理由，健康检查不再告警。
 - FR-9 生成 `data/staging/REVIEW.md`：现有值、采集值、二源值、评估结论、建议动作，一眼能审。
 - FR-10 `node scripts/publish.mjs <id>` 把审核通过的字段写入 `condos.json`，更新 provenance 和 `verified_at`，追加 `data/changelog.json`（每条含 at、who、condo、field、from、to、source、reason、public_note）。
 - FR-10b 读者页「说明」下方显示对外版变更记录：只列日期、小区、"更新了什么"（public_note），不显示人。后台显示完整字段。
@@ -160,14 +160,14 @@ status: draft
 | 采集时 iProperty 改版或 403 | staging 标 `fetch_failed`，报告列出，现有值不动 |
 | 二源冲突（如户数不同） | 评估「冲突」，报告高亮，人工选一个并写理由，理由进 changelog |
 | 行情连续失败 | 页面标记显示「已 X 小时未更新」，不显示假时间 |
-| 新小区没有 PropertyGuru 页 | 评估「单源」，页面标记同样显示 |
+| 新小区没有 StarProperty 页，或 StarProperty 是只有地契的新版页 | 评估「单源」，页面标记同样显示 |
 | 纠错被刷 | Supabase 触发器限速，后台可批量删除 |
 | 管理员邮箱泄露 | Access 白名单加一次性验证码，撤销邮箱即失效 |
 
 ## 6. 技术考虑
 
 - 保持静态站加 Cloudflare Pages。数据留在 git，可审计、可回滚；后台的写操作走 Pages Functions 调 GitHub API，token 存为 Pages 密钥，浏览器拿不到。
-- 采集脚本复用现有 refresh.mjs 的 curl / curl-impersonate 方式；PropertyGuru 项目页用 iOS Safari 指纹可抓（probe 已验证）。
+- 采集脚本复用现有 refresh.mjs 的 curl / curl-impersonate 方式；StarProperty 楼盘页本机 curl 可抓，新版页以 HTTP 404 返回完整页面（软 404），页面够大就照样解析。
 - 意向表和纠错继续用 Supabase 匿名插入加 RLS；后台通过 Function 内的 service key 操作，不暴露。
 - 三层模型的字段约定见 ADR-001；流水线见 ADR-002；后台见 ADR-003。
 
@@ -203,7 +203,7 @@ status: draft
 
 ## 10. 执行契约
 
-- 权威来源优先级：开发商官网 > iProperty 项目页 > PropertyGuru 项目页 > 平台挂牌帖 > 小红书帖子。冲突时以高优先级为准并记录。
+- 权威来源优先级：开发商官网 / 实地 > iProperty 项目页 > StarProperty 楼盘页 > 平台挂牌帖 > 小红书帖子。冲突时以高优先级为准，用 arbitrate.mjs 记录结论和理由。
 - 不可触碰：`prices.json` 不手改；`condos.json` 里的指纹不改；意向表数据不进仓库。
 - 每条 FR 的验收标准在实现前写进 `docs/ACCEPTANCE.md`，实现后逐条勾。
 - 需要交给 Sasha 决定的情形：涉及费用；删除小区；二源冲突无法判断；需要账号或密钥。

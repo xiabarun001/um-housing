@@ -52,7 +52,8 @@
 - [x] Given 一个小区，When 运行 `node scripts/crosscheck.mjs <id>`，Then 坐标和 OpenStreetMap 地理编码比对（一致 / 接近 / 冲突 / 单源），步行距离和 OSM 路网步行路线比对（一致 / 冲突），结果写进 staging 的 `crosscheck`，`--report-only` 后出现在 REVIEW.md。
 - [x] Given 交叉验证有冲突或原值是估算，When 运行 `publish.mjs <id> --accept=walk`，Then 采纳路线值（超过 1.2 km 记为"无步行可达"并在说明里写路线距离），provenance 记 `method: route`，页面档案弹层显示核对结果。
 - [x] Given 2026-09-08 对 25 个小区跑完，Then 坐标 22 个一致或接近、3 个 OSM 无记录；步行 12 个采纳路线值，3 个实测值保留，Laurel 因帖子与路网不符保留为估算并注明。
-- [ ] （搁置：2026-09-08 核实 PropertyGuru 与 iProperty 同库，不能当二源；PropWall、NuProp、EdgeProp、StarProperty 均被拦，档案的独立二源暂只有开发商官网，需人工）Given 独立第二来源，When 比对年份、户数、地契、开发商、设施，Then 每个字段标「一致」「单源」「冲突」。
+- [x] Given 有 `links.starproperty` 的小区（19/25），When 运行 collect，Then 同时抓 StarProperty 楼盘页，年份、户数、地契、开发商、层数、泳池健身房逐字段标「双源一致」「冲突」「单源」，写进 staging 的 `second_assessment` 和 REVIEW.md；publish 后记进 `provenance.<字段>.second`，页面固定信息弹层显示"两个来源一致"或"不一致，待复核"。
+- [ ] （已确认不可行）PropertyGuru 与 iProperty 同库；PropWall、NuProp、EdgeProp、PropSocial、Speedhome（含 GitHub 机器 iOS 指纹）被拦。
 - [x] Given 每次行情刷新，When 跑完 iProperty 和 iBilik，Then 再搜 Mudah 的整套和单间，最低价相差 35% 以内标 agree、否则标 gap，写进 `prices.json` 的 `check.mudah`；页面行情弹层显示"另一来源 Mudah"和差异提示。
 
 ### FR-9 审核报告
