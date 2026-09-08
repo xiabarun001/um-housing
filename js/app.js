@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090115';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090130';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -722,31 +722,56 @@ async function renderCampus(geo) {
     }
   }
 
-  /* 周边三片 */
+  /* 三大租房区域：圆角泡泡 + 推开重叠的编号点 + LRT 线 */
   if (aroundBox) {
     const ringPts = main.map(([lng, lat]) => ({ lat, lng }));
     const condos = state.condos;
     const stations = (state.meta.stations || []).slice().sort((a, b) => Number(a.code.replace(/\D/g, '')) - Number(b.code.replace(/\D/g, '')));
     const all = [...ringPts, ...condos, ...stations];
-    const { W, H, xy } = makeProj(all, 640, 56);
-    let s = `<svg class="campus-svg around" viewBox="0 0 ${W} ${H}" role="img" aria-label="三片小区相对校园的位置示意图">`;
-    // 区域圈：质心 + 覆盖所有点的半径
-    const byRegion = {};
-    condos.forEach((c) => { (byRegion[c.region] = byRegion[c.region] || []).push(c); });
-    // 每片画一个椭圆：按该片小区的外接框加一圈边，标签放在椭圆里靠上，不会被裁掉
-    for (const [r, cs] of Object.entries(byRegion)) {
-      const xs = cs.map((c) => xy(c)[0]), ys = cs.map((c) => xy(c)[1]);
-      const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
-      const cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, rx = Math.max(56, (x1 - x0) / 2 + 30), ry = Math.max(50, (y1 - y0) / 2 + 34);
-      s += `<ellipse class="cs-region r${r}" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}"/>`;
-      // 标签：区域 1 放椭圆顶部，2、3 放底部（顶部会和校园轮廓挤在一起）；横向夹在图内，用短名
-      const ly = r === '1' ? cy - ry + 18 : cy + ry - 10, lx = Math.min(Math.max(cx, 84), W - 84);
-      s += `<text class="cs-region-lbl r${r}" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">区域 ${r} · ${esc(regionsMeta[r]?.short || '')}</text>`;
+    const { W, H, xy } = makeProj(all, 640, 64);
+    // 编号点：真实位置太近的轻轻推开，避免互相压住（只动画面坐标，不动数据）
+    const R_DOT = 10, MIN_D = R_DOT * 2 + 4;
+    const pts = condos.map((c) => { const [x, y] = xy(c); return { c, x, y, ox: x, oy: y }; });
+    for (let k = 0; k < 80; k++) {
+      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+        const a = pts[i], b = pts[j]; const dx = b.x - a.x, dy = b.y - a.y; const d = Math.hypot(dx, dy) || 0.01;
+        if (d < MIN_D) { const push = (MIN_D - d) / 2, ux = dx / d, uy = dy / d; a.x -= ux * push; a.y -= uy * push; b.x += ux * push; b.y += uy * push; }
+      }
+      for (const q of pts) { q.x += (q.ox - q.x) * 0.05; q.y += (q.oy - q.y) * 0.05; }
     }
-    s += rings.map((r) => `<path class="cs-campus${r === main ? '' : ' minor'}" d="${svgPath(r, xy)}"/>`).join('');
-    { const [x, y] = xy({ lat: ringPts.reduce((a, p) => a + p.lat, 0) / ringPts.length, lng: ringPts.reduce((a, p) => a + p.lng, 0) / ringPts.length }); s += `<text class="cs-lbl cs-lbl-campus" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">马来亚大学</text>`; }
-    if (stations.length > 1) s += `<polyline class="cs-line" points="${stations.map((st) => xy(st).map((v) => v.toFixed(1)).join(',')).join(' ')}"/>` + stations.map((st) => { const [x, y] = xy(st); return `<circle class="cs-stn${st.name === 'Universiti' ? ' major' : ''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${st.name === 'Universiti' ? 6 : 3.5}"><title>${esc(st.zh)}</title></circle>`; }).join('');
-    for (const c of condos) { const [x, y] = xy(c); s += `<g class="cs-condo r${c.region}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="9"/><text x="${x.toFixed(1)}" y="${(y + 3.8).toFixed(1)}" text-anchor="middle">${c.no}</text><title>${esc(shortAlias(c))}</title></g>`; }
+    // 每片一个圆角凸包，用很粗的圆角描边画成泡泡
+    const hull = (arr) => {
+      const P = arr.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+      if (P.length < 3) return P;
+      const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+      const lower = []; for (const q of P) { while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop(); lower.push(q); }
+      const upper = []; for (const q of P.slice().reverse()) { while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], q) <= 0) upper.pop(); upper.push(q); }
+      return lower.slice(0, -1).concat(upper.slice(0, -1));
+    };
+    let s = `<svg class="campus-svg around" viewBox="0 0 ${W} ${H}" role="img" aria-label="三大租房区域相对校园的位置示意图">`;
+    const byRegion = {};
+    pts.forEach((q) => { (byRegion[q.c.region] = byRegion[q.c.region] || []).push(q); });
+    const labels = [];
+    for (const [r, ps] of Object.entries(byRegion)) {
+      const hp = hull(ps);
+      const d = hp.map((q, i) => (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1)).join('') + 'Z';
+      s += `<path class="cs-blob-edge r${r}" d="${d}"/><path class="cs-blob r${r}" d="${d}"/>`;
+      const xs = ps.map((q) => q.x), ys = ps.map((q) => q.y);
+      const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
+      const ly = r === '1' ? Math.min(...ys) - 38 : Math.max(...ys) + 46;
+      labels.push({ r, x: Math.min(Math.max(cx, 80), W - 80), y: Math.min(Math.max(ly, 22), H - 10), text: `区域 ${r} · ${regionsMeta[r]?.short || ''}` });
+    }
+    s += `<path class="cs-campus" d="${svgPath(main, xy)}"/>`;
+    { const [x, y] = xy({ lat: ringPts.reduce((a, q) => a + q.lat, 0) / ringPts.length, lng: ringPts.reduce((a, q) => a + q.lng, 0) / ringPts.length }); s += `<text class="cs-lbl cs-lbl-campus" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">马来亚大学</text>`; }
+    if (stations.length > 1) {
+      const line = stations.map((st) => xy(st).map((v) => v.toFixed(1)).join(',')).join(' ');
+      s += `<polyline class="cs-line-case" points="${line}"/><polyline class="cs-line" points="${line}"/>`;
+      s += stations.map((st) => { const [x, y] = xy(st); const major = st.name === 'Universiti'; return `<circle class="cs-stn${major ? ' major' : ''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${major ? 6.5 : 3.5}"><title>${esc(st.zh)}</title></circle>`; }).join('');
+      const f0 = xy(stations[0]); s += `<text class="cs-lbl cs-lbl-lrt" x="${(f0[0] + 2).toFixed(1)}" y="${(f0[1] - 11).toFixed(1)}">LRT</text>`;
+      const u = stations.find((st) => st.name === 'Universiti'); if (u) { const [x, y] = xy(u); s += `<text class="cs-lbl cs-lbl-lrt" x="${(x - 11).toFixed(1)}" y="${(y + 5).toFixed(1)}" text-anchor="end">Universiti 站</text>`; }
+    }
+    for (const q of pts) s += `<g class="cs-condo r${q.c.region}"><circle cx="${q.x.toFixed(1)}" cy="${q.y.toFixed(1)}" r="${R_DOT}"/><text x="${q.x.toFixed(1)}" y="${(q.y + 4).toFixed(1)}" text-anchor="middle">${q.c.no}</text><title>${esc(shortAlias(q.c))}</title></g>`;
+    for (const l of labels) s += `<text class="cs-region-lbl r${l.r}" x="${l.x.toFixed(1)}" y="${l.y.toFixed(1)}" text-anchor="middle">${esc(l.text)}</text>`;
     s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
     aroundBox.innerHTML = s;
     if (groups) groups.innerHTML = Object.keys(regionsMeta).map((r) => `<div class="around-group r${r}"><h4>${esc(regionsMeta[r].label)}</h4><p class="muted">${esc(regionsMeta[r].desc || '')}</p><div class="chips">${condos.filter((c) => String(c.region) === r).map((c) => `<a href="#card-${c.id}"><i>${c.no}</i>${esc(shortAlias(c))}</a>`).join('')}</div></div>`).join('');

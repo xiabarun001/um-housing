@@ -918,3 +918,25 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
   .title-art { gap: 12px; }
   .title-art .t2 { font-size: 1.1em; }
 }
+
+/* 三大租房区域：泡泡区域、LRT 线带白边、右侧三张等高卡片 */
+.cs-blob-edge { fill: none; stroke-width: 48px; stroke-linejoin: round; stroke-linecap: round; }
+.cs-blob { stroke-width: 44px; stroke-linejoin: round; stroke-linecap: round; }
+.cs-blob-edge.r1 { stroke: var(--r1); } .cs-blob-edge.r2 { stroke: var(--r2); } .cs-blob-edge.r3 { stroke: var(--r3); }
+.cs-blob.r1 { fill: color-mix(in srgb, var(--r1) 13%, var(--card, #fff)); stroke: color-mix(in srgb, var(--r1) 13%, var(--card, #fff)); }
+.cs-blob.r2 { fill: color-mix(in srgb, var(--r2) 13%, var(--card, #fff)); stroke: color-mix(in srgb, var(--r2) 13%, var(--card, #fff)); }
+.cs-blob.r3 { fill: color-mix(in srgb, var(--r3) 13%, var(--card, #fff)); stroke: color-mix(in srgb, var(--r3) 13%, var(--card, #fff)); }
+.cs-line-case { fill: none; stroke: var(--card, #fff); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.around .cs-line { stroke-width: 2.5; opacity: 1; stroke-linejoin: round; }
+.around .cs-condo circle { stroke-width: 2.5; }
+.around .cs-condo text { font-size: 11px; }
+.around .cs-lbl-lrt { font-size: 12px; }
+.cs-region-lbl { font-size: 16px; stroke-width: 5px; }
+.around-wrap { align-items: stretch; }
+.around-groups { grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.around-group { display: flex; flex-direction: column; padding: 14px 16px; }
+.around-group h4 { font-size: 16px; }
+.around-group .muted { margin-bottom: 10px; }
+.around-group .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin-top: auto; }
+.around-group .chips a { border-radius: 6px; padding: 4px 8px 4px 5px; background: var(--bg); }
+@media (max-width: 960px) { .around-groups { grid-template-rows: none; } }
