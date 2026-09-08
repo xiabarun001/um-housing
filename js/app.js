@@ -1,4 +1,5 @@
 /* UM 租房指南 — app */
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609071600';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 const state = {
   condos: [],
@@ -807,21 +808,8 @@ function renderRankings() {
 
 /* ---------- 开始之前：想清楚要什么（需求自评 + 按权重给小区打分） ---------- */
 const NEEDS_KEY = 'um-needs';
-const NEEDS_LEVELS = ['不在乎', '有点', '很在意', '必须'];
-const NEEDS_MODES = { room: '一个人租一间（合租）', share2: '和朋友整租两房、平摊', solo: '一个人整租开间或一房' };
 const NEEDS_PRICE_LABEL = { room: '单间', share2: '两房人均', solo: '开间或一房整套' };
-const NEEDS_ASK = [
-  ['cook', '能不能做饭：有没有厨房，允许明火吗'],
-  ['furnished', '带哪些家具家电：床、衣柜、空调、冰箱、洗衣机'],
-  ['bath', '有没有独立卫生间'],
-  ['utilities', '水电网怎么算：包在房租里，还是按用量分摊'],
-  ['term', '合同最短签多久，能不能签半年'],
-  ['deposit', '押金几个月、什么时候退、扣不扣清洁费'],
-  ['roommates', '现在住着几个人，室友的性别和作息'],
-  ['pets', '能不能养宠物'],
-  ['parking', '有没有停车位，要不要另付'],
-  ['visitors', '访客和过夜有没有限制'],
-];
+// 档位、住法、8 项标准的文案和看房要问的清单都在 needs-data.js 里，和出图页共用
 
 // 从“开间 300 sqft RM 1,600 起 · 2 房 581 sqft RM 1,950 起”里把各房型价格拆出来
 function wholePrices(c) {
@@ -848,22 +836,23 @@ function commuteMin(c) {
 function needsCriteria() {
   const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
   const maxRent = Math.max(1, ...state.condos.map((c) => c.snapshot.for_rent || 0));
-  return [
-    { k: 'price', label: '月租便宜', hint: '按你选的住法取该小区最低价，超预算越多扣分越多', score: (c, o) => {
+  const scorers = {
+    price: (c, o) => {
       const p = needsPrice(c, o.mode);
       if (p == null) return { s: 0.5, why: `没抓到${NEEDS_PRICE_LABEL[o.mode]}的价格`, unknown: true };
       const ratio = p / Math.max(o.budget, 1);
       const s = ratio <= 0.85 ? 1 : ratio >= 1.25 ? 0 : (1.25 - ratio) / 0.4;
       return { s, why: `${NEEDS_PRICE_LABEL[o.mode]} RM ${fmt(p)} 起${ratio > 1 ? '，超预算' : ''}` };
-    } },
-    { k: 'commute', label: '上学方便', hint: '走到轻轨站的分钟数，加上坐到 Universiti 站的时间', score: (c) => { const r = commuteMin(c); return { s: 1 - norm(r.min, 2, 35), why: r.why }; } },
-    { k: 'facilities', label: '设施多', hint: '泳池健身房之外，还有桑拿、球场这些加分项', score: (c) => ({ s: norm(c.facilities.length, 8, 17), why: `${c.facilities.length} 项设施` }) },
-    { k: 'age', label: '楼龄新', hint: '建成年份', score: (c) => c.completed ? { s: norm(c.completed, 1996, 2025), why: `${c.completed} 年建成` } : { s: 0.3, why: '建成年份不详，是老楼' } },
-    { k: 'density', label: '楼里人少', hint: '总户数越少，电梯和泳池越不挤', score: (c) => c.units ? { s: 1 - norm(c.units, 200, 1450), why: `${fmt(c.units)} 户` } : { s: 0.5, why: '户数不详', unknown: true } },
-    { k: 'daily', label: '吃饭购物方便', hint: '楼下或步行范围有没有商场、超市、大排档（粗略判断）', score: (c) => ({ s: norm(c.daily?.score ?? 3, 1, 5), why: c.daily?.note || '' }) },
-    { k: 'roommates', label: '好找室友、中国同学多', hint: 'Bangsar South 一侧中国学生最集中；在租房源多也更好拼', score: (c) => ({ s: (c.region === 2 ? 0.7 : 0.2) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }) },
-    { k: 'quiet', label: '安静', hint: '离大路远、密度低（粗略判断）', score: (c) => ({ s: norm(c.quiet?.score ?? 3, 1, 5), why: c.quiet?.note || '' }) },
-  ];
+    },
+    commute: (c) => { const r = commuteMin(c); return { s: 1 - norm(r.min, 2, 35), why: r.why }; },
+    facilities: (c) => ({ s: norm(c.facilities.length, 8, 17), why: `${c.facilities.length} 项设施` }),
+    age: (c) => c.completed ? { s: norm(c.completed, 1996, 2025), why: `${c.completed} 年建成` } : { s: 0.3, why: '建成年份不详，是老楼' },
+    density: (c) => c.units ? { s: 1 - norm(c.units, 200, 1450), why: `${fmt(c.units)} 户` } : { s: 0.5, why: '户数不详', unknown: true },
+    daily: (c) => ({ s: norm(c.daily?.score ?? 3, 1, 5), why: c.daily?.note || '' }),
+    roommates: (c) => ({ s: (c.region === 2 ? 0.7 : 0.2) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }),
+    quiet: (c) => ({ s: norm(c.quiet?.score ?? 3, 1, 5), why: c.quiet?.note || '' }),
+  };
+  return CRITERIA.map((m) => ({ ...m, score: scorers[m.k] }));
 }
 function needsCompute(o, crit) {
   const active = crit.filter((x) => (o.w[x.k] || 0) > 0);

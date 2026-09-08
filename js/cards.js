@@ -1,5 +1,6 @@
 /* 小红书出图：从 data/condos.json（固定信息）现场画成 1080×1440 的图片。
    三篇帖子：总览地图 1 张；区域 1 概览 1 张 + 小区卡片 10 张；区域 2 概览 1 张 + 小区卡片 9 张。 */
+import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609071600';
 const W = 1080, H = 1440, PAD = 72;
 const SITE = 'um-housing.evasuka.com';
 const C = { paper: '#FAF9F6', card: '#FFFFFF', ink: '#1B1F24', ink2: '#4B5560', ink3: '#7B8590', line: '#E3E0D8', line2: '#D2CEC4', accent: '#C96A1B', r1: '#C96A1B', r2: '#2F6BCC', lrt: '#D6336C', campus: '#3E8E5B', ok: '#2E7D4F' };
@@ -8,6 +9,7 @@ const SANS = '"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif';
 const CFG_KEY = 'um-cards';
 
 const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
 const fmt = (n) => n == null ? '—' : Number(n).toLocaleString('en-MY');
 const shortName = (c) => clean(c.alias || c.name).replace(/[（(].*?[）)]/g, '').trim(); // 表格和图例里用短名，去掉括号注释
 const clean = (s) => String(s ?? '').replace(/[​-‍﻿]/g, ''); // 去掉零宽字符，画图时不需要
@@ -291,14 +293,167 @@ function drawMap(ctx, data, campus, cfg) {
   footer(ctx, cfg);
 }
 
+/* ---------- 方法篇：文字直接从 index.html 里取，网站改了这里跟着变 ---------- */
+async function loadGuide() {
+  const html = await fetch('index.html', { cache: 'no-cache' }).then((r) => r.text());
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  const txt = (el) => clean(el?.textContent || '').replace(/\s+/g, ' ').trim();
+  const list = (sel) => [...doc.querySelectorAll(sel)].map(txt).filter(Boolean);
+  return {
+    priceHead: [...doc.querySelectorAll('#s2 .price-table thead th')].map(txt),
+    priceRows: [...doc.querySelectorAll('#s2 .price-table tbody tr')].map((tr) => [...tr.children].map(txt)),
+    monthly: list('#s2 .monthly ul li'),
+    commission: txt(doc.querySelector('#s2 .monthly p')),
+    where: list('#s5 .three-col > div:nth-child(1) ul li'),
+    tpl: (doc.querySelector('#tpl-1')?.textContent || '').trim(),
+    tplNote: txt(doc.querySelector('#s5 .three-col > div:nth-child(2) p.muted')),
+    check3: list('#s5 .three-col > div:nth-child(3) ul.plain:not(.compact) li'),
+    mustAsk: list('#s5 ul.plain.compact li'),
+    viewing: list('#s6 [data-checklist="viewing"] li'),
+    contract: list('#s6 [data-checklist="contract"] li'),
+    movein: list('#s6 [data-checklist="movein"] li'),
+    timeline: [...doc.querySelectorAll('#s7 .timeline li')].map((li) => ({ h: txt(li.querySelector('h3')), p: txt(li.querySelector('p')) })),
+  };
+}
+function head(ctx, eyebrow, title, lede) {
+  base(ctx);
+  let y = PAD + 70;
+  ctx.font = `600 26px ${SERIF}`; ctx.fillStyle = C.accent; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  ctx.fillText(eyebrow, PAD, y);
+  y += 46;
+  y = para(ctx, title, PAD, y, W - PAD * 2, 66, { font: `700 54px ${SERIF}`, color: C.ink, maxLines: 2 });
+  if (lede) y = para(ctx, lede, PAD, y + 8, W - PAD * 2, 38, { font: `400 26px ${SANS}`, color: C.ink2, maxLines: 3 });
+  return y + 22;
+}
+function bullet(ctx, text, y, o = {}) {
+  circle(ctx, PAD + 8, y + 15, 5, C.accent);
+  return para(ctx, text, PAD + 28, y, W - PAD * 2 - 28, o.lh || 36, { font: o.font || `400 25px ${SANS}`, color: o.color || C.ink2, maxLines: o.maxLines || 3 }) + (o.gap ?? 8);
+}
+function roundBox(ctx, x, y, w, h, r, fill) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath();
+  ctx.fillStyle = fill; ctx.fill();
+}
+
+function drawNeedsCard(ctx, cfg) {
+  let y = head(ctx, '开始之前', '租房前先想清楚这 8 件事', `每件事按“${NEEDS_LEVELS.join(' / ')}”打个分。网站上打完分，会按你的权重给 19 个小区排序，还会整理出看房要问的问题。`);
+  CRITERIA.forEach((m, i) => {
+    if (y > FOOTER_TOP - 130) return;
+    pin(ctx, PAD + 20, y + 20, 20, C.accent, i + 1);
+    ctx.font = `700 30px ${SANS}`; ctx.fillStyle = C.ink; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText(m.label, PAD + 58, y + 2);
+    y = para(ctx, m.hint, PAD + 58, y + 42, W - PAD * 2 - 58, 32, { font: `400 24px ${SANS}`, color: C.ink3, maxLines: 1 }) + 14;
+    ctx.fillStyle = C.line; ctx.fillRect(PAD, y - 6, W - PAD * 2, 1);
+  });
+  y += 10;
+  para(ctx, `先定住法：${Object.values(NEEDS_MODES).join(' / ')}，再定每人每月房租上限。`, PAD, y, W - PAD * 2, 34, { font: `500 24px ${SANS}`, color: C.ink2, maxLines: 2 });
+  footer(ctx, cfg, `在网站上打分、自动排序：${SITE}`);
+}
+
+function drawBudgetCard(ctx, g, cfg) {
+  let y = head(ctx, '第 2 步 · 定预算', '先选房型，再算入住前要带多少钱', `行情区间是人工整理的（${cfg.date}），看数量级就好；每个小区当前的在租数和价格，网站上每 12 小时自动更新。`);
+  const cols = [{ x: PAD, w: 128 }, { x: PAD + 136, w: 250 }, { x: PAD + 394, w: 306 }, { x: PAD + 708, w: 228 }];
+  ctx.fillStyle = '#F1EFE9'; ctx.fillRect(PAD, y, W - PAD * 2, 44);
+  ctx.font = `600 21px ${SANS}`; ctx.fillStyle = C.ink2; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  g.priceHead.forEach((h, i) => ctx.fillText(h.replace(/区域 \d · /, ''), cols[i].x + 8, y + 11));
+  y += 44;
+  for (const row of g.priceRows) {
+    ctx.font = `400 22px ${SANS}`;
+    const n = Math.max(...row.map((cell, i) => wrap(ctx, cell, cols[i].w - 14).length));
+    row.forEach((cell, i) => para(ctx, cell, cols[i].x + 8, y + 9, cols[i].w - 14, 30, { font: i === 0 ? `700 22px ${SANS}` : `400 22px ${SANS}`, color: i === 0 ? C.ink : C.ink2 }));
+    y += n * 30 + 18;
+    ctx.fillStyle = C.line; ctx.fillRect(PAD, y - 1, W - PAD * 2, 1);
+  }
+  y += 26;
+  y = label(ctx, '入住前要付多少', PAD, y);
+  const r = 1200, stamp = Math.max(0, Math.round((r * 12 - 2400) / 250)) + 10, base0 = r * 3.5 + stamp;
+  y = para(ctx, `惯例是 2 个月押金 + 1 个月预付 + 半个月水电押金，押金退房时退。按月租 RM ${fmt(r)} 算：押金 RM ${fmt(r * 2)}、首月 RM ${fmt(r)}、水电押金 RM ${fmt(r / 2)}、门禁卡押金 RM 100 到 200、印花税约 RM ${fmt(stamp)}、合同费 RM 150 到 300，合计带够 RM ${fmt(base0 + 250)} 到 ${fmt(base0 + 500)}。合租单间常见简化版：押金 1 到 2.5 个月加首月。`, PAD, y, W - PAD * 2, 37, { font: `400 25px ${SANS}`, color: C.ink2, maxLines: 6 });
+  footer(ctx, cfg, `填你的月租自动算：${SITE} 第 2 步`);
+}
+function drawMonthlyCard(ctx, g, cfg) {
+  let y = head(ctx, '第 2 步 · 定预算', '每月除了房租还有什么，中介费谁付', '');
+  y = label(ctx, '每月开销', PAD, y);
+  for (const m of g.monthly) { if (y > FOOTER_TOP - 200) break; y = bullet(ctx, m, y, { font: `400 26px ${SANS}`, lh: 38, maxLines: 3, gap: 12 }); }
+  y += 16;
+  y = label(ctx, '中介费谁付', PAD, y);
+  para(ctx, g.commission, PAD, y, W - PAD * 2, 38, { font: `400 26px ${SANS}`, color: C.ink2, maxLines: 5 });
+  footer(ctx, cfg);
+}
+function drawAgentCard(ctx, g, cfg) {
+  let y = head(ctx, '第 5 步 · 找房源', '去哪找房，联系之前先查什么', '');
+  y = label(ctx, '去哪找', PAD, y);
+  for (const t of g.where) { if (y > FOOTER_TOP - 300) break; y = bullet(ctx, t, y, { maxLines: 3 }); }
+  y += 16;
+  y = label(ctx, '发消息之前查这三样', PAD, y);
+  for (const t of g.check3) { if (y > FOOTER_TOP - 60) break; y = bullet(ctx, t, y, { maxLines: 3 }); }
+  footer(ctx, cfg);
+}
+function drawTemplateCard(ctx, g, cfg) {
+  let y = head(ctx, '第 5 步 · 第一条消息', '给中介的第一条 WhatsApp 这样发', g.tplNote);
+  ctx.font = `400 24px ${SANS}`;
+  const lines = g.tpl.split('\n').flatMap((l) => { const w = wrap(ctx, l, W - PAD * 2 - 48); return w.length ? w : ['']; });
+  const boxH = lines.length * 34 + 40;
+  roundBox(ctx, PAD, y, W - PAD * 2, boxH, 10, '#F1EFE9');
+  ctx.fillStyle = C.ink; ctx.textAlign = 'left'; ctx.textBaseline = 'top'; ctx.font = `400 24px ${SANS}`;
+  lines.forEach((l, i) => ctx.fillText(l, PAD + 24, y + 20 + i * 34));
+  y += boxH + 28;
+  y = label(ctx, '一定要问清的', PAD, y);
+  for (const t of g.mustAsk) { if (y > FOOTER_TOP - 50) break; y = bullet(ctx, t, y, { maxLines: 2, gap: 6 }); }
+  footer(ctx, cfg, `模板一键复制：${SITE} 第 5 步`);
+}
+function drawChecklistCard(ctx, g, cfg) {
+  let y = head(ctx, '第 6 步 · 看房和签约', '照这三张清单过一遍', '');
+  const groups = [['看房时检查', g.viewing], ['合同里要有', g.contract], ['付款和入住当天', g.movein]];
+  for (const [t, items] of groups) {
+    if (y > FOOTER_TOP - 90) break;
+    y = label(ctx, t, PAD, y);
+    for (const it of items) {
+      if (y > FOOTER_TOP - 48) break;
+      ctx.strokeStyle = C.line2; ctx.lineWidth = 2; ctx.strokeRect(PAD + 2, y + 5, 20, 20);
+      y = para(ctx, it, PAD + 36, y, W - PAD * 2 - 36, 31, { font: `400 22px ${SANS}`, color: C.ink2, maxLines: 2 }) + 6;
+    }
+    y += 10;
+  }
+  footer(ctx, cfg, `清单可以在网站上勾选：${SITE} 第 6 步`);
+}
+function drawTimelineCard(ctx, g, cfg) {
+  let y = head(ctx, '第 7 步 · 时间表', '出发前 6 周到入住第一周', '');
+  const x0 = PAD + 14;
+  const dots = [];
+  for (const e of g.timeline) {
+    if (y > FOOTER_TOP - 110) break;
+    dots.push(y + 16);
+    ctx.font = `700 29px ${SERIF}`; ctx.fillStyle = C.ink; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+    ctx.fillText(e.h, x0 + 34, y);
+    y = para(ctx, e.p, x0 + 34, y + 42, W - PAD * 2 - 48, 34, { font: `400 24px ${SANS}`, color: C.ink2, maxLines: 4 }) + 28;
+  }
+  if (dots.length) { ctx.fillStyle = C.line2; ctx.fillRect(x0 - 1, dots[0], 2, dots[dots.length - 1] - dots[0]); }
+  dots.forEach((dy) => circle(ctx, x0, dy, 9, C.card, C.accent));
+  footer(ctx, cfg);
+}
+
+/* ---------- 每篇帖子的标题、正文、标签 ---------- */
+function captions(data, cfg) {
+  const tags = '#马来亚大学 #UM #马大 #马来西亚留学 #吉隆坡租房 #留学生租房 #马来西亚租房 #UM租房';
+  const line = (c) => { const t = c.transit; const walk = t.walk_min == null ? '没有走得到的轻轨站' : `走 ${t.walk_min} 分钟到 ${stationZh(t.nearest)}`; return `${c.no} ${shortName(c)}：${c.completed ? c.completed + ' 年' : '年份不详'}，${c.units ? fmt(c.units) + ' 户' : '户数不详'}，${walk}`; };
+  const region = (r) => data.condos.filter((c) => c.region === r).map(line).join('\n');
+  const tail = `\n\n固定信息核实于 ${cfg.date}。在租数量和价格每 12 小时自动更新，加上地图、按你在意的事给小区打分排序、同学租房意向表，都在网站（网址在图的角落）。非商业整理，转载请注明来源。`;
+  return [
+    { title: '马大周边19个小区，一张图看清位置', body: `要来马来亚大学（UM）读书、准备在校外租房的同学看这里。学校附近的租房集中在两片：西边 PJ 一侧（图上橙色，10 个小区），东边 Bangsar South 一侧（蓝色，9 个小区）。粉线是轻轨 Kelana Jaya 线，Universiti 站出来过天桥就是 UM 正门。\n\n19 个小区的设施、楼龄、户数、到轻轨站的步行时间我们逐个核实过。下两篇按区域逐个看。${tail}`, tags: `${tags} #BangsarSouth #PetalingJaya` },
+    { title: 'UM租房｜PJ一侧10个小区逐个看', body: `${clean(data.meta.regions['1'].desc)}\n\n一张概览表加 10 张小区卡片：\n${region(1)}${tail}`, tags: `${tags} #PetalingJaya #PJ租房` },
+    { title: 'UM租房｜Bangsar South 9个小区', body: `${clean(data.meta.regions['2'].desc)}\n\n一张概览表加 9 张小区卡片：\n${region(2)}${tail}`, tags: `${tags} #BangsarSouth` },
+    { title: 'UM租房｜从想清楚到签合同，7张图', body: `租房不是刷房源，先想清楚自己要什么。这 7 张图按顺序：\n1 先想清楚这 8 件事\n2 房型行情和入住前要带多少钱\n3 每月除了房租还有什么、中介费谁付\n4 去哪找房、联系前查什么\n5 给中介的第一条 WhatsApp 模板\n6 看房、合同、付款三张清单\n7 出发前 6 周到入住第一周的时间表${tail}`, tags },
+  ];
+}
+
 /* ---------- 页面 ---------- */
 async function main() {
   const status = $('#status');
   status.textContent = '正在读数据和字体…';
-  const [data, prices, campus] = await Promise.all([
+  const [data, prices, campus, guide] = await Promise.all([
     fetch('data/condos.json', { cache: 'no-cache' }).then((r) => r.json()),
     fetch('data/prices.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => null),
     fetch('data/um.geojson').then((r) => r.json()).catch(() => null),
+    loadGuide(),
   ]);
   // 字体：把会画到的字都告诉浏览器，让对应的子集先下载好
   const sample = JSON.stringify(data) + '小红书号版本核实固定信息最新价格地图自评打分校园在哪轻轨两片一图看完怎么去学校设施吃饭购物安静程度要知道的走不到公交估马来亚大学周边区域橙色蓝色粉线出来过天桥正门户数建成年份不详项' + SITE;
@@ -314,15 +469,32 @@ async function main() {
     { title: '帖子 1：总览地图', note: '1 张。发的时候正文写两片区域各是什么、网站能看最新价格。', items: [{ file: '00-总览地图', draw: (ctx) => drawMap(ctx, data, campus, cfg) }] },
     { title: '帖子 2：区域 1 · PJ 一侧', note: '1 张概览 + 10 张小区卡片，正好一篇。', items: [{ file: '10-区域1-概览', draw: (ctx) => drawRegion(ctx, 1, data, cfg) }, ...data.condos.filter((c) => c.region === 1).map((c) => ({ file: `1${String(c.no).padStart(2, '0')}-${shortName(c)}`, draw: (ctx) => drawCondo(ctx, c, data, prices, cfg) }))] },
     { title: '帖子 3：区域 2 · Bangsar South 一侧', note: '1 张概览 + 9 张小区卡片。', items: [{ file: '20-区域2-概览', draw: (ctx) => drawRegion(ctx, 2, data, cfg) }, ...data.condos.filter((c) => c.region === 2).map((c) => ({ file: `2${String(c.no).padStart(2, '0')}-${shortName(c)}`, draw: (ctx) => drawCondo(ctx, c, data, prices, cfg) }))] },
+    { title: '帖子 4：方法篇', note: '7 张：先想清楚、预算两张、找房源、消息模板、三张清单、时间表。文字直接取自网站对应的步骤。', items: [
+      { file: '30-先想清楚', draw: (ctx) => drawNeedsCard(ctx, cfg) },
+      { file: '31-预算-行情和入住前要付多少', draw: (ctx) => drawBudgetCard(ctx, guide, cfg) },
+      { file: '32-预算-每月开销和中介费', draw: (ctx) => drawMonthlyCard(ctx, guide, cfg) },
+      { file: '33-找房源和查中介', draw: (ctx) => drawAgentCard(ctx, guide, cfg) },
+      { file: '34-第一条消息模板', draw: (ctx) => drawTemplateCard(ctx, guide, cfg) },
+      { file: '35-看房签约清单', draw: (ctx) => drawChecklistCard(ctx, guide, cfg) },
+      { file: '36-时间表', draw: (ctx) => drawTimelineCard(ctx, guide, cfg) },
+    ] },
   ];
   const box = $('#posts');
   const canvases = [];
+  const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
   const render = () => {
     box.innerHTML = '';
     canvases.length = 0;
-    for (const p of posts) {
+    const caps = captions(data, cfg);
+    posts.forEach((p, pi) => {
       const sec = document.createElement('div'); sec.className = 'post';
-      sec.innerHTML = `<h3>${p.title}</h3><p class="muted">${p.note}</p><div class="card-grid"></div>`;
+      const cap = caps[pi];
+      sec.innerHTML = `<h3>${p.title}</h3><p class="muted">${p.note}</p><div class="card-grid"></div>
+        <div class="cap"><h4>标题（${cap.title.length} 字）</h4><p class="cap-t">${esc(cap.title)}</p><h4>正文</h4><pre class="cap-b">${esc(cap.body)}</pre><h4>标签</h4><p class="cap-g">${esc(cap.tags)}</p>
+        <div class="needs-acts"><button type="button" class="btn" data-cap="title">复制标题</button><button type="button" class="btn" data-cap="body">复制正文</button><button type="button" class="btn" data-cap="tags">复制标签</button></div></div>`;
+      $$('.cap button', sec).forEach((b) => b.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(cap[b.dataset.cap]); const t = b.textContent; b.textContent = '已复制'; setTimeout(() => { b.textContent = t; }, 1200); } catch { window.prompt('复制下面的文字', cap[b.dataset.cap]); }
+      }));
       const grid = $('.card-grid', sec);
       for (const it of p.items) {
         const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
@@ -337,7 +509,7 @@ async function main() {
         canvases.push({ cv, file: it.file });
       }
       box.appendChild(sec);
-    }
+    });
     status.textContent = `已生成 ${canvases.length} 张，1080 × 1440`;
   };
   const download = (cv, name) => new Promise((res) => cv.toBlob((b) => {
