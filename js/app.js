@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090230';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090245';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -764,22 +764,36 @@ async function renderCampus(geo) {
     }
     s += `<path class="cs-campus" d="${svgPath(main, xy)}"/>`;
     { const [x, y] = xy({ lat: ringPts.reduce((a, q) => a + q.lat, 0) / ringPts.length, lng: ringPts.reduce((a, q) => a + q.lng, 0) / ringPts.length }); s += `<text class="cs-lbl cs-lbl-campus" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">马来亚大学</text>`; }
-    // 公交：PJ 免费巴士（PJ01 / PJ02）和 Rapid KL 780，走向来自 OpenStreetMap，只画进图框的部分
+    // 公交：PJ 免费巴士（PJ01 / PJ02）和 Rapid KL 780，走向来自 OpenStreetMap。
+    // 只保留离小区或校园近的一段（离任一小区 100 px 内，或离校园中心 140 px 内），跑远的部分不画，线的两端标去向
     if (bus?.routes?.length) {
       const inView = (x, y) => x >= 0 && x <= W && y >= 0 && y <= H;
+      const campC = xy({ lat: ringPts.reduce((a, q) => a + q.lat, 0) / ringPts.length, lng: ringPts.reduce((a, q) => a + q.lng, 0) / ringPts.length });
+      const keep = ([x, y]) => inView(x, y) && (pts.some((q) => Math.hypot(q.x - x, q.y - y) <= 100) || Math.hypot(x - campC[0], y - campC[1]) <= 140);
       for (const rt of bus.routes) {
-        const pts = [];
+        const kept = [], runs = [];
         for (const seg of rt.segments) {
           const xys = seg.map(([lat, lng]) => xy({ lat, lng }));
-          if (!xys.some(([x, y]) => inView(x, y))) continue;
-          s += `<polyline class="cs-bus ${rt.kind}" points="${xys.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' ')}"><title>${esc(rt.name)}</title></polyline>`;
-          xys.forEach(([x, y]) => { if (inView(x, y)) pts.push([x, y]); });
+          let run = [];
+          const flush = () => { if (run.length > 1) runs.push(run); run = []; };
+          for (const q of xys) { if (keep(q)) run.push(q); else flush(); }
+          flush();
         }
-        if (!pts.length) continue;
-        if (rt.ref === 'PJ02') { const p = pts.reduce((a, b) => (b[0] < a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus pj" x="${(p[0] + 4).toFixed(1)}" y="${(p[1] - 8).toFixed(1)}">PJ 免费巴士 PJ01 / PJ02</text>`; }
+        // 孤立的小碎片（不到 40 px 且没有别的路段接着）不画
+        const lenOf = (r) => r.reduce((acc, q, i) => acc + (i ? Math.hypot(q[0] - r[i - 1][0], q[1] - r[i - 1][1]) : 0), 0);
+        const near = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]) <= 4;
+        const connected = (r, i) => runs.some((o, j) => j !== i && (near(o[0], r[0]) || near(o[o.length - 1], r[0]) || near(o[0], r[r.length - 1]) || near(o[o.length - 1], r[r.length - 1])));
+        // 把首尾相接的路段连成链，整条链不到 60 px 的碎片不画
+        const parent = runs.map((_, i) => i); const find = (i) => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+        const ends = runs.map((r) => [r[0], r[r.length - 1]]);
+        for (let i = 0; i < runs.length; i++) for (let j = i + 1; j < runs.length; j++) if (ends[i].some((e) => ends[j].some((f) => near(e, f)))) parent[find(i)] = find(j);
+        const compLen = {}; runs.forEach((r, i) => { const c = find(i); compLen[c] = (compLen[c] || 0) + lenOf(r); });
+        runs.forEach((r, i) => { if (compLen[find(i)] >= 60) { s += `<polyline class="cs-bus ${rt.kind}" points="${r.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' ')}"><title>${esc(rt.name)}</title></polyline>`; r.forEach((q) => kept.push(q)); } });
+        if (!kept.length) continue;
+        if (rt.ref === 'PJ01') { const q = kept.reduce((a, b) => (b[1] > a[1] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus pj" x="${Math.min(q[0] + 30, W - 6).toFixed(1)}" y="${(q[1] + 15).toFixed(1)}" text-anchor="end">PJ 免费巴士 PJ01 / PJ02</text>`; }
         if (rt.kind === 'rapid') {
-          const top = pts.reduce((a, b) => (b[1] < a[1] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${Math.min(Math.max(top[0], 70), W - 80).toFixed(1)}" y="${(top[1] + 16).toFixed(1)}" text-anchor="middle">780 路 ↑ Kota Damansara</text>`;
-          const right = pts.reduce((a, b) => (b[0] > a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${(right[0] - 6).toFixed(1)}" y="${(right[1] - 8).toFixed(1)}" text-anchor="end">780 路 → Pasar Seni</text>`;
+          const west = kept.reduce((a, b) => (b[0] < a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${Math.max(west[0] + 6, 6).toFixed(1)}" y="${(west[1] - 8).toFixed(1)}" text-anchor="start">780 路 ↑ 往 Kota Damansara</text>`;
+          const right = kept.reduce((a, b) => (b[0] > a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${Math.min(right[0] + 6, W - 6).toFixed(1)}" y="${(right[1] - 8).toFixed(1)}" text-anchor="end">780 路 → 往 Pasar Seni</text>`;
         }
       }
     }

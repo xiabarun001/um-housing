@@ -1,6 +1,6 @@
 /* 小红书出图：从 data/condos.json（固定信息）现场画成 1080×1440 的图片。
    三篇帖子：总览地图 1 张；区域 1 概览 1 张 + 小区卡片 10 张；区域 2 概览 1 张 + 小区卡片 9 张。 */
-import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609090230';
+import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609090245';
 const W = 1080, H = 1440, PAD = 72;
 const SITE = 'um-housing.evasuka.com';
 const C = { paper: '#FAF9F6', card: '#FFFFFF', ink: '#1B1F24', ink2: '#4B5560', ink3: '#7B8590', line: '#E3E0D8', line2: '#D2CEC4', accent: '#C96A1B', r1: '#C96A1B', r2: '#2F6BCC', r3: '#6B4FBB', lrt: '#D6336C', ktm: '#1F7A8C', campus: '#3E8E5B', ok: '#2E7D4F' };
