@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090350';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090355';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -218,7 +218,9 @@ function renderConclusion() {
   const st = state.start || loadStart();
   const o = loadNeeds();
   const crit = needsCriteria();
-  const anyW = crit.some((x) => (o.w[x.k] || 0) > 0);
+  // 只有用户真的打过分，打分表的权重和预算才算数；没打过就只用起点记下的
+  let touched = false; try { touched = !!localStorage.getItem(NEEDS_KEY); } catch { /* ignore */ }
+  const anyW = touched && crit.some((x) => (o.w[x.k] || 0) > 0);
   const res = anyW ? needsCompute(o, crit) : [];
   const top = res.slice(0, 3);
   const yes = Object.entries(state.marks).filter(([, v]) => v === 'yes').map(([id]) => state.condos.find((c) => c.id === id)).filter(Boolean);
@@ -236,8 +238,9 @@ function renderConclusion() {
   const sentences = [];
   const first = [];
   if (modeZh && modeZh !== '住法还没定') first.push(`我打算${modeZh.replace(/（.*?）/g, '')}`);
-  first.push(`每月房租不超过 RM ${fmt(anyW ? o.budget : (Number(st.budget) || o.budget))}`);
-  sentences.push(first.join('，') + '。');
+  const budget = anyW ? o.budget : (Number(st.budget) || null);
+  if (budget) first.push(`每月房租不超过 RM ${fmt(budget)}`); else if (st.budget === 'unsure') first.push('预算还没定');
+  if (first.length) sentences.push(first.join('，') + '。');
   // 区域：收藏里最多的那片，否则打分前三里最多的
   const pool = yes.length ? yes : top.map((r) => r.c);
   if (pool.length) {
