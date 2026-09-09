@@ -1302,82 +1302,55 @@ function renderTierPills() {
     row('market', '挂牌数量和价格，每天早晚 8 点自动抓', stale ? `已 ${Math.round(h)} 小时未更新` : `更新 ${esc(hourText)}`, stale ? ' stale' : '') +
     row('judgment', '我们的估算和主观判断，别当事实', '不标时间');
 }
-// 对外版变更记录：只显示日期、小区、"更新了什么"，不显示人（ADR-002）
-const FIELD_ZH = { record: '新增小区', name: '名称', completed: '建成年份', units: '户数', floors: '楼层', tenure: '地契', type: '类型', developer: '开发商', address: '地址', geo: '坐标', facilities: '设施清单', flags: '设施开关', transit: '交通', verified_at: '核实日期' };
 async function renderChangelog() {
-  // 页脚一行"更新记录"，默认收起：只记固定信息的人工核实和修改，价格的自动刷新不记
-  const box = $('#changelog'), list = $('#changelog-list'), when = $('#changelog-date');
-  if (!box || !list) return;
+  // 页脚只写一句"最近什么时候改过固定信息"，明细不摊开
+  const box = $('#changelog'), when = $('#changelog-date');
+  if (!box || !when) return;
   let log;
   try { log = await fetch('data/changelog.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
-  const entries = (log.entries || []).slice().reverse();
-  if (!entries.length) return;
-  // 同一天同一小区合并成一行
-  const groups = new Map();
-  for (const e of entries) {
-    const key = `${e.date_myt}|${e.condo}`;
-    if (!groups.has(key)) groups.set(key, { date: e.date_myt, condo: e.condo, notes: new Set(), fields: new Set() });
-    const g = groups.get(key);
-    if (e.public_note) g.notes.add(e.public_note);
-    g.fields.add(FIELD_ZH[e.field] || e.field);
-  }
-  // 同一天、同一句说明、涉及 3 个以上小区的（批量核对）再合并成一行
-  const byNote = new Map();
-  for (const g of groups.values()) {
-    const what = g.notes.size ? [...g.notes].join('；') : `核对了${[...g.fields].join('、')}`;
-    const key = `${g.date}|${what}`;
-    if (!byNote.has(key)) byNote.set(key, { date: g.date, what, condos: [] });
-    byNote.get(key).condos.push(g.condo);
-  }
-  const rows = [...byNote.values()].slice(0, 8);
-  const nameOf = (id) => { const c = state.condos.find((x) => x.id === id); return c ? shortAlias(c) : id; };
-  list.innerHTML = rows.map((g) => {
-    const who = g.condos.length >= 3 ? `${g.condos.length} 个小区` : g.condos.map(nameOf).join('、');
-    return `<li><time>${esc(g.date)}</time><span>${esc(who)}：${esc(g.what)}</span></li>`;
-  }).join('');
-  if (when) when.textContent = rows[0].date;
+  const dates = (log.entries || []).map((e) => e.date_myt).filter(Boolean).sort();
+  if (!dates.length) return;
+  when.textContent = dates[dates.length - 1];
   box.hidden = false;
 }
 function tierPopHTML(kind, c) {
   const tiers = state.meta.tiers || {};
   const t = tiers[kind] || {};
   if (kind === 'profile') {
-    const src = c ? (c.sources || []).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('') : '';
-    // 交叉验证结果（provenance.*.check）
-    const checks = [];
-    // 第二来源（StarProperty）逐字段结论（provenance.*.second）
-    const secondFields = [['completed', '建成年份'], ['units', '户数'], ['tenure', '地契'], ['developer', '开发商'], ['floors', '楼层'], ['flags', '泳池健身房']];
-    const agree = [], conflict = [], reviewed = [];
-    for (const [f, zh] of secondFields) {
-      const sd = c?.provenance?.[f]?.second; if (!sd) continue;
-      if (sd.status === 'agree') agree.push(sd.note ? `${zh}（${sd.note}）` : zh);
-      else if (sd.status === 'conflict') (sd.arbitrated ? reviewed : conflict).push(sd.note ? `${zh}：${sd.note}` : `${zh}：StarProperty 写 ${sd.value ?? '—'}`);
-    }
-    if (agree.length) checks.push(`${agree.join('、')}：iProperty 和 StarProperty 两个来源一致`);
-    if (reviewed.length) checks.push(`两个来源不一致，已人工复核：${reviewed.join('；')}`);
-    if (conflict.length) checks.push(`两个来源不一致，待复核：${conflict.join('；')}`);
-    const geoK = c?.provenance?.lat?.check;
-    if (geoK) checks.push(`坐标和 ${geoK.with} ${geoK.status === 'agree' ? '一致' : geoK.status === 'near' ? '接近' : geoK.status === 'conflict' ? '不一致，待复核' : '未能核对'}${geoK.distance_m != null ? `（相差 ${geoK.distance_m} m）` : ''}`);
-    const tr = c?.provenance?.transit;
-    if (tr?.check) checks.push(tr.method === 'route' ? `步行距离按 OpenStreetMap 路网计算（${tr.check.route_m} m，${tr.check.route_min} 分钟），未实地走过` : `步行距离和 OSM 路网${tr.check.status === 'agree' ? '一致' : tr.check.status === 'conflict' ? '不符，待复核' : '未能核对'}${tr.check.route_m != null ? `（路线 ${tr.check.route_m} m，${tr.check.route_min} 分钟）` : ''}`);
-    return `<h4><i class="tier-dot tier-profile"></i>固定信息：可以直接信</h4><p>${esc(t.desc || '')}</p><p>${c ? `${esc(shortAlias(c))} 核实于 ${esc(c.verified_at || state.meta.verified_at)}` : `核实于 ${esc(state.meta.verified_at)}`}。</p>${checks.length ? `<p>交叉验证：</p><ul>${checks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}${src ? `<p>来源：</p><ul>${src}</ul>` : ''}`;
+    const src = c ? (c.sources || []).slice(0, 3).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('') : '';
+    // 两个来源逐字段比过，这里只报个数，具体哪一项不用摊开说
+    const second = ['completed', 'units', 'tenure', 'developer', 'floors', 'flags'].map((f) => c?.provenance?.[f]?.second).filter(Boolean);
+    const agree = second.filter((x) => x.status === 'agree').length;
+    const reviewed = second.filter((x) => x.status === 'conflict' && x.arbitrated).length;
+    const conflict = second.filter((x) => x.status === 'conflict' && !x.arbitrated).length;
+    const bits = [];
+    if (agree) bits.push(`${agree} 项两个来源一致`);
+    if (reviewed) bits.push(`${reviewed} 项已人工复核`);
+    if (conflict) bits.push(`${conflict} 项待复核`);
+    const tr = c?.provenance?.transit?.check;
+    if (tr && tr.route_min != null) bits.push(`步行路线按 OpenStreetMap 算的（${tr.route_min} 分钟）`);
+    return `<h4><i class="tier-dot tier-profile"></i>固定信息：可以直接信</h4>`
+      + `<p>${esc(t.desc || '')}</p>`
+      + `<p>核实于 ${esc((c && c.verified_at) || state.meta.verified_at)}${bits.length ? '，' + esc(bits.join('，')) : ''}。</p>`
+      + (src ? `<ul>${src}</ul>` : '');
   }
   if (kind === 'market') {
     const h = marketAgeHours();
     const links = c ? `<ul><li><a href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租列表</a></li>${c.links.ibilik ? `<li><a href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 单间列表</a></li>` : ''}</ul>` : '';
-    // 二源比对（Mudah）
     const mu = c?.snapshot?.check?.mudah;
-    let cross = '';
-    if (mu) {
-      const bits = [];
-      if (mu.unit_n) bits.push(`整套 RM ${fmt(mu.unit_min)} 起（${mu.unit_n} 条${mu.unit_status === 'agree' ? '，和 iProperty 一致' : mu.unit_status === 'gap' ? '，<b>和 iProperty 差得多，看清楚是不是单间冒充整套</b>' : ''}）`);
-      if (mu.room_n) bits.push(`单间 RM ${fmt(mu.room_min)} 起（${mu.room_n} 条${mu.room_status === 'agree' ? '，和上面一致' : mu.room_status === 'gap' ? '，<b>和上面差得多</b>' : ''}）`);
-      cross = `<p>另一来源 Mudah（${esc(mu.at)}）：${bits.length ? bits.join('；') : '没搜到这个小区的帖子'}。</p>`;
-    }
-    return `<h4><i class="tier-dot tier-market"></i>实时信息：只能当参考</h4><p>${esc(t.desc || '')}</p><p>最近一次抓取 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今约 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>已超过 36 小时，可能过期</b>' : ''}。</p>${cross}${links}`;
+    const gap = mu && (mu.unit_status === 'gap' || mu.room_status === 'gap');
+    const cross = mu ? `<p>另一来源 Mudah ${gap ? '<b>价格差得多，看清楚是不是单间冒充整套</b>' : (mu.unit_n || mu.room_n ? '对得上' : '没搜到这个小区')}。</p>` : '';
+    return `<h4><i class="tier-dot tier-market"></i>实时信息：只能当参考</h4>`
+      + `<p>${esc(t.desc || '')}</p>`
+      + `<p>抓取于 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>可能过期</b>' : ''}。</p>`
+      + cross + links;
   }
-  return `<h4><i class="tier-dot tier-judgment"></i>观点：我们的看法</h4><p>${esc(t.desc || '')}</p>${c && c.judgment ? `<ul>${c.judgment.daily ? `<li>吃饭购物：${esc(c.judgment.daily.note)}</li>` : ''}${c.judgment.quiet ? `<li>安静程度：${esc(c.judgment.quiet.note)}</li>` : ''}${c.judgment.walk_min_est ? `<li>步行分钟：${esc(c.judgment.walk_min_est.note)}</li>` : ''}</ul>` : ''}`;
+  const j = c && c.judgment;
+  return `<h4><i class="tier-dot tier-judgment"></i>观点：我们的看法</h4>`
+    + `<p>${esc(t.desc || '')}</p>`
+    + (j ? `<ul>${j.daily ? `<li>吃饭购物：${esc(j.daily.note)}</li>` : ''}${j.quiet ? `<li>安静程度：${esc(j.quiet.note)}</li>` : ''}${j.walk_min_est ? `<li>步行分钟：${esc(j.walk_min_est.note)}</li>` : ''}</ul>` : '');
 }
+
 function bindTierPop() {
   let pop = $('#tier-pop');
   if (!pop) { pop = document.createElement('div'); pop.id = 'tier-pop'; pop.className = 'tier-pop'; pop.hidden = true; document.body.appendChild(pop); }
