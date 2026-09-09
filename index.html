@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609090400">
+<link rel="stylesheet" href="css/style.css?v=202609091155">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -57,7 +57,7 @@
   <section class="lead">
     <div class="lead-head">
       <h1 class="title-art" aria-label="马来亚租房指南"><span class="t1">马来亚</span><span class="t2">租房指南</span></h1>
-      <div class="tiers" id="tiers-top" aria-label="这页的信息分三层"></div>
+      <div class="tiers" id="tiers-top" aria-label="三类信息各是什么、更新到什么时候"></div>
     </div>
   </section>
 
@@ -540,22 +540,17 @@ Is the room still available? Could you share a short video of the room and the u
   </div>
 </section>
 
-  <!-- 数据说明 -->
-  <section class="section about" id="about">
-    <h2 class="section-title">信息说明</h2>
-    <p class="section-lede">页面上每个数字旁边都有一个小标记，点一下能看到来源和时间。三种标记的意思：</p>
-    <div class="about-tiers" id="about-tiers"></div>
-    <div class="changelog" id="changelog" hidden>
-      <h3>最近更新了什么</h3>
-      <p class="muted">固定信息每次核实或修改都会记在这里；价格的自动更新不在此列，看实时信息标记上的时间。</p>
-      <ul id="changelog-list"></ul>
-    </div>
+  <!-- 更新记录：固定信息的人工核实和修改；三类信息的说明只在页首出现一次 -->
+  <section class="section about" id="about" hidden>
+    <h2 class="section-title">更新记录</h2>
+    <p class="section-lede">固定信息每次核实或修改都记在这里；价格的自动更新不在此列，时间看页首"实时信息"那一行。</p>
+    <div class="changelog"><ul id="changelog-list"></ul></div>
   </section>
 
 </main>
 
 <footer class="foot">
-  <p>UM 租房指南，由马来亚大学的学生自己整理，非官方、非商业，不收中介一分钱。固定信息最近核实 <time class="verified-at"></time>。</p>
+  <p>UM 租房指南，由马来亚大学的学生自己整理，非官方、非商业，不收中介一分钱。</p>
   <p class="license">本站文字、数据和代码以 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">CC BY-NC-SA 4.0</a> 授权：转载须注明来源 um-housing.evasuka.com，禁止商业使用，改编后须以相同方式共享。中介、租房平台等盈利机构未经书面许可不得使用本站内容。© 2026 um-housing.evasuka.com</p>
 </footer>
 
@@ -590,7 +585,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609090400"></script>
-<script type="module" src="js/app.js?v=202609090400"></script>
+<script src="js/config.js?v=202609091155"></script>
+<script type="module" src="js/app.js?v=202609091155"></script>
 </body>
 </html>

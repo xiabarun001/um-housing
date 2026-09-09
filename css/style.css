@@ -726,16 +726,7 @@ main { max-width: 1400px; }
 .tier-pop ul { margin: 2px 0 0; padding-left: 16px; }
 .tier-pop li { margin: 2px 0; }
 .tier-pop a { color: var(--r2); }
-.about-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 14px; }
-.about-tier { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--line-2); }
-.about-tier.tier-profile { border-top-color: var(--ok); }
-.about-tier.tier-market { border-top-color: #D89B2B; }
-.about-tier.tier-judgment { border-top-color: var(--ink-3); }
-.about-tier h3 { display: flex; align-items: center; gap: 8px; font-size: 16px; margin: 0 0 8px; padding: 0; border: 0; }
-.about-tier p { margin: 0 0 6px; color: var(--ink-2); font-size: 14px; }
-.about-tier .muted { font-size: 12.5px; }
 @media (prefers-color-scheme: dark) { .tier.stale { background: #2A1A19; border-color: #5A2E2B; color: #F0A9A3; } }
-@media (max-width: 960px) { .about-tiers { grid-template-columns: 1fr; } }
 @media (max-width: 720px) { .tier { white-space: normal; } .tiers .tier { font-size: 11.5px; } }
 
 /* ---------- 区域 3 · Seputeh / Old Klang Road ---------- */
@@ -911,10 +902,8 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .title-art { display: inline-flex; align-items: baseline; gap: 16px; margin: 0; line-height: 1; }
 .title-art .t1 { font-family: var(--serif); font-size: .42em; font-weight: 700; letter-spacing: .22em; color: var(--accent); border: 2px solid var(--accent); border-radius: 6px; padding: .3em .3em .3em .52em; line-height: 1; white-space: nowrap; }
 .title-art .t2 { font-family: var(--serif); font-size: 1.28em; font-weight: 900; letter-spacing: .06em; white-space: nowrap; }
-.lead-head .tiers { margin: 0 0 4px; flex-direction: column; align-items: flex-end; gap: 6px; }
 @media (max-width: 720px) {
   .lead-head { align-items: flex-start; }
-  .lead-head .tiers { align-items: flex-start; }
   .title-art { gap: 12px; }
   .title-art .t2 { font-size: 1.1em; }
 }
@@ -1069,5 +1058,24 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .part-title.first { margin-top: 18px; }
 @media (max-width: 720px) { .stop-part { margin-top: 30px; padding-top: 22px; } .part-title { font-size: 19px; } }
 /* 小人往回走时转身 */
-.route .f-body { transform-origin: 14px 22px; transition: transform .15s; }
+.route .f-body { transform-origin: 14px 22px; transition: transform .12s; }
 .route .figure.back .f-body { transform: scaleX(-1); }
+
+/* 页首右下：三类信息各是什么、更新到什么时候（全站只在这里说一次） */
+.lead-head .tiers { flex: 0 1 470px; display: flex; flex-direction: column; flex-wrap: nowrap; gap: 1px; margin: 0 0 6px; }
+.tier-row { display: grid; grid-template-columns: 5em minmax(0, 1fr) 11.5em; align-items: center; column-gap: 10px; width: 100%; text-align: left; background: none; border: 0; border-radius: 6px; padding: 4px 6px; margin: 0; font: 500 12.5px/1.4 var(--sans); color: var(--ink-2); cursor: pointer; }
+.tier-row:hover { background: var(--bg-2); color: var(--ink); }
+.tier-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tier-row b { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); font-weight: 700; white-space: nowrap; }
+.tier-row i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.tier-row .tm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tier-row time { color: var(--ink-3); text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tier-row.stale time { color: #B3261E; font-weight: 600; }
+@media (prefers-color-scheme: dark) { .tier-row.stale time { color: #F0A9A3; } }
+@media (max-width: 720px) {
+  .lead-head .tiers { flex-basis: 100%; }
+  .tier-row { grid-template-columns: 5em minmax(0, 1fr); }
+  .tier-row .tm { white-space: normal; }
+  .tier-row time { grid-column: 2; text-align: left; }
+}
+.about .changelog { margin-top: 0; }

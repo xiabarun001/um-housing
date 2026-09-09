@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090400';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609091155';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -52,7 +52,6 @@ async function init() {
   $$('.verified-at').forEach((t) => { t.textContent = data.meta.verified_at; });
   $$('.prices-at').forEach((t) => { t.textContent = prices.updated_myt ? prices.updated_myt + '（马来西亚时间）' : '暂无'; });
   renderTierPills();
-  renderAboutTiers();
   bindTierPop();
   bindReport();
   renderChangelog();
@@ -136,31 +135,41 @@ function bindNav() {
     track.style.left = centers[0] + 'px'; track.style.width = Math.max(0, centers[6] - centers[0]) + 'px';
     walked.style.left = centers[0] + 'px';
   };
-  // 进度 0 到 6：在两站之间按滚动比例插值；每站以它第一块内容的顶部为准
+  // 每站对应一个滚动位置：站名滚到视口上方三分之一处就算走到；起点定在页面顶端、终点定在页面底端，
+  // 所以从头到尾没有"页面在滚、小人不动"的死区，滚到底一定站在终点，往回滚也马上有反应
+  const anchors = () => {
+    const vh = window.innerHeight, maxY = Math.max(7, document.documentElement.scrollHeight - vh);
+    const a = ROUTE_STOPS.map((id) => { const el = document.getElementById(id); return el ? el.getBoundingClientRect().top + window.scrollY - vh * 0.3 - 120 : 0; });
+    a[0] = 0; a[6] = maxY;
+    for (let i = 1; i < 6; i++) a[i] = Math.min(maxY - (6 - i), Math.max(a[i - 1] + 1, a[i]));
+    return a;
+  };
   const progress = () => {
-    const tops = ROUTE_STOPS.map((id) => { const el = document.getElementById(id); return el ? el.getBoundingClientRect().top + window.scrollY - 120 : Infinity; });
-    const probe = window.scrollY + window.innerHeight * 0.3;
-    if (probe <= tops[0]) return 0;
-    for (let i = 0; i < 6; i++) if (probe < tops[i + 1]) return i + Math.min(1, Math.max(0, (probe - tops[i]) / Math.max(1, tops[i + 1] - tops[i])));
+    const a = anchors(), y = window.scrollY;
+    if (y <= 0) return 0;
+    for (let i = 0; i < 6; i++) if (y < a[i + 1]) return i + (y - a[i]) / (a[i + 1] - a[i]);
     return 6;
   };
-  let walkTimer = null, lastP = -1, lastX = null;
+  let walkTimer = null, lastY = null;
   const paint = () => {
     if (!centers.length) measure();
     const p = progress();
     const i = Math.min(5, Math.floor(p)), f = p - i;
     const x = p >= 6 ? centers[6] : centers[i] + (centers[i + 1] - centers[i]) * f;
     figure.style.transform = `translateX(${x.toFixed(1)}px)`;
-    if (lastX != null) { if (x < lastX - 0.3) figure.classList.add('back'); else if (x > lastX + 0.3) figure.classList.remove('back'); }
-    lastX = x;
     walked.style.width = Math.max(0, x - centers[0]).toFixed(1) + 'px';
     const cur = Math.round(p);
     stops.forEach((li, k) => { li.classList.toggle('done', k < cur); li.classList.toggle('now', k === cur); });
     if (here) here.textContent = names[cur];
-    if (lastP >= 0 && Math.abs(p - lastP) > 0.0005) { route.classList.add('walking'); clearTimeout(walkTimer); walkTimer = setTimeout(() => route.classList.remove('walking'), 240); }
-    lastP = p;
+    // 朝向和迈步都看滚动方向，不看小人挪了几个像素：慢慢往回滚也会马上转身
+    const y = window.scrollY;
+    if (lastY != null && y !== lastY) {
+      figure.classList.toggle('back', y < lastY);
+      route.classList.add('walking'); clearTimeout(walkTimer); walkTimer = setTimeout(() => route.classList.remove('walking'), 240);
+    }
+    lastY = y;
   };
-  window.addEventListener('scroll', () => requestAnimationFrame(paint), { passive: true });
+  window.addEventListener('scroll', paint, { passive: true }); // 滚动事件本身就按帧来，直接画，少一帧延迟
   window.addEventListener('resize', () => { measure(); paint(); });
   if (document.fonts?.ready) document.fonts.ready.then(() => { measure(); paint(); });
   measure(); paint();
@@ -1292,29 +1301,19 @@ function tierMark(kind, c) {
 function renderTierPills() {
   const box = $('#tiers-top');
   if (!box) return;
-  // 首屏右下角的三条：固定信息精确到日，实时信息精确到时
+  // 页首右下一处说清三类信息：各是什么、更新到什么时候（固定信息精确到日，实时信息精确到时，观点不标时间）。全站只在这里说一次
   const h = marketAgeHours(); const stale = h != null && h > MARKET_STALE_HOURS;
   const m = String(state.meta.prices_updated_myt || '').match(/^(\d{4}-\d{2}-\d{2}) (\d{2}):/);
   const hourText = m ? `${m[1]} ${m[2]}:00` : (state.meta.prices_updated_myt || '未知');
-  box.innerHTML = `<button type="button" class="tier tier-profile" data-tier="profile"><i></i>固定信息：更新 ${esc(state.meta.verified_at || '未知')}</button>` +
-    `<button type="button" class="tier tier-market${stale ? ' stale' : ''}" data-tier="market"><i></i>实时信息：更新 ${esc(hourText)}${stale ? `（已 ${Math.round(h)} 小时未更新）` : ''}</button>` +
-    `<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>观点：估算和主观判断</button>`;
-}
-function renderAboutTiers() {
-  const box = $('#about-tiers');
-  const tiers = state.meta.tiers;
-  if (!box || !tiers) return;
-  const extra = {
-    profile: `核实于 ${state.meta.verified_at}。每张卡片的"来源与详情"里能点到原页面自己核对。`,
-    market: `最近一次抓取 ${state.meta.prices_updated_myt || '未知'}（马来西亚时间）。真正下决定前，点"iProperty 在租房源"看当下挂牌，价格以中介当场报的为准。`,
-    judgment: '出现在"先想清楚"的打分、交通里标"估"的分钟数、卡片里的"要知道的"。有实测或一手来源后会升级为档案。',
-  };
-  box.innerHTML = ['profile', 'market', 'judgment'].map((k) => `<div class="about-tier tier-${k}"><h3><i class="tier-dot"></i>${esc(tiers[k].label)}${k === 'profile' ? '：可以直接信' : k === 'market' ? '：只能当参考' : '：我们的看法，别当事实'}</h3><p>${esc(tiers[k].desc)}</p><p class="muted">${esc(extra[k])}</p></div>`).join('');
+  const row = (k, meaning, when, cls) => `<button type="button" class="tier-row tier-${k}${cls || ''}" data-tier="${k}" title="点一下看来源和说明"><b><i></i>${TIER_LABEL[k]}</b><span class="tm">${meaning}</span><time>${when}</time></button>`;
+  box.innerHTML = row('profile', '小区档案类事实，人工核实', `更新 ${esc(state.meta.verified_at || '未知')}`) +
+    row('market', '挂牌数量和价格，每天早晚 8 点自动抓', stale ? `已 ${Math.round(h)} 小时未更新` : `更新 ${esc(hourText)}`, stale ? ' stale' : '') +
+    row('judgment', '我们的估算和主观判断，别当事实', '不标时间');
 }
 // 对外版变更记录：只显示日期、小区、"更新了什么"，不显示人（ADR-002）
 const FIELD_ZH = { record: '新增小区', name: '名称', completed: '建成年份', units: '户数', floors: '楼层', tenure: '地契', type: '类型', developer: '开发商', address: '地址', geo: '坐标', facilities: '设施清单', flags: '设施开关', transit: '交通', verified_at: '核实日期' };
 async function renderChangelog() {
-  const box = $('#changelog'), list = $('#changelog-list');
+  const box = $('#about'), list = $('#changelog-list');
   if (!box || !list) return;
   let log;
   try { log = await fetch('data/changelog.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
@@ -1391,7 +1390,7 @@ function bindTierPop() {
   if (!pop) { pop = document.createElement('div'); pop.id = 'tier-pop'; pop.className = 'tier-pop'; pop.hidden = true; document.body.appendChild(pop); }
   const hide = () => { pop.hidden = true; if (pop.parentElement !== document.body) document.body.appendChild(pop); };
   document.addEventListener('click', (e) => {
-    const b = e.target.closest('.tier[data-tier]');
+    const b = e.target.closest('.tier[data-tier], .tier-row[data-tier]');
     if (!b) { if (!e.target.closest('#tier-pop')) hide(); return; }
     const c = b.dataset.id ? state.condos.find((x) => x.id === b.dataset.id) : null;
     pop.innerHTML = tierPopHTML(b.dataset.tier, c);
