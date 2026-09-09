@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609091230">
+<link rel="stylesheet" href="css/style.css?v=202609091320">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -64,40 +64,24 @@
   <!-- 起点：我现在想要的房子 -->
   <section class="section band" id="s-start">
     <h2 class="section-title">我现在想要的房子</h2>
-    <p class="section-lede">先记下你现在的想法，不用很确定，每一题都可以选"还不确定"。看完后面几站，到终点再对照一次。</p>
-    <div class="start-grid" id="start">
-      <div class="start-q">
-        <h3>每月房租预算</h3>
-        <div class="seg" data-q="budget" role="radiogroup" aria-label="每月房租预算">
-          <button type="button" data-v="800">RM 800 内</button>
-          <button type="button" data-v="1000">RM 1,000 内</button>
-          <button type="button" data-v="1300">RM 1,300 内</button>
-          <button type="button" data-v="1800">RM 1,800 内</button>
-          <button type="button" data-v="2500">RM 2,500 内</button>
-          <button type="button" data-v="3500">更高</button>
-          <button type="button" data-v="unsure">还不确定</button>
-        </div>
+    <p class="section-lede">不用很确定，随便写几句现在的想法。看完后面几站，到终点再对照一次。</p>
+    <div class="start-box">
+      <textarea id="start-text" class="start-text" rows="3" spellcheck="false" aria-label="我现在想要的房子">我想要的房子：</textarea>
+      <div class="start-chips" id="start-chips" aria-label="常见想法，点一下加进句子">
+        <span class="muted">没头绪就点几个：</span>
+        <button type="button">离学院近，走路能到</button>
+        <button type="button">每月 RM 1,000 左右</button>
+        <button type="button">一个人租一间</button>
+        <button type="button">和同学整租平摊</button>
+        <button type="button">安静，能睡好</button>
+        <button type="button">楼下有吃的</button>
+        <button type="button">有泳池健身房</button>
+        <button type="button">轨道站附近</button>
+        <button type="button">不要太旧</button>
+        <button type="button">其他还没想好</button>
       </div>
-      <div class="start-q">
-        <h3>打算怎么住</h3>
-        <div class="seg" data-q="mode" role="radiogroup" aria-label="打算怎么住">
-          <button type="button" data-v="room">一个人租一间</button>
-          <button type="button" data-v="share2">和朋友整租平摊</button>
-          <button type="button" data-v="solo">一个人整租</button>
-          <button type="button" data-v="unsure">还不确定</button>
-        </div>
-      </div>
-      <div class="start-q">
-        <h3>交通底线</h3>
-        <div class="seg" data-q="transit" role="radiogroup" aria-label="交通底线">
-          <button type="button" data-v="rail">必须走得到轨道站</button>
-          <button type="button" data-v="bus">公交或校车也行</button>
-          <button type="button" data-v="any">无所谓，打车</button>
-          <button type="button" data-v="unsure">还不确定</button>
-        </div>
-      </div>
+      <p class="start-echo" id="start-echo">只存在这台设备上，到终点会拿出来对照。</p>
     </div>
-    <p class="start-echo" id="start-echo" aria-live="polite"></p>
   </section>
 
   <!-- 认地方：校园里各学院、周边三片（数据驱动的示意图） -->
@@ -316,7 +300,6 @@
           <option value="walk">离轻轨近的在前</option>
           <option value="rent">最低月租低的在前</option>
           <option value="year">楼龄新的在前</option>
-          <option value="needs">按"先想清楚"的打分</option>
         </select>
       </label>
       <button type="button" class="tool-reset" id="f-reset">清除</button>
@@ -478,37 +461,12 @@ Is the room still available? Could you share a short video of the room and the u
   <!-- 开始之前：想清楚要什么 -->
   <section class="section band" id="s0">
     <h2 class="section-title">我最终想要的房子</h2>
-    <h3 class="part-title first">打个分</h3>
-    <p class="section-lede">你已经看过校园、区域和小区了。现在按在意程度点一下这几件事，右边会算出最对路的小区；下面的结论会按你的权重写。选项只存在这台设备上，随时可以改。</p>
-    <div class="needs">
-      <div class="needs-form">
-        <div class="needs-block">
-          <h3>你打算怎么住</h3>
-          <div class="seg" id="needs-mode" role="radiogroup" aria-label="居住方式">
-            <button type="button" data-v="room" aria-pressed="true">一个人租一间（合租）</button>
-            <button type="button" data-v="share2" aria-pressed="false">和朋友整租两房，平摊</button>
-            <button type="button" data-v="solo" aria-pressed="false">一个人整租开间或一房</button>
-          </div>
-          <label class="needs-budget">每人每月房租最多 <span class="rm">RM</span><input type="number" id="needs-budget" value="1300" min="300" max="10000" step="50"><span class="muted">不含水电网</span></label>
-        </div>
-        <div class="needs-block">
-          <h3>下面这些事你有多在意</h3>
-          <p class="muted">这些能用数据比。点“必须”的话，不满足的小区会排到最后。</p>
-          <button type="button" class="linkish needs-hints-toggle" id="needs-hints" aria-expanded="false">显示每一项的说明</button>
-          <div class="needs-rows" id="needs-rows"></div>
-        </div>
-        <details class="needs-block needs-details" id="needs-ask-box" open>
-          <summary><h3>数据比不了、看房时要问的<span class="muted" id="needs-ask-count"></span></h3></summary>
-          <p class="muted">勾上你在意的，右边会整理成问题清单，找中介时直接发。</p>
-          <div class="ask-grid" id="needs-ask"></div>
-        </details>
-      </div>
-      <aside class="needs-summary" id="needs-summary" aria-live="polite"></aside>
-    </div>
-  
+    <p class="section-lede">走到这里，心里应该有数了。把符合你想法的都点上，可以多选，下面会拼成一句话。</p>
+    <div class="final" id="final"></div>
+
   <div class="stop-part" id="s-end">
     <h3 class="part-title">我的结论</h3>
-    <p class="section-lede">把你一路的选择拼成一段话：起点记下的想法、打的分、收藏的小区、算出的费用。复制发给朋友或中介都行。只存在你自己的浏览器里。</p>
+    <p class="section-lede">上面点过的会拼成一句话，再和起点写的对照一下。复制发给朋友或中介都行。只存在你自己的浏览器里。</p>
     <div class="conclusion" id="conclusion"></div>
   </div>
 </section>
@@ -555,7 +513,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609091230"></script>
-<script type="module" src="js/app.js?v=202609091230"></script>
+<script src="js/config.js?v=202609091320"></script>
+<script type="module" src="js/app.js?v=202609091320"></script>
 </body>
 </html>

@@ -1,5 +1,4 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609091230';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -16,8 +15,8 @@ const state = {
   expanded: new Set(),
   expandAll: false,
   marks: null,
-  start: null,
-  needsRank: null,
+  startText: null,
+  final: null,
   map: null,
   markers: {},
 };
@@ -63,8 +62,8 @@ async function init() {
   renderRankings();
   bindCalc();
   bindCopy();
-  bindNeeds();
   bindStart();
+  bindFinal();
   renderConclusion();
   // 页面都摆好之后再定一次全图视野，避免地图在排版没完成时算错缩放
   if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds, FIT_OPTS); });
@@ -169,41 +168,41 @@ function bindNav() {
       figure.classList.toggle('back', y < lastY);
       route.classList.add('walking'); clearTimeout(walkTimer); walkTimer = setTimeout(() => route.classList.remove('walking'), 240);
     }
+    if (p <= 0) figure.classList.remove('back'); // 回到起点就转回来，面朝前方
     lastY = y;
   };
   window.addEventListener('scroll', paint, { passive: true }); // 滚动事件本身就按帧来，直接画，少一帧延迟
   window.addEventListener('resize', () => { measure(); paint(); });
   if (document.fonts?.ready) document.fonts.ready.then(() => { measure(); paint(); });
   measure(); paint();
+  void figure.offsetWidth; // 先让浏览器按没有过渡的样式排好，再显示，小人就不会从左边滑过来
+  route.classList.add('ready');
   setTimeout(() => { measure(); paint(); }, 800);
 }
 
-/* ---------- 起点：我现在想要的房子 ---------- */
-const START_KEY = 'um-start';
-const START_ZH = {
-  mode: { room: '一个人租一间', share2: '和朋友整租平摊', solo: '一个人整租', unsure: '住法还没定' },
-  transit: { rail: '必须走得到轨道站', bus: '公交或校车也行', any: '交通无所谓，打车', unsure: '交通还没想好' },
-};
-function loadStart() { try { return JSON.parse(localStorage.getItem(START_KEY) || '{}'); } catch { return {}; } }
+/* ---------- 起点：我现在想要的房子（一句话，先填好开头） ---------- */
+const START_KEY = 'um-start-text';
+const START_PREFIX = '我想要的房子：';
+function loadStart() { try { return localStorage.getItem(START_KEY) || ''; } catch { return ''; } }
+// 起点写了什么；只有开头那几个固定字就当没写
+function startText() { const t = String(state.startText ?? loadStart()).trim(); return t.length > START_PREFIX.length ? t : ''; }
 function bindStart() {
-  const box = $('#start'); if (!box) return;
-  state.start = loadStart();
-  const paint = () => {
-    $$('.seg', box).forEach((seg) => { const q = seg.dataset.q; $$('button', seg).forEach((b) => b.setAttribute('aria-pressed', String(String(state.start[q] ?? '') === b.dataset.v))); });
-    const s = state.start; const bits = [];
-    if (s.budget && s.budget !== 'unsure') bits.push(`每月房租 <b>RM ${fmt(Number(s.budget))}</b> 内`); else if (s.budget === 'unsure') bits.push('预算还不确定');
-    if (s.mode) bits.push(`<b>${esc(START_ZH.mode[s.mode] || '')}</b>`);
-    if (s.transit) bits.push(`<b>${esc(START_ZH.transit[s.transit] || '')}</b>`);
-    $('#start-echo').innerHTML = bits.length ? `你现在的想法：${bits.join('，')}。往下走，到终点再看这些有没有变。` : '';
-  };
-  box.addEventListener('click', (e) => {
-    const b = e.target.closest('button[data-v]'); if (!b) return;
-    const q = b.closest('.seg').dataset.q;
-    state.start[q] = b.dataset.v;
-    try { localStorage.setItem(START_KEY, JSON.stringify(state.start)); } catch { /* ignore */ }
-    paint(); renderConclusion();
+  const ta = $('#start-text'); if (!ta) return;
+  state.startText = loadStart() || START_PREFIX;
+  ta.value = state.startText;
+  const save = () => { state.startText = ta.value; try { localStorage.setItem(START_KEY, ta.value); } catch { /* ignore */ } renderConclusion(); };
+  ta.addEventListener('input', save);
+  ta.addEventListener('blur', () => { if (!ta.value.trim()) { ta.value = START_PREFIX; save(); } });
+  // 没头绪就点几个常见想法，接到句子后面
+  const chips = $('#start-chips');
+  if (chips) chips.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    const t = b.textContent.trim();
+    let v = ta.value.trimEnd() || START_PREFIX;
+    if (v.includes(t)) return;
+    v += /[：:，,、]$/.test(v) ? t : '，' + t;
+    ta.value = v; save(); ta.focus();
   });
-  paint();
 }
 
 /* ---------- 卡片上的"感兴趣 / 不考虑" ---------- */
@@ -221,75 +220,86 @@ function toggleMark(id, v) {
   renderConclusion();
 }
 
-/* ---------- 终点：把一路的选择拼成一段话 ---------- */
+/* ---------- 终点：我最终想要的房子（一堆选项，随便多选）+ 结论 ---------- */
+const FINAL_KEY = 'um-final';
+const FINAL_GROUPS = [
+  { g: 'mode', title: '怎么住', opts: ['一个人租一间', '和朋友整租平摊', '一个人整租'] },
+  { g: 'budget', title: '每月预算', opts: ['RM 800 内', 'RM 1,000 内', 'RM 1,300 内', 'RM 1,800 内', 'RM 2,500 内', '更高'] },
+  { g: 'transit', title: '交通', opts: ['走路到学院', '轨道站附近', '校车或公交能到', '打车也行'] },
+  { g: 'wish', title: '房子本身', opts: ['有泳池', '有健身房', '安静', '楼下有吃的', '不要太旧', '带家具', '能养宠物'] },
+  { g: 'term', title: '租期', opts: ['签一年', '先短租几个月'] },
+];
+function loadFinal() { try { const o = JSON.parse(localStorage.getItem(FINAL_KEY) || '{}'); return o && typeof o === 'object' && !Array.isArray(o) ? o : {}; } catch { return {}; } }
+function bindFinal() {
+  const box = $('#final'); if (!box) return;
+  state.final = loadFinal();
+  const regions = state.meta.regions || {};
+  const chip = (g, v, label, cls) => `<button type="button" class="chip${cls ? ' ' + cls : ''}" data-g="${esc(g)}" data-v="${esc(v)}" aria-pressed="false">${label}</button>`;
+  const groups = [
+    { title: '区域', html: Object.keys(regions).map((r) => chip('region', r, esc(regions[r].label), 'r' + r)).join('') },
+    { title: '小区', html: state.condos.slice().sort((a, b) => a.no - b.no).map((c) => chip('condo', c.id, `<i class="n">${c.no}</i>${esc(shortAlias(c))}`, 'r' + c.region)).join('') },
+    ...FINAL_GROUPS.map((x) => ({ title: x.title, html: x.opts.map((v) => chip(x.g, v, esc(v))).join('') })),
+  ];
+  box.innerHTML = groups.map((x) => `<div class="pick-group"><h3>${x.title}</h3><div class="chips">${x.html}</div></div>`).join('');
+  const paint = () => { $$('.chip', box).forEach((b) => { const on = (state.final[b.dataset.g] || []).includes(b.dataset.v); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); }); };
+  box.addEventListener('click', (e) => {
+    const b = e.target.closest('.chip'); if (!b) return;
+    const g = b.dataset.g, v = b.dataset.v;
+    const arr = state.final[g] || [];
+    state.final[g] = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
+    if (!state.final[g].length) delete state.final[g];
+    try { localStorage.setItem(FINAL_KEY, JSON.stringify(state.final)); } catch { /* ignore */ }
+    paint(); renderConclusion();
+  });
+  paint();
+}
+// 预算选了几档，说成一句：一档就"RM 1,300 内"，两档以上就"RM 1,000 到 1,300"
+function budgetZh(sel) {
+  const opts = FINAL_GROUPS.find((x) => x.g === 'budget').opts;
+  const idx = sel.map((v) => opts.indexOf(v)).filter((i) => i >= 0).sort((a, b) => a - b);
+  if (!idx.length) return '';
+  const num = (i) => opts[i].replace(/[^\d,]/g, '');
+  const lo = idx[0], hi = idx[idx.length - 1];
+  if (opts[hi] === '更高') return lo === hi ? '每月预算 RM 2,500 以上' : `每月预算 RM ${num(lo)} 以上`;
+  if (lo === hi) return `每月预算 ${opts[lo]}`;
+  return `每月预算 RM ${num(lo)} 到 ${num(hi)}`;
+}
+function finalSentence() {
+  const f = state.final || loadFinal();
+  const regions = state.meta.regions || {};
+  const parts = [];
+  const rs = (f.region || []).slice().sort();
+  const cs = (f.condo || []).map((id) => state.condos.find((c) => c.id === id)).filter(Boolean).sort((a, b) => a.no - b.no);
+  if (rs.length) parts.push(`在${rs.map((r) => regions[r]?.label || '区域 ' + r).join('或')}`);
+  if (cs.length) parts.push(`小区看 ${cs.map(shortAlias).join('、')}`);
+  if (f.mode?.length) parts.push(f.mode.join('或'));
+  if (f.budget?.length) parts.push(budgetZh(f.budget));
+  if (f.transit?.length) parts.push(f.transit.join('、'));
+  if (f.wish?.length) parts.push(f.wish.join('、'));
+  if (f.term?.length) parts.push(f.term.join('或'));
+  return parts.length ? `${START_PREFIX}${parts.join('，')}。` : '';
+}
 function renderConclusion() {
   const box = $('#conclusion'); if (!box) return;
   if (!state.marks) state.marks = loadMarks();
-  const st = state.start || loadStart();
-  const o = loadNeeds();
-  const crit = needsCriteria();
-  // 只有用户真的打过分，打分表的权重和预算才算数；没打过就只用起点记下的
-  let touched = false; try { touched = !!localStorage.getItem(NEEDS_KEY); } catch { /* ignore */ }
-  const anyW = touched && crit.some((x) => (o.w[x.k] || 0) > 0);
-  const res = anyW ? needsCompute(o, crit) : [];
-  const top = res.slice(0, 3);
-  const yes = Object.entries(state.marks).filter(([, v]) => v === 'yes').map(([id]) => state.condos.find((c) => c.id === id)).filter(Boolean);
-  const noCount = Object.values(state.marks).filter((v) => v === 'no').length;
-  let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
-  const hasStart = st.budget || st.mode || st.transit;
-  if (!hasStart && !anyW && !yes.length) {
-    box.innerHTML = '<p class="con-empty">这里还是空的。先在起点记下想法，看小区时点"感兴趣"，到"打个分"打个分，这里就会写出你的结论。</p>';
-    return;
-  }
+  const text = finalSentence();
+  const start = startText();
   const regionsMeta = state.meta.regions || {};
-  const w = (k) => o.w[k] || 0;
-  // 住法：打分表里的选择优先，其次起点
-  const modeZh = anyW ? (NEEDS_MODES[o.mode] || '') : (START_ZH.mode[st.mode] || '');
-  const sentences = [];
-  const first = [];
-  if (modeZh && modeZh !== '住法还没定') first.push(`我打算${modeZh.replace(/（.*?）/g, '')}`);
-  const budget = anyW ? o.budget : (Number(st.budget) || null);
-  if (budget) first.push(`每月房租不超过 RM ${fmt(budget)}`); else if (st.budget === 'unsure') first.push('预算还没定');
-  if (first.length) sentences.push(first.join('，') + '。');
-  // 区域：收藏里最多的那片，否则打分前三里最多的
-  const pool = yes.length ? yes : top.map((r) => r.c);
-  if (pool.length) {
-    const cnt = {}; pool.forEach((c) => { cnt[c.region] = (cnt[c.region] || 0) + 1; });
-    const r = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0][0];
-    sentences.push(`想住${regionsMeta[r]?.label || '区域 ' + r}。`);
-  }
-  // 交通
-  if (w('commute') === 3) sentences.push('必须走得到轨道站。'); else if (w('commute') === 2) sentences.push('最好走得到轨道站。'); else if (st.transit && st.transit !== 'unsure') sentences.push(START_ZH.transit[st.transit] + '。');
-  // 在意的事
-  const cares = crit.filter((x) => w(x.k) >= 2 && x.k !== 'price' && x.k !== 'commute').map((x) => x.label);
-  const musts = crit.filter((x) => w(x.k) === 3 && x.k !== 'price' && x.k !== 'commute').map((x) => x.label);
-  if (musts.length) sentences.push(`${musts.join('、')}是必须的。`);
-  const rest = cares.filter((x) => !musts.includes(x));
-  if (rest.length) sentences.push(`也在意${rest.join('、')}。`);
-  // 候选
-  if (yes.length) sentences.push(`候选是 ${yes.map(shortAlias).join('、')}${top[0] && yes.some((c) => c.id === top[0].c.id) ? `，按我的打分 ${shortAlias(top[0].c)} 最贴近` : ''}。`);
-  else if (top.length) sentences.push(`按我的打分最对路的是 ${top.map((r) => shortAlias(r.c)).join('、')}。`);
-  if (calc && calc.rent) sentences.push(`入住前大约要准备 RM ${fmt(calc.low)} 到 ${fmt(calc.high)}。`);
-  const asks = NEEDS_ASK.filter(([k]) => o.ask.includes(k)).map(([, t]) => t.split('：')[0]);
-  if (asks.length) sentences.push(`看房时要问：${asks.join('、')}。`);
-  const text = sentences.join('');
-  // 和一开始想的对比
-  const diffs = [];
-  if (st.budget && st.budget !== 'unsure' && anyW && Number(st.budget) !== o.budget) diffs.push(`预算从 RM ${fmt(Number(st.budget))} 变成 RM ${fmt(o.budget)}`);
-  if (st.mode && st.mode !== 'unsure' && anyW && st.mode !== o.mode) diffs.push(`住法从"${START_ZH.mode[st.mode]}"变成"${NEEDS_MODES[o.mode]}"`);
-  if (st.transit === 'any' && w('commute') >= 2) diffs.push('一开始说交通无所谓，现在希望走得到轨道站');
-  if (st.transit === 'rail' && anyW && w('commute') === 0) diffs.push('一开始要求走得到轨道站，现在不比这一项了');
-  if (noCount) diffs.push(`看过之后排除了 ${noCount} 个小区`);
-  const candRows = (yes.length ? yes.map((c) => ({ c, why: res.find((r) => r.c.id === c.id)?.parts.slice(0, 2).map((p) => p.why).filter(Boolean).join(' · ') || '你收藏的' })) : top.map((r) => ({ c: r.c, why: r.parts.slice(0, 2).map((p) => p.why).filter(Boolean).join(' · ') })));
+  const picked = new Set((state.final || loadFinal()).condo || []);
+  const yes = Object.entries(state.marks).filter(([, v]) => v === 'yes').map(([id]) => state.condos.find((c) => c.id === id)).filter(Boolean).sort((a, b) => a.no - b.no);
+  let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
+  const full = text ? text + (calc && calc.rent ? `入住前大约要准备 RM ${fmt(calc.low)} 到 ${fmt(calc.high)}。` : '') : '';
+  const copyText = full + (start ? `\n一开始写的：${start}` : '');
   box.innerHTML = `
-    <div class="con-card"><p class="con-text" id="con-text">${esc(text)}</p>
-      <div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了打分或收藏，这段话会跟着变。</span></div></div>
+    <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点。点几个，这里就会拼成"我想要的房子：……"。</span>'}</p>
+      ${full ? '<div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了上面的选项，这段话会跟着变。</span></div>' : ''}</div>
     <div class="con-grid">
-      <div><h3>候选小区</h3>${candRows.length ? `<ol>${candRows.map(({ c, why }) => `<li><b><a href="#card-${c.id}">${esc(shortAlias(c))}</a></b> · ${esc(regionsMeta[String(c.region)]?.short || '')}${why ? `<br><span class="muted">${esc(why)}</span>` : ''}</li>`).join('')}</ol>` : '<p class="con-empty">还没有：看小区时点"感兴趣"，或去"打个分"。</p>'}</div>
-      <div><h3>和一开始想的对比</h3>${diffs.length ? `<ul>${diffs.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>` : `<p class="con-empty">${hasStart ? '和起点记下的想法一致。' : '起点还没记想法，记一下才有对比。'}</p>`}</div>
+      <div><h3>一开始写的</h3>${start ? `<p class="con-start">${esc(start)}</p>` : '<p class="con-empty">起点还没写。回到"我现在想要的房子"写一句，这里就能对照。</p>'}</div>
+      <div><h3>看小区时标了"感兴趣"的</h3>${yes.length ? `<ul>${yes.map((c) => `<li><b><a href="#card-${c.id}">${esc(shortAlias(c))}</a></b> · ${esc(regionsMeta[String(c.region)]?.short || '')}${picked.has(c.id) ? '' : ' <span class="muted">上面还没点它</span>'}</li>`).join('')}</ul>` : '<p class="con-empty">还没有：看小区时点"感兴趣"。</p>'}</div>
     </div>`;
-  $('#con-copy')?.addEventListener('click', async (e) => {
-    try { await navigator.clipboard.writeText(text); e.target.textContent = '已复制'; } catch { window.prompt('复制下面的文字', text); }
+  const copyBtn = $('#con-copy');
+  if (copyBtn) copyBtn.addEventListener('click', async (e) => {
+    try { await navigator.clipboard.writeText(copyText); e.target.textContent = '已复制'; } catch { window.prompt('复制下面的文字', copyText); }
     setTimeout(() => { e.target.textContent = '复制这段话'; }, 1600);
   });
 }
@@ -613,13 +623,11 @@ function filtered() {
   if (state.lrt) list = list.filter((c) => c.transit.walk_min != null && c.transit.walk_min <= 10);
   if (state.budget) list = list.filter((c) => { const m = roomsMin(c); return m != null && m <= 1300; });
   for (const f of state.flags) list = list.filter((c) => c.flags[f]);
-  if (state.sort === 'needs') computeNeedsRank(); else state.needsRank = null;
   const cmp = {
     no: (a, b) => a.no - b.no,
     walk: (a, b) => (a.transit.walk_min ?? 99) - (b.transit.walk_min ?? 99) || a.no - b.no,
     rent: (a, b) => (a.snapshot.rent_from ?? 1e9) - (b.snapshot.rent_from ?? 1e9),
     year: (a, b) => (b.completed ?? 0) - (a.completed ?? 0),
-    needs: (a, b) => (state.needsRank?.[a.id]?.rank ?? 99) - (state.needsRank?.[b.id]?.rank ?? 99),
   }[state.sort];
   return list.sort(cmp);
 }
@@ -630,7 +638,7 @@ function renderList() {
   const grid = $('#grid');
   grid.innerHTML = list.map(cardHTML).join('');
   $('#empty').hidden = list.length > 0;
-  $('#result-count').textContent = `显示 ${list.length} 个，共 ${state.condos.length} 个${state.sort === 'needs' ? '，按"先想清楚"里的权重排序' : ''}`;
+  $('#result-count').textContent = `显示 ${list.length} 个，共 ${state.condos.length} 个`;
   $$('[data-detail]', grid).forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.detail)));
   $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
   $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
@@ -657,19 +665,6 @@ function expandFromHash() {
   if (!state.expandAll && !state.expanded.has(m[1])) toggleCard(m[1], true);
 }
 window.addEventListener('hashchange', expandFromHash);
-// "先想清楚"的打分：按保存的权重给全部小区排名，供排序和卡片上的名次用
-function loadNeeds() {
-  let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
-  try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* ignore */ }
-  if (!NEEDS_MODES[o.mode]) o.mode = 'room';
-  return o;
-}
-function computeNeedsRank() {
-  const res = needsCompute(loadNeeds(), needsCriteria());
-  state.needsRank = {};
-  res.forEach((r, i) => { state.needsRank[r.c.id] = { rank: i + 1, score: Math.round(r.score * 100), fails: r.fails }; });
-}
-
 function locate(id) {
   if (!state.map) return;
   $('#s1').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -756,14 +751,13 @@ function cardHTML(c) {
   const collapsed = !(state.expandAll || state.expanded.has(c.id));
   if (!state.marks) state.marks = loadMarks();
   const mk = state.marks[c.id];
-  const nr = state.needsRank?.[c.id];
   const brief = [rmin != null ? `单间 RM ${fmt(rmin)} 起` : '没找到在租单间', c.snapshot.rent_from ? `整套 RM ${fmt(c.snapshot.rent_from)} 起` : null, c.completed ? `${c.completed} 年` : null, c.units ? `${fmt(c.units)} 户` : null].filter(Boolean).join(' · ');
   return `
   <article class="card r${c.region}${collapsed ? ' collapsed' : ''}${mk === 'yes' ? ' is-yes' : mk === 'no' ? ' is-no' : ''}" id="card-${c.id}">
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
-    <p class="brief">${nr ? `<b class="rank-badge${nr.fails.length ? ' fail' : ''}" title="按你在“先想清楚”里的权重算的">第 ${nr.rank} 名 · ${nr.score} 分${nr.fails.length ? ' · 有必须项不满足' : ''}</b>` : ''}<span>${esc(brief)}</span><button type="button" class="linkish toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}">${collapsed ? '展开' : '收起'}</button><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span></p>
+    <p class="brief"><span>${esc(brief)}</span><button type="button" class="linkish toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}">${collapsed ? '展开' : '收起'}</button><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span></p>
     <div class="more">
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
     <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
@@ -1413,148 +1407,4 @@ function bindTierPop() {
     pop.style.top = `${r.bottom - hr.top + sy + 6}px`;
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
-}
-
-/* ---------- 开始之前：想清楚要什么（需求自评 + 按权重给小区打分） ---------- */
-const NEEDS_KEY = 'um-needs';
-const NEEDS_PRICE_LABEL = { room: '单间', share2: '两房人均', solo: '开间或一房整套' };
-// 档位、住法、8 项标准的文案和看房要问的清单都在 needs-data.js 里，和出图页共用
-
-// 从“开间 300 sqft RM 1,600 起 · 2 房 581 sqft RM 1,950 起”里把各房型价格拆出来
-function wholePrices(c) {
-  const out = {};
-  for (const m of String(c.snapshot.whole || '').matchAll(/(开间|\d 房)[^·]*?RM\s?([\d,]+)/g)) out[m[1]] = Number(m[2].replace(/,/g, ''));
-  return out;
-}
-function needsPrice(c, mode) {
-  if (mode === 'room') return roomsMin(c);
-  const w = wholePrices(c);
-  if (mode === 'share2') return w['2 房'] ? Math.round(w['2 房'] / 2) : null;
-  const cands = [w['开间'], w['1 房']].filter(Boolean);
-  return cands.length ? Math.min(...cands) : null;
-}
-// 上学：走到轨道站的分钟数，再加坐到 Universiti 站（UM 正门）的时间
-function commuteMin(c) {
-  const t = c.transit;
-  if (t.walk_min == null) return { min: 35, why: '没有走得到的轨道站，靠公交或 Grab' };
-  const n = t.nearest || '';
-  const ktm = /KTM/.test(n);
-  const ride = /Universiti/.test(n) ? 0 : /Kerinchi/.test(n) ? 4 : /Taman Jaya/.test(n) ? 6 : /Asia Jaya/.test(n) ? 9 : ktm ? 30 : 12;
-  const st = stationZh(n).replace(/（.*?）/, '');
-  return { min: t.walk_min + ride, why: `走 ${t.walk_min} 分钟到 ${st}${ktm ? '（KTM）' : ''}${ride ? `，再${ktm ? '换乘' : '坐'} ${ride} 分钟到 Universiti 站` : '，出站就是校门'}` };
-}
-function needsCriteria() {
-  const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
-  const maxRent = Math.max(1, ...state.condos.map((c) => c.snapshot.for_rent || 0));
-  const scorers = {
-    price: (c, o) => {
-      const p = needsPrice(c, o.mode);
-      if (p == null) return { s: 0.5, why: `没抓到${NEEDS_PRICE_LABEL[o.mode]}的价格`, unknown: true };
-      const ratio = p / Math.max(o.budget, 1);
-      const s = ratio <= 0.85 ? 1 : ratio >= 1.25 ? 0 : (1.25 - ratio) / 0.4;
-      return { s, why: `${NEEDS_PRICE_LABEL[o.mode]} RM ${fmt(p)} 起${ratio > 1 ? '，超预算' : ''}` };
-    },
-    commute: (c) => { const r = commuteMin(c); return { s: 1 - norm(r.min, 2, 35), why: r.why }; },
-    facilities: (c) => ({ s: norm(c.facilities.length, 8, 17), why: `${c.facilities.length} 项设施` }),
-    age: (c) => c.completed ? { s: norm(c.completed, 1996, 2025), why: `${c.completed} 年建成` } : { s: 0.3, why: '建成年份不详，是老楼' },
-    density: (c) => c.units ? { s: 1 - norm(c.units, 200, 1450), why: `${fmt(c.units)} 户` } : { s: 0.5, why: '户数不详', unknown: true },
-    daily: (c) => ({ s: norm(c.judgment?.daily?.score ?? 3, 1, 5), why: c.judgment?.daily?.note || '' }),
-    roommates: (c) => ({ s: (c.region === 2 ? 0.7 : c.region === 1 ? 0.35 : 0.15) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }),
-    quiet: (c) => ({ s: norm(c.judgment?.quiet?.score ?? 3, 1, 5), why: c.judgment?.quiet?.note || '' }),
-  };
-  return CRITERIA.map((m) => ({ ...m, score: scorers[m.k] }));
-}
-function needsCompute(o, crit) {
-  const active = crit.filter((x) => (o.w[x.k] || 0) > 0);
-  const total = active.reduce((a, x) => a + o.w[x.k], 0);
-  return state.condos.map((c) => {
-    let sum = 0; const parts = []; const fails = [];
-    for (const x of active) {
-      const r = x.score(c, o);
-      sum += o.w[x.k] * r.s;
-      parts.push({ label: x.label, w: o.w[x.k], ...r });
-      if (o.w[x.k] === 3 && r.s < 0.4 && !r.unknown) fails.push(x.label);
-    }
-    parts.sort((a, b) => b.w - a.w || b.s - a.s);
-    return { c, score: total ? sum / total : 0, parts, fails };
-  }).sort((a, b) => a.fails.length - b.fails.length || b.score - a.score || a.c.no - b.c.no);
-}
-function needsSentence(o, crit) {
-  const by = (w) => crit.filter((x) => (o.w[x.k] || 0) === w).map((x) => x.label);
-  const must = by(3), high = by(2), some = by(1), none = by(0);
-  const bits = [`<b>${NEEDS_MODES[o.mode]}</b>，每人每月房租不超过 <b>RM ${fmt(o.budget)}</b>`];
-  if (must.length) bits.push(`必须满足 <b>${esc(must.join('、'))}</b>`);
-  if (high.length) bits.push(`很在意 ${esc(high.join('、'))}`);
-  if (some.length) bits.push(`有点在意 ${esc(some.join('、'))}`);
-  if (none.length && none.length < crit.length) bits.push(`${esc(none.join('、'))}不比`);
-  return bits.join('；') + '。';
-}
-function needsSummaryHTML(o, crit, showAll) {
-  const anyW = crit.some((x) => (o.w[x.k] || 0) > 0);
-  const res = anyW ? needsCompute(o, crit) : [];
-  const list = showAll ? res : res.slice(0, 5);
-  const asks = NEEDS_ASK.filter(([k]) => o.ask.includes(k));
-  const row = (r) => {
-    const n = Math.round(r.score * 100);
-    const why = r.parts.slice(0, 3).map((p) => p.why).filter(Boolean).join(' · ');
-    return `<li class="${r.fails.length ? 'fail' : ''}"><span><a href="#card-${r.c.id}">${esc(shortAlias(r.c))}</a><i class="rk-no r${r.c.region}">${r.c.no}</i></span><span class="score">${n}<small>分</small></span><span class="bar"><i style="width:${n}%"></i></span><small class="why">${r.fails.length ? `<b>不满足：${esc(r.fails.join('、'))}</b> · ` : ''}${esc(why)}</small></li>`;
-  };
-  return `
-    <h3>你要的房子</h3>
-    <p class="needs-sentence">${needsSentence(o, crit)}</p>
-    <h3>最对路的小区</h3>
-    ${anyW ? `<ol class="match">${list.map(row).join('')}</ol>
-    <div class="needs-acts"><button type="button" class="linkish" id="needs-more">${showAll ? '只看前 5 个' : `看全部 ${state.condos.length} 个的得分`}</button><span class="muted">分数是按你的权重算的，点名字看小区卡片</span></div>` : `<p class="muted">左边先点几项在意的，这里就会按你的权重给 ${state.condos.length} 个小区排序。</p>`}
-    <h3>看房时要问</h3>
-    ${asks.length ? `<ul class="needs-ask-list">${asks.map(([, t]) => `<li>${esc(t)}</li>`).join('')}</ul>
-    <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}
-    <p class="src-line">按 um-housing.evasuka.com 的数据和你的权重算的</p>`;
-}
-function bindNeeds() {
-  const rows = $('#needs-rows');
-  const box = $('#needs-summary');
-  if (!rows || !box) return;
-  let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
-  try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* 隐私模式下忽略 */ }
-  if (!NEEDS_MODES[o.mode]) o.mode = 'room';
-  const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } if (state.sort === 'needs') renderList(); renderConclusion(); };
-  const crit = needsCriteria();
-  let showAll = false;
-  rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}${x.k === 'daily' || x.k === 'quiet' ? ' ' + tierMark('judgment') : ''}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');
-  $('#needs-ask').innerHTML = NEEDS_ASK.map(([k, t]) => `<label><input type="checkbox" value="${k}"${o.ask.includes(k) ? ' checked' : ''}> ${esc(t)}</label>`).join('');
-  // 手机上每项的说明默认收起，点一下再看；"要问的"整块默认收起，标题上显示勾了几项
-  const hintsBtn = $('#needs-hints');
-  if (hintsBtn) hintsBtn.addEventListener('click', () => { const on = rows.classList.toggle('show-hints'); hintsBtn.textContent = on ? '隐藏说明' : '显示每一项的说明'; hintsBtn.setAttribute('aria-expanded', String(on)); });
-  const askBox = $('#needs-ask-box');
-  if (askBox && window.innerWidth <= 720) askBox.open = false;
-  const askCount = () => { const el = $('#needs-ask-count'); if (el) el.textContent = o.ask.length ? `（已勾 ${o.ask.length} 项）` : `（${NEEDS_ASK.length} 项）`; };
-  askCount();
-  $$('#needs-mode button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === o.mode)));
-  const budgetEl = $('#needs-budget');
-  budgetEl.value = o.budget;
-  const render = () => { box.innerHTML = needsSummaryHTML(o, crit, showAll); };
-  rows.addEventListener('click', (e) => {
-    const b = e.target.closest('button[data-w]'); if (!b) return;
-    const k = b.closest('.needs-row').dataset.k;
-    o.w[k] = Number(b.dataset.w);
-    $$('button', b.parentElement).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    save(); render();
-  });
-  $('#needs-mode').addEventListener('click', (e) => {
-    const b = e.target.closest('button[data-v]'); if (!b) return;
-    o.mode = b.dataset.v;
-    $$('#needs-mode button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    save(); render();
-  });
-  budgetEl.addEventListener('input', () => { const v = Number(budgetEl.value); if (v >= 100) { o.budget = v; save(); render(); } });
-  $('#needs-ask').addEventListener('change', () => { o.ask = $$('#needs-ask input:checked').map((i) => i.value); save(); askCount(); render(); });
-  box.addEventListener('click', async (e) => {
-    if (e.target.id === 'needs-more') { showAll = !showAll; render(); return; }
-    if (e.target.id === 'needs-copy') {
-      const qs = NEEDS_ASK.filter(([k]) => o.ask.includes(k)).map(([, t], i) => `${i + 1}. ${t}`);
-      const text = ['你好，想问一下这套房：', ...qs].join('\n');
-      try { await navigator.clipboard.writeText(text); e.target.textContent = '已复制'; setTimeout(() => { e.target.textContent = '复制问题清单'; }, 1500); } catch { window.prompt('复制下面的文字', text); }
-    }
-  });
-  render();
 }
