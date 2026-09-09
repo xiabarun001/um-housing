@@ -52,7 +52,20 @@ export async function guard(context) {
   if (!v.ok) {
     const isApi = new URL(context.request.url).pathname.startsWith('/api/');
     if (isApi) return json({ error: v.error }, v.status);
-    return new Response(`<!doctype html><meta charset="utf-8"><title>UMH Console</title><body style="font:15px/1.6 system-ui;padding:40px;max-width:560px"><h2>UMH Console</h2><p>${v.error}。</p><p>这个后台只对白名单里的管理员开放，登录由 Cloudflare Access 负责；如果你是管理员，请从 <a href="/console/">/console/</a> 重新进入并用邮箱验证码登录。</p></body>`, { status: v.status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' } });
+    // 拦下来的时候给一个和网站同一套样式的页面，而不是一段系统字
+    const page = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><title>维护后台 · UM 租房指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css"></head><body>
+<header class="top"><a class="brand" href="/">UM 租房指南</a></header>
+<main class="login-wrap"><div class="login-card">
+<h1 class="login-title">维护后台</h1>
+<p class="login-say">还是空的，功能以后再往里加</p>
+<p class="login-note">${escapeHtml(v.error)}</p>
+<p class="login-acts"><a class="btn" href="/login/">回登录页</a><a class="btn" href="/">回到指南</a></p>
+</div></main></body></html>`;
+    return new Response(page, { status: v.status, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-robots-tag': 'noindex' } });
   }
   context.data.user = v;
   const res = await context.next();
@@ -60,4 +73,7 @@ export async function guard(context) {
   h.set('Cache-Control', 'no-store');
   h.set('X-Robots-Tag', 'noindex');
   return new Response(res.body, { status: res.status, headers: h });
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 }

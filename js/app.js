@@ -225,7 +225,7 @@ function bindStart() {
   });
 }
 
-/* ---------- 终点：我最终想要的房子（选项 + 实时拼句子） ----------
+/* ---------- 终点：我最终想要的房子（选项 + 自己加 + 实时拼句子） ----------
    这些选择不往本地存：刷新就是重新想一遍，和卡片收起、榜单回到第一个是一套行为。 */
 const FINAL_GROUPS = [
   // 怎么住三选一，同时选"整租"和"合租"讲不通
@@ -241,56 +241,94 @@ const FINAL_GROUPS = [
 const BUDGET_MIN = 500, BUDGET_MAX = 4000;
 function loadFinal() {
   // 早先版本把这些选择存过本地，现在不存了，顺手把旧的清掉
-  try { localStorage.removeItem("um-final"); } catch { /* ignore */ }
+  try { localStorage.removeItem('um-final'); } catch { /* ignore */ }
   return { budget: null };
+}
+// 每一组显示什么：内置选项 + 用户自己加的
+function finalLabel(g, v) {
+  if (g === 'region') { const r = (state.meta.regions || {})[v]; return r ? r.label : v; }
+  if (g === 'condo') { const c = state.condos.find((x) => x.id === v); return c ? shortAlias(c) : v; }
+  return v;
 }
 function bindFinal() {
   const box = $('#final'); if (!box) return;
   state.final = loadFinal();
   const regions = state.meta.regions || {};
-  const chip = (g, v, label, cls) => `<button type="button" class="chip${cls ? ' ' + cls : ''}" data-g="${esc(g)}" data-v="${esc(v)}" aria-pressed="false">${label}</button>`;
-  const row = (title, html) => `<div class="pick-group"><h3>${title}</h3><div class="chips">${html}</div></div>`;
-  box.innerHTML = row('区域', Object.keys(regions).map((r) => chip('region', r, esc(regions[r].label), 'r' + r)).join(''))
-    + row('小区', state.condos.slice().sort((a, b) => a.no - b.no).map((c) => chip('condo', c.id, `<i class="n">${c.no}</i>${esc(shortAlias(c))}`, 'r' + c.region)).join(''))
-    + FINAL_GROUPS.map((x) => row(x.title, x.opts.map((v) => chip(x.g, v, esc(v))).join(''))).join('')
-    + `<div class="pick-group"><h3>每月预算</h3><div class="budget-row">
-        <input type="range" id="f-budget" min="${BUDGET_MIN}" max="${BUDGET_MAX}" step="50" aria-label="每月预算">
-        <span class="ri-box">RM <input type="number" id="f-budget-n" min="0" max="20000" step="50" inputmode="numeric" aria-label="每月预算，也可以直接填"></span>
-        <button type="button" class="linkish" id="f-budget-off">不限</button>
-      </div></div>`;
-
-  const range = $('#f-budget'), num = $('#f-budget-n'), off = $('#f-budget-off');
+  const chip = (g, v, label, cls) => `<button type="button" class="chip${cls ? ' ' + cls : ''}" data-g="${esc(g)}" data-v="${esc(v)}">${label}</button>`;
+  const plus = (g) => `<button type="button" class="chip add" data-add="${esc(g)}" aria-label="自己加一个" title="自己加一个">+</button>`;
+  // 用户自己加的值排在内置选项后面
+  const extra = (g, known) => (state.final[g] || []).filter((v) => !known.includes(v)).map((v) => chip(g, v, esc(finalLabel(g, v)), 'own')).join('');
+  const row = (g, title, html, known) => `<div class="pick-group"><h3>${title}</h3><div class="chips">${html}${extra(g, known)}${plus(g)}</div></div>`;
+  const render = () => {
+    const rk = Object.keys(regions), ck = state.condos.map((c) => c.id);
+    box.innerHTML = row('region', '区域', rk.map((r) => chip('region', r, esc(regions[r].label), 'r' + r)).join(''), rk)
+      + row('condo', '小区', state.condos.slice().sort((a, b) => a.no - b.no).map((c) => chip('condo', c.id, `<i class="n">${c.no}</i>${esc(shortAlias(c))}`, 'r' + c.region)).join(''), ck)
+      + FINAL_GROUPS.map((x) => row(x.g, x.title, x.opts.map((v) => chip(x.g, v, esc(v))).join(''), x.opts)).join('')
+      + `<div class="pick-group"><h3>每月预算</h3><div class="budget-row">
+          <input type="range" id="f-budget" min="${BUDGET_MIN}" max="${BUDGET_MAX}" step="50" aria-label="每月预算">
+          <span class="ri-box">RM <input type="number" id="f-budget-n" min="0" max="20000" step="50" inputmode="numeric" aria-label="每月预算，也可以直接填"></span>
+          <button type="button" class="linkish" id="f-budget-off">不限</button>
+        </div></div>`;
+    paint();
+  };
   const paint = () => {
-    $$('.chip', box).forEach((b) => { const on = (state.final[b.dataset.g] || []).includes(b.dataset.v); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
-    const v = state.final.budget;
+    $$('.chip[data-v]', box).forEach((b) => { const on = (state.final[b.dataset.g] || []).includes(b.dataset.v); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+    const v = state.final.budget, range = $('#f-budget'), num = $('#f-budget-n');
     range.value = String(v == null ? 1300 : Math.min(BUDGET_MAX, Math.max(BUDGET_MIN, v)));
     if (document.activeElement !== num) num.value = v == null ? '' : String(v);
     box.classList.toggle('no-budget', v == null);
   };
   const setBudget = (v) => { state.final.budget = v; paint(); renderConclusion(); };
+  // 点"+"就地长出一个输入框，回车加进这一组
+  const openAdd = (btn) => {
+    const g = btn.dataset.add, holder = btn.parentElement;
+    if (holder.querySelector('.chip-input')) return;
+    const inp = document.createElement('input');
+    inp.type = 'text'; inp.className = 'chip-input'; inp.placeholder = '自己写，回车加上'; inp.maxLength = 30;
+    holder.insertBefore(inp, btn);
+    inp.focus();
+    let closed = false;
+    const done = (commit) => {
+      if (closed) return; closed = true;
+      const val = inp.value.trim();
+      inp.remove();
+      if (commit && val) {
+        const arr = state.final[g] || [];
+        const single = (FINAL_GROUPS.find((x) => x.g === g) || {}).single;
+        if (!arr.includes(val)) state.final[g] = single ? [val] : [...arr, val];
+        render(); renderConclusion();
+      }
+    };
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); done(true); } else if (e.key === 'Escape') { e.preventDefault(); done(false); } });
+    inp.addEventListener('blur', () => done(true));
+  };
   box.addEventListener('click', (e) => {
-    if (e.target === off) { setBudget(null); return; }
-    const b = e.target.closest('.chip'); if (!b) return;
+    if (e.target.id === 'f-budget-off') { setBudget(null); return; }
+    const add = e.target.closest('[data-add]');
+    if (add) { openAdd(add); return; }
+    const b = e.target.closest('.chip[data-v]'); if (!b) return;
     const g = b.dataset.g, v = b.dataset.v;
     const single = (FINAL_GROUPS.find((x) => x.g === g) || {}).single;
     const arr = state.final[g] || [];
     if (single) state.final[g] = arr.includes(v) ? [] : [v];
     else state.final[g] = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
     if (!state.final[g].length) delete state.final[g];
-    paint(); renderConclusion();
+    // 自己加的取消选中就没必要留着了
+    render(); renderConclusion();
   });
-  range.addEventListener('input', () => setBudget(Number(range.value)));
-  num.addEventListener('input', () => { const n = Number(num.value); setBudget(num.value === '' ? null : (Number.isFinite(n) && n > 0 ? n : null)); });
-  paint();
+  box.addEventListener('input', (e) => {
+    if (e.target.id === 'f-budget') setBudget(Number(e.target.value));
+    if (e.target.id === 'f-budget-n') { const n = Number(e.target.value); setBudget(e.target.value === '' ? null : (Number.isFinite(n) && n > 0 ? n : null)); }
+  });
+  render();
 }
 function finalSentence() {
   const f = state.final || loadFinal();
-  const regions = state.meta.regions || {};
   const parts = [];
-  const rs = (f.region || []).slice().sort();
-  const cs = (f.condo || []).map((id) => state.condos.find((c) => c.id === id)).filter(Boolean).sort((a, b) => a.no - b.no);
-  if (rs.length) parts.push(`在${rs.map((r) => regions[r]?.label || '区域 ' + r).join('或')}`);
-  if (cs.length) parts.push(`小区看 ${cs.map(shortAlias).join('、')}`);
+  const lbl = (g) => (f[g] || []).map((v) => finalLabel(g, v));
+  const rs = lbl('region'), cs = lbl('condo');
+  if (rs.length) parts.push(`在${rs.join('或')}`);
+  if (cs.length) parts.push(`小区看 ${cs.join('、')}`);
   if (f.mode?.length) parts.push(f.mode[0]);
   if (f.layout?.length) parts.push(`户型 ${f.layout.join('或')}`);
   if (f.floor?.length) parts.push(f.floor.join('、'));
