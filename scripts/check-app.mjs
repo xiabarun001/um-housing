@@ -37,26 +37,7 @@ else for (const s of stops[1].split(',').map((x) => x.trim().replace(/^'|'$/g, '
   if (!ids.has(s)) problems.push(`路线图有一站叫 ${s}，但页面上没有这个区块`);
 }
 
-/* 4. 出图页从 index.html 抓文字，页面改版时那些选择器容易悄悄失效 */
-const cards = fs.readFileSync(new URL('../js/cards.js', import.meta.url), 'utf8');
-const lg = cards.indexOf('async function loadGuide()');
-if (lg < 0) problems.push('cards.js 里找不到 loadGuide()');
-else {
-  const body = cards.slice(lg, cards.indexOf('\n}\n', lg));
-  const classes = new Set([...html.matchAll(/class="([^"]+)"/g)].flatMap((m) => m[1].split(/\s+/)));
-  const attrs = new Set([...html.matchAll(/\s(data-[\w-]+)="([^"]*)"/g)].map((m) => `${m[1]}="${m[2]}"`));
-  for (const m of body.matchAll(/list\('([^']+)'\)|querySelector\('([^']+)'\)/g)) {
-    const sel = m[1] || m[2];
-    for (const t of sel.match(/#[\w-]+|\.[\w-]+|\[data-[\w-]+="[^"]*"\]/g) || []) {
-      const ok = t[0] === '#' ? ids.has(t.slice(1))
-        : t[0] === '.' ? classes.has(t.slice(1))
-          : attrs.has(t.slice(1, -1));
-      if (!ok) problems.push(`cards.js 的选择器 ${sel} 里的 ${t} 在 index.html 里不存在`);
-    }
-  }
-}
-
-/* 5. 静态资源的版本号要一致，否则会有人拿到旧缓存 */
+/* 4. 静态资源的版本号要一致，否则会有人拿到旧缓存 */
 const vs = new Set([...html.matchAll(/\?v=(\d{12})/g)].map((m) => m[1]));
 if (vs.size > 1) problems.push(`index.html 里有多个版本号：${[...vs].join(', ')}`);
 

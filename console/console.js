@@ -220,11 +220,6 @@
     }));
   }
 
-  /* ---------- 出图 ---------- */
-  async function cards() {
-    main.innerHTML = `<h1>出图</h1><p class="lead">小红书用的图和文案由 cards.html 从 condos.json 直接生成，账号名、站点、版本号在那个页面的设置里。</p><p><a class="btn primary" href="/cards.html" target="_blank" rel="noopener">打开出图页</a></p><p class="muted">小红书发布计划暂停中；固定信息确认无误后再发。</p>`;
-  }
-
   /* ---------- 日志 ---------- */
   async function log(args) {
     const all = (state.changelog.entries || []).slice().reverse();
@@ -238,7 +233,7 @@
   }
 
   /* ---------- 路由 ---------- */
-  const views = { overview, review, condos, feedback, intents, cards, log };
+  const views = { overview, review, condos, feedback, intents, log };
   async function route() {
     const parts = (location.hash || '#overview').slice(1).split('/');
     const name = views[parts[0]] ? parts[0] : 'overview';

@@ -37,7 +37,7 @@
 ### 数据约定（ADR-001）
 
 - [x] Given `data/condos.json`，When 检查每条记录，Then 有 `judgment` 子对象（含 `daily`、`quiet`），有 `provenance` 对象，有 `verified_at`；顶层不再有 `daily`、`quiet`。
-- [x] Given `js/app.js` 和 `js/cards.js`，When 搜索 `c.daily` 或 `c.quiet`，Then 没有直接引用，全部走 `c.judgment`。
+- [x] Given `js/app.js`，When 搜索 `c.daily` 或 `c.quiet`，Then 没有直接引用，全部走 `c.judgment`。
 
 ## P2 采集与审核、区域 3
 
@@ -79,7 +79,7 @@
 
 - [x] Given 区域 3，When 查看数据，Then 有 6 个小区（编号 20–25）：Avara Seputeh、Tria Seputeh、Vivo、Southbank、Avantas、Millerz Square，档案字段来自 iProperty 项目页并带 provenance。
 - [x] Given 区域 3 的小区，When 查看交通，Then 写明最近的 KTM 站和估算分钟数（标「观点」），以及去 UM 靠 Grab 的车程估算。
-- [x] Given 地图、侧栏、筛选、排行榜、先想清楚、出图页，When 加载，Then 都包含区域 3，用紫色区分，KTM 站用青色圆点。
+- [x] Given 地图、侧栏、筛选、排行榜，When 加载，Then 都包含区域 3，用紫色区分，KTM 站用青色圆点。
 
 ## P3 读者纠错（2026-09-08 完成）
 
@@ -100,5 +100,4 @@
 - [x] 反馈：列出 / 已处理 / 不改 / 删除，处理人自动记为登录邮箱。
 - [x] 意向表：查看、删除。
 - [x] 日志：管理员视图，含谁、何时、改了什么、理由。
-- [x] 出图：链接到 cards.html。
 - [ ] 待验收（开通后）：管理员邮箱能登录、非白名单邮箱被拒；发布一次后一分钟内读者页更新且更新记录出现对应条目。
