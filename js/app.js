@@ -66,6 +66,7 @@ async function init() {
   if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds, FIT_OPTS); });
   bindChecklists();
   bindNav();
+  clearCardHash();
   // 地图气泡里的"看详情"按钮
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-open-detail]');
@@ -668,7 +669,6 @@ function renderList() {
   $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
   $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
   paintIntentCounts();
-  expandFromHash();
   sizeCards();
 }
 
@@ -700,6 +700,12 @@ function toggleCard(id, force) {
   el.classList.toggle('collapsed', !on);
   const b = $('[data-toggle]', el);
   if (b) { b.setAttribute('aria-expanded', String(on)); b.setAttribute('aria-label', on ? '收起这张卡片' : '展开这张卡片'); b.title = on ? '收起' : '展开'; }
+}
+// 地址栏里可能还留着 #card-xxx（点过排行榜、名单或结论里的小区名）。留着的话每次刷新
+// 都会把那张卡片重新展开，而且浏览器在卡片生成之前就处理完锚点了，页面根本不会滚过去，
+// 结果就是刷新后有一张卡片自己开着。加载时直接清掉，刷新永远是全部收起。
+function clearCardHash() {
+  if (/^#card-[a-z0-9-]+$/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
 }
 function expandFromHash() {
   const m = location.hash.match(/^#card-([a-z0-9-]+)$/); if (!m) return;
