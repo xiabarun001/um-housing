@@ -1050,3 +1050,13 @@ main { max-width: 1400px; }
   .tools .count { margin-left: 0; width: 100%; }
   .filter-panel { padding: 4px 16px 14px; }
 }
+
+/* 卡片：收起时每张一样大；展开后摘要行让位给下面的详情，免得同一件事说两遍 */
+.card:not(.collapsed) .brief .sum { display: none; }
+.card:not(.collapsed) .brief { justify-content: flex-end; }
+.card h3 small, .card .go { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+.card h3 small { -webkit-line-clamp: 2; }
+.card .go { -webkit-line-clamp: 2; }
+.card.collapsed { height: var(--card-h, 212px); box-sizing: border-box; overflow: hidden; }
+.card.collapsed .brief { position: absolute; left: var(--card-pad, 22px); right: var(--card-pad, 22px); bottom: 14px; margin: 0; }
+.card { position: relative; align-content: start; }

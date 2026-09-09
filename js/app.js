@@ -673,9 +673,29 @@ function renderList() {
   $$('[data-mark]', grid).forEach((b) => b.addEventListener('click', () => toggleMark(b.dataset.id, b.dataset.mark)));
   paintIntentCounts();
   expandFromHash();
+  sizeCards();
 }
 
 /* ---------- 卡片折叠：默认只看名字、去学校、一句价格，点开看全部 ---------- */
+// 收起状态下每张卡片一样高：量出最高的那张要多少，写进 --card-h，全部照它来。
+// 窗口宽度变了、筛选变了都会重量一次，所以换几列都不会有人被截掉。
+function sizeCards() {
+  const grid = $('#grid'); if (!grid) return;
+  grid.style.setProperty('--card-h', 'auto');
+  const cards = $$('.card.collapsed', grid);
+  if (!cards.length) return;
+  let max = 0;
+  for (const el of cards) {
+    // 收起时摘要行是绝对定位的，不算在卡片自身高度里，要单独加上
+    const brief = el.querySelector('.brief');
+    const h = el.getBoundingClientRect().height + (brief ? brief.getBoundingClientRect().height : 0);
+    if (h > max) max = h;
+  }
+  grid.style.setProperty('--card-h', Math.ceil(max + 8) + 'px');
+}
+let sizeTimer = null;
+window.addEventListener('resize', () => { clearTimeout(sizeTimer); sizeTimer = setTimeout(sizeCards, 150); }, { passive: true });
+if (document.fonts?.ready) document.fonts.ready.then(sizeCards);
 function toggleCard(id, force) {
   // 一张卡片只管自己：不重画别人，也不会把同一行的卡片撑高（.list 用 align-items: start）
   const on = force != null ? force : !state.expanded.has(id);
@@ -763,13 +783,9 @@ function cardHTML(c) {
   const rmin = roomsMin(c);
   const tenure = c.tenure.includes('Freehold') ? '永久地契' : '租赁地契';
   const flagBits = [];
-  if (t.walk_min != null && t.walk_min <= 10) flagBits.push('<span class="ok">走路能到轻轨</span>');
-  if (t.walk_min == null) flagBits.push('<span class="no-lrt">没有轻轨</span>');
-  if (rmin != null && rmin <= 1300) flagBits.push('<span class="ok">有 RM 1,300 内单间</span>');
   if (c.tags.includes('只能整租')) flagBits.push('只有整套出租');
   if (c.tags.includes('整租适合两人')) flagBits.push('<span class="ok">适合两人整租</span>');
   if (c.tags.includes('整租适合三人')) flagBits.push('<span class="ok">适合三人整租</span>');
-  if (c.tags.includes('最新楼盘')) flagBits.push('新楼');
   if (c.tags.includes('家庭户型')) flagBits.push('家庭大户型');
   const collapsed = !state.expanded.has(c.id);
   if (!state.marks) state.marks = loadMarks();
@@ -780,14 +796,14 @@ function cardHTML(c) {
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
-    <p class="brief"><span>${esc(brief)}</span><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span><button type="button" class="toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}" aria-label="${collapsed ? '展开这张卡片' : '收起这张卡片'}" title="${collapsed ? '展开' : '收起'}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6.2 8 10l4-3.8"/></svg></button></p>
+    <p class="brief"><span class="sum">${esc(brief)}</span><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span><button type="button" class="toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}" aria-label="${collapsed ? '展开这张卡片' : '收起这张卡片'}" title="${collapsed ? '展开' : '收起'}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6.2 8 10l4-3.8"/></svg></button></p>
     <div class="more">
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
     <p class="facs">设施（${c.facilities.length} 项）：${esc(c.facilities.join('、'))}</p>
     <div class="price">
       ${c.snapshot.rooms ? `<p><span class="big">单间</span> ${esc(c.snapshot.rooms)} <span class="src">（${esc(c.snapshot.rooms_source || '')}）</span></p>` : '<p><span class="big">单间</span> 这次没有找到在租的单间</p>'}
       ${c.snapshot.whole ? `<p><span class="big">整套</span> ${esc(c.snapshot.whole)} <span class="src">（${esc(c.snapshot.whole_source || '')}）</span></p>` : ''}
-      <p class="src">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'} ${tierMark('market', c)}</p>
+      <p class="src">iProperty 上这个小区当下挂着 ${fmt(c.snapshot.for_rent)} 条在租，含单间帖子 ${tierMark('market', c)}</p>
     </div>
     ${flagBits.length ? `<p class="flags">${flagBits.join(' · ')}</p>` : ''}
     <div class="acts">
