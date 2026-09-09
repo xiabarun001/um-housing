@@ -1,4 +1,9 @@
 /* UM 租房指南 — app */
+// 刷新后回到页面顶部：浏览器默认会把你放回上次滚到的位置，这页每次都从头看更合适。
+// 地址栏带 #小节 的还是照常跳到那一节。
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.addEventListener("load", () => { if (!location.hash) window.scrollTo(0, 0); });
+
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -61,6 +66,7 @@ async function init() {
   bindChecklists();
   bindNav();
   clearCardHash();
+  scrollToHashOnLoad();
   // 地图气泡里的"看详情"按钮
   document.addEventListener('click', (e) => {
     const b = e.target.closest('[data-open-detail]');
@@ -689,6 +695,22 @@ function toggleCard(id, force) {
 // 地址栏里可能还留着 #card-xxx（点过排行榜、名单或结论里的小区名）。留着的话每次刷新
 // 都会把那张卡片重新展开，而且浏览器在卡片生成之前就处理完锚点了，页面根本不会滚过去，
 // 结果就是刷新后有一张卡片自己开着。加载时直接清掉，刷新永远是全部收起。
+// 带着 #小节 进来时，浏览器在卡片、榜单这些还没渲染出来的时候就处理完锚点了，位置是错的；
+// 等内容都摆好再滚一次
+function scrollToHashOnLoad() {
+  const id = location.hash.slice(1);
+  if (!id) return;
+  const el = document.getElementById(id);
+  if (!el) return;
+  // 直接算位置跳过去：页面开了平滑滚动，进来时用瞬间定位更合适，也避开吸顶头部。
+  // 卡片、榜单、地图都还在陆续改变高度，所以隔一会儿再定一次位置才准。
+  const go = () => {
+    const y = el.getBoundingClientRect().top + window.scrollY - 78;
+    window.scrollTo({ top: Math.max(0, y), behavior: "instant" });
+  };
+  requestAnimationFrame(go);
+  setTimeout(go, 400);
+}
 function clearCardHash() {
   if (/^#card-[a-z0-9-]+$/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
 }
