@@ -899,13 +899,9 @@ main { max-width: 1400px; }
 
 /* ===== 起点：一句话，先填好开头 ===== */
 .start-box { margin-top: 6px; }
-.start-text { display: block; width: 100%; box-sizing: border-box; min-height: 96px; resize: vertical; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: 400 18px/1.75 var(--serif); box-shadow: var(--shadow-sm); }
-.start-text:focus { outline: none; border-color: var(--walked); box-shadow: 0 0 0 3px var(--walked-soft); }
 .start-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
-.start-chips .muted { font-size: 14.5px; }
 .start-chips button { font: 500 14.5px/1 var(--sans); padding: 7px 11px; border-radius: 999px; border: 1px dashed var(--line-2); background: transparent; color: var(--ink-2); cursor: pointer; }
 .start-chips button:hover { border-style: solid; border-color: var(--ink-3); color: var(--ink); }
-.start-echo { margin: 10px 0 0; font-size: 14.5px; color: var(--ink-3); }
 
 /* ===== 终点：一堆选项随便多选，拼成一句话 ===== */
 .final { margin-top: 6px; }
@@ -1076,3 +1072,20 @@ main { max-width: 1400px; }
 .infobox .mapnotes { margin-top: 14px; }
 /* 这块的标签比地图注释长，列宽放宽一点，四行才都是一行 */
 .infobox .mapnotes > div { grid-template-columns: 8em minmax(0, 1fr); }
+
+/* 起点：标题右边一句艺术字；输入框左边"我想要的房子："是固定的字，不在输入框里 */
+.stop-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 24px; }
+.stop-head .section-title { margin: 0; }
+.stop-say { margin: 0 clamp(0px, 10vw, 150px) 0 auto; font-family: "ZCOOL XiaoWei", var(--serif); font-size: clamp(17px, 1.9vw, 23px); letter-spacing: .07em; color: var(--accent); white-space: nowrap; }
+.say { display: flex; align-items: flex-start; gap: 1px; margin-top: 16px; padding: 15px 17px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); box-shadow: var(--shadow-sm); }
+.say:focus-within { border-color: var(--walked); box-shadow: 0 0 0 3px var(--walked-soft); }
+.say-pre { flex: none; font: 700 17px/1.8 var(--serif); color: var(--ink); white-space: nowrap; user-select: none; }
+.start-text { flex: 1 1 auto; min-width: 0; min-height: 88px; padding: 0; border: 0; background: none; resize: vertical; font: 400 17px/1.8 var(--serif); color: var(--ink); }
+.start-text:focus { outline: none; }
+.start-text::placeholder { color: var(--ink-3); }
+@media (max-width: 720px) {
+  .stop-say { margin: 2px 0 0; white-space: normal; font-size: 16px; }
+  .say { flex-direction: column; gap: 4px; }
+  .say-pre { line-height: 1.6; }
+  .start-text { width: 100%; }
+}

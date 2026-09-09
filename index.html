@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609100040">
+<link rel="stylesheet" href="css/style.css?v=202609100120">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -63,12 +63,16 @@
 
   <!-- 起点：我现在想要的房子 -->
   <section class="section band" id="s-start">
-    <h2 class="section-title">我现在想要的房子</h2>
-    <p class="section-lede">不用很确定，随便写几句现在的想法。看完后面几站，到终点再对照一次。</p>
+    <div class="stop-head">
+      <h2 class="section-title">我现在想要的房子</h2>
+      <p class="stop-say">不用很确定，随便写几句，到终点再对照</p>
+    </div>
     <div class="start-box">
-      <textarea id="start-text" class="start-text" rows="3" spellcheck="false" aria-label="我现在想要的房子">我想要的房子：</textarea>
+      <div class="say">
+        <span class="say-pre" aria-hidden="true">我想要的房子：</span>
+        <textarea id="start-text" class="start-text" rows="3" spellcheck="false" aria-label="我现在想要的房子，写几句你的想法" placeholder="每月 RM 1,200 以内，一个人租一间，走路 10 分钟能到学院，房间放得下书桌，楼下有吃的，晚上安静一点能睡好，其他的还没想好"></textarea>
+      </div>
       <div class="start-chips" id="start-chips" aria-label="常见想法，点一下加进句子">
-        <span class="muted">没头绪就点几个：</span>
         <button type="button">离学院近，走路能到</button>
         <button type="button">每月 RM 1,000 左右</button>
         <button type="button">一个人租一间</button>
@@ -80,7 +84,6 @@
         <button type="button">不要太旧</button>
         <button type="button">其他还没想好</button>
       </div>
-      <p class="start-echo" id="start-echo">只存在这台设备上，到终点会拿出来对照。</p>
     </div>
   </section>
 
@@ -431,7 +434,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609100040"></script>
-<script type="module" src="js/app.js?v=202609100040"></script>
+<script src="js/config.js?v=202609100120"></script>
+<script type="module" src="js/app.js?v=202609100120"></script>
 </body>
 </html>

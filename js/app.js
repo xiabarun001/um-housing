@@ -198,27 +198,31 @@ function bindNav() {
   setTimeout(() => { measure(); paint(); }, 800);
 }
 
-/* ---------- 起点：我现在想要的房子（一句话，先填好开头） ---------- */
+/* ---------- 起点：我现在想要的房子 ----------
+   "我想要的房子："是框子左边固定的字，不在输入框里，删不掉；用户只写自己那半句。 */
 const START_KEY = 'um-start-text';
 const START_PREFIX = '我想要的房子：';
-function loadStart() { try { return localStorage.getItem(START_KEY) || ''; } catch { return ''; } }
-// 起点写了什么；只有开头那几个固定字就当没写
-function startText() { const t = String(state.startText ?? loadStart()).trim(); return t.length > START_PREFIX.length ? t : ''; }
+function loadStart() {
+  let t = '';
+  try { t = localStorage.getItem(START_KEY) || ''; } catch { /* ignore */ }
+  // 以前这几个字是输入框内容的一部分，老数据里带着，去掉
+  return t.startsWith(START_PREFIX) ? t.slice(START_PREFIX.length) : t;
+}
+function startText() { return String(state.startText ?? loadStart()).trim(); }
 function bindStart() {
   const ta = $('#start-text'); if (!ta) return;
-  state.startText = loadStart() || START_PREFIX;
+  state.startText = loadStart();
   ta.value = state.startText;
   const save = () => { state.startText = ta.value; try { localStorage.setItem(START_KEY, ta.value); } catch { /* ignore */ } renderConclusion(); };
   ta.addEventListener('input', save);
-  ta.addEventListener('blur', () => { if (!ta.value.trim()) { ta.value = START_PREFIX; save(); } });
   // 没头绪就点几个常见想法，接到句子后面
   const chips = $('#start-chips');
   if (chips) chips.addEventListener('click', (e) => {
     const b = e.target.closest('button'); if (!b) return;
     const t = b.textContent.trim();
-    let v = ta.value.trimEnd() || START_PREFIX;
+    let v = ta.value.trimEnd();
     if (v.includes(t)) return;
-    v += /[：:，,、]$/.test(v) ? t : '，' + t;
+    v += !v || /[：:，,、]$/.test(v) ? t : '，' + t;
     ta.value = v; save(); ta.focus();
   });
 }
@@ -289,11 +293,11 @@ function renderConclusion() {
   let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
   const money = calc && calc.rent ? `签约当天要带 RM ${fmt(calc.total)}，其中 RM ${fmt(calc.back)} 是押金，退房时退；住进去以后每月${calc.people > 1 ? `每人` : ''} RM ${fmt(calc.people > 1 ? calc.each : calc.monthly)}。` : '';
   const full = text ? text + money : '';
-  const copyText = full + (start ? `\n一开始写的：${start}` : '');
+  const copyText = full + (start ? `\n一开始写的：${START_PREFIX}${start}` : '');
   box.innerHTML = `
     <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点。点几个，这里就会拼成"我想要的房子：……"。</span>'}</p>
       ${full ? '<div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了上面的选项，这段话会跟着变。</span></div>' : ''}</div>
-    <div class="con-grid"><div><h3>一开始写的</h3>${start ? `<p class="con-start">${esc(start)}</p>` : '<p class="con-empty">起点还没写。回到"我现在想要的房子"写一句，这里就能对照。</p>'}</div></div>`;
+    <div class="con-grid"><div><h3>一开始写的</h3>${start ? `<p class="con-start">${esc(START_PREFIX + start)}</p>` : '<p class="con-empty">起点还没写。回到"我现在想要的房子"写一句，这里就能对照。</p>'}</div></div>`;
   const copyBtn = $('#con-copy');
   if (copyBtn) copyBtn.addEventListener('click', async (e) => {
     try { await navigator.clipboard.writeText(copyText); e.target.textContent = '已复制'; } catch { window.prompt('复制下面的文字', copyText); }
