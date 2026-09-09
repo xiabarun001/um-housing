@@ -128,14 +128,14 @@ function wholeSummary(listings) {
 /* ---------- 单间：iProperty 的 room 帖子 + iBilik ---------- */
 function roomTypeCN(text) {
   const s = String(text || '').toLowerCase();
-  if (/master/.test(s)) return '主人房';
+  // 本地叫法：小房 / 中房 / 大房（英文 small、single / middle、medium / master）
+  if (/master/.test(s)) return '大房';
   if (/middle|medium/.test(s)) return '中房';
-  if (/single/.test(s)) return '单人间';
-  if (/small/.test(s)) return '小房';
+  if (/single|small/.test(s)) return '小房';
   if (/studio|whole unit|entire|整套|fully furnished unit/.test(s)) return null; // 不是单间
   return '房间';
 }
-const ROOM_ORDER = ['小房', '单人间', '中房', '主人房', '房间'];
+const ROOM_ORDER = ['小房', '中房', '大房', '房间'];
 
 function parseIbilik(html) {
   const out = [];

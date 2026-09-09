@@ -45,6 +45,8 @@ async function init() {
   ]);
   const EMPTY = { date: null, for_rent: null, rent_from: null, whole: null, whole_source: null, rooms: null, rooms_source: null, rooms_min: null };
   for (const c of data.condos) c.snapshot = { ...EMPTY, ...(prices.condos?.[c.id] || {}) };
+  // 房型按本地叫法：小房 / 中房 / 大房（旧抓取结果里可能还写着主人房、单人间）
+  for (const c of data.condos) if (c.snapshot.rooms) c.snapshot.rooms = roomWordsLocal(c.snapshot.rooms);
   state.condos = data.condos;
   state.meta = data.meta;
   state.meta.prices_updated_myt = prices.updated_myt || null;
@@ -305,6 +307,7 @@ function renderConclusion() {
 }
 
 /* ---------- helpers ---------- */
+function roomWordsLocal(t) { return String(t).split('主人房').join('大房').split('单人间').join('小房').split('单人房').join('小房'); }
 function roomsMin(c) {
   if (typeof c.snapshot?.rooms_min === 'number') return c.snapshot.rooms_min;
   const s = c.snapshot?.rooms;
