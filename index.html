@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609091400">
+<link rel="stylesheet" href="css/style.css?v=202609091520">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232F6BCC'/%3E%3Ctext x='16' y='21' font-size='14' font-family='serif' font-weight='700' fill='white' text-anchor='middle'%3EUM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -210,101 +210,35 @@
   <!-- 挑候选 -->
   <section class="section" id="s3">
     <h2 class="section-title">熟悉小区详情</h2>
-    <h3 class="part-title first">挑候选</h3>
-    <div class="picks">
-      <div class="pick">
-        <h3>一个人租一间，预算 RM 1,300 以内</h3>
-        <ol>
-          <li><a href="#card-kl-gateway">KL Gateway</a>：小房 RM 920 起，走 2 分钟到 Universiti 站，楼下是商场和超市。714 户，人不算多。</li>
-          <li><a href="#card-south-view">South View</a>：小房 RM 950 起，走 5 分钟到站。在租的房间最多，最容易找室友，代价是 1,204 户、高峰等电梯。</li>
-          <li><a href="#card-southlink">Southlink</a>：小房 RM 1,050 起含水电网，2022 年新楼，单栋 1,422 户。</li>
-          <li><a href="#card-pacific-star">Pacific Star</a>：小房 RM 600 起，全场最便宜，紧挨 Jaya One 商场，但没有轻轨，靠楼盘穿梭巴士和 Grab。</li>
-        </ol>
-        <p class="pick-note">先联系前两个，第三第四当备选。</p>
-      </div>
-      <div class="pick">
-        <h3>和朋友整租一套两房</h3>
-        <ol>
-          <li><a href="#card-pantai-panorama">Pantai Panorama</a>：两房 1,250 平方英尺 RM 2,400 起，人均 1,200，房间是别家两倍大，走 13 分钟到站。1996 年老楼，维护得好，永久地契。</li>
-          <li><a href="#card-south-view">South View</a>：两房 648 平方英尺 RM 2,400，人均 1,200，房间小但楼新、离站近。</li>
-          <li><a href="#card-kl-gateway">KL Gateway</a>：两房 663 平方英尺 RM 2,600，人均 1,300，离站最近。</li>
-        </ol>
-        <p class="pick-note">三个人可以看 <a href="#card-saville">Saville</a> 的三房，RM 2,400 到 3,000 分三份，但每天要 Grab。</p>
-      </div>
-      <div class="pick">
-        <h3>预算宽裕，要新楼和好设施</h3>
-        <ol>
-          <li><a href="#card-novum">Novum</a>：2019 年，50 米泳道池、悬浮健身房，住户口碑最好，有天桥到 Kerinchi 站。中房 RM 1,300 起不含水电。</li>
-          <li><a href="#card-atwater">Atwater</a>：2024 年交付，PJ 侧设施最全，只有整套出租，两房 RM 2,800 起。</li>
-          <li><a href="#card-ryan-miho">Ryan & Miho</a>：2021 年，桑拿、蒸汽房、温泉池，天桥连 Jaya One。单间 RM 1,400 起，网上流传的 RM 850 是过时价。</li>
-        </ol>
-        <p class="pick-note">这一档都没有 RM 1,300 以内的单间。</p>
-      </div>
-    </div>
-  
+    <h3 class="part-title first">大同小异</h3>
+    <p class="section-lede">25 个小区先看共同点，看卡片时只比不同的地方。下面每个数字都是从档案里现算的，名字都点得到。</p>
+    <div class="common-grid" id="common"></div>
+
   <div class="stop-part" id="s4">
     <h3 class="part-title">逐个看</h3>
-
-    <div class="common">
-      <h3>先记住区域 1、2 这 19 个小区的共同点，看卡片时只比不同的地方</h3>
-      <ul class="plain common-list">
-        <li><strong>全都有泳池、健身房、门禁和 24 小时保安。</strong>这三样不用比，比的是桑拿、羽毛球馆这类附加项和维护得好不好。</li>
-        <li><strong>14 个是服务式公寓，5 个是普通公寓。</strong>服务式公寓（service residence）楼下常有商铺、有物业前台，但水电按商业费率计，比普通公寓贵一两成。Pantai Panorama、Saville、Inwood、Secoya、Tiara 是普通公寓。</li>
-        <li><strong>都是高层，20 到 52 层，几百到一千多户。</strong>户数越多电梯越挤：South View 1,204 户、Southlink 1,422 户；Inwood 211 户、Pacific 63 260 户最清静。只有 Tiara 是 5 层低层。</li>
-        <li><strong>14 个建于 2014 年以后，</strong>最新的是 Atwater（2024）和 Laurel（2025）。老楼只有 Pantai Panorama（1996）、Tiara（2000 年代）和 PJ8（2008）。</li>
-        <li><strong>出租的房几乎都是全配家具（fully furnished）</strong>，床、柜子、空调、冰箱、洗衣机、热水器标配，拎包入住。看到 partially furnished 要问清少什么。</li>
-        <li><strong>户型都不大。</strong>开间 240 到 550 平方英尺，一房 450 到 750，两房 580 到 1,250，三房 950 到 1,250。1,250 平方英尺的两房（Pantai Panorama）已经是这批里最大的。</li>
-        <li><strong>租房规矩一样：</strong>押金 2 个月加预付 1 个月加半个月水电押金，租期 12 个月为主，中介费由房东付，合同要去 LHDN 盖印花。</li>
-        <li><strong>9 个能在 15 分钟内走到轨道站：</strong>KL Gateway、South View、Southlink、Novum、Pantai Panorama、Laurel（帖子说 5 到 10 分钟，路网算 17 分钟，待实测），加上 PJ 侧的 PJ8、Centrestage 和到 MRT 的 Tiara。其余 10 个每天靠巴士或 Grab。步行距离按 OpenStreetMap 路网核对过，有天桥的地方可能比算出来的短。</li>
-        <li><strong>紧挨大道的高楼有噪音：</strong>KL Gateway、South View、Southlink、Novum 都沿 Federal Highway，低层朝大道的房间要留意；山坡上的 Saville、Inwood、Secoya 最安静。</li>
-        <li><strong>租客以学生和年轻上班族为主。</strong>区域 2 中国学生最集中，找中文室友容易；区域 1 本地上班族多。</li>
-        <li><strong>区域 3 的 6 个（编号 20 到 25）另算：</strong>都离 UM 较远，没有走得到的轻轨，靠 KTM、公交或 Grab；楼更新、户型更大、整套租金相对低。它们的档案是 2026-09-08 从 iProperty 项目页采集的，Tria Seputeh 的设施清单待核。</li>
-      </ul>
-    </div>
-    <h3 class="rank-title">四个排行榜</h3>
-    <div class="rankings" id="rankings"></div>
-    <p class="src-line">整理：um-housing.evasuka.com · 非商业，转载请注明来源</p>
-
-
-    <div class="toolbar" id="filters">
-      <div class="tool-group" role="group" aria-label="区域">
-        <button type="button" class="tab is-on" data-region="all">全部</button>
-        <button type="button" class="tab" data-region="1">区域 1 · PJ</button>
-        <button type="button" class="tab" data-region="2">区域 2 · Bangsar South</button>
-        <button type="button" class="tab" data-region="3">区域 3 · Seputeh / OKR</button>
-      </div>
-      <label class="tool-check"><input type="checkbox" id="f-lrt"> 走路能到轻轨站</label>
-      <label class="tool-check"><input type="checkbox" id="f-budget"> 有 RM 1,300 以内的单间</label>
-      <label class="tool-check"><input type="checkbox" id="f-expand"> 展开全部卡片</label>
-      <details class="tool-more">
-        <summary>设施</summary>
-        <div class="tool-flags">
-          <label><input type="checkbox" data-flag="pool"> 泳池</label>
-          <label><input type="checkbox" data-flag="gym"> 健身房</label>
-          <label><input type="checkbox" data-flag="sauna"> 桑拿</label>
-          <label><input type="checkbox" data-flag="steam"> 蒸汽房</label>
-          <label><input type="checkbox" data-flag="jacuzzi"> 按摩池</label>
-          <label><input type="checkbox" data-flag="badminton"> 羽毛球</label>
-          <label><input type="checkbox" data-flag="basketball"> 篮球</label>
-          <label><input type="checkbox" data-flag="squash"> 壁球</label>
-          <label><input type="checkbox" data-flag="tennis"> 网球</label>
-          <label><input type="checkbox" data-flag="bbq"> 烧烤区</label>
-          <label><input type="checkbox" data-flag="minimart"> 楼下便利店</label>
-        </div>
-      </details>
+    <div class="tools">
+      <button type="button" class="filter-btn" id="filter-open" aria-expanded="false" aria-controls="filter-panel">筛选<span class="fb-n" id="filter-n" hidden></span></button>
       <label class="tool-sort">排序
         <select id="sort">
-          <option value="no">按编号</option>
-          <option value="walk">离轻轨近的在前</option>
-          <option value="rent">最低月租低的在前</option>
-          <option value="year">楼龄新的在前</option>
+          <option value="no">默认（按编号）</option>
+          <option value="walk">离轨道站近的在前</option>
+          <option value="rent">房租低的在前</option>
+          <option value="year">楼新的在前</option>
+          <option value="units">户数少的在前</option>
+          <option value="fac">设施多的在前</option>
         </select>
       </label>
-      <button type="button" class="tool-reset" id="f-reset">清除</button>
+      <span class="count" id="result-count" aria-live="polite"></span>
     </div>
-    <p class="count" id="result-count" aria-live="polite"></p>
+    <div class="filter-panel" id="filter-panel" hidden></div>
     <div class="list" id="grid"></div>
     <p class="empty" id="empty" hidden>没有同时满足这几个条件的小区，放宽一个试试。</p>
+  </div>
+
+  <div class="stop-part" id="s8">
+    <h3 class="part-title">排行榜</h3>
+    <div class="board" id="board"></div>
+    <p class="src-line">整理：um-housing.evasuka.com · 非商业，转载请注明来源</p>
   </div>
 </section>
 
@@ -511,7 +445,7 @@ Is the room still available? Could you share a short video of the room and the u
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609091400"></script>
-<script type="module" src="js/app.js?v=202609091400"></script>
+<script src="js/config.js?v=202609091520"></script>
+<script type="module" src="js/app.js?v=202609091520"></script>
 </body>
 </html>

@@ -5,15 +5,11 @@ const FIT_OPTS = { padding: [18, 18] };
 const state = {
   condos: [],
   meta: {},
-  region: 'all',
-  lrt: false,
-  budget: false,
-  flags: new Set(),
+  filters: new Set(),
   sort: 'no',
   intents: [],
   intentsOk: null,
   expanded: new Set(),
-  expandAll: false,
   marks: null,
   startText: null,
   final: null,
@@ -61,7 +57,8 @@ async function init() {
   buildPanel();
   bindFilters();
   renderList();
-  renderRankings();
+  renderCommon();
+  renderBoard();
   bindCalc();
   bindCopy();
   bindStart();
@@ -585,53 +582,81 @@ function setupTour(ctx) {
 function endTour() { if (tour && !$('#tour-box').hidden) tour.end(); }
 
 /* ---------- filters ---------- */
+// 筛选：一个按钮打开的面板。同一组里多选是"满足其一"，组与组之间是"同时满足"
+const FAC_ZH = { pool: '泳池', gym: '健身房', sauna: '桑拿', steam: '蒸汽房', jacuzzi: '按摩池', badminton: '羽毛球', basketball: '篮球', squash: '壁球', tennis: '网球', bbq: '烧烤区', minimart: '楼下便利店' };
+const IS_SERVICED = (c) => /服务式/.test(c.type);
+function filterGroups() {
+  const regions = state.meta.regions || {};
+  return [
+    { g: 'region', title: '区域', or: true, opts: Object.keys(regions).map((r) => ({ k: r, label: `区域 ${r} · ${regions[r].short || ''}`, f: (c) => String(c.region) === r })) },
+    { g: 'go', title: '去学校', opts: [
+      { k: 'rail15', label: '走路 15 分钟内到轨道站', f: (c) => c.transit.walk_min != null && c.transit.walk_min <= 15 },
+      { k: 'rail10', label: '走路 10 分钟内到轨道站', f: (c) => c.transit.walk_min != null && c.transit.walk_min <= 10 },
+      { k: 'bus', label: '有公交线路经过', f: (c) => (c.transit.buses || []).length > 0 },
+    ] },
+    { g: 'price', title: '价格', opts: [
+      { k: 'hasroom', label: '这次有房间在租', f: (c) => roomsMin(c) != null },
+      { k: 'r1000', label: '有 RM 1,000 内的房间', f: (c) => (roomsMin(c) ?? Infinity) <= 1000 },
+      { k: 'r1300', label: '有 RM 1,300 内的房间', f: (c) => (roomsMin(c) ?? Infinity) <= 1300 },
+      { k: 'w2500', label: '整套 RM 2,500 内', f: (c) => (c.snapshot.rent_from ?? Infinity) <= 2500 },
+    ] },
+    { g: 'kind', title: '类型', or: true, opts: [
+      { k: 'serviced', label: '服务式公寓', f: IS_SERVICED },
+      { k: 'apartment', label: '普通公寓', f: (c) => !IS_SERVICED(c) },
+    ] },
+    { g: 'build', title: '楼与规模', opts: [
+      { k: 'new', label: '2018 年以后建成', f: (c) => (c.completed || 0) >= 2018 },
+      { k: 'small', label: '500 户以下', f: (c) => c.units != null && c.units < 500 },
+      { k: 'freehold', label: '永久地契', f: (c) => /Freehold/.test(c.tenure) },
+    ] },
+    { g: 'fac', title: '设施', opts: Object.keys(FAC_ZH).map((k) => ({ k, label: FAC_ZH[k], f: (c) => !!c.flags[k] })) },
+  ];
+}
 function bindFilters() {
-  $$('.tab').forEach((b) => b.addEventListener('click', () => {
-    $$('.tab').forEach((x) => x.classList.toggle('is-on', x === b));
-    state.region = b.dataset.region;
-    renderList();
-  }));
-  $('#f-lrt').addEventListener('change', (e) => { state.lrt = e.target.checked; renderList(); });
-  $('#f-budget').addEventListener('change', (e) => { state.budget = e.target.checked; renderList(); });
+  const panel = $('#filter-panel'), btn = $('#filter-open'), tag = $('#filter-n');
+  if (!panel || !btn) return;
+  const groups = filterGroups();
+  panel.innerHTML = groups.map((gr) => `<div class="fg"><h4>${esc(gr.title)}${gr.or ? '<span class="fg-or">满足其一</span>' : ''}</h4><div class="fg-opts">`
+    + gr.opts.map((o) => `<button type="button" class="fchip" data-f="${esc(gr.g)}:${esc(o.k)}" aria-pressed="false">${esc(o.label)}</button>`).join('')
+    + '</div></div>').join('')
+    + '<div class="fg-acts"><button type="button" class="linkish" id="filter-reset">全部清除</button><button type="button" class="btn" id="filter-done">看结果</button></div>';
+  const paint = () => {
+    $$('.fchip', panel).forEach((b) => { const on = state.filters.has(b.dataset.f); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+    const n = state.filters.size;
+    tag.hidden = !n; tag.textContent = String(n);
+    btn.classList.toggle('has', !!n);
+  };
+  const open = (v) => { panel.hidden = !v; btn.setAttribute('aria-expanded', String(v)); };
+  btn.addEventListener('click', () => open(panel.hidden));
+  panel.addEventListener('click', (e) => {
+    const chip = e.target.closest('.fchip');
+    if (chip) { if (state.filters.has(chip.dataset.f)) state.filters.delete(chip.dataset.f); else state.filters.add(chip.dataset.f); paint(); renderList(); return; }
+    if (e.target.id === 'filter-reset') { state.filters.clear(); paint(); renderList(); }
+    if (e.target.id === 'filter-done') open(false);
+  });
+  document.addEventListener('click', (e) => { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) open(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) open(false); });
   $('#sort').addEventListener('change', (e) => { state.sort = e.target.value; renderList(); });
-  const ex = $('#f-expand');
-  if (ex) {
-    try { state.expandAll = localStorage.getItem('um-cards-expand') === '1'; } catch { /* ignore */ }
-    ex.checked = state.expandAll;
-    ex.addEventListener('change', () => { state.expandAll = ex.checked; state.expanded.clear(); try { localStorage.setItem('um-cards-expand', ex.checked ? '1' : '0'); } catch { /* ignore */ } renderList(); });
-  }
-  $$('.tool-flags input').forEach((i) => i.addEventListener('change', () => {
-    if (i.checked) state.flags.add(i.dataset.flag); else state.flags.delete(i.dataset.flag);
-    const n = state.flags.size;
-    $('.tool-more summary').textContent = n ? `设施（已选 ${n}）` : '设施';
-    renderList();
-  }));
-  $('#f-reset').addEventListener('click', () => {
-    state.region = 'all'; state.lrt = false; state.budget = false; state.flags.clear(); state.sort = 'no';
-    $$('.tab').forEach((x) => x.classList.toggle('is-on', x.dataset.region === 'all'));
-    $('#f-lrt').checked = false; $('#f-budget').checked = false; $('#sort').value = 'no';
-    $$('.tool-flags input').forEach((i) => { i.checked = false; });
-    $('.tool-more summary').textContent = '设施';
-    renderList();
-  });
-  document.addEventListener('click', (e) => {
-    const d = $('.tool-more');
-    if (d && d.open && !d.contains(e.target)) d.open = false;
-  });
+  paint();
 }
 
 function filtered() {
   let list = state.condos.slice();
-  if (state.region !== 'all') list = list.filter((c) => String(c.region) === state.region);
-  if (state.lrt) list = list.filter((c) => c.transit.walk_min != null && c.transit.walk_min <= 10);
-  if (state.budget) list = list.filter((c) => { const m = roomsMin(c); return m != null && m <= 1300; });
-  for (const f of state.flags) list = list.filter((c) => c.flags[f]);
+  for (const gr of filterGroups()) {
+    const on = gr.opts.filter((o) => state.filters.has(`${gr.g}:${o.k}`));
+    if (!on.length) continue;
+    if (gr.or) list = list.filter((c) => on.some((o) => o.f(c)));
+    else for (const o of on) list = list.filter(o.f);
+  }
+  const cheapestOf = (c) => Math.min(roomsMin(c) ?? Infinity, c.snapshot.rent_from ?? Infinity);
   const cmp = {
     no: (a, b) => a.no - b.no,
     walk: (a, b) => (a.transit.walk_min ?? 99) - (b.transit.walk_min ?? 99) || a.no - b.no,
-    rent: (a, b) => (a.snapshot.rent_from ?? 1e9) - (b.snapshot.rent_from ?? 1e9),
-    year: (a, b) => (b.completed ?? 0) - (a.completed ?? 0),
-  }[state.sort];
+    rent: (a, b) => cheapestOf(a) - cheapestOf(b) || a.no - b.no,
+    year: (a, b) => (b.completed ?? 0) - (a.completed ?? 0) || a.no - b.no,
+    units: (a, b) => (a.units ?? 1e9) - (b.units ?? 1e9) || a.no - b.no,
+    fac: (a, b) => b.facilities.length - a.facilities.length || a.no - b.no,
+  }[state.sort] || ((a, b) => a.no - b.no);
   return list.sort(cmp);
 }
 
@@ -652,20 +677,17 @@ function renderList() {
 
 /* ---------- 卡片折叠：默认只看名字、去学校、一句价格，点开看全部 ---------- */
 function toggleCard(id, force) {
-  if (state.expandAll) {
-    // 全部展开时收起某一张：退出"全部展开"，把其他已显示的卡片记为单独展开
-    state.expandAll = false; const cb = $('#f-expand'); if (cb) cb.checked = false;
-    $$('#grid .card').forEach((el) => state.expanded.add(el.id.replace('card-', '')));
-  }
+  // 一张卡片只管自己：不重画别人，也不会把同一行的卡片撑高（.list 用 align-items: start）
   const on = force != null ? force : !state.expanded.has(id);
   if (on) state.expanded.add(id); else state.expanded.delete(id);
   const el = document.getElementById(`card-${id}`); if (!el) return;
   el.classList.toggle('collapsed', !on);
-  const b = $('[data-toggle]', el); if (b) { b.textContent = on ? '收起' : '展开'; b.setAttribute('aria-expanded', String(on)); }
+  const b = $('[data-toggle]', el);
+  if (b) { b.setAttribute('aria-expanded', String(on)); b.setAttribute('aria-label', on ? '收起这张卡片' : '展开这张卡片'); b.title = on ? '收起' : '展开'; }
 }
 function expandFromHash() {
   const m = location.hash.match(/^#card-([a-z0-9-]+)$/); if (!m) return;
-  if (!state.expandAll && !state.expanded.has(m[1])) toggleCard(m[1], true);
+  if (!state.expanded.has(m[1])) toggleCard(m[1], true);
 }
 window.addEventListener('hashchange', expandFromHash);
 function locate(id) {
@@ -739,8 +761,6 @@ function clearSelection() {
 function cardHTML(c) {
   const t = c.transit;
   const rmin = roomsMin(c);
-  const facs = c.facilities.slice(0, 5).join('、');
-  const more = c.facilities.length - 5;
   const tenure = c.tenure.includes('Freehold') ? '永久地契' : '租赁地契';
   const flagBits = [];
   if (t.walk_min != null && t.walk_min <= 10) flagBits.push('<span class="ok">走路能到轻轨</span>');
@@ -751,7 +771,7 @@ function cardHTML(c) {
   if (c.tags.includes('整租适合三人')) flagBits.push('<span class="ok">适合三人整租</span>');
   if (c.tags.includes('最新楼盘')) flagBits.push('新楼');
   if (c.tags.includes('家庭户型')) flagBits.push('家庭大户型');
-  const collapsed = !(state.expandAll || state.expanded.has(c.id));
+  const collapsed = !state.expanded.has(c.id);
   if (!state.marks) state.marks = loadMarks();
   const mk = state.marks[c.id];
   const brief = [rmin != null ? `单间 RM ${fmt(rmin)} 起` : '没找到在租单间', c.snapshot.rent_from ? `整套 RM ${fmt(c.snapshot.rent_from)} 起` : null, c.completed ? `${c.completed} 年` : null, c.units ? `${fmt(c.units)} 户` : null].filter(Boolean).join(' · ');
@@ -760,10 +780,10 @@ function cardHTML(c) {
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
-    <p class="brief"><span>${esc(brief)}</span><button type="button" class="linkish toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}">${collapsed ? '展开' : '收起'}</button><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span></p>
+    <p class="brief"><span>${esc(brief)}</span><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span><button type="button" class="toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}" aria-label="${collapsed ? '展开这张卡片' : '收起这张卡片'}" title="${collapsed ? '展开' : '收起'}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6.2 8 10l4-3.8"/></svg></button></p>
     <div class="more">
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
-    <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
+    <p class="facs">设施（${c.facilities.length} 项）：${esc(c.facilities.join('、'))}</p>
     <div class="price">
       ${c.snapshot.rooms ? `<p><span class="big">单间</span> ${esc(c.snapshot.rooms)} <span class="src">（${esc(c.snapshot.rooms_source || '')}）</span></p>` : '<p><span class="big">单间</span> 这次没有找到在租的单间</p>'}
       ${c.snapshot.whole ? `<p><span class="big">整套</span> ${esc(c.snapshot.whole)} <span class="src">（${esc(c.snapshot.whole_source || '')}）</span></p>` : ''}
@@ -1239,37 +1259,98 @@ function nearestRailMin(c) {
   if (chk && chk.route_min != null) return { min: chk.route_min, label: best.s.zh.replace(/（.*?）/, ''), est: false, route: true };
   return { min: Math.round(best.km * 1000 / 75), label: best.s.zh.replace(/（.*?）/, ''), est: true, straight: true };
 }
-function renderRankings() {
-  const box = $('#rankings');
-  if (!box) return;
-  const name = (c) => `<a href="#card-${c.id}">${esc(shortAlias(c))}</a><i class="rk-no r${c.region}">${c.no}</i>`;
-  const extras = { sauna: '桑拿', steam: '蒸汽房', jacuzzi: '按摩池', badminton: '羽毛球', basketball: '篮球', squash: '壁球', tennis: '网球' };
-  const byFac = state.condos.slice().sort((x, y) => y.facilities.length - x.facilities.length || y.completed - x.completed);
-  const byYear = state.condos.slice().sort((x, y) => (y.completed || 0) - (x.completed || 0) || x.no - y.no);
-  const byTransit = state.condos.map((c) => ({ c, r: nearestRailMin(c) })).sort((x, y) => x.r.min - y.r.min || (x.r.est - y.r.est));
-  const cheapest = (c) => Math.min(roomsMin(c) ?? Infinity, c.snapshot.rent_from ?? Infinity);
-  const byPrice = state.condos.slice().sort((x, y) => cheapest(x) - cheapest(y) || x.no - y.no);
-  box.innerHTML = `
-    <div class="rank">
-      <h3>配套设施 ${tierMark('profile')}</h3>
-      <p class="muted">按设施项数，泳池健身房之外的加分项列在后面</p>
-      <ol>${byFac.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.facilities.length}</b> 项${Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') ? ' · ' + Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') : ''}</span></li>`).join('')}</ol>
-    </div>
-    <div class="rank">
-      <h3>楼龄 ${tierMark('profile')}</h3>
-      <p class="muted">建成年份，越新越靠前</p>
-      <ol>${byYear.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.completed || '不详'}</b>${c.completed ? ' 年' : ''}${c.units ? ' · ' + fmt(c.units) + ' 户' : ''}</span></li>`).join('')}</ol>
-    </div>
-    <div class="rank">
-      <h3>交通便利 ${tierMark('profile')}</h3>
-      <p class="muted">走到最近轨道站的分钟数；标"估"的是按直线距离估算的，属于${tierMark('judgment')}</p>
-      <ol>${byTransit.map(({ c, r }) => `<li>${name(c)}<span class="rk-v"><b>${r.min}</b> 分钟${r.est ? '<small>估</small>' : ''} · ${esc(r.label)}</span></li>`).join('')}</ol>
-    </div>
-    <div class="rank">
-      <h3>价格（从低到高） ${tierMark('market')}</h3>
-      <p class="muted">能租到的最便宜一间：有单间帖子的按单间起价，没有的按整套最低价</p>
-      <ol>${byPrice.map((c) => { const rm = roomsMin(c); const v = cheapest(c); if (!Number.isFinite(v)) return `<li>${name(c)}<span class="rk-v">这次没有挂牌</span></li>`; return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(v)}</b> ${rm != null && v === rm ? '单间起' : '整套起'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
-    </div>`;
+/* ---------- 大同小异：25 个小区的共同点，数字全部从档案现算 ---------- */
+function renderCommon() {
+  const box = $('#common'); if (!box) return;
+  const C = state.condos;
+  const link = (c) => `<a href="#card-${c.id}">${esc(shortAlias(c))}</a>`;
+  const names = (arr) => arr.map(link).join('、');
+  const n = (arr) => arr.length;
+  const has = (k) => C.filter((c) => c.flags[k]);
+  const serviced = C.filter(IS_SERVICED), plain = C.filter((c) => !IS_SERVICED(c));
+  const byUnits = C.filter((c) => c.units).slice().sort((a, b) => a.units - b.units);
+  const noUnits = C.filter((c) => !c.units);
+  const big = C.filter((c) => c.units >= 1000), small = C.filter((c) => c.units && c.units < 500);
+  const byYear = C.filter((c) => c.completed).slice().sort((a, b) => a.completed - b.completed);
+  const noYear = C.filter((c) => !c.completed);
+  const since = C.filter((c) => (c.completed || 0) >= 2018);
+  const free = C.filter((c) => /Freehold/.test(c.tenure));
+  const rail = C.filter((c) => c.transit.walk_min != null).slice().sort((a, b) => a.transit.walk_min - b.transit.walk_min);
+  const noRail = C.filter((c) => c.transit.walk_min == null);
+  const withRoom = C.filter((c) => roomsMin(c) != null), noRoom = C.filter((c) => roomsMin(c) == null);
+  const sqft = [...new Set(C.map((c) => c.snapshot.whole).filter(Boolean).join(' ').match(/\d[\d,]* sqft/g) || [])].map((x) => Number(x.replace(/[^\d]/g, ''))).sort((a, b) => a - b);
+  const facN = C.map((c) => c.facilities.length);
+  const floors = C.map((c) => (String(c.floors || '').match(/\d+/g) || [])).flat().map(Number).filter((x) => x > 0 && x < 100).sort((a, b) => a - b);
+  const extras = ['sauna', 'steam', 'jacuzzi', 'badminton', 'basketball', 'squash', 'tennis', 'bbq', 'minimart'];
+  const oldest = byYear[0], newest = byYear[byYear.length - 1];
+  const items = [
+    ['泳池全都有，健身房差一个',
+      `${n(C)} 个全部有泳池、全部写明 24 小时保安，${n(has('gym'))} 个有健身房，清单里没写健身房的只有 ${names(C.filter((c) => !c.flags.gym))}（待核实）。这三样不用比，要比的是加分项：`
+      + extras.map((k) => `${FAC_ZH[k]} ${n(has(k))} 个`).join('，')
+      + `。设施项数最少的是 ${link(C.slice().sort((a, b) => a.facilities.length - b.facilities.length)[0])}（${Math.min(...facN)} 项），最多的是 ${link(C.slice().sort((a, b) => b.facilities.length - a.facilities.length)[0])}（${Math.max(...facN)} 项）。`],
+    ['服务式公寓占多数',
+      `${n(serviced)} 个是服务式公寓，${n(plain)} 个是普通公寓（${names(plain)}）。服务式公寓多为商业地契，水电按商业费率计，同样用量比普通公寓贵一到两成，楼下通常有商铺和物业前台。`],
+    [`楼龄从 ${oldest.completed} 年到 ${newest.completed} 年`,
+      `最老的是 ${link(oldest)}（${oldest.completed} 年），最新的是 ${link(newest)}（${newest.completed} 年），其中 ${n(since)} 个是 2018 年以后建成的。${noYear.length ? `建成年份还没查到的是 ${names(noYear)}。` : ''}`],
+    ['规模差得很远',
+      `户数从 ${fmt(byUnits[0].units)} 户（${link(byUnits[0])}）到 ${fmt(byUnits[byUnits.length - 1].units)} 户（${link(byUnits[byUnits.length - 1])}）：${n(small)} 个不到 500 户，超过 1,000 户的只有 ${names(big)}，早晚高峰等电梯的差别就在这里。${noUnits.length ? `户数还没查到的是 ${names(noUnits)}。` : ''}楼高从 ${floors[0]} 层到 ${floors[floors.length - 1]} 层。`],
+    ['两种地契都有',
+      `${n(free)} 个永久地契（${names(free)}），其余 ${n(C) - n(free)} 个是租赁地契。这只影响房东买卖，租房不受影响，看房时不用纠结。`],
+    [`${n(rail)} 个走得到轨道站`,
+      `走得到的是：` + rail.map((c) => `${link(c)} ${c.transit.walk_min} 分钟${c.transit.walk_est ? '（估算）' : ''}`).join('，')
+      + `。另外 ${n(noRail)} 个没有走得到的站（${names(noRail)}），每天靠公交、免费巴士或 Grab。步行分钟用 OpenStreetMap 路网核对过，有天桥的地方实际可能更短。`],
+    ['房子都不大，家具都齐',
+      `这次抓到的在租房源，面积从 ${fmt(sqft[0])} 平方英尺到 ${fmt(sqft[sqft.length - 1])} 平方英尺。帖子基本都标 fully furnished，也就是床、衣柜、空调、冰箱、洗衣机、热水器齐全，拎包入住；标 partially furnished 的要逐件问清楚缺哪几样。`],
+    [`这次 ${n(withRoom)} 个有房间在租`,
+      `${n(withRoom)} 个能查到房间（单间）的挂牌价，另外 ${n(noRoom)} 个这次只有整套出租：${names(noRoom)}。挂牌每 12 小时刷新一次，隔天再看会变。`],
+    ['租房规矩一模一样',
+      '押金 2 个月房租，加 1 个月预付租金，加半个月水电押金，签约当天一次付清；租期以 12 个月为主；中介费由房东付，租客不用给；合同要拿去税务局 LHDN 盖印花才算有效。'],
+  ];
+  box.innerHTML = items.map(([t, d]) => `<div class="cm"><h4>${t}</h4><p>${d}</p></div>`).join('');
+}
+
+/* ---------- 排行榜：一次看一个榜，25 个全列出来，长条表示差距 ---------- */
+const BOARD_KEY = 'um-board';
+function boardData() {
+  const C = state.condos;
+  const cheapestOf = (c) => Math.min(roomsMin(c) ?? Infinity, c.snapshot.rent_from ?? Infinity);
+  return [
+    { k: 'transit', tab: '离轨道站近', tier: 'profile', low: true,
+      note: '走到最近轨道站要多少分钟。没有走得到的站时，写的是按路网或直线估算的分钟数。',
+      rows: () => C.map((c) => { const r = nearestRailMin(c); const ok = c.transit.walk_min != null; return { c, v: r.min, ok, txt: ok ? `${r.min} 分钟` : `约 ${r.min} 分钟`, sub: ok ? r.label + (c.transit.walk_est ? '（估算）' : '') : '最近是 ' + r.label + '，走不过去，靠公交或 Grab' }; }) },
+    { k: 'price', tab: '最便宜', tier: 'market', low: true,
+      note: '能租到的最便宜一间：有房间挂牌的按房间起价算，只有整套的按整套起价算。',
+      rows: () => C.map((c) => { const rm = roomsMin(c), v = cheapestOf(c); const ok = Number.isFinite(v); return { c, v, ok, txt: ok ? `RM ${fmt(v)}` : '没有挂牌', sub: ok ? (rm != null && v === rm ? '房间起' : '整套起') : '这次没抓到在租房源' }; }) },
+    { k: 'fac', tab: '设施最多', tier: 'profile', low: false,
+      note: '档案里列出的设施项数，后面是泳池和健身房之外的加分项。',
+      rows: () => C.map((c) => ({ c, v: c.facilities.length, ok: true, txt: `${c.facilities.length} 项`, sub: Object.keys(FAC_ZH).filter((k) => k !== 'pool' && k !== 'gym' && c.flags[k]).map((k) => FAC_ZH[k]).join('、') || '只有泳池和健身房' })) },
+    { k: 'year', tab: '楼最新', tier: 'profile', low: false,
+      note: '建成年份，越新越靠前；后面是户数。',
+      rows: () => C.map((c) => ({ c, v: c.completed || 0, ok: !!c.completed, txt: c.completed ? `${c.completed} 年` : '年份不详', sub: c.units ? `${fmt(c.units)} 户` : '户数不详' })) },
+  ];
+}
+function renderBoard() {
+  const box = $('#board'); if (!box) return;
+  const boards = boardData();
+  let cur = 0;
+  try { const k = localStorage.getItem(BOARD_KEY); const i = boards.findIndex((b) => b.k === k); if (i >= 0) cur = i; } catch { /* ignore */ }
+  const paint = () => {
+    const b = boards[cur];
+    const rows = b.rows();
+    const good = rows.filter((r) => r.ok), bad = rows.filter((r) => !r.ok);
+    good.sort((x, y) => (b.low ? x.v - y.v : y.v - x.v) || x.c.no - y.c.no);
+    const lo = Math.min(...good.map((r) => r.v)), hi = Math.max(...good.map((r) => r.v));
+    const span = Math.max(1, hi - lo);
+    // 条长只表示相对差距：最好的满格，最差的留一小截
+    const pct = (r) => Math.round(14 + 86 * (b.low ? (hi - r.v) / span : (r.v - lo) / span));
+    const list = [...good, ...bad];
+    const rowsN = Math.ceil(list.length / 2);
+    box.innerHTML = `<div class="board-tabs" role="tablist">${boards.map((x, i) => `<button type="button" role="tab" class="btab${i === cur ? ' on' : ''}" aria-selected="${i === cur}" data-b="${i}">${esc(x.tab)}</button>`).join('')}</div>
+      <p class="board-note">${esc(b.note)} ${tierMark(b.tier)}</p>
+      <ol class="board-list" style="--rows:${rowsN}">${list.map((r) => `<li class="brow${r.ok ? '' : ' dim'}"><i class="bno r${r.c.region}">${r.c.no}</i><a class="bname" href="#card-${r.c.id}">${esc(shortAlias(r.c))}</a><span class="bbar"><i style="width:${r.ok ? pct(r) : 0}%"></i></span><b class="bval">${esc(r.txt)}</b><small class="bsub">${esc(r.sub || '')}</small></li>`).join('')}</ol>`;
+    $$('.btab', box).forEach((t) => t.addEventListener('click', () => { cur = Number(t.dataset.b); try { localStorage.setItem(BOARD_KEY, boards[cur].k); } catch { /* ignore */ } paint(); }));
+  };
+  paint();
 }
 
 /* ---------- 三层标记：档案 / 行情 / 判断（ADR-001） ---------- */
