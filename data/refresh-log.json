@@ -1,5 +1,5 @@
 {
-  "started_at": "2026-09-09T12:28:38.449Z",
+  "started_at": "2026-09-09T15:45:23.814Z",
   "date_myt": "2026-09-09",
   "only": [],
   "iproperty": {
@@ -9,15 +9,15 @@
     "pacific-star": "ok 205 listings (60 read), whole from RM 1800, rooms 2",
     "pacific-63": "ok 11 listings (11 read), whole from RM 1700, rooms 0",
     "pj-midtown": "ok 150 listings (60 read), whole from RM 1300, rooms 4",
-    "centrestage": "ok 152 listings (60 read), whole from RM 1099, rooms 2",
+    "centrestage": "ok 153 listings (60 read), whole from RM 1099, rooms 2",
     "pj8": "ok 19 listings (19 read), whole from RM 1900, rooms 0",
     "tiara-damansara": "ok 7 listings (7 read), whole from RM 2500, rooms 0",
     "dvogue": "ok 50 listings (50 read), whole from RM 1650, rooms 0",
     "kl-gateway": "ok 150 listings (60 read), whole from RM 2000, rooms 0",
     "pantai-panorama": "ok 36 listings (36 read), whole from RM 2000, rooms 2",
-    "south-view": "ok 441 listings (60 read), whole from RM 1900, rooms 1",
+    "south-view": "ok 442 listings (60 read), whole from RM 1900, rooms 1",
     "southlink": "ok 535 listings (60 read), whole from RM 1299, rooms 7",
-    "novum": "ok 261 listings (60 read), whole from RM 2100, rooms 2",
+    "novum": "ok 262 listings (60 read), whole from RM 2100, rooms 2",
     "laurel": "ok 349 listings (60 read), whole from RM 1600, rooms 2",
     "saville": "ok 50 listings (50 read), whole from RM 2400, rooms 2",
     "inwood": "ok 64 listings (60 read), whole from RM 3200, rooms 0",
@@ -25,9 +25,9 @@
     "avara": "ok 119 listings (60 read), whole from RM 2050, rooms 0",
     "tria-seputeh": "ok 104 listings (60 read), whole from RM 2000, rooms 1",
     "vivo": "ok 296 listings (60 read), whole from RM 1400, rooms 5",
-    "southbank": "ok 237 listings (60 read), whole from RM 1900, rooms 0",
+    "southbank": "ok 238 listings (60 read), whole from RM 1900, rooms 0",
     "avantas": "ok 25 listings (25 read), whole from RM 1500, rooms 2",
-    "millerz": "ok 394 listings (60 read), whole from RM 1700, rooms 6"
+    "millerz": "ok 396 listings (60 read), whole from RM 1700, rooms 6"
   },
   "ibilik": {
     "ran": true,
@@ -57,7 +57,7 @@
     "south-view": "units 8 min 2399 (agree), rooms 0 min - (-)",
     "southlink": "units 2 min 2300 (gap), rooms 0 min - (-)",
     "novum": "units 9 min 3300 (gap), rooms 2 min 1400 (agree)",
-    "laurel": "units 9 min 2500 (gap), rooms 1 min 820 (gap)",
+    "laurel": "units 8 min 2500 (gap), rooms 1 min 820 (gap)",
     "saville": "units 18 min 2100 (agree), rooms 4 min 480 (gap)",
     "inwood": "units 0 min - (-), rooms 0 min - (-)",
     "secoya": "units 4 min 4000 (agree), rooms 3 min 1000 (agree)",
@@ -68,6 +68,6 @@
     "avantas": "units 1 min 2400 (gap), rooms 0 min - (-)",
     "millerz": "units 14 min 1400 (agree), rooms 0 min - (-)"
   },
-  "finished_at": "2026-09-09T12:39:05.025Z",
+  "finished_at": "2026-09-09T15:55:45.522Z",
   "ok": true
 }

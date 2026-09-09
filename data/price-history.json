@@ -265,7 +265,7 @@
           "rooms_min": 1300
         },
         "centrestage": {
-          "for_rent": 152,
+          "for_rent": 153,
           "rent_from": 1099,
           "rooms_min": 600
         },
@@ -295,7 +295,7 @@
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 441,
+          "for_rent": 442,
           "rent_from": 1900,
           "rooms_min": 750
         },
@@ -305,7 +305,7 @@
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 261,
+          "for_rent": 262,
           "rent_from": 2100,
           "rooms_min": 1400
         },
@@ -345,7 +345,7 @@
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 237,
+          "for_rent": 238,
           "rent_from": 1900,
           "rooms_min": null
         },
@@ -355,7 +355,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 394,
+          "for_rent": 396,
           "rent_from": 1700,
           "rooms_min": 1050
         }

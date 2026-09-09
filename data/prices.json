@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-09T12:39:05.024Z",
-  "updated_myt": "2026-09-09 20:39",
+  "updated_at": "2026-09-09T15:55:45.520Z",
+  "updated_myt": "2026-09-09 23:55",
   "source_note": "由 scripts/refresh.mjs 每 12 小时自动写入；按小区 id 对应 condos.json 里的固定信息",
   "condos": {
     "seventeen": {
@@ -137,9 +137,9 @@
     },
     "centrestage": {
       "date": "2026-09-09",
-      "for_rent": 152,
+      "for_rent": 153,
       "rent_from": 1099,
-      "whole": "开间 301 sqft RM 1,099 起 · 1 房 301 sqft RM 1,299 起 · 2 房 452 sqft RM 1,199 起 · 3 房 689 sqft RM 1,499 起",
+      "whole": "开间 301 sqft RM 1,099 起 · 1 房 301 sqft RM 1,299 起 · 2 房 452 sqft RM 1,199 起",
       "whole_source": "iProperty，2026-09-09",
       "rooms": "大房 RM 800 起 · 房间 RM 600 起（2 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
@@ -269,7 +269,7 @@
     },
     "south-view": {
       "date": "2026-09-09",
-      "for_rent": 441,
+      "for_rent": 442,
       "rent_from": 1900,
       "whole": "开间 300 sqft RM 1,900 起 · 1 房 648 sqft RM 2,200 起 · 2 房 648 sqft RM 2,200 起",
       "whole_source": "iProperty，2026-09-09",
@@ -313,7 +313,7 @@
     },
     "novum": {
       "date": "2026-09-09",
-      "for_rent": 261,
+      "for_rent": 262,
       "rent_from": 2100,
       "whole": "1 房 650 sqft RM 2,100 起 · 2 房 832 sqft RM 2,700 起",
       "whole_source": "iProperty，2026-09-09",
@@ -346,7 +346,7 @@
         "mudah": {
           "at": "2026-09-09",
           "unit_min": 2500,
-          "unit_n": 9,
+          "unit_n": 8,
           "room_min": 820,
           "room_n": 1,
           "status": "gap",
@@ -489,7 +489,7 @@
     },
     "southbank": {
       "date": "2026-09-09",
-      "for_rent": 237,
+      "for_rent": 238,
       "rent_from": 1900,
       "whole": "2 房 800 sqft RM 1,950 起 · 3 房 953 sqft RM 1,900 起",
       "whole_source": "iProperty，2026-09-09",
@@ -533,7 +533,7 @@
     },
     "millerz": {
       "date": "2026-09-09",
-      "for_rent": 394,
+      "for_rent": 396,
       "rent_from": 1700,
       "whole": "开间 360 sqft RM 1,700 起 · 1 房 660 sqft RM 2,500 起 · 3 房 852 sqft RM 2,500 起",
       "whole_source": "iProperty，2026-09-09",
