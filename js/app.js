@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090300';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090355';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -15,6 +15,8 @@ const state = {
   intentsOk: null,
   expanded: new Set(),
   expandAll: false,
+  marks: null,
+  start: null,
   needsRank: null,
   map: null,
   markers: {},
@@ -66,6 +68,8 @@ async function init() {
   bindCalc();
   bindCopy();
   bindNeeds();
+  bindStart();
+  renderConclusion();
   // 页面都摆好之后再定一次全图视野，避免地图在排版没完成时算错缩放
   if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds, FIT_OPTS); });
   bindChecklists();
@@ -91,8 +95,10 @@ function bindCalc() {
     $('#c-stamp').textContent = r ? `约 ${rm(stamp)}` : '—';
     const base = r * 3.5 + stamp;
     $('#c-total').textContent = r ? `${rm(base + 100 + 150)} 到 ${rm(base + 200 + 300)}` : '—';
+    if (input.dataset.touched === '1') { try { localStorage.setItem('um-calc', JSON.stringify({ rent: r, low: Math.round(base + 250), high: Math.round(base + 500) })); } catch { /* ignore */ } }
+    if (typeof renderConclusion === 'function' && state.condos) renderConclusion();
   };
-  input.addEventListener('input', run);
+  input.addEventListener('input', () => { input.dataset.touched = '1'; run(); });
   run();
 }
 function bindCopy() {
@@ -117,19 +123,165 @@ function bindChecklists() {
     });
   });
 }
+/* ---------- 路线图：头部一条路，七站；小人随滚动走到当前站 ---------- */
+const ROUTE_STOPS = ['s-start', 'campus', 'regions', 's3', 's2', 's5', 's0'];
 function bindNav() {
-  const links = $$('#stepnav a');
-  if (!links.length || !('IntersectionObserver' in window)) return;
-  const byId = Object.fromEntries(links.map((a) => [a.getAttribute('href').slice(1), a]));
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (en.isIntersecting) {
-        links.forEach((a) => a.classList.remove('is-active'));
-        byId[en.target.id]?.classList.add('is-active');
-      }
-    });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-  Object.keys(byId).forEach((id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+  const route = $('#route');
+  if (!route) return;
+  const stops = $$('#route-stops li');
+  const dots = stops.map((li) => li.querySelector('.stop'));
+  const names = stops.map((li) => li.querySelector('a').textContent);
+  const track = $('#route-track'), walked = $('#route-walked'), figure = $('#route-figure'), here = $('#route-here');
+  let centers = [];
+  const measure = () => {
+    const r = route.getBoundingClientRect();
+    centers = dots.map((d) => { const b = d.getBoundingClientRect(); return b.left - r.left + b.width / 2; });
+    track.style.left = centers[0] + 'px'; track.style.width = Math.max(0, centers[6] - centers[0]) + 'px';
+    walked.style.left = centers[0] + 'px';
+  };
+  // 进度 0 到 6：在两站之间按滚动比例插值；每站以它第一块内容的顶部为准
+  const progress = () => {
+    const tops = ROUTE_STOPS.map((id) => { const el = document.getElementById(id); return el ? el.getBoundingClientRect().top + window.scrollY - 120 : Infinity; });
+    const probe = window.scrollY + window.innerHeight * 0.3;
+    if (probe <= tops[0]) return 0;
+    for (let i = 0; i < 6; i++) if (probe < tops[i + 1]) return i + Math.min(1, Math.max(0, (probe - tops[i]) / Math.max(1, tops[i + 1] - tops[i])));
+    return 6;
+  };
+  let walkTimer = null, lastP = -1;
+  const paint = () => {
+    if (!centers.length) measure();
+    const p = progress();
+    const i = Math.min(5, Math.floor(p)), f = p - i;
+    const x = p >= 6 ? centers[6] : centers[i] + (centers[i + 1] - centers[i]) * f;
+    figure.style.transform = `translateX(${x.toFixed(1)}px)`;
+    walked.style.width = Math.max(0, x - centers[0]).toFixed(1) + 'px';
+    const cur = Math.round(p);
+    stops.forEach((li, k) => { li.classList.toggle('done', k < cur); li.classList.toggle('now', k === cur); });
+    if (here) here.textContent = names[cur];
+    if (lastP >= 0 && Math.abs(p - lastP) > 0.0005) { route.classList.add('walking'); clearTimeout(walkTimer); walkTimer = setTimeout(() => route.classList.remove('walking'), 240); }
+    lastP = p;
+  };
+  window.addEventListener('scroll', () => requestAnimationFrame(paint), { passive: true });
+  window.addEventListener('resize', () => { measure(); paint(); });
+  if (document.fonts?.ready) document.fonts.ready.then(() => { measure(); paint(); });
+  measure(); paint();
+  setTimeout(() => { measure(); paint(); }, 800);
+}
+
+/* ---------- 起点：我现在想要的房子 ---------- */
+const START_KEY = 'um-start';
+const START_ZH = {
+  mode: { room: '一个人租一间', share2: '和朋友整租平摊', solo: '一个人整租', unsure: '住法还没定' },
+  transit: { rail: '必须走得到轨道站', bus: '公交或校车也行', any: '交通无所谓，打车', unsure: '交通还没想好' },
+};
+function loadStart() { try { return JSON.parse(localStorage.getItem(START_KEY) || '{}'); } catch { return {}; } }
+function bindStart() {
+  const box = $('#start'); if (!box) return;
+  state.start = loadStart();
+  const paint = () => {
+    $$('.seg', box).forEach((seg) => { const q = seg.dataset.q; $$('button', seg).forEach((b) => b.setAttribute('aria-pressed', String(String(state.start[q] ?? '') === b.dataset.v))); });
+    const s = state.start; const bits = [];
+    if (s.budget && s.budget !== 'unsure') bits.push(`每月房租 <b>RM ${fmt(Number(s.budget))}</b> 内`); else if (s.budget === 'unsure') bits.push('预算还不确定');
+    if (s.mode) bits.push(`<b>${esc(START_ZH.mode[s.mode] || '')}</b>`);
+    if (s.transit) bits.push(`<b>${esc(START_ZH.transit[s.transit] || '')}</b>`);
+    $('#start-echo').innerHTML = bits.length ? `你现在的想法：${bits.join('，')}。往下走，到终点再看这些有没有变。` : '';
+  };
+  box.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-v]'); if (!b) return;
+    const q = b.closest('.seg').dataset.q;
+    state.start[q] = b.dataset.v;
+    try { localStorage.setItem(START_KEY, JSON.stringify(state.start)); } catch { /* ignore */ }
+    paint(); renderConclusion();
+  });
+  paint();
+}
+
+/* ---------- 卡片上的"感兴趣 / 不考虑" ---------- */
+const MARKS_KEY = 'um-marks';
+function loadMarks() { try { return JSON.parse(localStorage.getItem(MARKS_KEY) || '{}'); } catch { return {}; } }
+function toggleMark(id, v) {
+  if (!state.marks) state.marks = loadMarks();
+  if (state.marks[id] === v) delete state.marks[id]; else state.marks[id] = v;
+  try { localStorage.setItem(MARKS_KEY, JSON.stringify(state.marks)); } catch { /* ignore */ }
+  const el = document.getElementById(`card-${id}`);
+  if (el) {
+    el.classList.toggle('is-yes', state.marks[id] === 'yes'); el.classList.toggle('is-no', state.marks[id] === 'no');
+    $$('.mark', el).forEach((b) => { const on = state.marks[id] === b.dataset.mark; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+  }
+  renderConclusion();
+}
+
+/* ---------- 终点：把一路的选择拼成一段话 ---------- */
+function renderConclusion() {
+  const box = $('#conclusion'); if (!box) return;
+  if (!state.marks) state.marks = loadMarks();
+  const st = state.start || loadStart();
+  const o = loadNeeds();
+  const crit = needsCriteria();
+  // 只有用户真的打过分，打分表的权重和预算才算数；没打过就只用起点记下的
+  let touched = false; try { touched = !!localStorage.getItem(NEEDS_KEY); } catch { /* ignore */ }
+  const anyW = touched && crit.some((x) => (o.w[x.k] || 0) > 0);
+  const res = anyW ? needsCompute(o, crit) : [];
+  const top = res.slice(0, 3);
+  const yes = Object.entries(state.marks).filter(([, v]) => v === 'yes').map(([id]) => state.condos.find((c) => c.id === id)).filter(Boolean);
+  const noCount = Object.values(state.marks).filter((v) => v === 'no').length;
+  let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
+  const hasStart = st.budget || st.mode || st.transit;
+  if (!hasStart && !anyW && !yes.length) {
+    box.innerHTML = '<p class="con-empty">这里还是空的。先在起点记下想法，看小区时点"感兴趣"，到"打个分"打个分，这里就会写出你的结论。</p>';
+    return;
+  }
+  const regionsMeta = state.meta.regions || {};
+  const w = (k) => o.w[k] || 0;
+  // 住法：打分表里的选择优先，其次起点
+  const modeZh = anyW ? (NEEDS_MODES[o.mode] || '') : (START_ZH.mode[st.mode] || '');
+  const sentences = [];
+  const first = [];
+  if (modeZh && modeZh !== '住法还没定') first.push(`我打算${modeZh.replace(/（.*?）/g, '')}`);
+  const budget = anyW ? o.budget : (Number(st.budget) || null);
+  if (budget) first.push(`每月房租不超过 RM ${fmt(budget)}`); else if (st.budget === 'unsure') first.push('预算还没定');
+  if (first.length) sentences.push(first.join('，') + '。');
+  // 区域：收藏里最多的那片，否则打分前三里最多的
+  const pool = yes.length ? yes : top.map((r) => r.c);
+  if (pool.length) {
+    const cnt = {}; pool.forEach((c) => { cnt[c.region] = (cnt[c.region] || 0) + 1; });
+    const r = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0][0];
+    sentences.push(`想住${regionsMeta[r]?.label || '区域 ' + r}。`);
+  }
+  // 交通
+  if (w('commute') === 3) sentences.push('必须走得到轨道站。'); else if (w('commute') === 2) sentences.push('最好走得到轨道站。'); else if (st.transit && st.transit !== 'unsure') sentences.push(START_ZH.transit[st.transit] + '。');
+  // 在意的事
+  const cares = crit.filter((x) => w(x.k) >= 2 && x.k !== 'price' && x.k !== 'commute').map((x) => x.label);
+  const musts = crit.filter((x) => w(x.k) === 3 && x.k !== 'price' && x.k !== 'commute').map((x) => x.label);
+  if (musts.length) sentences.push(`${musts.join('、')}是必须的。`);
+  const rest = cares.filter((x) => !musts.includes(x));
+  if (rest.length) sentences.push(`也在意${rest.join('、')}。`);
+  // 候选
+  if (yes.length) sentences.push(`候选是 ${yes.map(shortAlias).join('、')}${top[0] && yes.some((c) => c.id === top[0].c.id) ? `，按我的打分 ${shortAlias(top[0].c)} 最贴近` : ''}。`);
+  else if (top.length) sentences.push(`按我的打分最对路的是 ${top.map((r) => shortAlias(r.c)).join('、')}。`);
+  if (calc && calc.rent) sentences.push(`入住前大约要准备 RM ${fmt(calc.low)} 到 ${fmt(calc.high)}。`);
+  const asks = NEEDS_ASK.filter(([k]) => o.ask.includes(k)).map(([, t]) => t.split('：')[0]);
+  if (asks.length) sentences.push(`看房时要问：${asks.join('、')}。`);
+  const text = sentences.join('');
+  // 和一开始想的对比
+  const diffs = [];
+  if (st.budget && st.budget !== 'unsure' && anyW && Number(st.budget) !== o.budget) diffs.push(`预算从 RM ${fmt(Number(st.budget))} 变成 RM ${fmt(o.budget)}`);
+  if (st.mode && st.mode !== 'unsure' && anyW && st.mode !== o.mode) diffs.push(`住法从"${START_ZH.mode[st.mode]}"变成"${NEEDS_MODES[o.mode]}"`);
+  if (st.transit === 'any' && w('commute') >= 2) diffs.push('一开始说交通无所谓，现在希望走得到轨道站');
+  if (st.transit === 'rail' && anyW && w('commute') === 0) diffs.push('一开始要求走得到轨道站，现在不比这一项了');
+  if (noCount) diffs.push(`看过之后排除了 ${noCount} 个小区`);
+  const candRows = (yes.length ? yes.map((c) => ({ c, why: res.find((r) => r.c.id === c.id)?.parts.slice(0, 2).map((p) => p.why).filter(Boolean).join(' · ') || '你收藏的' })) : top.map((r) => ({ c: r.c, why: r.parts.slice(0, 2).map((p) => p.why).filter(Boolean).join(' · ') })));
+  box.innerHTML = `
+    <div class="con-card"><p class="con-text" id="con-text">${esc(text)}</p>
+      <div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了打分或收藏，这段话会跟着变。</span></div></div>
+    <div class="con-grid">
+      <div><h3>候选小区</h3>${candRows.length ? `<ol>${candRows.map(({ c, why }) => `<li><b><a href="#card-${c.id}">${esc(shortAlias(c))}</a></b> · ${esc(regionsMeta[String(c.region)]?.short || '')}${why ? `<br><span class="muted">${esc(why)}</span>` : ''}</li>`).join('')}</ol>` : '<p class="con-empty">还没有：看小区时点"感兴趣"，或去"打个分"。</p>'}</div>
+      <div><h3>和一开始想的对比</h3>${diffs.length ? `<ul>${diffs.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>` : `<p class="con-empty">${hasStart ? '和起点记下的想法一致。' : '起点还没记想法，记一下才有对比。'}</p>`}</div>
+    </div>`;
+  $('#con-copy')?.addEventListener('click', async (e) => {
+    try { await navigator.clipboard.writeText(text); e.target.textContent = '已复制'; } catch { window.prompt('复制下面的文字', text); }
+    setTimeout(() => { e.target.textContent = '复制这段话'; }, 1600);
+  });
 }
 
 /* ---------- helpers ---------- */
@@ -472,6 +624,7 @@ function renderList() {
   $$('[data-detail]', grid).forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.detail)));
   $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
   $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
+  $$('[data-mark]', grid).forEach((b) => b.addEventListener('click', () => toggleMark(b.dataset.id, b.dataset.mark)));
   paintIntentCounts();
   expandFromHash();
 }
@@ -591,14 +744,16 @@ function cardHTML(c) {
   if (c.tags.includes('最新楼盘')) flagBits.push('新楼');
   if (c.tags.includes('家庭户型')) flagBits.push('家庭大户型');
   const collapsed = !(state.expandAll || state.expanded.has(c.id));
+  if (!state.marks) state.marks = loadMarks();
+  const mk = state.marks[c.id];
   const nr = state.needsRank?.[c.id];
   const brief = [rmin != null ? `单间 RM ${fmt(rmin)} 起` : '没找到在租单间', c.snapshot.rent_from ? `整套 RM ${fmt(c.snapshot.rent_from)} 起` : null, c.completed ? `${c.completed} 年` : null, c.units ? `${fmt(c.units)} 户` : null].filter(Boolean).join(' · ');
   return `
-  <article class="card r${c.region}${collapsed ? ' collapsed' : ''}" id="card-${c.id}">
+  <article class="card r${c.region}${collapsed ? ' collapsed' : ''}${mk === 'yes' ? ' is-yes' : mk === 'no' ? ' is-no' : ''}" id="card-${c.id}">
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
-    <p class="brief">${nr ? `<b class="rank-badge${nr.fails.length ? ' fail' : ''}" title="按你在“先想清楚”里的权重算的">第 ${nr.rank} 名 · ${nr.score} 分${nr.fails.length ? ' · 有必须项不满足' : ''}</b>` : ''}<span>${esc(brief)}</span><button type="button" class="linkish toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}">${collapsed ? '展开' : '收起'}</button></p>
+    <p class="brief">${nr ? `<b class="rank-badge${nr.fails.length ? ' fail' : ''}" title="按你在“先想清楚”里的权重算的">第 ${nr.rank} 名 · ${nr.score} 分${nr.fails.length ? ' · 有必须项不满足' : ''}</b>` : ''}<span>${esc(brief)}</span><button type="button" class="linkish toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}">${collapsed ? '展开' : '收起'}</button><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span></p>
     <div class="more">
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
     <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
@@ -1360,7 +1515,7 @@ function bindNeeds() {
   let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
   try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* 隐私模式下忽略 */ }
   if (!NEEDS_MODES[o.mode]) o.mode = 'room';
-  const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } if (state.sort === 'needs') renderList(); };
+  const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } if (state.sort === 'needs') renderList(); renderConclusion(); };
   const crit = needsCriteria();
   let showAll = false;
   rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}${x.k === 'daily' || x.k === 'quiet' ? ' ' + tierMark('judgment') : ''}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');

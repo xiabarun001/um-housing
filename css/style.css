@@ -982,3 +982,83 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .cs-lbl-bus.rapid { fill: var(--bus-780); }
 .swatch.bus-pj { height: 0; border-top: 3px dotted var(--bus-pj); background: none; border-radius: 0; }
 .swatch.bus-780 { height: 2.5px; background: var(--bus-780); border-radius: 2px; }
+
+/* ===== 路线图：吸顶头部里的一条路，七站，小人随滚动走 ===== */
+:root { --track: #DDD7CB; --walked: #3E8E5B; --walked-soft: rgba(62,142,91,.16); --f-skin: #F0C9A6; --f-hair: #2B2622; --f-eye: #2B2622; }
+@media (prefers-color-scheme: dark) { :root { --track: #3A3C42; --walked: #5DAF7C; --walked-soft: rgba(93,175,124,.2); --f-hair: #E8E2D8; --f-eye: #1F1E1B; } }
+.top { flex-wrap: wrap; row-gap: 0; }
+.route { position: relative; flex: 1 1 560px; min-width: 0; height: 66px; margin: -4px 0 -6px; }
+.route ol { list-style: none; margin: 0; padding: 0; position: absolute; left: 0; right: 0; top: 30px; display: grid; grid-template-columns: 1.15fr repeat(5, 1fr) 1.15fr; }
+.route li { position: relative; text-align: center; }
+.route .stop { display: block; width: 12px; height: 12px; border-radius: 50%; background: var(--card); border: 2.5px solid var(--track); margin: 0 auto; position: relative; z-index: 2; transition: border-color .25s, background .25s, transform .25s; }
+.route li.terminal .stop { width: 16px; height: 16px; margin-top: -2px; }
+.route li.done .stop { background: var(--walked); border-color: var(--walked); }
+.route li.now .stop { border-color: var(--walked); background: var(--card); transform: scale(1.25); box-shadow: 0 0 0 4px var(--walked-soft); }
+.route a { display: block; margin-top: 6px; font-size: 12.5px; font-weight: 500; letter-spacing: .02em; color: var(--ink-3); text-decoration: none; white-space: nowrap; transition: color .25s; }
+.route li.terminal a { color: var(--ink-2); font-weight: 600; }
+.route li.done a { color: var(--ink-2); }
+.route li.now a { color: var(--ink); font-weight: 700; }
+.route a:hover { color: var(--ink); }
+.route a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.route .track, .route .walked { position: absolute; top: 35px; height: 4px; border-radius: 2px; z-index: 1; }
+.route .track { background: var(--track); }
+.route .walked { background: var(--walked); transition: width .12s linear; }
+.route .figure { position: absolute; top: -8px; width: 28px; height: 44px; margin-left: -15px; z-index: 3; transition: transform .12s linear; will-change: transform; }
+.route .figure svg { width: 28px; height: 44px; overflow: visible; }
+.route .f-bag { fill: var(--accent); }
+.route .f-shirt { fill: var(--walked); }
+.route .f-leg rect, .route .f-arm rect { fill: var(--ink); }
+.route .f-skin { fill: var(--f-skin); }
+.route .f-hair { fill: var(--f-hair); }
+.route .f-eye { fill: var(--f-eye); }
+.route .f-leg-l { transform-origin: 12.3px 28px; }
+.route .f-leg-r { transform-origin: 16.9px 28px; }
+.route .f-arm { transform-origin: 19.6px 18px; }
+.route.walking .f-leg-l { animation: r-legA .46s ease-in-out infinite; }
+.route.walking .f-leg-r { animation: r-legB .46s ease-in-out infinite; }
+.route.walking .f-arm { animation: r-legB .46s ease-in-out infinite; }
+.route.walking .figure svg { animation: r-bob .46s ease-in-out infinite; }
+@keyframes r-legA { 0%, 100% { transform: rotate(-22deg); } 50% { transform: rotate(22deg); } }
+@keyframes r-legB { 0%, 100% { transform: rotate(22deg); } 50% { transform: rotate(-22deg); } }
+@keyframes r-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
+.route .here { display: none; }
+@media (max-width: 960px) {
+  .top { padding-top: 8px; padding-bottom: 6px; }
+  .route { flex-basis: 100%; height: 74px; margin: 2px 0 0; }
+  .route ol { top: 38px; }
+  .route a { display: none; }
+  .route .here { display: block; position: absolute; left: 0; right: 0; top: 55px; text-align: center; font-size: 12.5px; font-weight: 700; color: var(--ink); }
+  .route .track, .route .walked { top: 43px; }
+  .route .figure { top: 0; }
+  .route li.terminal .stop { width: 14px; height: 14px; margin-top: -1px; }
+}
+@media (prefers-reduced-motion: reduce) { .route.walking .f-leg-l, .route.walking .f-leg-r, .route.walking .f-arm, .route.walking .figure svg { animation: none; } .route .figure, .route .walked { transition: none; } }
+
+/* ===== 起点：我现在想要的房子 ===== */
+.start-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 6px; }
+.start-q { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--card, var(--bg)); }
+.start-q h3 { font-size: 15px; margin: 0 0 10px; }
+.start-q .seg button[data-v="unsure"] { border-style: dashed; }
+.start-echo { margin: 14px 0 0; font-size: 14px; color: var(--ink-2); }
+.start-echo b { color: var(--ink); }
+
+/* ===== 卡片上的"感兴趣 / 不考虑" ===== */
+.card .marks { display: inline-flex; gap: 4px; margin-left: auto; }
+.card .mark { font: 500 12px/1 var(--sans); padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--card, var(--bg)); color: var(--ink-2); cursor: pointer; }
+.card .mark.yes.on { background: var(--walked); border-color: var(--walked); color: #fff; }
+.card .mark.no.on { background: var(--ink-3); border-color: var(--ink-3); color: #fff; }
+.card.is-no { opacity: .55; }
+.card.is-yes { border-color: var(--walked); box-shadow: inset 0 0 0 1px var(--walked); }
+
+/* ===== 终点：结论 ===== */
+.conclusion { margin-top: 8px; }
+.con-card { border: 1px solid var(--line); border-left: 4px solid var(--walked); border-radius: 8px; padding: 18px 20px; background: var(--card, var(--bg)); }
+.con-text { font-family: var(--serif); font-size: 17px; line-height: 1.85; margin: 0; color: var(--ink); }
+.con-acts { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+.con-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 14px; }
+.con-grid > div { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--card, var(--bg)); }
+.con-grid h3 { font-size: 15px; margin: 0 0 8px; }
+.con-grid ol, .con-grid ul { margin: 0; padding-left: 18px; font-size: 14px; color: var(--ink-2); }
+.con-grid li { margin: 4px 0; }
+.con-grid li b { color: var(--ink); }
+.con-empty { color: var(--ink-3); font-size: 14px; }
