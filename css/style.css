@@ -1047,9 +1047,10 @@ main { max-width: 1400px; }
 .budget-row .ri-box input { width: 78px; font-size: 17px; }
 .pickbox.no-budget .ri-box { color: var(--ink-3); }
 .pickbox.no-budget input[type="range"] { opacity: .5; }
-.say-note { margin-top: 14px; }
-.say-note .start-text { min-height: 60px; }
 @media (max-width: 720px) { .pickbox { padding: 4px 16px 12px; } .budget-row input[type="range"] { flex-basis: 100%; } }
 
 /* 页脚的署名 */
 .foot .sign { margin-top: 10px; font-size: 13.5px; font-style: italic; letter-spacing: .03em; color: var(--ink-3); }
+
+/* 结论紧跟在选项下面 */
+.conclusion { margin-top: 16px; }

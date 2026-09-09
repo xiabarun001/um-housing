@@ -225,34 +225,25 @@ function bindStart() {
   });
 }
 
-/* ---------- 终点：我最终想要的房子（选项 + 自己写 + 实时拼句子） ---------- */
-const FINAL_KEY = 'um-final';
+/* ---------- 终点：我最终想要的房子（选项 + 实时拼句子） ----------
+   这些选择不往本地存：刷新就是重新想一遍，和卡片收起、榜单回到第一个是一套行为。 */
 const FINAL_GROUPS = [
-  { g: 'mode', title: '怎么住', opts: ['一个人租一间', '和朋友整租平摊', '一个人整租', '和家人同住'] },
-  { g: 'layout', title: '户型', opts: ['开间', '1 房 1 卫', '2 房 1 卫', '2 房 2 卫', '3 房 2 卫', '房间放得下书桌'] },
+  // 怎么住三选一，同时选"整租"和"合租"讲不通
+  { g: 'mode', title: '怎么住', single: true, opts: ['一个人租一间', '和朋友整租平摊', '一个人整租'] },
+  { g: 'layout', title: '户型', opts: ['开间', '1 房 1 卫', '2 房 1 卫', '2 房 2 卫', '3 房 2 卫'] },
   { g: 'floor', title: '楼层', opts: ['高层视野好', '中层就行', '低层进出方便', '要有电梯直达'] },
   { g: 'cook', title: '做饭', opts: ['天天自己开火', '偶尔做一点', '基本不做饭', '要独立厨房', '要能用明火', '有冰箱洗衣机就行'] },
   { g: 'transit', title: '交通', opts: ['走路到学院', '轨道站附近', '校车或公交能到', '打车也行'] },
   { g: 'facility', title: '设施', opts: ['设施齐全', '有泳池', '有健身房', '有球场', '楼下有便利店', '有车位'] },
-  { g: 'feel', title: '环境', opts: ['安静能睡好', '楼下有吃的', '不要太旧', '人少不挤', '带家具', '能养宠物'] },
+  { g: 'feel', title: '环境', opts: ['安静能睡好', '房间放得下书桌', '楼下有吃的', '不要太旧', '人少不挤', '带家具', '能养宠物'] },
   { g: 'term', title: '租期', opts: ['签一年', '先短租几个月'] },
 ];
 const BUDGET_MIN = 500, BUDGET_MAX = 4000;
 function loadFinal() {
-  let o = {};
-  try { const raw = JSON.parse(localStorage.getItem(FINAL_KEY) || '{}'); if (raw && typeof raw === 'object' && !Array.isArray(raw)) o = raw; } catch { /* ignore */ }
-  // 预算以前是几个档位的按钮（存成数组），现在是一个数字，把老数据换算过来
-  if (Array.isArray(o.budget)) {
-    const nums = o.budget.map((x) => Number(String(x).replace(/[^\d]/g, ''))).filter((n) => n > 0);
-    o.budget = nums.length ? Math.max(...nums) : null;
-  }
-  if (typeof o.budget !== 'number' || !Number.isFinite(o.budget)) o.budget = null;
-  if (typeof o.note !== 'string') o.note = '';
-  // 以前叫 wish，拆成了设施和环境两组
-  if (Array.isArray(o.wish)) { o.feel = [...new Set([...(o.feel || []), ...o.wish])]; delete o.wish; }
-  return o;
+  // 早先版本把这些选择存过本地，现在不存了，顺手把旧的清掉
+  try { localStorage.removeItem("um-final"); } catch { /* ignore */ }
+  return { budget: null };
 }
-function saveFinal() { try { localStorage.setItem(FINAL_KEY, JSON.stringify(state.final)); } catch { /* ignore */ } }
 function bindFinal() {
   const box = $('#final'); if (!box) return;
   state.final = loadFinal();
@@ -276,24 +267,20 @@ function bindFinal() {
     if (document.activeElement !== num) num.value = v == null ? '' : String(v);
     box.classList.toggle('no-budget', v == null);
   };
-  const setBudget = (v) => { state.final.budget = v; saveFinal(); paint(); renderConclusion(); };
+  const setBudget = (v) => { state.final.budget = v; paint(); renderConclusion(); };
   box.addEventListener('click', (e) => {
     if (e.target === off) { setBudget(null); return; }
     const b = e.target.closest('.chip'); if (!b) return;
     const g = b.dataset.g, v = b.dataset.v;
+    const single = (FINAL_GROUPS.find((x) => x.g === g) || {}).single;
     const arr = state.final[g] || [];
-    state.final[g] = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
+    if (single) state.final[g] = arr.includes(v) ? [] : [v];
+    else state.final[g] = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
     if (!state.final[g].length) delete state.final[g];
-    saveFinal(); paint(); renderConclusion();
+    paint(); renderConclusion();
   });
   range.addEventListener('input', () => setBudget(Number(range.value)));
   num.addEventListener('input', () => { const n = Number(num.value); setBudget(num.value === '' ? null : (Number.isFinite(n) && n > 0 ? n : null)); });
-
-  const ta = $('#final-text');
-  if (ta) {
-    ta.value = state.final.note || '';
-    ta.addEventListener('input', () => { state.final.note = ta.value; saveFinal(); renderConclusion(); });
-  }
   paint();
 }
 function finalSentence() {
@@ -304,7 +291,7 @@ function finalSentence() {
   const cs = (f.condo || []).map((id) => state.condos.find((c) => c.id === id)).filter(Boolean).sort((a, b) => a.no - b.no);
   if (rs.length) parts.push(`在${rs.map((r) => regions[r]?.label || '区域 ' + r).join('或')}`);
   if (cs.length) parts.push(`小区看 ${cs.map(shortAlias).join('、')}`);
-  if (f.mode?.length) parts.push(f.mode.join('或'));
+  if (f.mode?.length) parts.push(f.mode[0]);
   if (f.layout?.length) parts.push(`户型 ${f.layout.join('或')}`);
   if (f.floor?.length) parts.push(f.floor.join('、'));
   if (f.budget) parts.push(`每月预算 RM ${fmt(f.budget)} 以内`);
@@ -313,10 +300,7 @@ function finalSentence() {
   if (f.facility?.length) parts.push(f.facility.join('、'));
   if (f.feel?.length) parts.push(f.feel.join('、'));
   if (f.term?.length) parts.push(f.term.join('或'));
-  let s = parts.length ? `${START_PREFIX}${parts.join('，')}。` : '';
-  const note = String(f.note || '').trim();
-  if (note) s += (s ? '' : START_PREFIX) + `还想要：${note.replace(/[。.]$/, '')}。`;
-  return s;
+  return parts.length ? `${START_PREFIX}${parts.join('，')}。` : '';
 }
 
 function renderConclusion() {
@@ -328,7 +312,7 @@ function renderConclusion() {
   const full = text ? text + money : '';
   const copyText = full + (start ? `\n一开始写的：${START_PREFIX}${start}` : '');
   box.innerHTML = `
-    <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点也还没写。点几个或自己写一句，这里就会拼成"我想要的房子：……"。</span>'}</p>
+    <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点。点几个，这里就会拼成"我想要的房子：……"。</span>'}</p>
       ${full ? '<div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了上面的选项，这段话会跟着变。</span></div>' : ''}</div>
     <div class="con-grid"><div><h3>一开始写的</h3>${start ? `<p class="con-start">${esc(START_PREFIX + start)}</p>` : '<p class="con-empty">起点还没写。回到"我现在想要的房子"写一句，这里就能对照。</p>'}</div></div>`;
   const copyBtn = $('#con-copy');
