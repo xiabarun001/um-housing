@@ -76,47 +76,51 @@ async function init() {
 }
 
 /* ---------- guide widgets ---------- */
+/* ---------- 租房费用：一个月租输入 + 几个可调的滑块，两块都随手算 ----------
+   固定的部分：预付首月 = 1 个月；印花税按法定公式算（1 年内租约，年租减 2,400 免税额，
+   每 250 令吉 1 令吉、不足 250 按 250 算，再加每份副本 10 令吉）。
+   会变的部分做成滑块：押金月数、水电押金月数、门禁卡押金、合同费、水电网、分摊人数。 */
+function stampDuty(monthlyRent) {
+  const taxable = Math.max(0, monthlyRent * 12 - 2400);
+  return Math.ceil(taxable / 250) + 10;
+}
 function bindCalc() {
   const input = $('#calc-rent');
   if (!input) return;
   const rm = (n) => 'RM ' + fmt(Math.round(n));
+  const num = (id) => Number($(id).value) || 0;
+  const set = (id, v) => { const el = $(id); if (el) el.textContent = v; };
   const run = () => {
-    const r = Number(input.value) || 0;
-    const stamp = Math.max(0, Math.round((r * 12 - 2400) / 250)) + 10;
-    $('#c-dep').textContent = rm(r * 2);
-    $('#c-adv').textContent = rm(r);
-    $('#c-util').textContent = rm(r * 0.5);
-    $('#c-stamp').textContent = r ? `约 ${rm(stamp)}` : '—';
-    const base = r * 3.5 + stamp;
-    $('#c-total').textContent = r ? `${rm(base + 100 + 150)} 到 ${rm(base + 200 + 300)}` : '—';
-    if (input.dataset.touched === '1') { try { localStorage.setItem('um-calc', JSON.stringify({ rent: r, low: Math.round(base + 250), high: Math.round(base + 500) })); } catch { /* ignore */ } }
+    const r = Math.max(0, Number(input.value) || 0);
+    // 一次性
+    const depM = num('#k-dep'), utilM = num('#k-util'), card = num('#k-card'), fee = num('#k-fee');
+    const dep = r * depM, adv = r, util = r * utilM, stamp = r ? stampDuty(r) : 0;
+    const total = dep + adv + util + card + stamp + fee;
+    const back = dep + util + card;
+    set('#v-dep', depM + ' 个月'); set('#v-util', utilM + ' 个月'); set('#v-card', rm(card)); set('#v-fee', rm(fee));
+    set('#c-dep', rm(dep)); set('#c-adv', rm(adv)); set('#c-util', rm(util));
+    set('#c-card', rm(card)); set('#c-stamp', r ? rm(stamp) : '—'); set('#c-fee', rm(fee));
+    set('#c-total', rm(total)); set('#c-back', rm(back)); set('#c-spent', rm(total - back));
+    // 每月
+    const elec = num('#k-elec'), water = num('#k-water'), net = num('#k-net'), people = Math.max(1, num('#k-people'));
+    const monthly = r + elec + water + net;
+    set('#v-elec', rm(elec)); set('#v-water', rm(water)); set('#v-net', rm(net)); set('#v-people', people + ' 人');
+    set('#m-rent', rm(r)); set('#m-elec', rm(elec)); set('#m-water', rm(water)); set('#m-net', rm(net));
+    set('#m-park', '房东说了算，多数含在租金里');
+    set('#m-mgmt', '整租通常房东付，签约前问一句');
+    set('#m-total', rm(monthly)); set('#m-each', rm(monthly / people)); set('#m-year', rm(monthly * 12));
+    // 一个人住的话"每人"和"每月合计"是同一个数，不用说两遍
+    const eachWrap = $('#m-each-wrap'); if (eachWrap) eachWrap.hidden = people <= 1;
+    if (input.dataset.touched === '1') {
+      try { localStorage.setItem('um-calc', JSON.stringify({ rent: r, total: Math.round(total), back: Math.round(back), monthly: Math.round(monthly), each: Math.round(monthly / people), people })); } catch { /* ignore */ }
+    }
     if (typeof renderConclusion === 'function' && state.condos) renderConclusion();
   };
   input.addEventListener('input', () => { input.dataset.touched = '1'; run(); });
+  $$('.ctl input').forEach((el) => el.addEventListener('input', () => { input.dataset.touched = '1'; run(); }));
   run();
 }
-function bindCopy() {
-  $$('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
-    const text = $('#' + b.dataset.copy)?.textContent || '';
-    try { await navigator.clipboard.writeText(text); b.textContent = '已复制'; }
-    catch { b.textContent = '请手动选中复制'; }
-    setTimeout(() => { b.textContent = '复制'; }, 1800);
-  }));
-}
-function bindChecklists() {
-  $$('[data-checklist]').forEach((list) => {
-    const key = 'um-check:' + list.dataset.checklist;
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch { saved = {}; }
-    $$('input[type=checkbox]', list).forEach((cb, i) => {
-      cb.checked = !!saved[i];
-      cb.addEventListener('change', () => {
-        saved[i] = cb.checked;
-        try { localStorage.setItem(key, JSON.stringify(saved)); } catch { /* 隐私模式下忽略 */ }
-      });
-    });
-  });
-}
+
 /* ---------- 路线图：头部一条路，七站；小人随滚动走到当前站 ---------- */
 const ROUTE_STOPS = ['s-start', 'campus', 'regions', 's3', 's2', 's5', 's0'];
 function bindNav() {
@@ -287,7 +291,8 @@ function renderConclusion() {
   const picked = new Set((state.final || loadFinal()).condo || []);
   const yes = Object.entries(state.marks).filter(([, v]) => v === 'yes').map(([id]) => state.condos.find((c) => c.id === id)).filter(Boolean).sort((a, b) => a.no - b.no);
   let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
-  const full = text ? text + (calc && calc.rent ? `入住前大约要准备 RM ${fmt(calc.low)} 到 ${fmt(calc.high)}。` : '') : '';
+  const money = calc && calc.rent ? `签约当天要带 RM ${fmt(calc.total)}，其中 RM ${fmt(calc.back)} 是押金，退房时退；住进去以后每月${calc.people > 1 ? `每人` : ''} RM ${fmt(calc.people > 1 ? calc.each : calc.monthly)}。` : '';
+  const full = text ? text + money : '';
   const copyText = full + (start ? `\n一开始写的：${start}` : '');
   box.innerHTML = `
     <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点。点几个，这里就会拼成"我想要的房子：……"。</span>'}</p>
