@@ -24,7 +24,7 @@ for (const name of calls) if (!defined.has(name)) problems.push(`init() 调用�
 const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
 const wanted = new Set([...app.matchAll(/\$\('#([A-Za-z][\w-]*)'\)/g)].map((m) => m[1]));
 // 这些是运行时才插进页面的，不在 index.html 里
-const RUNTIME = new Set(['tier-pop', 'con-copy', 'con-text', 'filter-reset', 'filter-done', 'm-each-wrap']);
+const RUNTIME = new Set(['tier-pop', 'con-copy', 'con-text', 'filter-reset', 'filter-done', 'm-each-wrap', 'f-budget', 'f-budget-n', 'f-budget-off']);
 for (const id of wanted) if (!ids.has(id) && !RUNTIME.has(id)) problems.push(`app.js 找 #${id}，但 index.html 里没有这个 id`);
 
 /* 3. 七站路线图的每一站都要真的存在 */

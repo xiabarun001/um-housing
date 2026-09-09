@@ -854,7 +854,7 @@ main { max-width: 1400px; }
 
 /* ===== 终点：一堆选项随便多选，拼成一句话 ===== */
 .final { margin-top: 6px; }
-.pick-group { display: grid; grid-template-columns: 6em minmax(0, 1fr); gap: 8px 14px; align-items: start; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+.pick-group { display: grid; grid-template-columns: 6em minmax(0, 1fr); gap: 8px 14px; align-items: start; padding: 11px 0; border-bottom: 1px dashed var(--line); }
 .pick-group:last-child { border-bottom: 0; }
 .pick-group h3 { font-size: 16px; margin: 6px 0 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -1036,3 +1036,16 @@ main { max-width: 1400px; }
   .say-pre { line-height: 1.6; }
   .start-text { width: 100%; }
 }
+
+/* 终点：选项收进一张卡片，下面跟一个自己写的框，预算可拖可填 */
+.pickbox { margin-top: 16px; padding: 6px 22px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow-sm); }
+.pickbox .pick-group:last-of-type { border-bottom: 0; }
+.budget-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.budget-row input[type="range"] { flex: 1 1 220px; min-width: 160px; height: 4px; margin: 0; border-radius: 2px; background: var(--track); accent-color: var(--walked); cursor: pointer; }
+.budget-row .ri-box { padding: 5px 11px; }
+.budget-row .ri-box input { width: 78px; font-size: 17px; }
+.pickbox.no-budget .ri-box { color: var(--ink-3); }
+.pickbox.no-budget input[type="range"] { opacity: .5; }
+.say-note { margin-top: 14px; }
+.say-note .start-text { min-height: 60px; }
+@media (max-width: 720px) { .pickbox { padding: 4px 16px 12px; } .budget-row input[type="range"] { flex-basis: 100%; } }

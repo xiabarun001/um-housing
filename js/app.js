@@ -225,49 +225,76 @@ function bindStart() {
   });
 }
 
-/* ---------- 终点：我最终想要的房子（一堆选项，随便多选）+ 结论 ---------- */
+/* ---------- 终点：我最终想要的房子（选项 + 自己写 + 实时拼句子） ---------- */
 const FINAL_KEY = 'um-final';
 const FINAL_GROUPS = [
-  { g: 'mode', title: '怎么住', opts: ['一个人租一间', '和朋友整租平摊', '一个人整租'] },
-  { g: 'budget', title: '每月预算', opts: ['RM 800 内', 'RM 1,000 内', 'RM 1,300 内', 'RM 1,800 内', 'RM 2,500 内', '更高'] },
+  { g: 'mode', title: '怎么住', opts: ['一个人租一间', '和朋友整租平摊', '一个人整租', '和家人同住'] },
+  { g: 'layout', title: '户型', opts: ['开间', '1 房 1 卫', '2 房 1 卫', '2 房 2 卫', '3 房 2 卫', '房间放得下书桌'] },
+  { g: 'floor', title: '楼层', opts: ['高层视野好', '中层就行', '低层进出方便', '要有电梯直达'] },
+  { g: 'cook', title: '做饭', opts: ['天天自己开火', '偶尔做一点', '基本不做饭', '要独立厨房', '要能用明火', '有冰箱洗衣机就行'] },
   { g: 'transit', title: '交通', opts: ['走路到学院', '轨道站附近', '校车或公交能到', '打车也行'] },
-  { g: 'wish', title: '房子本身', opts: ['有泳池', '有健身房', '安静', '楼下有吃的', '不要太旧', '带家具', '能养宠物'] },
+  { g: 'facility', title: '设施', opts: ['设施齐全', '有泳池', '有健身房', '有球场', '楼下有便利店', '有车位'] },
+  { g: 'feel', title: '环境', opts: ['安静能睡好', '楼下有吃的', '不要太旧', '人少不挤', '带家具', '能养宠物'] },
   { g: 'term', title: '租期', opts: ['签一年', '先短租几个月'] },
 ];
-function loadFinal() { try { const o = JSON.parse(localStorage.getItem(FINAL_KEY) || '{}'); return o && typeof o === 'object' && !Array.isArray(o) ? o : {}; } catch { return {}; } }
+const BUDGET_MIN = 500, BUDGET_MAX = 4000;
+function loadFinal() {
+  let o = {};
+  try { const raw = JSON.parse(localStorage.getItem(FINAL_KEY) || '{}'); if (raw && typeof raw === 'object' && !Array.isArray(raw)) o = raw; } catch { /* ignore */ }
+  // 预算以前是几个档位的按钮（存成数组），现在是一个数字，把老数据换算过来
+  if (Array.isArray(o.budget)) {
+    const nums = o.budget.map((x) => Number(String(x).replace(/[^\d]/g, ''))).filter((n) => n > 0);
+    o.budget = nums.length ? Math.max(...nums) : null;
+  }
+  if (typeof o.budget !== 'number' || !Number.isFinite(o.budget)) o.budget = null;
+  if (typeof o.note !== 'string') o.note = '';
+  // 以前叫 wish，拆成了设施和环境两组
+  if (Array.isArray(o.wish)) { o.feel = [...new Set([...(o.feel || []), ...o.wish])]; delete o.wish; }
+  return o;
+}
+function saveFinal() { try { localStorage.setItem(FINAL_KEY, JSON.stringify(state.final)); } catch { /* ignore */ } }
 function bindFinal() {
   const box = $('#final'); if (!box) return;
   state.final = loadFinal();
   const regions = state.meta.regions || {};
   const chip = (g, v, label, cls) => `<button type="button" class="chip${cls ? ' ' + cls : ''}" data-g="${esc(g)}" data-v="${esc(v)}" aria-pressed="false">${label}</button>`;
-  const groups = [
-    { title: '区域', html: Object.keys(regions).map((r) => chip('region', r, esc(regions[r].label), 'r' + r)).join('') },
-    { title: '小区', html: state.condos.slice().sort((a, b) => a.no - b.no).map((c) => chip('condo', c.id, `<i class="n">${c.no}</i>${esc(shortAlias(c))}`, 'r' + c.region)).join('') },
-    ...FINAL_GROUPS.map((x) => ({ title: x.title, html: x.opts.map((v) => chip(x.g, v, esc(v))).join('') })),
-  ];
-  box.innerHTML = groups.map((x) => `<div class="pick-group"><h3>${x.title}</h3><div class="chips">${x.html}</div></div>`).join('');
-  const paint = () => { $$('.chip', box).forEach((b) => { const on = (state.final[b.dataset.g] || []).includes(b.dataset.v); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); }); };
+  const row = (title, html) => `<div class="pick-group"><h3>${title}</h3><div class="chips">${html}</div></div>`;
+  box.innerHTML = row('区域', Object.keys(regions).map((r) => chip('region', r, esc(regions[r].label), 'r' + r)).join(''))
+    + row('小区', state.condos.slice().sort((a, b) => a.no - b.no).map((c) => chip('condo', c.id, `<i class="n">${c.no}</i>${esc(shortAlias(c))}`, 'r' + c.region)).join(''))
+    + FINAL_GROUPS.map((x) => row(x.title, x.opts.map((v) => chip(x.g, v, esc(v))).join(''))).join('')
+    + `<div class="pick-group"><h3>每月预算</h3><div class="budget-row">
+        <input type="range" id="f-budget" min="${BUDGET_MIN}" max="${BUDGET_MAX}" step="50" aria-label="每月预算">
+        <span class="ri-box">RM <input type="number" id="f-budget-n" min="0" max="20000" step="50" inputmode="numeric" aria-label="每月预算，也可以直接填"></span>
+        <button type="button" class="linkish" id="f-budget-off">不限</button>
+      </div></div>`;
+
+  const range = $('#f-budget'), num = $('#f-budget-n'), off = $('#f-budget-off');
+  const paint = () => {
+    $$('.chip', box).forEach((b) => { const on = (state.final[b.dataset.g] || []).includes(b.dataset.v); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+    const v = state.final.budget;
+    range.value = String(v == null ? 1300 : Math.min(BUDGET_MAX, Math.max(BUDGET_MIN, v)));
+    if (document.activeElement !== num) num.value = v == null ? '' : String(v);
+    box.classList.toggle('no-budget', v == null);
+  };
+  const setBudget = (v) => { state.final.budget = v; saveFinal(); paint(); renderConclusion(); };
   box.addEventListener('click', (e) => {
+    if (e.target === off) { setBudget(null); return; }
     const b = e.target.closest('.chip'); if (!b) return;
     const g = b.dataset.g, v = b.dataset.v;
     const arr = state.final[g] || [];
     state.final[g] = arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v];
     if (!state.final[g].length) delete state.final[g];
-    try { localStorage.setItem(FINAL_KEY, JSON.stringify(state.final)); } catch { /* ignore */ }
-    paint(); renderConclusion();
+    saveFinal(); paint(); renderConclusion();
   });
+  range.addEventListener('input', () => setBudget(Number(range.value)));
+  num.addEventListener('input', () => { const n = Number(num.value); setBudget(num.value === '' ? null : (Number.isFinite(n) && n > 0 ? n : null)); });
+
+  const ta = $('#final-text');
+  if (ta) {
+    ta.value = state.final.note || '';
+    ta.addEventListener('input', () => { state.final.note = ta.value; saveFinal(); renderConclusion(); });
+  }
   paint();
-}
-// 预算选了几档，说成一句：一档就"RM 1,300 内"，两档以上就"RM 1,000 到 1,300"
-function budgetZh(sel) {
-  const opts = FINAL_GROUPS.find((x) => x.g === 'budget').opts;
-  const idx = sel.map((v) => opts.indexOf(v)).filter((i) => i >= 0).sort((a, b) => a - b);
-  if (!idx.length) return '';
-  const num = (i) => opts[i].replace(/[^\d,]/g, '');
-  const lo = idx[0], hi = idx[idx.length - 1];
-  if (opts[hi] === '更高') return lo === hi ? '每月预算 RM 2,500 以上' : `每月预算 RM ${num(lo)} 以上`;
-  if (lo === hi) return `每月预算 ${opts[lo]}`;
-  return `每月预算 RM ${num(lo)} 到 ${num(hi)}`;
 }
 function finalSentence() {
   const f = state.final || loadFinal();
@@ -278,12 +305,20 @@ function finalSentence() {
   if (rs.length) parts.push(`在${rs.map((r) => regions[r]?.label || '区域 ' + r).join('或')}`);
   if (cs.length) parts.push(`小区看 ${cs.map(shortAlias).join('、')}`);
   if (f.mode?.length) parts.push(f.mode.join('或'));
-  if (f.budget?.length) parts.push(budgetZh(f.budget));
+  if (f.layout?.length) parts.push(`户型 ${f.layout.join('或')}`);
+  if (f.floor?.length) parts.push(f.floor.join('、'));
+  if (f.budget) parts.push(`每月预算 RM ${fmt(f.budget)} 以内`);
   if (f.transit?.length) parts.push(f.transit.join('、'));
-  if (f.wish?.length) parts.push(f.wish.join('、'));
+  if (f.cook?.length) parts.push(f.cook.join('、'));
+  if (f.facility?.length) parts.push(f.facility.join('、'));
+  if (f.feel?.length) parts.push(f.feel.join('、'));
   if (f.term?.length) parts.push(f.term.join('或'));
-  return parts.length ? `${START_PREFIX}${parts.join('，')}。` : '';
+  let s = parts.length ? `${START_PREFIX}${parts.join('，')}。` : '';
+  const note = String(f.note || '').trim();
+  if (note) s += (s ? '' : START_PREFIX) + `还想要：${note.replace(/[。.]$/, '')}。`;
+  return s;
 }
+
 function renderConclusion() {
   const box = $('#conclusion'); if (!box) return;
   const text = finalSentence();
@@ -293,7 +328,7 @@ function renderConclusion() {
   const full = text ? text + money : '';
   const copyText = full + (start ? `\n一开始写的：${START_PREFIX}${start}` : '');
   box.innerHTML = `
-    <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点。点几个，这里就会拼成"我想要的房子：……"。</span>'}</p>
+    <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点也还没写。点几个或自己写一句，这里就会拼成"我想要的房子：……"。</span>'}</p>
       ${full ? '<div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了上面的选项，这段话会跟着变。</span></div>' : ''}</div>
     <div class="con-grid"><div><h3>一开始写的</h3>${start ? `<p class="con-start">${esc(START_PREFIX + start)}</p>` : '<p class="con-empty">起点还没写。回到"我现在想要的房子"写一句，这里就能对照。</p>'}</div></div>`;
   const copyBtn = $('#con-copy');
