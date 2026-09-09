@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-09-09T01:48:23.376Z",
-  "updated_myt": "2026-09-09 09:48",
+  "updated_at": "2026-09-09T12:39:05.024Z",
+  "updated_myt": "2026-09-09 20:39",
   "source_note": "由 scripts/refresh.mjs 每 12 小时自动写入；按小区 id 对应 condos.json 里的固定信息",
   "condos": {
     "seventeen": {
       "date": "2026-09-09",
-      "for_rent": 74,
+      "for_rent": 75,
       "rent_from": 1800,
       "whole": "开间 550 sqft RM 1,800 起 · 1 房 550 sqft RM 2,000 起",
       "whole_source": "iProperty，2026-09-09",
@@ -27,7 +27,7 @@
     },
     "atwater": {
       "date": "2026-09-09",
-      "for_rent": 79,
+      "for_rent": 81,
       "rent_from": 2500,
       "whole": "2 房 703 sqft RM 2,500 起 · 3 房 1,052 sqft RM 3,500 起",
       "whole_source": "iProperty，2026-09-09",
@@ -38,7 +38,7 @@
         "mudah": {
           "at": "2026-09-09",
           "unit_min": 3400,
-          "unit_n": 1,
+          "unit_n": 2,
           "room_min": null,
           "room_n": 0,
           "status": "agree",
@@ -53,7 +53,7 @@
       "rent_from": 1800,
       "whole": "2 房 678 sqft RM 1,800 起 · 3 房 950 sqft RM 2,600 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,400 起 · 房间 RM 950 起（15 条帖子）",
+      "rooms": "大房 RM 1,400 起 · 房间 RM 950 起（15 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 950,
       "check": {
@@ -71,7 +71,7 @@
     },
     "pacific-star": {
       "date": "2026-09-09",
-      "for_rent": 206,
+      "for_rent": 205,
       "rent_from": 1800,
       "whole": "开间 622 sqft RM 1,800 起 · 1 房 617 sqft RM 1,800 起 · 2 房 723 sqft RM 2,900 起 · 3 房 988 sqft RM 3,200 起 · 4 房 1,242 sqft RM 5,500 起",
       "whole_source": "iProperty，2026-09-09",
@@ -115,11 +115,11 @@
     },
     "pj-midtown": {
       "date": "2026-09-09",
-      "for_rent": 148,
+      "for_rent": 150,
       "rent_from": 1300,
       "whole": "开间 RM 1,350 起 · 1 房 300 sqft RM 1,300 起 · 2 房 915 sqft RM 2,500 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,500 起 · 房间 RM 1,300 起（3 条帖子）",
+      "rooms": "大房 RM 1,500 起 · 房间 RM 1,300 起（4 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 1300,
       "check": {
@@ -137,11 +137,11 @@
     },
     "centrestage": {
       "date": "2026-09-09",
-      "for_rent": 150,
+      "for_rent": 152,
       "rent_from": 1099,
       "whole": "开间 301 sqft RM 1,099 起 · 1 房 301 sqft RM 1,299 起 · 2 房 452 sqft RM 1,199 起 · 3 房 689 sqft RM 1,499 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 800 起 · 房间 RM 600 起（2 条帖子）",
+      "rooms": "大房 RM 800 起 · 房间 RM 600 起（2 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 600,
       "check": {
@@ -159,9 +159,9 @@
     },
     "pj8": {
       "date": "2026-09-09",
-      "for_rent": 18,
+      "for_rent": 19,
       "rent_from": 1900,
-      "whole": "1 房 667 sqft RM 1,900 起 · 2 房 840 sqft RM 2,700 起 · 3 房 1,860 sqft RM 3,980 起",
+      "whole": "1 房 667 sqft RM 1,900 起 · 2 房 840 sqft RM 2,600 起 · 3 房 1,860 sqft RM 3,980 起",
       "whole_source": "iProperty，2026-09-09",
       "rooms": null,
       "rooms_source": null,
@@ -181,7 +181,7 @@
     },
     "tiara-damansara": {
       "date": "2026-09-09",
-      "for_rent": 6,
+      "for_rent": 7,
       "rent_from": 2500,
       "whole": "3 房 1,122 sqft RM 2,500 起",
       "whole_source": "iProperty，2026-09-09",
@@ -203,7 +203,7 @@
     },
     "dvogue": {
       "date": "2026-09-09",
-      "for_rent": 49,
+      "for_rent": 50,
       "rent_from": 1650,
       "whole": "开间 452 sqft RM 1,700 起 · 1 房 592 sqft RM 1,650 起 · 2 房 592 sqft RM 1,700 起",
       "whole_source": "iProperty，2026-09-09",
@@ -225,11 +225,11 @@
     },
     "kl-gateway": {
       "date": "2026-09-09",
-      "for_rent": 147,
+      "for_rent": 150,
       "rent_from": 2000,
       "whole": "开间 500 sqft RM 2,200 起 · 1 房 500 sqft RM 2,000 起 · 2 房 650 sqft RM 2,400 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "小房 RM 650 起 · 单人间 RM 920 起 · 中房 RM 1,050 起 · 主人房 RM 1,400 起 · 房间 RM 1,000 起（33 条帖子）",
+      "rooms": "小房 RM 650 起 · 中房 RM 1,050 起 · 大房 RM 1,400 起 · 房间 RM 1,000 起（30 条帖子）",
       "rooms_source": "iBilik，2026-09-09",
       "rooms_min": 650,
       "check": {
@@ -238,7 +238,7 @@
           "unit_min": 1499,
           "unit_n": 18,
           "room_min": 450,
-          "room_n": 6,
+          "room_n": 5,
           "status": "gap",
           "unit_status": "agree",
           "room_status": "gap"
@@ -247,11 +247,11 @@
     },
     "pantai-panorama": {
       "date": "2026-09-09",
-      "for_rent": 35,
+      "for_rent": 36,
       "rent_from": 2000,
       "whole": "1 房 750 sqft RM 2,000 起 · 2 房 1,200 sqft RM 2,400 起 · 3 房 1,287 sqft RM 2,400 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,300 起 · 房间 RM 850 起（2 条帖子）",
+      "rooms": "大房 RM 1,300 起 · 房间 RM 850 起（2 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 850,
       "check": {
@@ -269,18 +269,18 @@
     },
     "south-view": {
       "date": "2026-09-09",
-      "for_rent": 423,
+      "for_rent": 441,
       "rent_from": 1900,
       "whole": "开间 300 sqft RM 1,900 起 · 1 房 648 sqft RM 2,200 起 · 2 房 648 sqft RM 2,200 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "单人间 RM 950 起 · 中房 RM 750 起 · 主人房 RM 1,490 起 · 房间 RM 1,500 起（14 条帖子）",
+      "rooms": "小房 RM 950 起 · 中房 RM 750 起 · 大房 RM 1,490 起 · 房间 RM 1,500 起（14 条帖子）",
       "rooms_source": "iProperty + iBilik，2026-09-09",
       "rooms_min": 750,
       "check": {
         "mudah": {
           "at": "2026-09-09",
           "unit_min": 2399,
-          "unit_n": 7,
+          "unit_n": 8,
           "room_min": null,
           "room_n": 0,
           "status": "agree",
@@ -291,11 +291,11 @@
     },
     "southlink": {
       "date": "2026-09-09",
-      "for_rent": 532,
+      "for_rent": 535,
       "rent_from": 1299,
       "whole": "开间 299 sqft RM 1,299 起 · 1 房 300 sqft RM 1,800 起 · 2 房 495 sqft RM 2,100 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,500 起 · 房间 RM 1,300 起（7 条帖子）",
+      "rooms": "大房 RM 1,500 起 · 房间 RM 1,300 起（7 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 1300,
       "check": {
@@ -313,18 +313,18 @@
     },
     "novum": {
       "date": "2026-09-09",
-      "for_rent": 258,
+      "for_rent": 261,
       "rent_from": 2100,
       "whole": "1 房 650 sqft RM 2,100 起 · 2 房 832 sqft RM 2,700 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,750 起 · 房间 RM 1,400 起（4 条帖子）",
+      "rooms": "大房 RM 1,750 起 · 房间 RM 1,400 起（4 条帖子）",
       "rooms_source": "iProperty + iBilik，2026-09-09",
       "rooms_min": 1400,
       "check": {
         "mudah": {
           "at": "2026-09-09",
           "unit_min": 3300,
-          "unit_n": 8,
+          "unit_n": 9,
           "room_min": 1400,
           "room_n": 2,
           "status": "gap",
@@ -335,11 +335,11 @@
     },
     "laurel": {
       "date": "2026-09-09",
-      "for_rent": 338,
+      "for_rent": 349,
       "rent_from": 1600,
       "whole": "开间 300 sqft RM 1,600 起 · 1 房 495 sqft RM 2,099 起 · 2 房 495 sqft RM 1,900 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,650 起 · 房间 RM 1,550 起（4 条帖子）",
+      "rooms": "大房 RM 2,200 起 · 房间 RM 1,550 起（3 条帖子）",
       "rooms_source": "iProperty + iBilik，2026-09-09",
       "rooms_min": 1550,
       "check": {
@@ -379,7 +379,7 @@
     },
     "inwood": {
       "date": "2026-09-09",
-      "for_rent": 63,
+      "for_rent": 64,
       "rent_from": 3200,
       "whole": "2 房 1,125 sqft RM 3,300 起 · 3 房 1,235 sqft RM 3,200 起 · 4 房 1,660 sqft RM 5,500 起",
       "whole_source": "iProperty，2026-09-09",
@@ -405,7 +405,7 @@
       "rent_from": 3200,
       "whole": "2 房 1,080 sqft RM 3,200 起 · 3 房 1,450 sqft RM 3,800 起 · 4 房 1,360 sqft RM 4,000 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,100 起（1 条帖子）",
+      "rooms": "大房 RM 1,100 起（1 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 1100,
       "check": {
@@ -423,7 +423,7 @@
     },
     "avara": {
       "date": "2026-09-09",
-      "for_rent": 115,
+      "for_rent": 119,
       "rent_from": 2050,
       "whole": "1 房 667 sqft RM 2,050 起 · 2 房 826 sqft RM 2,299 起 · 3 房 915 sqft RM 2,400 起",
       "whole_source": "iProperty，2026-09-09",
@@ -445,11 +445,11 @@
     },
     "tria-seputeh": {
       "date": "2026-09-09",
-      "for_rent": 103,
+      "for_rent": 104,
       "rent_from": 2000,
       "whole": "1 房 550 sqft RM 2,000 起 · 2 房 797 sqft RM 2,400 起 · 3 房 1,001 sqft RM 3,200 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,500 起（1 条帖子）",
+      "rooms": "大房 RM 1,500 起（1 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 1500,
       "check": {
@@ -471,7 +471,7 @@
       "rent_from": 1400,
       "whole": "开间 505 sqft RM 1,400 起 · 1 房 300 sqft RM 1,600 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,150 起 · 房间 RM 750 起（5 条帖子）",
+      "rooms": "大房 RM 1,150 起 · 房间 RM 750 起（5 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 750,
       "check": {
@@ -489,7 +489,7 @@
     },
     "southbank": {
       "date": "2026-09-09",
-      "for_rent": 236,
+      "for_rent": 237,
       "rent_from": 1900,
       "whole": "2 房 800 sqft RM 1,950 起 · 3 房 953 sqft RM 1,900 起",
       "whole_source": "iProperty，2026-09-09",
@@ -515,7 +515,7 @@
       "rent_from": 1500,
       "whole": "1 房 600 sqft RM 1,500 起 · 2 房 600 sqft RM 1,800 起 · 3 房 1,249 sqft RM 2,999 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,250 起（2 条帖子）",
+      "rooms": "大房 RM 1,250 起（2 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 1250,
       "check": {
@@ -533,18 +533,18 @@
     },
     "millerz": {
       "date": "2026-09-09",
-      "for_rent": 388,
+      "for_rent": 394,
       "rent_from": 1700,
-      "whole": "开间 360 sqft RM 1,700 起 · 1 房 660 sqft RM 2,400 起 · 3 房 852 sqft RM 2,500 起",
+      "whole": "开间 360 sqft RM 1,700 起 · 1 房 660 sqft RM 2,500 起 · 3 房 852 sqft RM 2,500 起",
       "whole_source": "iProperty，2026-09-09",
-      "rooms": "主人房 RM 1,200 起 · 房间 RM 1,050 起（6 条帖子）",
+      "rooms": "大房 RM 1,200 起 · 房间 RM 1,050 起（6 条帖子）",
       "rooms_source": "iProperty，2026-09-09",
       "rooms_min": 1050,
       "check": {
         "mudah": {
           "at": "2026-09-09",
           "unit_min": 1400,
-          "unit_n": 13,
+          "unit_n": 14,
           "room_min": null,
           "room_n": 0,
           "status": "agree",
