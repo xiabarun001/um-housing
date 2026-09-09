@@ -1055,3 +1055,21 @@ main { max-width: 1400px; }
 .mapnotes dt { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 15.5px; color: var(--ink); }
 .mapnotes dd { margin: 0; font-size: 15px; line-height: 1.75; color: var(--ink-2); }
 @media (max-width: 720px) { .mapnotes { padding-left: 14px; } .mapnotes > div { grid-template-columns: 1fr; gap: 2px; } }
+
+/* 找中介：三张卡片和上面"大同小异"同一套样式，模板独占一行才不会一句话拆成好几行 */
+.cm ul { margin: 0; padding-left: 18px; font-size: 15px; line-height: 1.75; color: var(--ink-2); }
+.cm li { margin: 7px 0; }
+.cm li:first-child { margin-top: 0; }
+.cm li:last-child { margin-bottom: 0; }
+.cm li strong { color: var(--ink); }
+.cm li strong::after { content: '：'; font-weight: 400; color: var(--ink-3); }
+.cm a { color: var(--ink); }
+.tplbox { margin-top: 16px; padding: 18px 20px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow-sm); }
+.tplbox h4 { font-family: var(--serif); font-size: 16px; margin: 0 0 5px; color: var(--ink); }
+.tpl-note { margin: 0 0 12px; font-size: 14px; line-height: 1.7; color: var(--ink-3); }
+
+/* 清单卡片：勾选列表不要项目符号缩进，卡片其余样式和上面一致 */
+.cm .checks { padding-left: 0; font-size: 15.5px; }
+.cm .checks li { margin: 0; }
+.cm .callout { margin-top: 14px; }
+.cm h4 + .checks { margin-top: 2px; }
