@@ -69,7 +69,27 @@ npm run monthly                 # 采集 + 交叉验证 + 报告 + 状态，一�
 
 已知的来源坑：StarProperty 新版楼盘页用 HTTP 404 返回完整页面（软 404），`collect.mjs` 页面够大就照样解析；PJ8 的 StarProperty 页把层数 38 误填进户数栏。
 
-## 5. 健康检查与告警
+## 5. 自动任务清单、保护措施与告警
+
+| 工作流 | 触发 | 做什么 | 提交什么 |
+|---|---|---|---|
+| refresh prices | 每天 UTC 02:00 / 14:00（马来西亚 10:00 / 22:00，可能延后）；可手动 | 抓 iProperty、Mudah、iBilik，重算健康状态 | prices.json、price-history.json、refresh-log.json、status.json |
+| collect profiles | 每月 1 日 UTC 03:00；可手动 | iProperty + StarProperty 采集、OSM 交叉验证、审核报告 | data/staging、status.json（不碰 condos.json） |
+| console action | 后台 /console 触发（未开通前不会跑） | publish / arbitrate / collect / crosscheck / refresh | data 目录里对应文件 |
+| probe sources、fetch probe | 只手动 | 试探各来源能不能抓 | 不提交，只出产物 |
+| pages build and deployment | 每次推送自动 | GitHub Pages 备用站 xiabarun001.github.io/um-housing | 无 |
+
+正式站 um-housing.evasuka.com 由 Cloudflare Pages 在每次推送后自动部署，不在 GitHub Actions 里。
+
+三条会写数据的工作流共用同一个排队组（data-writes），不会同时提交。每条都有四层保护：
+
+1. **不发布坏数据**：refresh.mjs 抓取失败超过 2 个小区就不改时间戳、不提交；提交前再校验一次 prices.json（至少 20 个小区有价格、有更新时间）。固定信息永远只进 staging，人审后才发布。
+2. **推送不再被拒**：提交前先 `git pull --rebase --autostash`，把自己的提交叠到最新的仓库上；被拒就等 15、30、45、60 秒再试，共 4 次。2026-09-08 那次失败就是没有这一步：机器人跑了 10 分钟，期间有人推了网页改动，它直接 push 被拒。
+3. **失败看得见**：任何一步失败，自动在仓库里开一个带 automation 标签的 issue（标题"自动任务失败：工作流名"），重复失败就在同一个 issue 下追加评论；下次成功自动关闭。GitHub 也会照常发邮件。
+4. **不会无限跑**：refresh 30 分钟、collect 40 分钟超时。
+
+看到失败 issue 的处理顺序：点进运行记录看红的那一步 → 抓取步骤红：多半是来源改版或拦截，本机跑 `npm run refresh` 复现 → 校验步骤红：看日志里说缺什么 → 推送步骤红：极少见，等下一次定时运行会自动补上。
+
 
 `status.mjs` 输出 `data/status.json`，包含：实时信息距上次更新的小时数、有价格的小区数、Mudah 比对计数；固定信息最旧多少天、上次采集日期、待审核差异；交叉验证计数；第二来源一致 / 冲突待复核 / 冲突已复核计数；`alerts` 列表。告警条件：实时信息超过 36 小时未更新；固定信息超过 45 天未复核；采集失败；坐标冲突；第二来源冲突。
 

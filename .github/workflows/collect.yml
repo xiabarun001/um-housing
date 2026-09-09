@@ -1,6 +1,8 @@
 name: collect profiles
 
-# 每 30 天把全部小区的档案从 iProperty 项目页重新采一遍，只提交 staging 和审核报告，不改 condos.json（ADR-002：档案必须人审后发布）。
+# 每月 1 日把全部小区的固定信息从 iProperty 项目页和 StarProperty 重新采一遍，做 OpenStreetMap 交叉验证，
+# 只提交 staging、审核报告和健康状态，不改 condos.json（ADR-002：固定信息必须人审后发布）。
+# 保护措施：推送前先 pull --rebase，被拒自动重试；失败自动开 issue；和其他写数据的工作流排队执行。
 on:
   schedule:
     - cron: "0 3 1 * *"
@@ -8,15 +10,16 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
-  group: collect
+  group: data-writes
   cancel-in-progress: false
 
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -27,7 +30,7 @@ jobs:
           set -e
           V=v2.2.2
           mkdir -p "$HOME/ci"
-          curl -sSL -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
+          curl -sSL --retry 3 -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
           tar -xzf /tmp/ci.tar.gz -C "$HOME/ci"
           chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
           test -x "$HOME/ci/curl_safari184_ios"
@@ -40,14 +43,37 @@ jobs:
         run: |
           node scripts/collect.mjs --report-only
           node scripts/status.mjs
-      - name: commit staging and review report
+      - name: commit and push (pull --rebase first, retry on rejection)
         run: |
           git config user.name "um-housing-bot"
           git config user.email "bot@users.noreply.github.com"
           git add data/staging data/status.json
-          if git diff --cached --quiet; then
-            echo "no changes"
-          else
-            git commit -m "staging: monthly profile collection $(date -u +%Y-%m-%d) (review needed)"
-            git push
-          fi
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "staging: monthly profile collection $(date -u +%Y-%m-%d) (review needed)"
+          for i in 1 2 3 4; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then echo "pushed on attempt $i"; exit 0; fi
+            echo "push rejected, retrying in $((15 * i)) s"
+            git rebase --abort 2>/dev/null || true
+            sleep $((15 * i))
+          done
+          echo "::error::push failed after 4 attempts"
+          exit 1
+      - name: open or update a failure issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="自动任务失败：${{ github.workflow }}"
+          url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          body="$(date -u +%Y-%m-%dT%H:%MZ) 运行失败：$url — 点进去看哪一步红了。常见原因和处理见 docs/PIPELINE.md 第 5 节。"
+          gh label create automation --color BFD4F2 --description "自动任务" 2>/dev/null || true
+          n=$(gh issue list --state open --label automation --search "\"$title\" in:title" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$n" ]; then gh issue comment "$n" --body "$body"; else gh issue create --title "$title" --body "$body" --label automation; fi
+      - name: close the failure issue once healthy again
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="自动任务失败：${{ github.workflow }}"
+          n=$(gh issue list --state open --label automation --search "\"$title\" in:title" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$n" ]; then gh issue close "$n" --comment "$(date -u +%Y-%m-%dT%H:%MZ) 这次运行成功，自动关闭。"; fi

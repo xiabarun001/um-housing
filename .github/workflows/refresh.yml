@@ -1,7 +1,9 @@
 name: refresh prices
 
-# 每 12 小时抓一次 iProperty 在租列表和 iBilik 单间，更新 data/condos.json 的价格快照。
-# 马来西亚时间 10:00 和 22:00（UTC 02:00 / 14:00）。也可以在 Actions 页面手动运行。
+# 每 12 小时抓一次 iProperty 在租列表、Mudah 二源和 iBilik 单间，更新 data/prices.json 的价格快照。
+# 马来西亚时间 10:00 和 22:00（UTC 02:00 / 14:00），GitHub 的定时任务可能晚几十分钟到几小时。也可以在 Actions 页面手动运行。
+# 保护措施：抓取失败超过 2 个小区不提交；提交前校验快照；推送前先 pull --rebase，被拒自动重试 4 次；
+# 失败自动开 issue（下次成功后自动关闭）；所有写数据的工作流排队执行，不会同时提交。
 on:
   schedule:
     - cron: "0 2,14 * * *"
@@ -9,15 +11,16 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
-  group: refresh
+  group: data-writes
   cancel-in-progress: false
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,23 +33,54 @@ jobs:
           set -e
           V=v2.2.2
           mkdir -p "$HOME/ci"
-          curl -sSL -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
+          curl -sSL --retry 3 -o /tmp/ci.tar.gz "https://github.com/lexiforest/curl-impersonate/releases/download/$V/curl-impersonate-$V.x86_64-linux-gnu.tar.gz"
           tar -xzf /tmp/ci.tar.gz -C "$HOME/ci"
           chmod +x "$HOME/ci"/curl_* "$HOME/ci/curl-impersonate"
           test -x "$HOME/ci/curl_safari184_ios"
           echo "CURL_BIN=$HOME/ci/curl_safari184_ios" >> "$GITHUB_ENV"
       - name: refresh snapshot
         run: node scripts/refresh.mjs
+      - name: sanity check the snapshot
+        run: |
+          node -e "
+          const p = require('./data/prices.json');
+          const n = Object.values(p.condos || {}).filter((c) => c.for_rent != null).length;
+          if (!p.updated_myt) { console.error('prices.json 没有 updated_myt'); process.exit(1); }
+          if (n < 20) { console.error('有价格的小区只有 ' + n + ' 个，不提交'); process.exit(1); }
+          console.log('ok:', n, '个小区有价格，更新于', p.updated_myt);"
       - name: data health status
         run: node scripts/status.mjs
-      - name: commit if changed
+      - name: commit and push (pull --rebase first, retry on rejection)
         run: |
           git config user.name "um-housing-bot"
           git config user.email "bot@users.noreply.github.com"
           git add data/prices.json data/price-history.json data/refresh-log.json data/status.json
-          if git diff --cached --quiet; then
-            echo "no changes"
-          else
-            git commit -m "data: refresh price snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
-            git push
-          fi
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "data: refresh price snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3 4; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then echo "pushed on attempt $i"; exit 0; fi
+            echo "push rejected, retrying in $((15 * i)) s"
+            git rebase --abort 2>/dev/null || true
+            sleep $((15 * i))
+          done
+          echo "::error::push failed after 4 attempts"
+          exit 1
+      - name: open or update a failure issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="自动任务失败：${{ github.workflow }}"
+          url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          body="$(date -u +%Y-%m-%dT%H:%MZ) 运行失败：$url — 点进去看哪一步红了。常见原因和处理见 docs/PIPELINE.md 第 5 节。"
+          gh label create automation --color BFD4F2 --description "自动任务" 2>/dev/null || true
+          n=$(gh issue list --state open --label automation --search "\"$title\" in:title" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$n" ]; then gh issue comment "$n" --body "$body"; else gh issue create --title "$title" --body "$body" --label automation; fi
+      - name: close the failure issue once healthy again
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="自动任务失败：${{ github.workflow }}"
+          n=$(gh issue list --state open --label automation --search "\"$title\" in:title" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$n" ]; then gh issue close "$n" --comment "$(date -u +%Y-%m-%dT%H:%MZ) 这次运行成功，自动关闭。"; fi

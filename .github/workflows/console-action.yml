@@ -48,6 +48,7 @@ run-name: "console: ${{ inputs.action }} ${{ inputs.id }} by ${{ inputs.who }}"
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: data-writes
@@ -106,15 +107,29 @@ jobs:
             *) echo "unknown action $ARG_ACTION"; exit 1 ;;
           esac
           node scripts/status.mjs
-      - name: commit and push
+      - name: commit and push (pull --rebase first, retry on rejection)
         run: |
           git config user.name "um-housing-bot"
           git config user.email "bot@users.noreply.github.com"
           git add data
-          if git diff --cached --quiet; then
-            echo "no changes"
-          else
-            git commit -m "console: $ARG_ACTION $ARG_ID by $ARG_WHO"
-            git pull --rebase --autostash origin main
-            git push
-          fi
+          if git diff --cached --quiet; then echo "no changes"; exit 0; fi
+          git commit -m "console: $ARG_ACTION $ARG_ID by $ARG_WHO"
+          for i in 1 2 3 4; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then echo "pushed on attempt $i"; exit 0; fi
+            echo "push rejected, retrying in $((15 * i)) s"
+            git rebase --abort 2>/dev/null || true
+            sleep $((15 * i))
+          done
+          echo "::error::push failed after 4 attempts"
+          exit 1
+      - name: open or update a failure issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="自动任务失败：${{ github.workflow }}"
+          url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          body="$(date -u +%Y-%m-%dT%H:%MZ) 运行失败（$ARG_ACTION $ARG_ID by $ARG_WHO）：$url — 点进去看哪一步红了。"
+          gh label create automation --color BFD4F2 --description "自动任务" 2>/dev/null || true
+          n=$(gh issue list --state open --label automation --search "\"$title\" in:title" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$n" ]; then gh issue comment "$n" --body "$body"; else gh issue create --title "$title" --body "$body" --label automation; fi
