@@ -10,7 +10,6 @@ const state = {
   intents: [],
   intentsOk: null,
   expanded: new Set(),
-  marks: null,
   startText: null,
   final: null,
   map: null,
@@ -232,21 +231,6 @@ function bindStart() {
   });
 }
 
-/* ---------- 卡片上的"感兴趣 / 不考虑" ---------- */
-const MARKS_KEY = 'um-marks';
-function loadMarks() { try { return JSON.parse(localStorage.getItem(MARKS_KEY) || '{}'); } catch { return {}; } }
-function toggleMark(id, v) {
-  if (!state.marks) state.marks = loadMarks();
-  if (state.marks[id] === v) delete state.marks[id]; else state.marks[id] = v;
-  try { localStorage.setItem(MARKS_KEY, JSON.stringify(state.marks)); } catch { /* ignore */ }
-  const el = document.getElementById(`card-${id}`);
-  if (el) {
-    el.classList.toggle('is-yes', state.marks[id] === 'yes'); el.classList.toggle('is-no', state.marks[id] === 'no');
-    $$('.mark', el).forEach((b) => { const on = state.marks[id] === b.dataset.mark; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
-  }
-  renderConclusion();
-}
-
 /* ---------- 终点：我最终想要的房子（一堆选项，随便多选）+ 结论 ---------- */
 const FINAL_KEY = 'um-final';
 const FINAL_GROUPS = [
@@ -308,12 +292,8 @@ function finalSentence() {
 }
 function renderConclusion() {
   const box = $('#conclusion'); if (!box) return;
-  if (!state.marks) state.marks = loadMarks();
   const text = finalSentence();
   const start = startText();
-  const regionsMeta = state.meta.regions || {};
-  const picked = new Set((state.final || loadFinal()).condo || []);
-  const yes = Object.entries(state.marks).filter(([, v]) => v === 'yes').map(([id]) => state.condos.find((c) => c.id === id)).filter(Boolean).sort((a, b) => a.no - b.no);
   let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
   const money = calc && calc.rent ? `签约当天要带 RM ${fmt(calc.total)}，其中 RM ${fmt(calc.back)} 是押金，退房时退；住进去以后每月${calc.people > 1 ? `每人` : ''} RM ${fmt(calc.people > 1 ? calc.each : calc.monthly)}。` : '';
   const full = text ? text + money : '';
@@ -321,10 +301,7 @@ function renderConclusion() {
   box.innerHTML = `
     <div class="con-card"><p class="con-text" id="con-text">${full ? esc(full) : '<span class="con-empty">上面还没点。点几个，这里就会拼成"我想要的房子：……"。</span>'}</p>
       ${full ? '<div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了上面的选项，这段话会跟着变。</span></div>' : ''}</div>
-    <div class="con-grid">
-      <div><h3>一开始写的</h3>${start ? `<p class="con-start">${esc(start)}</p>` : '<p class="con-empty">起点还没写。回到"我现在想要的房子"写一句，这里就能对照。</p>'}</div>
-      <div><h3>看小区时标了"感兴趣"的</h3>${yes.length ? `<ul>${yes.map((c) => `<li><b><a href="#card-${c.id}">${esc(shortAlias(c))}</a></b> · ${esc(regionsMeta[String(c.region)]?.short || '')}${picked.has(c.id) ? '' : ' <span class="muted">上面还没点它</span>'}</li>`).join('')}</ul>` : '<p class="con-empty">还没有：看小区时点"感兴趣"。</p>'}</div>
-    </div>`;
+    <div class="con-grid"><div><h3>一开始写的</h3>${start ? `<p class="con-start">${esc(start)}</p>` : '<p class="con-empty">起点还没写。回到"我现在想要的房子"写一句，这里就能对照。</p>'}</div></div>`;
   const copyBtn = $('#con-copy');
   if (copyBtn) copyBtn.addEventListener('click', async (e) => {
     try { await navigator.clipboard.writeText(copyText); e.target.textContent = '已复制'; } catch { window.prompt('复制下面的文字', copyText); }
@@ -699,7 +676,6 @@ function renderList() {
   $$('[data-detail]', grid).forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.detail)));
   $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
   $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
-  $$('[data-mark]', grid).forEach((b) => b.addEventListener('click', () => toggleMark(b.dataset.id, b.dataset.mark)));
   paintIntentCounts();
   expandFromHash();
   sizeCards();
@@ -817,15 +793,13 @@ function cardHTML(c) {
   if (c.tags.includes('整租适合三人')) flagBits.push('<span class="ok">适合三人整租</span>');
   if (c.tags.includes('家庭户型')) flagBits.push('家庭大户型');
   const collapsed = !state.expanded.has(c.id);
-  if (!state.marks) state.marks = loadMarks();
-  const mk = state.marks[c.id];
   const brief = [rmin != null ? `单间 RM ${fmt(rmin)} 起` : '没找到在租单间', c.snapshot.rent_from ? `整套 RM ${fmt(c.snapshot.rent_from)} 起` : null, c.completed ? `${c.completed} 年` : null, c.units ? `${fmt(c.units)} 户` : null].filter(Boolean).join(' · ');
   return `
-  <article class="card r${c.region}${collapsed ? ' collapsed' : ''}${mk === 'yes' ? ' is-yes' : mk === 'no' ? ' is-no' : ''}" id="card-${c.id}">
+  <article class="card r${c.region}${collapsed ? ' collapsed' : ''}" id="card-${c.id}">
     <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
     <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
     <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
-    <p class="brief"><span class="sum">${esc(brief)}</span><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span><button type="button" class="toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}" aria-label="${collapsed ? '展开这张卡片' : '收起这张卡片'}" title="${collapsed ? '展开' : '收起'}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6.2 8 10l4-3.8"/></svg></button></p>
+    <p class="brief"><span class="sum">${esc(brief)}</span><button type="button" class="toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}" aria-label="${collapsed ? '展开这张卡片' : '收起这张卡片'}" title="${collapsed ? '展开' : '收起'}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6.2 8 10l4-3.8"/></svg></button></p>
     <div class="more">
     <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
     <p class="facs">设施（${c.facilities.length} 项）：${esc(c.facilities.join('、'))}</p>

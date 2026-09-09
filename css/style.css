@@ -862,12 +862,6 @@ main { max-width: 1400px; }
 /* ===== 起点：我现在想要的房子 ===== */
 
 /* ===== 卡片上的"感兴趣 / 不考虑" ===== */
-.card .marks { display: inline-flex; gap: 4px; margin-left: auto; }
-.card .mark { font: 500 13.5px/1 var(--sans); padding: 4px 9px; border-radius: 999px; border: 1px solid var(--line); background: var(--card, var(--bg)); color: var(--ink-2); cursor: pointer; }
-.card .mark.yes.on { background: var(--walked); border-color: var(--walked); color: #fff; }
-.card .mark.no.on { background: var(--ink-3); border-color: var(--ink-3); color: #fff; }
-.card.is-no { opacity: .55; }
-.card.is-yes { border-color: var(--walked); box-shadow: inset 0 0 0 1px var(--walked); }
 
 /* ===== 终点：结论 ===== */
 .conclusion { margin-top: 8px; }
@@ -986,7 +980,6 @@ main { max-width: 1400px; }
 .card .toggle svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .18s; }
 .card .toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 .card .toggle:hover { border-color: var(--ink-3); color: var(--ink); }
-.card .brief .marks { margin-left: 4px; }
 
 /* ===== 排行榜：一次一个榜，25 个全列，长条看差距 ===== */
 .board { padding: 16px 20px 18px; }
