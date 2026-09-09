@@ -376,9 +376,9 @@ function goSentence(c) {
   const t = c.transit;
   if (t.walk_min == null) {
     const bus = (t.buses || []).filter((b) => /^[A-Z]?\d/.test(b)).slice(0, 3);
-    return `<b>没有走得到的轻轨站。</b>${bus.length ? '公交 ' + bus.join(' / ') + '，或者 Grab' : '靠免费巴士或 Grab'}${c.id === 'pacific-star' ? '，楼盘有穿梭巴士到 Asia Jaya 站' : ''}。`;
+    return `<b>没有走得到的轨道站。</b>${bus.length ? '公交 ' + bus.join(' / ') + '，或者 Grab' : '靠免费巴士或 Grab'}${c.id === 'pacific-star' ? '，楼盘有穿梭巴士到 Asia Jaya 站' : ''}。`;
   }
-  return `走 <b>${t.walk_min} 分钟</b>到${stationZh(t.nearest)}${t.walk_m ? `（${t.walk_m} 米）` : ''}${t.walk_est ? '，分钟数是估算' : ''}。`;
+  return `走 <b>${t.walk_min} 分钟</b>到 ${stationZh(t.nearest)}${t.walk_m ? `（${t.walk_m} 米）` : ''}${t.walk_est ? '，分钟数是估算' : ''}。`;
 }
 
 /* ---------- map ---------- */
@@ -571,7 +571,7 @@ function setupTour(ctx) {
     },
     {
       title: '导览 4 / 5 · 区域 1',
-      text: '<b>橙色 1 到 10 在 PJ</b>。这边没有走得到的轻轨站，去学校靠免费巴士、骑车或 Grab，10 分钟以内。Jaya One 是这边吃饭购物的地方，研究生宿舍也在这一侧（点"详细"能看到）。',
+      text: '<b>橙色 1 到 10 在 PJ</b>。这边没有走得到的轨道站，去学校靠免费巴士、骑车或 Grab，10 分钟以内。Jaya One 是这边吃饭购物的地方，研究生宿舍也在这一侧（点"详细"能看到）。',
       view: () => map.fitBounds(regionBounds[1].pad(0.15)),
       focus: pinsOf((c) => c.region === 1),
     },
@@ -795,7 +795,7 @@ function buildPanel() {
       const t = c.transit;
       const walk = t.walk_min == null
         ? '<span class="mwalk none">没有轻轨</span>'
-        : `<span class="mwalk"><b>${t.walk_min}</b> 分钟到 ${esc(stationZh(t.nearest).replace(/ 站$/, ''))} 站</span>`;
+        : `<span class="mwalk"><b>${t.walk_min}</b> 分钟到 ${esc(stationZh(t.nearest))}</span>`;
       const sub = [priceLine(c), c.completed ? c.completed + ' 年' : null, c.units ? fmt(c.units) + ' 户' : null].filter(Boolean).join(' · ');
       return `<button type="button" class="mrow r${c.region}" data-select="${c.id}"><span class="mno">${c.no}</span><span class="mname">${esc(shortAlias(c))}</span>${walk}<span class="msub">${esc(sub)}</span></button>`;
     }).join('')).join('');
@@ -1233,7 +1233,7 @@ function boardData() {
   return [
     { k: 'walk', tab: '走到轨道站最近', tier: 'profile', low: true, src: walkSrc,
       note: '从小区门口走到最近轨道站的实际路线分钟数。25 个用的是同一个方法、同一天算的，所以能直接比。卡片上写的分钟数来自中介帖子，有的比这个短。',
-      rows: () => C.map((c) => { const v = routeMin(c); const st = stationZh(c.transit.nearest) || '最近的站'; return { c, v, ok: v != null, txt: v != null ? `${v} 分钟` : '没算出来', sub: c.transit.walk_min != null ? `到${st}` : `到${st}，太远，平时靠公交或 Grab` }; }) },
+      rows: () => C.map((c) => { const v = routeMin(c); const st = stationZh(c.transit.nearest) || '最近的站'; return { c, v, ok: v != null, txt: v != null ? `${v} 分钟` : '没算出来', sub: c.transit.walk_min != null ? `到 ${st}` : '最近的站走不到，平时靠公交或 Grab' }; }) },
     { k: 'room', tab: '房间最便宜', tier: 'market', low: true, src: marketSrc,
       note: '这次抓到的房间（单间）最低挂牌价。只有整套出租的小区没有这项。',
       rows: () => C.map((c) => { const v = roomsMin(c); return { c, v, ok: v != null, txt: v != null ? `RM ${fmt(v)}` : '没有房间在租', sub: v != null ? (c.snapshot.rooms_source || '') : '这次只有整套出租' }; }) },
