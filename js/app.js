@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609091155';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609091230';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -130,6 +130,8 @@ function bindNav() {
   const track = $('#route-track'), walked = $('#route-walked'), figure = $('#route-figure'), here = $('#route-here');
   let centers = [];
   const measure = () => {
+    const top = route.closest('.top');
+    if (top) document.documentElement.style.setProperty('--top-h', top.offsetHeight + 'px');
     const r = route.getBoundingClientRect();
     centers = dots.map((d) => { const b = d.getBoundingClientRect(); return b.left - r.left + b.width / 2; });
     track.style.left = centers[0] + 'px'; track.style.width = Math.max(0, centers[6] - centers[0]) + 'px';
@@ -1313,7 +1315,8 @@ function renderTierPills() {
 // 对外版变更记录：只显示日期、小区、"更新了什么"，不显示人（ADR-002）
 const FIELD_ZH = { record: '新增小区', name: '名称', completed: '建成年份', units: '户数', floors: '楼层', tenure: '地契', type: '类型', developer: '开发商', address: '地址', geo: '坐标', facilities: '设施清单', flags: '设施开关', transit: '交通', verified_at: '核实日期' };
 async function renderChangelog() {
-  const box = $('#about'), list = $('#changelog-list');
+  // 页脚一行"更新记录"，默认收起：只记固定信息的人工核实和修改，价格的自动刷新不记
+  const box = $('#changelog'), list = $('#changelog-list'), when = $('#changelog-date');
   if (!box || !list) return;
   let log;
   try { log = await fetch('data/changelog.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
@@ -1336,13 +1339,13 @@ async function renderChangelog() {
     if (!byNote.has(key)) byNote.set(key, { date: g.date, what, condos: [] });
     byNote.get(key).condos.push(g.condo);
   }
-  const rows = [...byNote.values()].slice(0, 12);
+  const rows = [...byNote.values()].slice(0, 8);
   const nameOf = (id) => { const c = state.condos.find((x) => x.id === id); return c ? shortAlias(c) : id; };
   list.innerHTML = rows.map((g) => {
     const who = g.condos.length >= 3 ? `${g.condos.length} 个小区` : g.condos.map(nameOf).join('、');
-    const title = g.condos.length >= 3 ? ` title="${esc(g.condos.map(nameOf).join('、'))}"` : '';
-    return `<li><time>${esc(g.date)}</time><span><b${title}>${esc(who)}</b> · ${esc(g.what)}</span></li>`;
+    return `<li><time>${esc(g.date)}</time><span>${esc(who)}：${esc(g.what)}</span></li>`;
   }).join('');
+  if (when) when.textContent = rows[0].date;
   box.hidden = false;
 }
 function tierPopHTML(kind, c) {
