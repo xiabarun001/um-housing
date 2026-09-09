@@ -1,6 +1,6 @@
 /* 小红书出图：从 data/condos.json（固定信息）现场画成 1080×1440 的图片。
    三篇帖子：总览地图 1 张；区域 1 概览 1 张 + 小区卡片 10 张；区域 2 概览 1 张 + 小区卡片 9 张。 */
-import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609090245';
+import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609090300';
 const W = 1080, H = 1440, PAD = 72;
 const SITE = 'um-housing.evasuka.com';
 const C = { paper: '#FAF9F6', card: '#FFFFFF', ink: '#1B1F24', ink2: '#4B5560', ink3: '#7B8590', line: '#E3E0D8', line2: '#D2CEC4', accent: '#C96A1B', r1: '#C96A1B', r2: '#2F6BCC', r3: '#6B4FBB', lrt: '#D6336C', ktm: '#1F7A8C', campus: '#3E8E5B', ok: '#2E7D4F' };
@@ -366,7 +366,7 @@ function drawNeedsCard(ctx, cfg) {
 }
 
 function drawBudgetCard(ctx, g, cfg) {
-  let y = head(ctx, '第 2 步 · 定预算', '先选房型，再算入住前要带多少钱', `行情区间是人工整理的（${cfg.date}），看数量级就好；每个小区当前的在租数和价格，网站上每 12 小时自动更新。`);
+  let y = head(ctx, '算预算', '先选房型，再算入住前要带多少钱', `行情区间是人工整理的（${cfg.date}），看数量级就好；每个小区当前的在租数和价格，网站上每 12 小时自动更新。`);
   const cols = [{ x: PAD, w: 128 }, { x: PAD + 136, w: 250 }, { x: PAD + 394, w: 306 }, { x: PAD + 708, w: 228 }];
   ctx.fillStyle = '#F1EFE9'; ctx.fillRect(PAD, y, W - PAD * 2, 44);
   ctx.font = `600 21px ${SANS}`; ctx.fillStyle = C.ink2; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
@@ -383,10 +383,10 @@ function drawBudgetCard(ctx, g, cfg) {
   y = label(ctx, '入住前要付多少', PAD, y);
   const r = 1200, stamp = Math.max(0, Math.round((r * 12 - 2400) / 250)) + 10, base0 = r * 3.5 + stamp;
   y = para(ctx, `惯例是 2 个月押金 + 1 个月预付 + 半个月水电押金，押金退房时退。按月租 RM ${fmt(r)} 算：押金 RM ${fmt(r * 2)}、首月 RM ${fmt(r)}、水电押金 RM ${fmt(r / 2)}、门禁卡押金 RM 100 到 200、印花税约 RM ${fmt(stamp)}、合同费 RM 150 到 300，合计带够 RM ${fmt(base0 + 250)} 到 ${fmt(base0 + 500)}。合租单间常见简化版：押金 1 到 2.5 个月加首月。`, PAD, y, W - PAD * 2, 37, { font: `400 25px ${SANS}`, color: C.ink2, maxLines: 6 });
-  footer(ctx, cfg, `填你的月租自动算：${SITE} 第 2 步`);
+  footer(ctx, cfg, `填你的月租自动算：${SITE}「算预算」`);
 }
 function drawMonthlyCard(ctx, g, cfg) {
-  let y = head(ctx, '第 2 步 · 定预算', '每月除了房租还有什么，中介费谁付', '');
+  let y = head(ctx, '算预算', '每月除了房租还有什么，中介费谁付', '');
   y = label(ctx, '每月开销', PAD, y);
   for (const m of g.monthly) { if (y > FOOTER_TOP - 200) break; y = bullet(ctx, m, y, { font: `400 26px ${SANS}`, lh: 38, maxLines: 3, gap: 12 }); }
   y += 16;
@@ -395,7 +395,7 @@ function drawMonthlyCard(ctx, g, cfg) {
   footer(ctx, cfg);
 }
 function drawAgentCard(ctx, g, cfg) {
-  let y = head(ctx, '第 5 步 · 找房源', '去哪找房，联系之前先查什么', '');
+  let y = head(ctx, '找中介 · 找房源', '去哪找房，联系之前先查什么', '');
   y = label(ctx, '去哪找', PAD, y);
   for (const t of g.where) { if (y > FOOTER_TOP - 300) break; y = bullet(ctx, t, y, { maxLines: 3 }); }
   y += 16;
@@ -404,7 +404,7 @@ function drawAgentCard(ctx, g, cfg) {
   footer(ctx, cfg);
 }
 function drawTemplateCard(ctx, g, cfg) {
-  let y = head(ctx, '第 5 步 · 第一条消息', '给中介的第一条 WhatsApp 这样发', g.tplNote);
+  let y = head(ctx, '找中介 · 第一条消息', '给中介的第一条 WhatsApp 这样发', g.tplNote);
   ctx.font = `400 24px ${SANS}`;
   const lines = g.tpl.split('\n').flatMap((l) => { const w = wrap(ctx, l, W - PAD * 2 - 48); return w.length ? w : ['']; });
   const boxH = lines.length * 34 + 40;
@@ -414,10 +414,10 @@ function drawTemplateCard(ctx, g, cfg) {
   y += boxH + 28;
   y = label(ctx, '一定要问清的', PAD, y);
   for (const t of g.mustAsk) { if (y > FOOTER_TOP - 50) break; y = bullet(ctx, t, y, { maxLines: 2, gap: 6 }); }
-  footer(ctx, cfg, `模板一键复制：${SITE} 第 5 步`);
+  footer(ctx, cfg, `模板一键复制：${SITE}「找中介」`);
 }
 function drawChecklistCard(ctx, g, cfg) {
-  let y = head(ctx, '第 6 步 · 看房和签约', '照这三张清单过一遍', '');
+  let y = head(ctx, '看房签约', '照这三张清单过一遍', '');
   const groups = [['看房时检查', g.viewing], ['合同里要有', g.contract], ['付款和入住当天', g.movein]];
   for (const [t, items] of groups) {
     if (y > FOOTER_TOP - 90) break;
@@ -429,10 +429,10 @@ function drawChecklistCard(ctx, g, cfg) {
     }
     y += 10;
   }
-  footer(ctx, cfg, `清单可以在网站上勾选：${SITE} 第 6 步`);
+  footer(ctx, cfg, `清单可以在网站上勾选：${SITE}「看房签约」`);
 }
 function drawTimelineCard(ctx, g, cfg) {
-  let y = head(ctx, '第 7 步 · 时间表', '出发前 6 周到入住第一周', '');
+  let y = head(ctx, '时间表', '出发前 6 周到入住第一周', '');
   const x0 = PAD + 14;
   const dots = [];
   for (const e of g.timeline) {

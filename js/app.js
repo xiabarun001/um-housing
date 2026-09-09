@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090245';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090300';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -338,31 +338,31 @@ function setupTour(ctx) {
   const pinsOf = (pred) => state.condos.filter(pred).map((c) => c.id);
   const steps = [
     {
-      title: '第 1 步 · 校园',
+      title: '导览 1 / 5 · 校园',
       text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里，有 5 个门：KL 门是正门，PJ 门通 Section 17，Section 16 门出去是地铁站，Damansara 门和 Jalan Elmu 门在北边。各学院之间靠免费穿梭巴士。',
       view: () => campusLayer ? map.fitBounds(campusLayer.getBounds().pad(0.15)) : map.setView([3.121, 101.654], 15),
       focus: [],
     },
     {
-      title: '第 2 步 · 正门和轻轨站',
+      title: '导览 2 / 5 · 正门和轻轨站',
       text: 'KL 门是正门，在校园东南角。<b>出 Universiti 站过一座天桥就进校</b>，绿色虚线就是这段路。两个红色虚线圈是从车站走 5 分钟和 10 分钟能到的范围，圈里的小区走路到正门，再坐校内穿梭巴士去学院。',
       view: () => map.setView(gate ? [(gate[0] + uni.lat) / 2, (gate[1] + uni.lng) / 2] : [uni.lat, uni.lng], 16),
       focus: pinsOf((c) => c.transit.walk_min != null && c.transit.walk_min <= 10),
     },
     {
-      title: '第 3 步 · 区域 2',
+      title: '导览 3 / 5 · 区域 2',
       text: '<b>蓝色 11 到 19 在 Bangsar South</b>。11 到 15 在步行圈里，走路上学，中国学生最多，楼下就有超市和商场。16 到 19 在南边山坡上，圈外，每天要坐车。',
       view: () => map.fitBounds(regionBounds[2].pad(0.15)),
       focus: pinsOf((c) => c.region === 2),
     },
     {
-      title: '第 4 步 · 区域 1',
+      title: '导览 4 / 5 · 区域 1',
       text: '<b>橙色 1 到 10 在 PJ</b>。这边没有走得到的轻轨站，去学校靠免费巴士、骑车或 Grab，10 分钟以内。Jaya One 是这边吃饭购物的地方，研究生宿舍也在这一侧（点"详细"能看到）。',
       view: () => map.fitBounds(regionBounds[1].pad(0.15)),
       focus: pinsOf((c) => c.region === 1),
     },
     {
-      title: '第 5 步 · 轻轨线',
+      title: '导览 5 / 5 · 轻轨线',
       text: '<b>红线是 Kelana Jaya 线</b>，圆圈是车站。从 Universiti 站往东两站到 Mid Valley 大商场，往西是 PJ 方向。刷 Touch \'n Go 卡，一站一两块马币。看完了，点"结束"回到全图。',
       view: () => map.fitBounds(lrtLine.getBounds().pad(0.12)),
       focus: [],
@@ -1350,7 +1350,7 @@ function needsSummaryHTML(o, crit, showAll) {
     <div class="needs-acts"><button type="button" class="linkish" id="needs-more">${showAll ? '只看前 5 个' : `看全部 ${state.condos.length} 个的得分`}</button><span class="muted">分数是按你的权重算的，点名字看小区卡片</span></div>` : `<p class="muted">左边先点几项在意的，这里就会按你的权重给 ${state.condos.length} 个小区排序。</p>`}
     <h3>看房时要问</h3>
     ${asks.length ? `<ul class="needs-ask-list">${asks.map(([, t]) => `<li>${esc(t)}</li>`).join('')}</ul>
-    <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术在第 5 步</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}
+    <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}
     <p class="src-line">按 um-housing.evasuka.com 的数据和你的权重算的</p>`;
 }
 function bindNeeds() {
