@@ -209,11 +209,7 @@ main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 64px
 h3 { font-size: 17px; }
 
 .map-reset { position: absolute; top: 12px; right: 12px; z-index: 500; font-size: 13.5px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); cursor: pointer; }
-.howto { margin-top: 22px; max-width: 78ch; }
-.howto h3, .two-col h3, .three-col h3 { margin-bottom: 8px; }
-.howto ol { margin: 0; padding-left: 22px; }
-.howto li { margin: 8px 0; color: var(--ink-2); font-size: 15.5px; }
-.howto li strong { color: var(--ink); }
+.two-col h3, .three-col h3 { margin-bottom: 8px; }
 
 .price-table { width: 100%; border-collapse: collapse; font-size: 15.5px; min-width: 640px; }
 .price-table th { text-align: left; font-weight: 500; font-size: 13.5px; color: var(--ink-3); background: var(--bg-2); padding: 9px 12px; border-bottom: 1px solid var(--line); }
@@ -330,10 +326,8 @@ main { max-width: 1400px; }
 .leaflet-container.z-low .lm-icon .lm:not(.gate):not(.key), .leaflet-container.z-low .walk-label { display: none; }
 
 /* ===== step 1 text layout + common traits ===== */
-.howto { max-width: none; }
-.howto ol { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 40px; padding-left: 22px; }
 @media (max-width: 960px) {
-  .howto ol, .about-cols { grid-template-columns: 1fr; }
+  .about-cols { grid-template-columns: 1fr; }
 }
 .intent-table .del { color: var(--lrt); font-size: 13.5px; }
 .intent-table .mine { font-size: 12.5px; color: var(--ok); border: 1px solid var(--ok); border-radius: 3px; padding: 0 4px; margin-left: 4px; }
@@ -532,7 +526,7 @@ main { max-width: 1400px; }
 .checks li { border-bottom-color: var(--line); }
 .checks input { accent-color: var(--accent); }
 .callout { border-radius: 0 10px 10px 0; background: var(--card); box-shadow: var(--shadow-sm); border-left-color: var(--accent); }
-.three-col h3, .two-col h3, .howto h3 { padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+.three-col h3, .two-col h3 { padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 
 /* 意向表 */
 .intent-form { padding: 20px; }
@@ -1074,3 +1068,10 @@ main { max-width: 1400px; }
   .bbar { display: none; }
   .bsub { grid-column: 3 / -1; }
 }
+
+/* 地图下面的四条注释：一条一行，标签列对齐，左右两边都齐 */
+.mapnotes { margin: 22px 0 0; padding-left: 18px; border-left: 3px solid var(--line-2); display: grid; gap: 11px; }
+.mapnotes > div { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 16px; align-items: baseline; }
+.mapnotes dt { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 15.5px; color: var(--ink); }
+.mapnotes dd { margin: 0; font-size: 15px; line-height: 1.75; color: var(--ink-2); }
+@media (max-width: 720px) { .mapnotes { padding-left: 14px; } .mapnotes > div { grid-template-columns: 1fr; gap: 2px; } }
