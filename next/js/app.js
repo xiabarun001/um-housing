@@ -1,0 +1,1555 @@
+/* UM 租房指南 — app */
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090350';
+window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
+// fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
+const FIT_OPTS = { padding: [18, 18] };
+const state = {
+  condos: [],
+  meta: {},
+  region: 'all',
+  lrt: false,
+  budget: false,
+  flags: new Set(),
+  sort: 'no',
+  intents: [],
+  intentsOk: null,
+  expanded: new Set(),
+  expandAll: false,
+  marks: null,
+  start: null,
+  needsRank: null,
+  map: null,
+  markers: {},
+};
+
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+const fmt = (n) => n == null ? '—' : Number(n).toLocaleString('en-MY');
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const shortAlias = (c) => c.alias.replace(/（.*?）/, '');
+const ELMU_GATE = [3.11955, 101.65022]; // Jalan Elmu 门：校园边界上离 Jalan Ilmu 最近的点（近似）
+function distKm(a, b) {
+  const R = 6371, toR = (x) => x * Math.PI / 180;
+  const dLat = toR(b[0] - a[0]), dLon = toR(b[1] - a[1]);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a[0])) * Math.cos(toR(b[0])) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+init();
+
+async function init() {
+  // 两层数据：condos.json 是固定信息（人工核实，改得少），prices.json 是实时价格（每 12 小时自动刷新），按小区 id 对上
+  const [data, prices, campus] = await Promise.all([
+    fetch('../data/condos.json', { cache: 'no-cache' }).then((r) => r.json()),
+    fetch('../data/prices.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => ({ condos: {} })),
+    fetch('../data/um.geojson').then((r) => r.json()).catch(() => null),
+  ]);
+  const EMPTY = { date: null, for_rent: null, rent_from: null, whole: null, whole_source: null, rooms: null, rooms_source: null, rooms_min: null };
+  for (const c of data.condos) c.snapshot = { ...EMPTY, ...(prices.condos?.[c.id] || {}) };
+  state.condos = data.condos;
+  state.meta = data.meta;
+  state.meta.prices_updated_myt = prices.updated_myt || null;
+  $$('.verified-at').forEach((t) => { t.textContent = data.meta.verified_at; });
+  $$('.prices-at').forEach((t) => { t.textContent = prices.updated_myt ? prices.updated_myt + '（马来西亚时间）' : '暂无'; });
+  renderTierPills();
+  renderAboutTiers();
+  bindTierPop();
+  bindReport();
+  renderChangelog();
+  renderCampus(campus);
+  drawMap(campus);
+  buildPanel();
+  bindFilters();
+  renderList();
+  renderRankings();
+  buildCondoPicks();
+  bindForm();
+  loadIntents();
+  bindCalc();
+  bindCopy();
+  bindNeeds();
+  bindStart();
+  renderConclusion();
+  // 页面都摆好之后再定一次全图视野，避免地图在排版没完成时算错缩放
+  if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds, FIT_OPTS); });
+  bindChecklists();
+  bindNav();
+  // 地图气泡里的"看详情"按钮
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-open-detail]');
+    if (b) { e.preventDefault(); openDetail(b.dataset.openDetail); }
+  });
+}
+
+/* ---------- guide widgets ---------- */
+function bindCalc() {
+  const input = $('#calc-rent');
+  if (!input) return;
+  const rm = (n) => 'RM ' + fmt(Math.round(n));
+  const run = () => {
+    const r = Number(input.value) || 0;
+    const stamp = Math.max(0, Math.round((r * 12 - 2400) / 250)) + 10;
+    $('#c-dep').textContent = rm(r * 2);
+    $('#c-adv').textContent = rm(r);
+    $('#c-util').textContent = rm(r * 0.5);
+    $('#c-stamp').textContent = r ? `约 ${rm(stamp)}` : '—';
+    const base = r * 3.5 + stamp;
+    $('#c-total').textContent = r ? `${rm(base + 100 + 150)} 到 ${rm(base + 200 + 300)}` : '—';
+    if (input.dataset.touched === '1') { try { localStorage.setItem('um-calc', JSON.stringify({ rent: r, low: Math.round(base + 250), high: Math.round(base + 500) })); } catch { /* ignore */ } }
+    if (typeof renderConclusion === 'function' && state.condos) renderConclusion();
+  };
+  input.addEventListener('input', () => { input.dataset.touched = '1'; run(); });
+  run();
+}
+function bindCopy() {
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    const text = $('#' + b.dataset.copy)?.textContent || '';
+    try { await navigator.clipboard.writeText(text); b.textContent = '已复制'; }
+    catch { b.textContent = '请手动选中复制'; }
+    setTimeout(() => { b.textContent = '复制'; }, 1800);
+  }));
+}
+function bindChecklists() {
+  $$('[data-checklist]').forEach((list) => {
+    const key = 'um-check:' + list.dataset.checklist;
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch { saved = {}; }
+    $$('input[type=checkbox]', list).forEach((cb, i) => {
+      cb.checked = !!saved[i];
+      cb.addEventListener('change', () => {
+        saved[i] = cb.checked;
+        try { localStorage.setItem(key, JSON.stringify(saved)); } catch { /* 隐私模式下忽略 */ }
+      });
+    });
+  });
+}
+/* ---------- 路线图：头部一条路，七站；小人随滚动走到当前站 ---------- */
+const ROUTE_STOPS = ['s-start', 'campus', 'regions', 's3', 's2', 's5', 's0'];
+function bindNav() {
+  const route = $('#route');
+  if (!route) return;
+  const stops = $$('#route-stops li');
+  const dots = stops.map((li) => li.querySelector('.stop'));
+  const names = stops.map((li) => li.querySelector('a').textContent);
+  const track = $('#route-track'), walked = $('#route-walked'), figure = $('#route-figure'), here = $('#route-here');
+  let centers = [];
+  const measure = () => {
+    const r = route.getBoundingClientRect();
+    centers = dots.map((d) => { const b = d.getBoundingClientRect(); return b.left - r.left + b.width / 2; });
+    track.style.left = centers[0] + 'px'; track.style.width = Math.max(0, centers[6] - centers[0]) + 'px';
+    walked.style.left = centers[0] + 'px';
+  };
+  // 进度 0 到 6：在两站之间按滚动比例插值；每站以它第一块内容的顶部为准
+  const progress = () => {
+    const tops = ROUTE_STOPS.map((id) => { const el = document.getElementById(id); return el ? el.getBoundingClientRect().top + window.scrollY - 120 : Infinity; });
+    const probe = window.scrollY + window.innerHeight * 0.3;
+    if (probe <= tops[0]) return 0;
+    for (let i = 0; i < 6; i++) if (probe < tops[i + 1]) return i + Math.min(1, Math.max(0, (probe - tops[i]) / Math.max(1, tops[i + 1] - tops[i])));
+    return 6;
+  };
+  let walkTimer = null, lastP = -1;
+  const paint = () => {
+    if (!centers.length) measure();
+    const p = progress();
+    const i = Math.min(5, Math.floor(p)), f = p - i;
+    const x = p >= 6 ? centers[6] : centers[i] + (centers[i + 1] - centers[i]) * f;
+    figure.style.transform = `translateX(${x.toFixed(1)}px)`;
+    walked.style.width = Math.max(0, x - centers[0]).toFixed(1) + 'px';
+    const cur = Math.round(p);
+    stops.forEach((li, k) => { li.classList.toggle('done', k < cur); li.classList.toggle('now', k === cur); });
+    if (here) here.textContent = names[cur];
+    if (lastP >= 0 && Math.abs(p - lastP) > 0.0005) { route.classList.add('walking'); clearTimeout(walkTimer); walkTimer = setTimeout(() => route.classList.remove('walking'), 240); }
+    lastP = p;
+  };
+  window.addEventListener('scroll', () => requestAnimationFrame(paint), { passive: true });
+  window.addEventListener('resize', () => { measure(); paint(); });
+  if (document.fonts?.ready) document.fonts.ready.then(() => { measure(); paint(); });
+  measure(); paint();
+  setTimeout(() => { measure(); paint(); }, 800);
+}
+
+/* ---------- 起点：我现在想要的房子 ---------- */
+const START_KEY = 'um-start';
+const START_ZH = {
+  mode: { room: '一个人租一间', share2: '和朋友整租平摊', solo: '一个人整租', unsure: '住法还没定' },
+  transit: { rail: '必须走得到轨道站', bus: '公交或校车也行', any: '交通无所谓，打车', unsure: '交通还没想好' },
+};
+function loadStart() { try { return JSON.parse(localStorage.getItem(START_KEY) || '{}'); } catch { return {}; } }
+function bindStart() {
+  const box = $('#start'); if (!box) return;
+  state.start = loadStart();
+  const paint = () => {
+    $$('.seg', box).forEach((seg) => { const q = seg.dataset.q; $$('button', seg).forEach((b) => b.setAttribute('aria-pressed', String(String(state.start[q] ?? '') === b.dataset.v))); });
+    const s = state.start; const bits = [];
+    if (s.budget && s.budget !== 'unsure') bits.push(`每月房租 <b>RM ${fmt(Number(s.budget))}</b> 内`); else if (s.budget === 'unsure') bits.push('预算还不确定');
+    if (s.mode) bits.push(`<b>${esc(START_ZH.mode[s.mode] || '')}</b>`);
+    if (s.transit) bits.push(`<b>${esc(START_ZH.transit[s.transit] || '')}</b>`);
+    $('#start-echo').innerHTML = bits.length ? `你现在的想法：${bits.join('，')}。往下走，到终点再看这些有没有变。` : '';
+  };
+  box.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-v]'); if (!b) return;
+    const q = b.closest('.seg').dataset.q;
+    state.start[q] = b.dataset.v;
+    try { localStorage.setItem(START_KEY, JSON.stringify(state.start)); } catch { /* ignore */ }
+    paint(); renderConclusion();
+  });
+  paint();
+}
+
+/* ---------- 卡片上的"感兴趣 / 不考虑" ---------- */
+const MARKS_KEY = 'um-marks';
+function loadMarks() { try { return JSON.parse(localStorage.getItem(MARKS_KEY) || '{}'); } catch { return {}; } }
+function toggleMark(id, v) {
+  if (!state.marks) state.marks = loadMarks();
+  if (state.marks[id] === v) delete state.marks[id]; else state.marks[id] = v;
+  try { localStorage.setItem(MARKS_KEY, JSON.stringify(state.marks)); } catch { /* ignore */ }
+  const el = document.getElementById(`card-${id}`);
+  if (el) {
+    el.classList.toggle('is-yes', state.marks[id] === 'yes'); el.classList.toggle('is-no', state.marks[id] === 'no');
+    $$('.mark', el).forEach((b) => { const on = state.marks[id] === b.dataset.mark; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+  }
+  renderConclusion();
+}
+
+/* ---------- 终点：把一路的选择拼成一段话 ---------- */
+function renderConclusion() {
+  const box = $('#conclusion'); if (!box) return;
+  if (!state.marks) state.marks = loadMarks();
+  const st = state.start || loadStart();
+  const o = loadNeeds();
+  const crit = needsCriteria();
+  const anyW = crit.some((x) => (o.w[x.k] || 0) > 0);
+  const res = anyW ? needsCompute(o, crit) : [];
+  const top = res.slice(0, 3);
+  const yes = Object.entries(state.marks).filter(([, v]) => v === 'yes').map(([id]) => state.condos.find((c) => c.id === id)).filter(Boolean);
+  const noCount = Object.values(state.marks).filter((v) => v === 'no').length;
+  let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
+  const hasStart = st.budget || st.mode || st.transit;
+  if (!hasStart && !anyW && !yes.length) {
+    box.innerHTML = '<p class="con-empty">这里还是空的。先在起点记下想法，看小区时点"感兴趣"，到"打个分"打个分，这里就会写出你的结论。</p>';
+    return;
+  }
+  const regionsMeta = state.meta.regions || {};
+  const w = (k) => o.w[k] || 0;
+  // 住法：打分表里的选择优先，其次起点
+  const modeZh = anyW ? (NEEDS_MODES[o.mode] || '') : (START_ZH.mode[st.mode] || '');
+  const sentences = [];
+  const first = [];
+  if (modeZh && modeZh !== '住法还没定') first.push(`我打算${modeZh.replace(/（.*?）/g, '')}`);
+  first.push(`每月房租不超过 RM ${fmt(anyW ? o.budget : (Number(st.budget) || o.budget))}`);
+  sentences.push(first.join('，') + '。');
+  // 区域：收藏里最多的那片，否则打分前三里最多的
+  const pool = yes.length ? yes : top.map((r) => r.c);
+  if (pool.length) {
+    const cnt = {}; pool.forEach((c) => { cnt[c.region] = (cnt[c.region] || 0) + 1; });
+    const r = Object.entries(cnt).sort((a, b) => b[1] - a[1])[0][0];
+    sentences.push(`想住${regionsMeta[r]?.label || '区域 ' + r}。`);
+  }
+  // 交通
+  if (w('commute') === 3) sentences.push('必须走得到轨道站。'); else if (w('commute') === 2) sentences.push('最好走得到轨道站。'); else if (st.transit && st.transit !== 'unsure') sentences.push(START_ZH.transit[st.transit] + '。');
+  // 在意的事
+  const cares = crit.filter((x) => w(x.k) >= 2 && x.k !== 'price' && x.k !== 'commute').map((x) => x.label);
+  const musts = crit.filter((x) => w(x.k) === 3 && x.k !== 'price' && x.k !== 'commute').map((x) => x.label);
+  if (musts.length) sentences.push(`${musts.join('、')}是必须的。`);
+  const rest = cares.filter((x) => !musts.includes(x));
+  if (rest.length) sentences.push(`也在意${rest.join('、')}。`);
+  // 候选
+  if (yes.length) sentences.push(`候选是 ${yes.map(shortAlias).join('、')}${top[0] && yes.some((c) => c.id === top[0].c.id) ? `，按我的打分 ${shortAlias(top[0].c)} 最贴近` : ''}。`);
+  else if (top.length) sentences.push(`按我的打分最对路的是 ${top.map((r) => shortAlias(r.c)).join('、')}。`);
+  if (calc && calc.rent) sentences.push(`入住前大约要准备 RM ${fmt(calc.low)} 到 ${fmt(calc.high)}。`);
+  const asks = NEEDS_ASK.filter(([k]) => o.ask.includes(k)).map(([, t]) => t.split('：')[0]);
+  if (asks.length) sentences.push(`看房时要问：${asks.join('、')}。`);
+  const text = sentences.join('');
+  // 和一开始想的对比
+  const diffs = [];
+  if (st.budget && st.budget !== 'unsure' && anyW && Number(st.budget) !== o.budget) diffs.push(`预算从 RM ${fmt(Number(st.budget))} 变成 RM ${fmt(o.budget)}`);
+  if (st.mode && st.mode !== 'unsure' && anyW && st.mode !== o.mode) diffs.push(`住法从"${START_ZH.mode[st.mode]}"变成"${NEEDS_MODES[o.mode]}"`);
+  if (st.transit === 'any' && w('commute') >= 2) diffs.push('一开始说交通无所谓，现在希望走得到轨道站');
+  if (st.transit === 'rail' && anyW && w('commute') === 0) diffs.push('一开始要求走得到轨道站，现在不比这一项了');
+  if (noCount) diffs.push(`看过之后排除了 ${noCount} 个小区`);
+  const candRows = (yes.length ? yes.map((c) => ({ c, why: res.find((r) => r.c.id === c.id)?.parts.slice(0, 2).map((p) => p.why).filter(Boolean).join(' · ') || '你收藏的' })) : top.map((r) => ({ c: r.c, why: r.parts.slice(0, 2).map((p) => p.why).filter(Boolean).join(' · ') })));
+  box.innerHTML = `
+    <div class="con-card"><p class="con-text" id="con-text">${esc(text)}</p>
+      <div class="con-acts"><button type="button" class="btn primary" id="con-copy">复制这段话</button><a class="btn" href="#s5">带着它去找中介</a><span class="muted">改了打分或收藏，这段话会跟着变。</span></div></div>
+    <div class="con-grid">
+      <div><h3>候选小区</h3>${candRows.length ? `<ol>${candRows.map(({ c, why }) => `<li><b><a href="#card-${c.id}">${esc(shortAlias(c))}</a></b> · ${esc(regionsMeta[String(c.region)]?.short || '')}${why ? `<br><span class="muted">${esc(why)}</span>` : ''}</li>`).join('')}</ol>` : '<p class="con-empty">还没有：看小区时点"感兴趣"，或去"打个分"。</p>'}</div>
+      <div><h3>和一开始想的对比</h3>${diffs.length ? `<ul>${diffs.map((d) => `<li>${esc(d)}</li>`).join('')}</ul>` : `<p class="con-empty">${hasStart ? '和起点记下的想法一致。' : '起点还没记想法，记一下才有对比。'}</p>`}</div>
+    </div>`;
+  $('#con-copy')?.addEventListener('click', async (e) => {
+    try { await navigator.clipboard.writeText(text); e.target.textContent = '已复制'; } catch { window.prompt('复制下面的文字', text); }
+    setTimeout(() => { e.target.textContent = '复制这段话'; }, 1600);
+  });
+}
+
+/* ---------- helpers ---------- */
+function roomsMin(c) {
+  if (typeof c.snapshot?.rooms_min === 'number') return c.snapshot.rooms_min;
+  const s = c.snapshot?.rooms;
+  if (!s) return null;
+  // 只认 RM 300 以上的数字，避免把“水电 RM 50”当成房租
+  const nums = [...s.matchAll(/RM\s?([\d,]+)/g)].map((m) => Number(m[1].replace(/,/g, ''))).filter((n) => n >= 300);
+  return nums.length ? Math.min(...nums) : null;
+}
+function stationZh(nearest) {
+  // "Universiti LRT（KJ19）" -> "Universiti 站"
+  const m = String(nearest || '').match(/^([A-Za-z ]+?)\s*(LRT|MRT|KTM)/);
+  return m ? `${m[1].trim()} 站${m[2] === 'KTM' ? '（KTM）' : ''}` : nearest;
+}
+function goSentence(c) {
+  const t = c.transit;
+  if (t.walk_min == null) {
+    const bus = (t.buses || []).filter((b) => /^[A-Z]?\d/.test(b)).slice(0, 3);
+    return `<b>没有走得到的轻轨站。</b>${bus.length ? '公交 ' + bus.join(' / ') + '，或者 Grab' : '靠免费巴士或 Grab'}${c.id === 'pacific-star' ? '，楼盘有穿梭巴士到 Asia Jaya 站' : ''}。`;
+  }
+  return `走 <b>${t.walk_min} 分钟</b>到${stationZh(t.nearest)}${t.walk_m ? `（${t.walk_m} 米）` : ''}${t.walk_est ? '，分钟数是估算' : ''}。`;
+}
+
+/* ---------- map ---------- */
+function drawMap(campus) {
+  if (typeof L === 'undefined') { $('#map').innerHTML = '<p style="padding:16px">地图组件没有加载出来，刷新试试。</p>'; return; }
+  const map = L.map('map', { scrollWheelZoom: false, zoomSnap: 0.5 });
+  map.setView([3.115, 101.65], 14); // 先给一个视角，矢量图层才能正常绘制，最后再 fitBounds
+  state.map = map;
+  // 底图：默认用 OpenFreeMap 的矢量地图（简约样式，免 key），不支持 WebGL 时退回 OpenStreetMap 栅格图
+  const VECTOR_STYLES = { positron: 'https://tiles.openfreemap.org/styles/positron', bright: 'https://tiles.openfreemap.org/styles/bright' };
+  const canVector = () => typeof maplibregl !== 'undefined' && typeof L.maplibreGL === 'function' && (() => { try { const c = document.createElement('canvas'); return !!(c.getContext('webgl') || c.getContext('experimental-webgl')); } catch { return false; } })();
+  let base = null;
+  const setBase = (kind) => {
+    if (base) map.removeLayer(base);
+    if (kind !== 'osm' && canVector()) {
+      base = L.maplibreGL({ style: VECTOR_STYLES[kind] || VECTOR_STYLES.positron, attribution: '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+    } else {
+      base = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+    }
+    base.addTo(map);
+  };
+  const styleSel = $('#map-style');
+  setBase(styleSel?.value || 'positron');
+  styleSel?.addEventListener('change', () => setBase(styleSel.value));
+  // "详细"开关叠加次要信息
+  const detail = L.layerGroup();
+  state.detailGroup = detail;
+
+  const bounds = L.latLngBounds([]);
+
+  // UM 校园
+  if (campus) {
+    const layer = L.geoJSON(campus, { style: { color: '#3E8E5B', weight: 1.5, fillColor: '#3E8E5B', fillOpacity: 0.22 }, interactive: false }).addTo(map);
+    state.campusLayer = layer;
+    const c = layer.getBounds().getCenter();
+    L.marker(c, { icon: L.divIcon({ className: 'campus-label', html: '马来亚大学 UM', iconSize: null }), interactive: false }).addTo(map);
+    bounds.extend(layer.getBounds());
+  }
+
+  // 轻轨线（白色描边 + 红线）+ 车站
+  const st = state.meta.stations || [];
+  const lineLatLngs = st.map((s) => [s.lat, s.lng]);
+  L.polyline(lineLatLngs, { color: '#fff', weight: 10, opacity: 0.9, lineJoin: 'round', interactive: false }).addTo(map);
+  const lrtLine = L.polyline(lineLatLngs, { color: '#D6336C', weight: 5, opacity: 0.9, lineJoin: 'round', interactive: false }).addTo(map);
+  st.forEach((s) => {
+    const major = /Universiti|Kerinchi|Asia Jaya|Taman Jaya/.test(s.name);
+    const m = L.circleMarker([s.lat, s.lng], { radius: major ? 7 : 5, color: '#D6336C', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map);
+    // 简洁模式只给 4 个主要站写名字，其余站名放进"详细"
+    const tip = { permanent: true, direction: s.name === 'Universiti' ? 'right' : 'bottom', offset: s.name === 'Universiti' ? [9, 0] : [0, 7], className: 'station-label' + (major ? ' major' : '') };
+    if (major) m.bindTooltip(s.zh, tip);
+    else detail.addLayer(L.marker([s.lat, s.lng], { icon: L.divIcon({ className: 'station-label', html: s.zh, iconSize: null, iconAnchor: [-6, -8] }), interactive: false }));
+  });
+  (state.meta.mrt || []).forEach((s) => {
+    detail.addLayer(L.circleMarker([s.lat, s.lng], { radius: 5, color: '#2E8B57', weight: 3, fillColor: '#fff', fillOpacity: 1 })
+      .bindTooltip(s.zh, { permanent: true, direction: 'right', offset: [8, 0], className: 'station-label' }));
+  });
+  // KTM 电动火车站（区域 3 靠这个）：青色圆点常显，站名放进"详细"
+  (state.meta.ktm || []).forEach((s) => {
+    L.circleMarker([s.lat, s.lng], { radius: 5, color: '#1F7A8C', weight: 3, fillColor: '#fff', fillOpacity: 1 }).addTo(map);
+    detail.addLayer(L.marker([s.lat, s.lng], { icon: L.divIcon({ className: 'station-label', html: s.zh, iconSize: null, iconAnchor: [-6, -8] }), interactive: false }));
+  });
+
+  // 步行范围圈：从 Universiti 站走 5 分钟（400 m）和 10 分钟（800 m）；Kerinchi 站的圈放进"详细"
+  const uni = st.find((s) => s.name === 'Universiti');
+  const ker = st.find((s) => s.name === 'Kerinchi');
+  const walkLayers = [];
+  if (uni) {
+    walkLayers.push(L.circle([uni.lat, uni.lng], { radius: 800, color: '#D6336C', weight: 1.2, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.04, interactive: false }).addTo(map));
+    walkLayers.push(L.circle([uni.lat, uni.lng], { radius: 400, color: '#D6336C', weight: 1.6, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.06, interactive: false }).addTo(map));
+    L.marker([uni.lat + 400 / 111320, uni.lng - 0.0025], { icon: L.divIcon({ className: 'walk-label', html: '步行 5 分钟', iconSize: null }), interactive: false }).addTo(map);
+    L.marker([uni.lat + 800 / 111320, uni.lng - 0.0028], { icon: L.divIcon({ className: 'walk-label', html: '步行 10 分钟', iconSize: null }), interactive: false }).addTo(map);
+  }
+  if (ker) {
+    detail.addLayer(L.circle([ker.lat, ker.lng], { radius: 800, color: '#D6336C', weight: 1, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.03, interactive: false }));
+    detail.addLayer(L.circle([ker.lat, ker.lng], { radius: 400, color: '#D6336C', weight: 1.4, dashArray: '5 5', fillColor: '#D6336C', fillOpacity: 0.05, interactive: false }));
+  }
+
+  // 区域标签（不再画范围框，编号颜色已经能区分）
+  const regionBounds = {};
+  Object.keys(state.meta.regions || {}).map(Number).forEach((r) => {
+    const pts = state.condos.filter((c) => c.region === r).map((c) => [c.lat, c.lng]);
+    if (!pts.length) return;
+    regionBounds[r] = L.latLngBounds(pts);
+    const cx = pts.reduce((a, p) => a + p[1], 0) / pts.length;
+    const top = regionBounds[r].getNorth(), bottom = regionBounds[r].getSouth();
+    const labelLat = r === 1 ? top + 0.0022 : bottom - 0.0022;
+    L.marker([labelLat, cx], { icon: L.divIcon({ className: `area-label r${r}`, html: esc(state.meta.regions[String(r)].label), iconSize: null }), interactive: false }).addTo(map);
+  });
+  // 缩得比较远时隐藏地标文字，避免和编号点挤在一起
+  const zoomClass = () => map.getContainer().classList.toggle('z-low', map.getZoom() < 15);
+  map.on('zoomend', zoomClass);
+  setTimeout(zoomClass, 0);
+
+  // 地标：正门、校园中心、医院、宿舍、商场
+  let gate = null;
+  if (campus && uni) {
+    let best = null, bd = Infinity;
+    const walk = (arr) => {
+      if (typeof arr[0] === 'number') { const d = (arr[1] - uni.lat) ** 2 + (arr[0] - uni.lng) ** 2; if (d < bd) { bd = d; best = [arr[1], arr[0]]; } return; }
+      arr.forEach(walk);
+    };
+    walk(campus.geometry.coordinates);
+    gate = best;
+    L.polyline([[uni.lat, uni.lng], gate], { color: '#2b6b44', weight: 3, dashArray: '2 6', interactive: false }).addTo(map);
+  }
+  // 简洁模式只标：正门、两边各一个商场；其余（校园中心、医院、宿舍、Nexus、Mid Valley）放进"详细"
+  const landmarks = [
+    gate && { ll: gate, cls: 'gate', label: 'KL 门（正门）<span class="lm-long">· 出 Universiti 站过天桥</span>', base: true },
+    { ll: [3.122159, 101.6340447], cls: 'gate', label: 'PJ 门', base: true },
+    { ll: [3.1293, 101.6483], cls: 'gate', label: 'Section 16 门', base: true, minor: true },
+    { ll: [3.13067, 101.66064], cls: 'gate', label: 'Damansara 门', base: true, minor: true },
+    { ll: ELMU_GATE, cls: 'gate', label: 'Jalan Elmu 门', base: true, minor: true },
+    { ll: [3.1136176, 101.6632626], cls: 'mall', label: 'KL Gateway Mall · 超市', base: true },
+    { ll: [3.1171354, 101.6350289], cls: 'mall', label: 'Jaya One · PJ 侧吃饭购物', base: true },
+    { ll: [3.1214914, 101.6565469], cls: 'edu', label: '大礼堂 DTC · 校园中心' },
+    { ll: [3.1126872, 101.6541474], cls: 'hosp', label: 'UM 医院 UMMC' },
+    { ll: [3.1204209, 101.6403159], cls: 'edu', label: '研究生宿舍 KK13' },
+    { ll: [3.1195043, 101.6373563], cls: 'edu', label: 'International House 宿舍' },
+    { ll: [3.109937, 101.6650767], cls: 'mall', label: 'Nexus 商场 · 吃饭' },
+    { ll: [3.1176552, 101.6773741], cls: 'mall', label: 'Mid Valley 大商场' },
+  ].filter(Boolean);
+  landmarks.forEach((l) => {
+    const m = L.marker(l.ll, { icon: L.divIcon({ className: 'lm-icon' + (l.cls === 'gate' && l.base && /KL/.test(l.label) ? ' lm-up' : ''), html: `<span class="lm ${l.cls}${l.minor ? ' lm-minor' : ''}"><i class="ico"></i>${l.label}</span>`, iconSize: null, iconAnchor: (l.cls === 'gate' && /KL/.test(l.label)) ? [6, 34] : [6, 11] }), interactive: false, zIndexOffset: -200 });
+    if (l.base) m.addTo(map); else detail.addLayer(m);
+  });
+  // "详细"开关
+  const detailBtn = $('#map-detail');
+  const setDetail = (on) => {
+    if (on) { detail.addTo(map); map.getContainer().classList.remove('simple'); }
+    else { map.removeLayer(detail); map.getContainer().classList.add('simple'); }
+    if (detailBtn) { detailBtn.textContent = on ? '隐藏更多地标' : '显示更多地标'; detailBtn.setAttribute('aria-pressed', String(on)); }
+  };
+  detailBtn?.addEventListener('click', () => setDetail(!map.hasLayer(detail)));
+  setDetail(false);
+
+  // 小区
+  state.condos.forEach((c) => {
+    const icon = L.divIcon({ className: '', html: `<div class="condo-pin r${c.region}">${c.no}</div>`, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] });
+    const m = L.marker([c.lat, c.lng], { icon, title: c.name, alt: c.name, riseOnHover: true }).addTo(map);
+    m.bindTooltip(`${c.no} · ${shortAlias(c)}`, { direction: 'top', offset: [0, -12] });
+    m.on('click', () => selectCondo(c.id));
+    state.markers[c.id] = m;
+    bounds.extend([c.lat, c.lng]);
+  });
+
+  state.allBounds = bounds.pad(0.03);
+  map.fitBounds(state.allBounds, FIT_OPTS);
+  $('#map-reset')?.addEventListener('click', () => { clearSelection(); endTour(); map.fitBounds(state.allBounds, FIT_OPTS); });
+  // 容器尺寸变了（页面还在排版、标签页从后台切回来、手机转屏）要告诉 Leaflet；
+  // 如果之前是在 0 尺寸下算的视野（会缩成世界地图），顺手重新定位到全图
+  let lastSize = map.getSize();
+  const refit = () => {
+    const prev = lastSize;
+    map.invalidateSize();
+    lastSize = map.getSize();
+    if (prev.x === 0 || prev.y === 0 || map.getZoom() <= 3) map.fitBounds(state.allBounds, FIT_OPTS);
+  };
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(refit).observe($('#map'));
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refit(); });
+  // 点一下地图再允许滚轮缩放，避免页面滚动被劫持
+  map.on('click', () => map.scrollWheelZoom.enable());
+  map.on('mouseout', () => map.scrollWheelZoom.disable());
+
+  setupTour({ map, campusLayer: state.campusLayer, regionBounds, uni, gate, lrtLine, walkLayers });
+}
+
+function convexHull(points) {
+  const pts = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  if (pts.length < 3) return pts;
+  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lower = [];
+  for (const p of pts) { while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop(); lower.push(p); }
+  const upper = [];
+  for (const p of pts.slice().reverse()) { while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop(); upper.push(p); }
+  upper.pop(); lower.pop();
+  return lower.concat(upper);
+}
+
+/* ---------- guided tour ---------- */
+let tour = null;
+function setupTour(ctx) {
+  const { map, campusLayer, regionBounds, uni, gate, lrtLine, walkLayers } = ctx;
+  const pinsOf = (pred) => state.condos.filter(pred).map((c) => c.id);
+  const steps = [
+    {
+      title: '导览 1 / 5 · 校园',
+      text: '<b>绿色是 UM 校园</b>，从西边到东边 3 公里，有 5 个门：KL 门是正门，PJ 门通 Section 17，Section 16 门出去是地铁站，Damansara 门和 Jalan Elmu 门在北边。各学院之间靠免费穿梭巴士。',
+      view: () => campusLayer ? map.fitBounds(campusLayer.getBounds().pad(0.15)) : map.setView([3.121, 101.654], 15),
+      focus: [],
+    },
+    {
+      title: '导览 2 / 5 · 正门和轻轨站',
+      text: 'KL 门是正门，在校园东南角。<b>出 Universiti 站过一座天桥就进校</b>，绿色虚线就是这段路。两个红色虚线圈是从车站走 5 分钟和 10 分钟能到的范围，圈里的小区走路到正门，再坐校内穿梭巴士去学院。',
+      view: () => map.setView(gate ? [(gate[0] + uni.lat) / 2, (gate[1] + uni.lng) / 2] : [uni.lat, uni.lng], 16),
+      focus: pinsOf((c) => c.transit.walk_min != null && c.transit.walk_min <= 10),
+    },
+    {
+      title: '导览 3 / 5 · 区域 2',
+      text: '<b>蓝色 11 到 19 在 Bangsar South</b>。11 到 15 在步行圈里，走路上学，中国学生最多，楼下就有超市和商场。16 到 19 在南边山坡上，圈外，每天要坐车。',
+      view: () => map.fitBounds(regionBounds[2].pad(0.15)),
+      focus: pinsOf((c) => c.region === 2),
+    },
+    {
+      title: '导览 4 / 5 · 区域 1',
+      text: '<b>橙色 1 到 10 在 PJ</b>。这边没有走得到的轻轨站，去学校靠免费巴士、骑车或 Grab，10 分钟以内。Jaya One 是这边吃饭购物的地方，研究生宿舍也在这一侧（点"详细"能看到）。',
+      view: () => map.fitBounds(regionBounds[1].pad(0.15)),
+      focus: pinsOf((c) => c.region === 1),
+    },
+    {
+      title: '导览 5 / 5 · 轻轨线',
+      text: '<b>红线是 Kelana Jaya 线</b>，圆圈是车站。从 Universiti 站往东两站到 Mid Valley 大商场，往西是 PJ 方向。刷 Touch \'n Go 卡，一站一两块马币。看完了，点"结束"回到全图。',
+      view: () => map.fitBounds(lrtLine.getBounds().pad(0.12)),
+      focus: [],
+    },
+  ];
+  let i = 0;
+  const box = $('#tour-box');
+  const show = () => {
+    const s = steps[i];
+    box.hidden = false;
+    $('#tour-step').textContent = `${s.title}（${i + 1} / ${steps.length}）`;
+    $('#tour-text').innerHTML = s.text;
+    $('#tour-prev').disabled = i === 0;
+    $('#tour-next').textContent = i === steps.length - 1 ? '结束' : '下一步';
+    s.view();
+    const focus = new Set(s.focus);
+    Object.entries(state.markers).forEach(([id, m]) => {
+      const el = m.getElement()?.querySelector('.condo-pin');
+      if (!el) return;
+      el.classList.toggle('pulse', focus.has(id));
+      el.classList.toggle('dim', focus.size > 0 && !focus.has(id));
+    });
+    if (campusLayer) campusLayer.setStyle({ weight: i === 0 ? 3 : 1.5, fillOpacity: i === 0 ? 0.35 : 0.22 });
+    walkLayers.forEach((l) => l.setStyle({ weight: i === 1 ? 2.5 : 1.4, fillOpacity: i === 1 ? 0.1 : 0.05 }));
+    lrtLine.setStyle({ weight: i === 4 ? 8 : 5 });
+  };
+  tour = {
+    start() { i = 0; clearSelection(); show(); },
+    next() { if (i < steps.length - 1) { i++; show(); } else endTour(); },
+    prev() { if (i > 0) { i--; show(); } },
+    end() {
+      box.hidden = true;
+      Object.values(state.markers).forEach((m) => { const el = m.getElement()?.querySelector('.condo-pin'); el?.classList.remove('pulse', 'dim'); });
+      if (campusLayer) campusLayer.setStyle({ weight: 1.5, fillOpacity: 0.22 });
+      walkLayers.forEach((l) => l.setStyle({ weight: 1.4, fillOpacity: 0.05 }));
+      lrtLine.setStyle({ weight: 5 });
+      map.fitBounds(state.allBounds, FIT_OPTS);
+    },
+  };
+  $('#tour-start')?.addEventListener('click', () => tour.start());
+  $('#tour-next')?.addEventListener('click', () => tour.next());
+  $('#tour-prev')?.addEventListener('click', () => tour.prev());
+  $('#tour-close')?.addEventListener('click', () => tour.end());
+}
+function endTour() { if (tour && !$('#tour-box').hidden) tour.end(); }
+
+/* ---------- filters ---------- */
+function bindFilters() {
+  $$('.tab').forEach((b) => b.addEventListener('click', () => {
+    $$('.tab').forEach((x) => x.classList.toggle('is-on', x === b));
+    state.region = b.dataset.region;
+    renderList();
+  }));
+  $('#f-lrt').addEventListener('change', (e) => { state.lrt = e.target.checked; renderList(); });
+  $('#f-budget').addEventListener('change', (e) => { state.budget = e.target.checked; renderList(); });
+  $('#sort').addEventListener('change', (e) => { state.sort = e.target.value; renderList(); });
+  const ex = $('#f-expand');
+  if (ex) {
+    try { state.expandAll = localStorage.getItem('um-cards-expand') === '1'; } catch { /* ignore */ }
+    ex.checked = state.expandAll;
+    ex.addEventListener('change', () => { state.expandAll = ex.checked; state.expanded.clear(); try { localStorage.setItem('um-cards-expand', ex.checked ? '1' : '0'); } catch { /* ignore */ } renderList(); });
+  }
+  $$('.tool-flags input').forEach((i) => i.addEventListener('change', () => {
+    if (i.checked) state.flags.add(i.dataset.flag); else state.flags.delete(i.dataset.flag);
+    const n = state.flags.size;
+    $('.tool-more summary').textContent = n ? `设施（已选 ${n}）` : '设施';
+    renderList();
+  }));
+  $('#f-reset').addEventListener('click', () => {
+    state.region = 'all'; state.lrt = false; state.budget = false; state.flags.clear(); state.sort = 'no';
+    $$('.tab').forEach((x) => x.classList.toggle('is-on', x.dataset.region === 'all'));
+    $('#f-lrt').checked = false; $('#f-budget').checked = false; $('#sort').value = 'no';
+    $$('.tool-flags input').forEach((i) => { i.checked = false; });
+    $('.tool-more summary').textContent = '设施';
+    renderList();
+  });
+  document.addEventListener('click', (e) => {
+    const d = $('.tool-more');
+    if (d && d.open && !d.contains(e.target)) d.open = false;
+  });
+}
+
+function filtered() {
+  let list = state.condos.slice();
+  if (state.region !== 'all') list = list.filter((c) => String(c.region) === state.region);
+  if (state.lrt) list = list.filter((c) => c.transit.walk_min != null && c.transit.walk_min <= 10);
+  if (state.budget) list = list.filter((c) => { const m = roomsMin(c); return m != null && m <= 1300; });
+  for (const f of state.flags) list = list.filter((c) => c.flags[f]);
+  if (state.sort === 'needs') computeNeedsRank(); else state.needsRank = null;
+  const cmp = {
+    no: (a, b) => a.no - b.no,
+    walk: (a, b) => (a.transit.walk_min ?? 99) - (b.transit.walk_min ?? 99) || a.no - b.no,
+    rent: (a, b) => (a.snapshot.rent_from ?? 1e9) - (b.snapshot.rent_from ?? 1e9),
+    year: (a, b) => (b.completed ?? 0) - (a.completed ?? 0),
+    needs: (a, b) => (state.needsRank?.[a.id]?.rank ?? 99) - (state.needsRank?.[b.id]?.rank ?? 99),
+  }[state.sort];
+  return list.sort(cmp);
+}
+
+/* ---------- list ---------- */
+function renderList() {
+  const list = filtered();
+  const grid = $('#grid');
+  grid.innerHTML = list.map(cardHTML).join('');
+  $('#empty').hidden = list.length > 0;
+  $('#result-count').textContent = `显示 ${list.length} 个，共 ${state.condos.length} 个${state.sort === 'needs' ? '，按"先想清楚"里的权重排序' : ''}`;
+  $$('[data-detail]', grid).forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.detail)));
+  $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
+  $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
+  $$('[data-mark]', grid).forEach((b) => b.addEventListener('click', () => toggleMark(b.dataset.id, b.dataset.mark)));
+  paintIntentCounts();
+  expandFromHash();
+}
+
+/* ---------- 卡片折叠：默认只看名字、去学校、一句价格，点开看全部 ---------- */
+function toggleCard(id, force) {
+  if (state.expandAll) {
+    // 全部展开时收起某一张：退出"全部展开"，把其他已显示的卡片记为单独展开
+    state.expandAll = false; const cb = $('#f-expand'); if (cb) cb.checked = false;
+    $$('#grid .card').forEach((el) => state.expanded.add(el.id.replace('card-', '')));
+  }
+  const on = force != null ? force : !state.expanded.has(id);
+  if (on) state.expanded.add(id); else state.expanded.delete(id);
+  const el = document.getElementById(`card-${id}`); if (!el) return;
+  el.classList.toggle('collapsed', !on);
+  const b = $('[data-toggle]', el); if (b) { b.textContent = on ? '收起' : '展开'; b.setAttribute('aria-expanded', String(on)); }
+}
+function expandFromHash() {
+  const m = location.hash.match(/^#card-([a-z0-9-]+)$/); if (!m) return;
+  if (!state.expandAll && !state.expanded.has(m[1])) toggleCard(m[1], true);
+}
+window.addEventListener('hashchange', expandFromHash);
+// "先想清楚"的打分：按保存的权重给全部小区排名，供排序和卡片上的名次用
+function loadNeeds() {
+  let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
+  try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* ignore */ }
+  if (!NEEDS_MODES[o.mode]) o.mode = 'room';
+  return o;
+}
+function computeNeedsRank() {
+  const res = needsCompute(loadNeeds(), needsCriteria());
+  state.needsRank = {};
+  res.forEach((r, i) => { state.needsRank[r.c.id] = { rank: i + 1, score: Math.round(r.score * 100), fails: r.fails }; });
+}
+
+function locate(id) {
+  if (!state.map) return;
+  $('#s1').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  selectCondo(id, { pan: true });
+}
+
+/* ---------- map side panel ---------- */
+function priceLine(c) {
+  const rmin = roomsMin(c);
+  if (rmin) return `单间 RM ${fmt(rmin)} 起`;
+  if (c.snapshot.rent_from) return `整套 RM ${fmt(c.snapshot.rent_from)} 起`;
+  return '';
+}
+function buildPanel() {
+  const list = $('#panel-list');
+  if (!list) return;
+  const groups = Object.keys(state.meta.regions).map((r) => [Number(r), state.meta.regions[r].label]).filter(([r]) => state.condos.some((c) => c.region === r));
+  list.innerHTML = groups.map(([r, label]) => `<h4 class="panel-group">${esc(label)}</h4>` +
+    state.condos.filter((c) => c.region === r).map((c) => {
+      const t = c.transit;
+      const walk = t.walk_min == null
+        ? '<span class="mwalk none">没有轻轨</span>'
+        : `<span class="mwalk"><b>${t.walk_min}</b> 分钟到 ${esc(stationZh(t.nearest).replace(/ 站$/, ''))} 站</span>`;
+      const sub = [priceLine(c), c.completed ? c.completed + ' 年' : null, c.units ? fmt(c.units) + ' 户' : null].filter(Boolean).join(' · ');
+      return `<button type="button" class="mrow r${c.region}" data-select="${c.id}"><span class="mno">${c.no}</span><span class="mname">${esc(shortAlias(c))}</span>${walk}<span class="msub">${esc(sub)}</span></button>`;
+    }).join('')).join('');
+  list.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-select]');
+    if (b) selectCondo(b.dataset.select, { pan: true });
+  });
+  $('#panel-detail').addEventListener('click', (e) => {
+    if (e.target.closest('[data-pd-close]')) clearSelection();
+    const d = e.target.closest('[data-detail]');
+    if (d) openDetail(d.dataset.detail);
+  });
+}
+function selectCondo(id, { pan = false } = {}) {
+  const c = state.condos.find((x) => x.id === id);
+  if (!c) return;
+  state.selected = id;
+  $$('.mrow').forEach((b) => b.classList.toggle('is-on', b.dataset.select === id));
+  Object.entries(state.markers).forEach(([k, m]) => m.getElement()?.querySelector('.condo-pin')?.classList.toggle('is-on', k === id));
+  $(`.mrow[data-select="${id}"]`)?.scrollIntoView({ block: 'nearest' });
+  const pd = $('#panel-detail');
+  pd.hidden = false;
+  pd.innerHTML = `
+    <button type="button" class="btn pd-close" data-pd-close aria-label="关闭">关闭</button>
+    <h3>${c.no} · ${esc(shortAlias(c))}</h3>
+    <p>${goSentence(c)} ${c.transit.walk_est ? tierMark('judgment', c) : ''}</p>
+    <p>${c.completed ? c.completed + ' 年建成 · ' : ''}${c.units ? fmt(c.units) + ' 户 · ' : ''}${esc(c.type)} ${tierMark('profile', c)}</p>
+    ${c.snapshot.rooms ? `<p><b>单间</b> ${esc(c.snapshot.rooms)}</p>` : '<p><b>单间</b> 这次没有找到在租的单间</p>'}
+    ${c.snapshot.whole ? `<p><b>整套</b> ${esc(c.snapshot.whole)}</p>` : ''}
+    <p class="muted">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'} ${tierMark('market', c)}</p>
+    <div class="pd-acts">
+      <a class="btn primary" href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租房源</a>
+      <button type="button" class="linkish" data-detail="${c.id}">设施与来源</button>
+      <a class="linkish" href="#card-${c.id}">跳到卡片</a>
+    </div>`;
+  if (pan && state.map) state.map.setView([c.lat, c.lng], Math.max(state.map.getZoom(), 15), { animate: true });
+}
+function clearSelection() {
+  state.selected = null;
+  $$('.mrow').forEach((b) => b.classList.remove('is-on'));
+  Object.values(state.markers).forEach((m) => m.getElement()?.querySelector('.condo-pin')?.classList.remove('is-on'));
+  const pd = $('#panel-detail');
+  if (pd) { pd.hidden = true; pd.innerHTML = ''; }
+}
+
+function cardHTML(c) {
+  const t = c.transit;
+  const rmin = roomsMin(c);
+  const facs = c.facilities.slice(0, 5).join('、');
+  const more = c.facilities.length - 5;
+  const tenure = c.tenure.includes('Freehold') ? '永久地契' : '租赁地契';
+  const flagBits = [];
+  if (t.walk_min != null && t.walk_min <= 10) flagBits.push('<span class="ok">走路能到轻轨</span>');
+  if (t.walk_min == null) flagBits.push('<span class="no-lrt">没有轻轨</span>');
+  if (rmin != null && rmin <= 1300) flagBits.push('<span class="ok">有 RM 1,300 内单间</span>');
+  if (c.tags.includes('只能整租')) flagBits.push('只有整套出租');
+  if (c.tags.includes('整租适合两人')) flagBits.push('<span class="ok">适合两人整租</span>');
+  if (c.tags.includes('整租适合三人')) flagBits.push('<span class="ok">适合三人整租</span>');
+  if (c.tags.includes('最新楼盘')) flagBits.push('新楼');
+  if (c.tags.includes('家庭户型')) flagBits.push('家庭大户型');
+  const collapsed = !(state.expandAll || state.expanded.has(c.id));
+  if (!state.marks) state.marks = loadMarks();
+  const mk = state.marks[c.id];
+  const nr = state.needsRank?.[c.id];
+  const brief = [rmin != null ? `单间 RM ${fmt(rmin)} 起` : '没找到在租单间', c.snapshot.rent_from ? `整套 RM ${fmt(c.snapshot.rent_from)} 起` : null, c.completed ? `${c.completed} 年` : null, c.units ? `${fmt(c.units)} 户` : null].filter(Boolean).join(' · ');
+  return `
+  <article class="card r${c.region}${collapsed ? ' collapsed' : ''}${mk === 'yes' ? ' is-yes' : mk === 'no' ? ' is-no' : ''}" id="card-${c.id}">
+    <span class="no" aria-label="编号 ${c.no}">${c.no}</span>
+    <h3>${esc(shortAlias(c))}<small>${esc(c.name)} · ${esc(c.address)}</small></h3>
+    <p class="go${t.walk_min == null ? ' none' : ''}">${goSentence(c)} ${t.walk_est ? tierMark('judgment', c) : ''}</p>
+    <p class="brief">${nr ? `<b class="rank-badge${nr.fails.length ? ' fail' : ''}" title="按你在“先想清楚”里的权重算的">第 ${nr.rank} 名 · ${nr.score} 分${nr.fails.length ? ' · 有必须项不满足' : ''}</b>` : ''}<span>${esc(brief)}</span><button type="button" class="linkish toggle" data-toggle="${c.id}" aria-expanded="${!collapsed}">${collapsed ? '展开' : '收起'}</button><span class="marks"><button type="button" class="mark yes${mk === 'yes' ? ' on' : ''}" data-mark="yes" data-id="${c.id}" aria-pressed="${mk === 'yes'}">感兴趣</button><button type="button" class="mark no${mk === 'no' ? ' on' : ''}" data-mark="no" data-id="${c.id}" aria-pressed="${mk === 'no'}">不考虑</button></span></p>
+    <div class="more">
+    <p class="facts">${c.completed ? c.completed + ' 年建成' : '建成年份不详'} · ${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${tenure} · ${esc(c.type)} ${tierMark('profile', c)}</p>
+    <p class="facs">设施：${esc(facs)}${more > 0 ? ` 等 ${c.facilities.length} 项` : ''}</p>
+    <div class="price">
+      ${c.snapshot.rooms ? `<p><span class="big">单间</span> ${esc(c.snapshot.rooms)} <span class="src">（${esc(c.snapshot.rooms_source || '')}）</span></p>` : '<p><span class="big">单间</span> 这次没有找到在租的单间</p>'}
+      ${c.snapshot.whole ? `<p><span class="big">整套</span> ${esc(c.snapshot.whole)} <span class="src">（${esc(c.snapshot.whole_source || '')}）</span></p>` : ''}
+      <p class="src">iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'} ${tierMark('market', c)}</p>
+    </div>
+    ${flagBits.length ? `<p class="flags">${flagBits.join(' · ')}</p>` : ''}
+    <div class="acts">
+      <a class="btn primary" href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租房源</a>
+      <a class="linkish" href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 找单间</a>
+      <button type="button" class="linkish" data-locate="${c.id}">在地图上看</button>
+      <a class="linkish" href="${esc(c.links.maps)}" target="_blank" rel="noopener">Google 地图</a>
+      <button type="button" class="linkish" data-detail="${c.id}">来源与详情</button>
+      <button type="button" class="linkish" data-report="${c.id}">反馈</button>
+    </div>
+    </div>
+    <span class="who" data-count-for="${c.id}" hidden></span>
+  </article>`;
+}
+
+/* ---------- detail ---------- */
+function openDetail(id) {
+  const c = state.condos.find((x) => x.id === id);
+  if (!c) return;
+  const t = c.transit;
+  const mine = state.intents.filter((i) => (i.condos || []).includes(c.id));
+  $('#detail-inner').innerHTML = `
+    <button type="button" class="btn detail-close" data-close aria-label="关闭">关闭</button>
+    <h2 id="detail-title">${c.no} · ${esc(c.name)}</h2>
+    <p class="sub">${esc(c.address)} · ${esc(state.meta.regions[String(c.region)].label)}</p>
+    <dl class="kv">
+      <dt>去学校</dt><dd>${goSentence(c)} ${tierMark(t.walk_est ? 'judgment' : 'profile', c)}${(t.other || []).length ? '<br>其他车站：' + esc(t.other.join('；')) : ''}${t.note ? '<br>' + esc(t.note) : ''}</dd>
+      <dt>公交</dt><dd>${(t.buses || []).length ? esc(t.buses.join('、')) : '—'}</dd>
+      ${c.um_km ? `<dt>到 UM</dt><dd>约 ${c.um_km} 公里${c.um_km_note ? '（' + esc(c.um_km_note) + '）' : ''}</dd>` : ''}
+      <dt>开发商</dt><dd>${esc(c.developer)}</dd>
+      <dt>地契</dt><dd>${esc(c.tenure)}</dd>
+      <dt>建成</dt><dd>${c.completed ?? '不详'}</dd>
+      <dt>规模</dt><dd>${c.units ? fmt(c.units) + ' 户' : '户数不详'} · ${esc(c.floors)} ${tierMark('profile', c)}</dd>
+    </dl>
+    <h3>设施（${c.facilities.length} 项）${tierMark('profile', c)}</h3>
+    <p>${esc(c.facilities.join('、'))}</p>
+    ${c.judgment?.daily || c.judgment?.quiet ? `<h3>吃饭购物 · 安静程度 ${tierMark('judgment', c)}</h3><p>${esc([c.judgment.daily?.note, c.judgment.quiet?.note].filter(Boolean).join('；'))}</p>` : ''}
+    <h3>在租快照 ${tierMark('market', c)}</h3>
+    <ul>
+      <li>iProperty 在租 ${fmt(c.snapshot.for_rent)} 套（含单间帖子），整套最低 ${c.snapshot.rent_from ? 'RM ' + fmt(c.snapshot.rent_from) : '—'}</li>
+      ${c.snapshot.rooms ? `<li>单间：${esc(c.snapshot.rooms)}（${esc(c.snapshot.rooms_source || '')}）</li>` : '<li>单间：这次没有找到在租的单间</li>'}
+      ${c.snapshot.whole ? `<li>整套：${esc(c.snapshot.whole)}（${esc(c.snapshot.whole_source || '')}）</li>` : ''}
+    </ul>
+    ${c.notes?.length ? `<h3>要知道的 ${tierMark('judgment', c)}</h3><ul>${c.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
+    <h3>同学意向（${mine.length}）</h3>
+    ${mine.length ? `<ul>${mine.map((i) => `<li>${esc(i.nickname)} · RM ${fmt(i.budget)} · ${esc(i.room_type || '不限')}${i.need_roommate ? ' · 想找室友' : ''}</li>`).join('')}</ul>` : '<p class="sub">还没有同学选这里。</p>'}
+    <h3>来源</h3>
+    <ul>${c.sources.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('')}</ul>
+    <div class="detail-acts">
+      <a class="btn primary" href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租房源</a>
+      <a class="btn" href="${esc(c.links.iproperty_building)}" target="_blank" rel="noopener">iProperty 项目页</a>
+      <a class="btn" href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 找单间</a>
+      <a class="btn" href="${esc(c.links.maps)}" target="_blank" rel="noopener">Google 地图</a>
+      <button type="button" class="btn" data-report="${c.id}">信息不对？反馈</button>
+    </div>`;
+  const dlg = $('#detail');
+  $('[data-close]', dlg).addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }, { once: true });
+  dlg.showModal();
+}
+
+/* ---------- 认地方：校园示意图 + 周边三片（替代小红书那两张图，数据来自 data/campus.json 和 condos.json） ---------- */
+const dm = (a, b) => { const R = 6371000, r = Math.PI / 180; const x = (b.lng - a.lng) * r * Math.cos(((a.lat + b.lat) / 2) * r), y = (b.lat - a.lat) * r; return Math.sqrt(x * x + y * y) * R; };
+// 经纬度 → SVG 坐标：给定范围和宽度，按纬度校正横向比例
+function makeProj(pts, W, pad) {
+  const lats = pts.map((p) => p.lat), lngs = pts.map((p) => p.lng);
+  const minLat = Math.min(...lats), maxLat = Math.max(...lats), minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+  const kx = Math.cos(((minLat + maxLat) / 2) * Math.PI / 180);
+  const scale = (W - 2 * pad) / ((maxLng - minLng) * kx);
+  const H = Math.round((maxLat - minLat) * scale + 2 * pad);
+  return { W, H, xy: (p) => [pad + (p.lng - minLng) * kx * scale, pad + (maxLat - p.lat) * scale] };
+}
+const svgPath = (ring, xy) => ring.map(([lng, lat], i) => (i ? 'L' : 'M') + xy({ lat, lng }).map((v) => v.toFixed(1)).join(' ')).join('') + 'Z';
+async function renderCampus(geo) {
+  const mapBox = $('#campus-map'), list = $('#campus-list'), aroundBox = $('#around-map'), groups = $('#around-groups');
+  if (!mapBox || !geo) return;
+  let data, bus = null;
+  try { [data, bus] = await Promise.all([fetch('../data/campus.json', { cache: 'no-cache' }).then((r) => r.json()), fetch('../data/bus-routes.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => null)]); } catch { return; }
+  const rings = (geo.features ? geo.features[0] : geo).geometry.coordinates.map((p) => p[0]);
+  const main = rings.reduce((a, b) => (b.length > a.length ? b : a));
+  const uni = (state.meta.stations || []).find((s) => s.name === 'Universiti');
+  // KL 门：校园边界上离 Universiti 站最近的点
+  const kl = data.gates.find((g) => g.id === 'kl');
+  if (uni && kl) { let best = null, bd = Infinity; for (const [lng, lat] of main) { const d = (lat - uni.lat) ** 2 + (lng - uni.lng) ** 2; if (d < bd) { bd = d; best = { lat, lng }; } } Object.assign(kl, best); }
+  const gates = data.gates.filter((g) => g.lat != null);
+  const regionsMeta = state.meta.regions || {};
+  const listBox = $('#campus-list-box');
+  if (listBox && window.innerWidth <= 720) listBox.open = false;
+  const byLat = (a, b) => b.lat - a.lat;
+  const ordered = [...data.places.filter((p) => p.kind !== 'service').sort(byLat), ...data.places.filter((p) => p.kind === 'service').sort(byLat)];
+  const places = ordered.map((p, i) => { let g = null, bd = Infinity; for (const x of gates) { const d = dm(p, x); if (d < bd) { bd = d; g = x; } } return { ...p, n: i + 1, gate: g, gate_m: Math.round(bd) }; });
+  gates.forEach((g, i) => { g.letter = String.fromCharCode(65 + i); });
+
+  /* 校园图 */
+  {
+    const ringPts = main.map(([lng, lat]) => ({ lat, lng }));
+    const all = [...ringPts, ...places, ...gates, ...(uni ? [uni] : [])];
+    const { W, H, xy } = makeProj(all, 640, 34);
+    const label = (x, y, text, cls, anchor) => `<text class="${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor || 'start'}">${esc(text)}</text>`;
+    let s = `<svg class="campus-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="马来亚大学校园示意图：各学院、校门和 Universiti 站的位置">`;
+    s += rings.map((r) => `<path class="cs-campus${r === main ? '' : ' minor'}" d="${svgPath(r, xy)}"/>`).join('');
+    if (uni) { const [x, y] = xy(uni); s += `<circle class="cs-lrt" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7"/>` + label(x - 11, y + 20, 'Universiti 站', 'cs-lbl cs-lbl-lrt', 'end'); }
+    const GATE_LBL = { kl: ['end', -14, 24], elmu: ['end', -14, 5], s16: ['start', 14, -8], damansara: ['end', -14, -10], pj: ['start', 14, 5] };
+    for (const g of gates) { const [x, y] = xy(g); const [anchor, dx, dy] = GATE_LBL[g.id] || ['start', 14, -8]; s += `<g class="cs-gate-mk"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="10"/><text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="middle">${g.letter}</text><title>${esc(g.zh)}</title></g>` + label(x + dx, y + dy, g.zh, 'cs-lbl cs-lbl-gate', anchor); }
+    for (const p of places) { const [x, y] = xy(p); s += `<g class="cs-place${p.kind === 'service' ? ' service' : ''}${p.approx ? ' approx' : ''}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="11"/><text x="${x.toFixed(1)}" y="${(y + 4.5).toFixed(1)}" text-anchor="middle">${p.n}</text><title>${esc(p.zh)}</title></g>`; }
+    s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
+    mapBox.innerHTML = s;
+    if (list) {
+      const item = (p) => `<li class="${p.kind === 'service' ? 'service' : ''}${p.approx ? ' approx' : ''}"><i class="cn">${p.n}</i><span><b>${esc(p.zh)}</b>${p.approx ? ' <em class="approx">位置是估的</em>' : ''}</span></li>`;
+      const fac = places.filter((p) => p.kind !== 'service'), other = places.filter((p) => p.kind === 'service');
+      list.innerHTML = `<div class="campus-group faculties"><h4>学院 <small>从北到南</small></h4><ol>${fac.map(item).join('')}</ol></div>` +
+        `<div class="campus-group others"><h4>其他地点</h4><ol>${other.map(item).join('')}</ol></div>` +
+        `<div class="campus-group gates"><h4>校门</h4><ol>${gates.map((g) => `<li class="gate"><i class="cn gate">${g.letter}</i><span><b>${esc(g.zh)}</b>${g.note ? `<small>${esc(g.note)}</small>` : ''}</span></li>`).join('')}</ol></div>`;
+    }
+  }
+
+  /* 三大租房区域：圆角泡泡 + 推开重叠的编号点 + LRT 线 */
+  if (aroundBox) {
+    const ringPts = main.map(([lng, lat]) => ({ lat, lng }));
+    const condos = state.condos;
+    const stations = (state.meta.stations || []).slice().sort((a, b) => Number(a.code.replace(/\D/g, '')) - Number(b.code.replace(/\D/g, '')));
+    const ktm = state.meta.ktm || [], mrt = state.meta.mrt || [];
+    const all = [...ringPts, ...condos, ...stations, ...ktm, ...mrt];
+    const { W, H, xy } = makeProj(all, 640, 64);
+    // 编号点：真实位置太近的轻轻推开，避免互相压住（只动画面坐标，不动数据）
+    const R_DOT = 10, MIN_D = R_DOT * 2 + 4;
+    const pts = condos.map((c) => { const [x, y] = xy(c); return { c, x, y, ox: x, oy: y }; });
+    for (let k = 0; k < 80; k++) {
+      for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+        const a = pts[i], b = pts[j]; const dx = b.x - a.x, dy = b.y - a.y; const d = Math.hypot(dx, dy) || 0.01;
+        if (d < MIN_D) { const push = (MIN_D - d) / 2, ux = dx / d, uy = dy / d; a.x -= ux * push; a.y -= uy * push; b.x += ux * push; b.y += uy * push; }
+      }
+      for (const q of pts) { q.x += (q.ox - q.x) * 0.05; q.y += (q.oy - q.y) * 0.05; }
+    }
+    // 每片一个圆角凸包，用很粗的圆角描边画成泡泡
+    const hull = (arr) => {
+      const P = arr.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+      if (P.length < 3) return P;
+      const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+      const lower = []; for (const q of P) { while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop(); lower.push(q); }
+      const upper = []; for (const q of P.slice().reverse()) { while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], q) <= 0) upper.pop(); upper.push(q); }
+      return lower.slice(0, -1).concat(upper.slice(0, -1));
+    };
+    let s = `<svg class="campus-svg around" viewBox="0 0 ${W} ${H}" role="img" aria-label="三大租房区域相对校园的位置示意图">`;
+    const byRegion = {};
+    pts.forEach((q) => { (byRegion[q.c.region] = byRegion[q.c.region] || []).push(q); });
+    const labels = [];
+    for (const [r, ps] of Object.entries(byRegion)) {
+      const hp = hull(ps);
+      const d = hp.map((q, i) => (i ? 'L' : 'M') + q.x.toFixed(1) + ' ' + q.y.toFixed(1)).join('') + 'Z';
+      s += `<path class="cs-blob-edge r${r}" d="${d}"/><path class="cs-blob r${r}" d="${d}"/>`;
+      const xs = ps.map((q) => q.x), ys = ps.map((q) => q.y);
+      const cx = (Math.min(...xs) + Math.max(...xs)) / 2;
+      const ly = r === '1' ? Math.min(...ys) - 38 : Math.max(...ys) + 46;
+      labels.push({ r, x: Math.min(Math.max(cx, 80), W - 80), y: Math.min(Math.max(ly, 22), H - 10), text: `区域 ${r} · ${regionsMeta[r]?.short || ''}` });
+    }
+    s += `<path class="cs-campus" d="${svgPath(main, xy)}"/>`;
+    { const [x, y] = xy({ lat: ringPts.reduce((a, q) => a + q.lat, 0) / ringPts.length, lng: ringPts.reduce((a, q) => a + q.lng, 0) / ringPts.length }); s += `<text class="cs-lbl cs-lbl-campus" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle">马来亚大学</text>`; }
+    // 公交：PJ 免费巴士（PJ01 / PJ02）和 Rapid KL 780，走向来自 OpenStreetMap。
+    // 只保留离小区或校园近的一段（离任一小区 100 px 内，或离校园中心 140 px 内），跑远的部分不画，线的两端标去向
+    if (bus?.routes?.length) {
+      const inView = (x, y) => x >= 0 && x <= W && y >= 0 && y <= H;
+      const campC = xy({ lat: ringPts.reduce((a, q) => a + q.lat, 0) / ringPts.length, lng: ringPts.reduce((a, q) => a + q.lng, 0) / ringPts.length });
+      const keep = ([x, y]) => inView(x, y) && (pts.some((q) => Math.hypot(q.x - x, q.y - y) <= 100) || Math.hypot(x - campC[0], y - campC[1]) <= 140);
+      for (const rt of bus.routes) {
+        const kept = [], runs = [];
+        for (const seg of rt.segments) {
+          const xys = seg.map(([lat, lng]) => xy({ lat, lng }));
+          let run = [];
+          const flush = () => { if (run.length > 1) runs.push(run); run = []; };
+          for (const q of xys) { if (keep(q)) run.push(q); else flush(); }
+          flush();
+        }
+        // 孤立的小碎片（不到 40 px 且没有别的路段接着）不画
+        const lenOf = (r) => r.reduce((acc, q, i) => acc + (i ? Math.hypot(q[0] - r[i - 1][0], q[1] - r[i - 1][1]) : 0), 0);
+        const near = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]) <= 4;
+        const connected = (r, i) => runs.some((o, j) => j !== i && (near(o[0], r[0]) || near(o[o.length - 1], r[0]) || near(o[0], r[r.length - 1]) || near(o[o.length - 1], r[r.length - 1])));
+        // 把首尾相接的路段连成链，整条链不到 60 px 的碎片不画
+        const parent = runs.map((_, i) => i); const find = (i) => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+        const ends = runs.map((r) => [r[0], r[r.length - 1]]);
+        for (let i = 0; i < runs.length; i++) for (let j = i + 1; j < runs.length; j++) if (ends[i].some((e) => ends[j].some((f) => near(e, f)))) parent[find(i)] = find(j);
+        const compLen = {}; runs.forEach((r, i) => { const c = find(i); compLen[c] = (compLen[c] || 0) + lenOf(r); });
+        runs.forEach((r, i) => { if (compLen[find(i)] >= 60) { s += `<polyline class="cs-bus ${rt.kind}" points="${r.map(([x, y]) => x.toFixed(1) + ',' + y.toFixed(1)).join(' ')}"><title>${esc(rt.name)}</title></polyline>`; r.forEach((q) => kept.push(q)); } });
+        if (!kept.length) continue;
+        if (rt.ref === 'PJ01') { const q = kept.reduce((a, b) => (b[1] > a[1] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus pj" x="${Math.min(q[0] + 30, W - 6).toFixed(1)}" y="${(q[1] + 15).toFixed(1)}" text-anchor="end">PJ 免费巴士 PJ01 / PJ02</text>`; }
+        if (rt.kind === 'rapid') {
+          const west = kept.reduce((a, b) => (b[0] < a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${Math.max(west[0] + 6, 6).toFixed(1)}" y="${(west[1] - 8).toFixed(1)}" text-anchor="start">780 路 ↑ 往 Kota Damansara</text>`;
+          const right = kept.reduce((a, b) => (b[0] > a[0] ? b : a)); s += `<text class="cs-lbl cs-lbl-bus rapid" x="${Math.min(right[0] + 6, W - 6).toFixed(1)}" y="${(right[1] - 8).toFixed(1)}" text-anchor="end">780 路 → 往 Pasar Seni</text>`;
+        }
+      }
+    }
+    const stnLabel = (x, y, text, cls, anchor) => `<text class="cs-lbl cs-lbl-stn ${cls}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor || 'start'}">${esc(text)}</text>`;
+    // KTM：按数据顺序连成线（Mid Valley → Seputeh → Pantai Dalam → Petaling）
+    if (ktm.length > 1) {
+      const line = ktm.map((st) => xy(st).map((v) => v.toFixed(1)).join(',')).join(' ');
+      s += `<polyline class="cs-line-case" points="${line}"/><polyline class="cs-ktm-line" points="${line}"/>`;
+      s += ktm.map((st) => { const [x, y] = xy(st); const below = ['Mid Valley', 'Pantai Dalam'].includes(st.name); const lbl = below ? stnLabel(Math.min(x, W - 50), y + 17, st.name + ' KTM', 'ktm', 'middle') : (x > W - 90 ? stnLabel(x - 8, y + 4, st.name + ' KTM', 'ktm', 'end') : stnLabel(x + 8, y + 4, st.name + ' KTM', 'ktm')); return `<circle class="cs-ktm" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4"><title>${esc(st.zh)}</title></circle>` + lbl; }).join('');
+    }
+    // LRT：线 + 车站 + 站名（西边三站标在线下，东边两站标在线上）
+    if (stations.length > 1) {
+      const line = stations.map((st) => xy(st).map((v) => v.toFixed(1)).join(',')).join(' ');
+      s += `<polyline class="cs-line-case" points="${line}"/><polyline class="cs-line" points="${line}"/>`;
+      s += stations.map((st) => { const [x, y] = xy(st); const major = st.name === 'Universiti'; return `<circle class="cs-stn${major ? ' major' : ''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${major ? 6.5 : 3.5}"><title>${esc(st.zh)}</title></circle>`; }).join('');
+      for (const st of stations) {
+        const [x, y] = xy(st);
+        if (st.name === 'Universiti') s += stnLabel(x - 11, y + 5, 'Universiti 站', 'lrt', 'end');
+        else if (['Kerinchi', 'Abdullah Hukum'].includes(st.name)) s += stnLabel(x + (st.name === 'Abdullah Hukum' ? -8 : 8), y - 9, st.name, 'lrt', st.name === 'Abdullah Hukum' ? 'end' : 'start');
+        else s += stnLabel(x, y + 16, st.name, 'lrt', 'middle');
+      }
+      const w0 = xy(stations[stations.length - 1]); s += stnLabel(w0[0] - 6, w0[1] - 14, 'LRT Kelana Jaya 线', 'lrt');
+    }
+    // MRT：只有 Phileo Damansara 一站在图内
+    for (const st of mrt) { const [x, y] = xy(st); s += `<circle class="cs-mrt" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"><title>${esc(st.zh)}</title></circle>` + stnLabel(x + 9, y + 4, st.name + ' MRT', 'mrt'); }
+    for (const q of pts) s += `<g class="cs-condo r${q.c.region}"><circle cx="${q.x.toFixed(1)}" cy="${q.y.toFixed(1)}" r="${R_DOT}"/><text x="${q.x.toFixed(1)}" y="${(q.y + 4).toFixed(1)}" text-anchor="middle">${q.c.no}</text><title>${esc(shortAlias(q.c))}</title></g>`;
+    for (const l of labels) s += `<text class="cs-region-lbl r${l.r}" x="${l.x.toFixed(1)}" y="${l.y.toFixed(1)}" text-anchor="middle">${esc(l.text)}</text>`;
+    s += `<text class="cs-north" x="${W - 30}" y="26" text-anchor="middle">北 ↑</text></svg>`;
+    aroundBox.innerHTML = s;
+    if (groups) {
+      const transitLine = (cs) => {
+        const near = {}; let none = 0; const buses = new Set(); let freeBus = false;
+        for (const c of cs) {
+          const t = c.transit || {};
+          if (t.walk_min == null) none++; else { const k = String(t.nearest || '').replace(/（.*?）/g, ''); (near[k] = near[k] || []).push(t.walk_min); }
+          for (const b of t.buses || []) { if (/免费/.test(b)) freeBus = true; if (/^[A-Z]{0,2}\d{2,3}$/.test(String(b))) buses.add(String(b)); }
+        }
+        const rail = Object.entries(near).sort((a, b) => Math.min(...a[1]) - Math.min(...b[1])).map(([k, mins]) => { const lo = Math.min(...mins), hi = Math.max(...mins); return `${k} 走 ${lo === hi ? lo : lo + '–' + hi} 分钟（${mins.length} 个小区）`; });
+        const bits = [];
+        if (rail.length) bits.push('轨道：' + rail.join('、'));
+        if (none) bits.push(`${none} 个小区没有走得到的轨道站，靠${freeBus ? ' PJ 免费巴士、' : ''}公交或 Grab`);
+        if (buses.size) bits.push('公交 ' + [...buses].sort().join(' / '));
+        return bits.join('；') + '。';
+      };
+      groups.innerHTML = Object.keys(regionsMeta).map((r) => `<div class="campus-group region r${r}"><h4>${esc(regionsMeta[r].label)}</h4><p class="group-transit">${esc(transitLine(condos.filter((c) => String(c.region) === r)))}</p><ol>${condos.filter((c) => String(c.region) === r).map((c) => `<li><a href="#card-${c.id}"><i class="cn r${r}">${c.no}</i><span><b>${esc(shortAlias(c))}</b></span></a></li>`).join('')}</ol></div>`).join('');
+      const lb = $('#around-list-box'); if (lb && window.innerWidth <= 720) lb.open = false;
+    }
+  }
+}
+
+/* ---------- reader reports（读者纠错）---------- */
+// 匿名只能往 Supabase 的 reports 表写，读不到别人写的；管理员用 scripts/reports.mjs 或后台处理
+const REPORT_FIELDS = {
+  profile: ['建成年份', '户数', '楼层', '地契', '开发商', '地址或坐标', '设施（泳池、健身房等）', '最近轨道站或步行分钟', '其他'],
+  market: ['在租数量', '整套最低价', '某房型最低价', '单间行情', '其他'],
+  judgment: ['生活便利', '安静程度', '步行估计', '其他'],
+  other: ['网页显示问题', '建议', '其他'],
+};
+function fillReportFields() {
+  const f = $('#report-form'); if (!f) return;
+  const tier = f.elements.tier.value;
+  f.elements.field.innerHTML = (REPORT_FIELDS[tier] || REPORT_FIELDS.other).map((x) => `<option>${esc(x)}</option>`).join('');
+}
+function openReport(id, tier) {
+  const dlg = $('#report'), f = $('#report-form'); if (!dlg || !f) return;
+  const c = state.condos.find((x) => x.id === id);
+  f.reset();
+  f.elements.condo_id.value = c ? c.id : 'site';
+  $('#report-condo').textContent = c ? `${c.no ? c.no + '. ' : ''}${shortAlias(c)}` : '整个网站';
+  f.elements.tier.value = tier && REPORT_FIELDS[tier] ? tier : (c ? 'profile' : 'other');
+  fillReportFields();
+  const msg = $('#report-msg'); msg.textContent = ''; msg.className = 'form-msg';
+  $('#report-done').hidden = true; f.hidden = false;
+  const pop = $('#tier-pop'); if (pop) pop.hidden = true;
+  const det = $('#detail'); if (det && det.open) det.close();
+  dlg.showModal();
+  setTimeout(() => f.elements.message.focus(), 50);
+}
+function bindReport() {
+  const dlg = $('#report'), f = $('#report-form'); if (!dlg || !f) return;
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-report]'); if (b) { e.preventDefault(); openReport(b.dataset.report, b.dataset.reportTier); } });
+  $$('[data-close]', dlg).forEach((b) => b.addEventListener('click', () => dlg.close()));
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  f.elements.tier.addEventListener('change', fillReportFields);
+  f.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = $('#report-msg'), btn = $('button[type=submit]', f);
+    const say = (t, cls) => { msg.textContent = t; msg.className = 'form-msg ' + (cls || ''); };
+    if (f.elements.website.value) return; // 机器人才会填的隐藏框
+    const text = f.elements.message.value.trim();
+    if (text.length < 5) { say('再多写几个字，说清楚哪里不对、正确的是什么。', 'err'); return; }
+    let last = 0; try { last = Number(localStorage.getItem('um-report-at') || 0); } catch { /* ignore */ }
+    if (Date.now() - last < 30000) { say('刚提交过一条，请等半分钟再提交。', 'err'); return; }
+    const c = cfg(); if (!c) { say('现在提交不了，请稍后再试。', 'err'); return; }
+    btn.disabled = true; say('提交中…');
+    const row = { condo_id: f.elements.condo_id.value || 'site', tier: f.elements.tier.value, field: String(f.elements.field.value || '').slice(0, 40), message: text.slice(0, 500), contact: f.elements.contact.value.trim().slice(0, 60) || null, page: (location.pathname + location.hash).slice(0, 200) };
+    try {
+      const r = await fetch(`${c.SUPABASE_URL}/rest/v1/reports`, { method: 'POST', headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(row) });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      try { localStorage.setItem('um-report-at', String(Date.now())); } catch { /* ignore */ }
+      f.hidden = true; $('#report-done').hidden = false;
+    } catch (err) { console.warn('report failed', err); say('没发出去，请稍后再试。', 'err'); }
+    btn.disabled = false;
+  });
+}
+
+/* ---------- intents (shared sheet) ---------- */
+function cfg() {
+  const c = window.UM_CONFIG || {};
+  return c.SUPABASE_URL && c.SUPABASE_KEY ? c : null;
+}
+function buildCondoPicks() {
+  const box = $('#condo-picks');
+  box.innerHTML = state.condos.map((c) => `<label><input type="checkbox" name="condos" value="${c.id}"> ${c.no} ${esc(shortAlias(c))}</label>`).join('');
+  box.addEventListener('change', () => {
+    const on = $$('input[name="condos"]:checked', box);
+    $$('input[name="condos"]', box).forEach((i) => { i.disabled = !i.checked && on.length >= 3; });
+  });
+}
+async function loadIntents() {
+  const c = cfg();
+  if (!c) { state.intentsOk = false; renderIntents(); return; }
+  try {
+    const r = await fetch(`${c.SUPABASE_URL}/rest/v1/intents?select=*&order=created_at.desc&limit=300`, { headers: { apikey: c.SUPABASE_KEY, Accept: 'application/json' } });
+    if (!r.ok) throw new Error(r.status);
+    state.intents = await r.json();
+    state.intentsOk = true;
+  } catch (e) {
+    console.warn('intents load failed', e);
+    state.intentsOk = false;
+  }
+  renderIntents();
+}
+/* 删除权限：填写者在自己的浏览器里保存了一把随机口令；管理员口令存在 sessionStorage */
+const TOKENS_KEY = 'um-intent-tokens';
+function ownTokens() { try { return JSON.parse(localStorage.getItem(TOKENS_KEY) || '{}'); } catch { return {}; } }
+function saveOwnToken(id, token) { const t = ownTokens(); t[id] = token; try { localStorage.setItem(TOKENS_KEY, JSON.stringify(t)); } catch { /* ignore */ } }
+function adminToken() { try { return sessionStorage.getItem('um-admin') || ''; } catch { return ''; } }
+async function sha256(s) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(buf)].map((x) => x.toString(16).padStart(2, '0')).join('');
+}
+async function rpc(name, body) {
+  const c = cfg();
+  const r = await fetch(`${c.SUPABASE_URL}/rest/v1/rpc/${name}`, { method: 'POST', headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+async function deleteIntent(id) {
+  const token = ownTokens()[id] || adminToken();
+  if (!token) return;
+  if (!confirm('删除这一条？删了就没有了。')) return;
+  try {
+    const ok = await rpc('delete_intent', { p_id: id, p_token: token });
+    if (!ok) { alert('没有删除权限：只能删自己填的那条，或者输入管理口令。'); return; }
+    state.intents = state.intents.filter((i) => i.id !== id);
+    const t = ownTokens(); delete t[id]; try { localStorage.setItem(TOKENS_KEY, JSON.stringify(t)); } catch { /* ignore */ }
+    renderIntents();
+  } catch (e) { console.warn(e); alert('删除失败，刷新后再试。'); }
+}
+async function toggleAdmin() {
+  if (adminToken()) { sessionStorage.removeItem('um-admin'); renderIntents(); return; }
+  const t = prompt('输入管理口令（只有整理这页的人有）：');
+  if (!t) return;
+  try {
+    const ok = await rpc('check_admin', { p_token: t.trim() });
+    if (!ok) { alert('口令不对。'); return; }
+    sessionStorage.setItem('um-admin', t.trim());
+    renderIntents();
+  } catch (e) { console.warn(e); alert('校验失败，稍后再试。'); }
+}
+function renderIntents() {
+  const tbody = $('#intent-table tbody');
+  const wrap = $('.table-wrap');
+  $('#intent-offline').hidden = state.intentsOk !== false;
+  $('#intent-empty').hidden = !(state.intentsOk && state.intents.length === 0);
+  wrap.hidden = !(state.intentsOk && state.intents.length > 0);
+  const byId = Object.fromEntries(state.condos.map((c) => [c.id, shortAlias(c)]));
+  const mine = ownTokens();
+  const isAdmin = !!adminToken();
+  const adminBtn = $('#admin-toggle');
+  if (adminBtn) adminBtn.textContent = isAdmin ? '退出管理模式' : '管理口令';
+  tbody.innerHTML = state.intents.map((i) => `
+    <tr>
+      <td>${esc(new Date(i.created_at).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' }))}</td>
+      <td>${esc(i.nickname)}${mine[i.id] ? ' <span class="mine">我</span>' : ''}</td>
+      <td>${i.budget ? 'RM ' + fmt(i.budget) : '—'}</td>
+      <td>${esc(i.room_type || '不限')}</td>
+      <td>${(i.condos || []).map((id) => `<span class="pick-chip">${esc(byId[id] || id)}</span>`).join('') || '—'}</td>
+      <td>${esc(i.move_in || '—')}</td>
+      <td>${i.need_roommate ? '想找' : '—'}</td>
+      <td>${esc(i.contact || '—')}</td>
+      <td>${esc(i.note || '')}</td>
+      <td>${(mine[i.id] || isAdmin) ? `<button type="button" class="linkish del" data-del="${i.id}">删除</button>` : ''}</td>
+    </tr>`).join('');
+  $$('[data-del]', tbody).forEach((b) => b.addEventListener('click', () => deleteIntent(b.dataset.del)));
+  const sum = $('#intent-summary');
+  if (state.intentsOk && state.intents.length) {
+    const counts = {};
+    state.intents.forEach((i) => (i.condos || []).forEach((id) => { counts[id] = (counts[id] || 0) + 1; }));
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id, n]) => `${byId[id] || id} ${n} 人`).join('、');
+    const budgets = state.intents.map((i) => i.budget).filter(Boolean).sort((a, b) => a - b);
+    const med = budgets.length ? budgets[Math.floor(budgets.length / 2)] : null;
+    const rm = state.intents.filter((i) => i.need_roommate).length;
+    sum.innerHTML = `<span><b>${state.intents.length}</b>人已填</span>${med ? `<span><b>RM ${fmt(med)}</b>预算中位数</span>` : ''}<span><b>${rm}</b>人想找室友</span>${top ? `<span>选得最多：${esc(top)}</span>` : ''}`;
+  } else sum.innerHTML = '';
+  paintIntentCounts();
+}
+function paintIntentCounts() {
+  const counts = {};
+  state.intents.forEach((i) => (i.condos || []).forEach((id) => { counts[id] = (counts[id] || 0) + 1; }));
+  $$('[data-count-for]').forEach((el) => {
+    const n = counts[el.dataset.countFor] || 0;
+    el.hidden = n === 0;
+    el.textContent = `${n} 位同学想住这里`;
+  });
+}
+function bindForm() {
+  const form = $('#intent-form');
+  const msg = $('#form-msg');
+  const btn = $('#i-submit');
+  $('#admin-toggle')?.addEventListener('click', toggleAdmin);
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const c = cfg();
+    msg.className = 'form-msg';
+    if (!c) { msg.textContent = '共享表还没接上数据库。'; msg.classList.add('err'); return; }
+    const fd = new FormData(form);
+    const nickname = String(fd.get('nickname') || '').trim();
+    const budget = Number(fd.get('budget'));
+    if (!nickname) { msg.textContent = '昵称要填。'; msg.classList.add('err'); $('#i-nick').focus(); return; }
+    if (!(budget >= 300 && budget <= 20000)) { msg.textContent = '预算填 300 到 20,000 之间的数字。'; msg.classList.add('err'); $('#i-budget').focus(); return; }
+    const body = {
+      nickname, budget,
+      room_type: fd.get('room_type') || '不限',
+      condos: fd.getAll('condos').slice(0, 3),
+      move_in: String(fd.get('move_in') || '').trim() || null,
+      need_roommate: fd.get('need_roommate') === 'on',
+      contact: String(fd.get('contact') || '').trim() || null,
+      note: String(fd.get('note') || '').trim() || null,
+    };
+    btn.disabled = true; msg.textContent = '提交中…';
+    try {
+      // 给这一条生成一把只有本浏览器知道的口令，以后凭它删除
+      const token = crypto.randomUUID();
+      body.token_hash = await sha256(token);
+      const r = await fetch(`${c.SUPABASE_URL}/rest/v1/intents`, {
+        method: 'POST',
+        headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+        body: JSON.stringify(body),
+      });
+      if (!r.ok) { const t = await r.text(); throw new Error(t.slice(0, 200)); }
+      const [row] = await r.json();
+      saveOwnToken(row.id, token);
+      state.intents.unshift(row);
+      state.intentsOk = true;
+      renderIntents();
+      form.reset();
+      $$('input[name="condos"]').forEach((i) => { i.disabled = false; });
+      msg.textContent = '已提交，表里能看到了。'; msg.classList.add('ok');
+    } catch (err) {
+      console.warn(err);
+      msg.textContent = /too many/.test(String(err)) ? '这一分钟提交的人太多了，等一会儿再试。' : '提交失败，刷新后再试一次。';
+      msg.classList.add('err');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+}
+
+/* ---------- rankings ---------- */
+function nearestRailMin(c) {
+  const t = c.transit;
+  if (t.walk_min != null) return { min: t.walk_min, label: stationZh(t.nearest), est: !!t.walk_est };
+  const st = [...(state.meta.stations || []), ...(state.meta.mrt || []), ...(state.meta.ktm || [])];
+  let best = null;
+  st.forEach((s) => { const km = distKm([c.lat, c.lng], [s.lat, s.lng]); if (!best || km < best.km) best = { km, s }; });
+  // 交叉验证过的（OSM 路网算出的路线分钟）优先于直线估算
+  const chk = c.provenance?.transit?.check;
+  if (chk && chk.route_min != null) return { min: chk.route_min, label: best.s.zh.replace(/（.*?）/, ''), est: false, route: true };
+  return { min: Math.round(best.km * 1000 / 75), label: best.s.zh.replace(/（.*?）/, ''), est: true, straight: true };
+}
+function renderRankings() {
+  const box = $('#rankings');
+  if (!box) return;
+  const name = (c) => `<a href="#card-${c.id}">${esc(shortAlias(c))}</a><i class="rk-no r${c.region}">${c.no}</i>`;
+  const extras = { sauna: '桑拿', steam: '蒸汽房', jacuzzi: '按摩池', badminton: '羽毛球', basketball: '篮球', squash: '壁球', tennis: '网球' };
+  const byFac = state.condos.slice().sort((x, y) => y.facilities.length - x.facilities.length || y.completed - x.completed);
+  const byYear = state.condos.slice().sort((x, y) => (y.completed || 0) - (x.completed || 0) || x.no - y.no);
+  const byTransit = state.condos.map((c) => ({ c, r: nearestRailMin(c) })).sort((x, y) => x.r.min - y.r.min || (x.r.est - y.r.est));
+  const cheapest = (c) => Math.min(roomsMin(c) ?? Infinity, c.snapshot.rent_from ?? Infinity);
+  const byPrice = state.condos.slice().sort((x, y) => cheapest(x) - cheapest(y) || x.no - y.no);
+  box.innerHTML = `
+    <div class="rank">
+      <h3>配套设施 ${tierMark('profile')}</h3>
+      <p class="muted">按设施项数，泳池健身房之外的加分项列在后面</p>
+      <ol>${byFac.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.facilities.length}</b> 项${Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') ? ' · ' + Object.keys(extras).filter((k) => c.flags[k]).map((k) => extras[k]).join('、') : ''}</span></li>`).join('')}</ol>
+    </div>
+    <div class="rank">
+      <h3>楼龄 ${tierMark('profile')}</h3>
+      <p class="muted">建成年份，越新越靠前</p>
+      <ol>${byYear.map((c) => `<li>${name(c)}<span class="rk-v"><b>${c.completed || '不详'}</b>${c.completed ? ' 年' : ''}${c.units ? ' · ' + fmt(c.units) + ' 户' : ''}</span></li>`).join('')}</ol>
+    </div>
+    <div class="rank">
+      <h3>交通便利 ${tierMark('profile')}</h3>
+      <p class="muted">走到最近轨道站的分钟数；标"估"的是按直线距离估算的，属于${tierMark('judgment')}</p>
+      <ol>${byTransit.map(({ c, r }) => `<li>${name(c)}<span class="rk-v"><b>${r.min}</b> 分钟${r.est ? '<small>估</small>' : ''} · ${esc(r.label)}</span></li>`).join('')}</ol>
+    </div>
+    <div class="rank">
+      <h3>价格（从低到高） ${tierMark('market')}</h3>
+      <p class="muted">能租到的最便宜一间：有单间帖子的按单间起价，没有的按整套最低价</p>
+      <ol>${byPrice.map((c) => { const rm = roomsMin(c); const v = cheapest(c); if (!Number.isFinite(v)) return `<li>${name(c)}<span class="rk-v">这次没有挂牌</span></li>`; return `<li>${name(c)}<span class="rk-v"><b>RM ${fmt(v)}</b> ${rm != null && v === rm ? '单间起' : '整套起'}${rm && c.snapshot.rent_from && c.snapshot.rent_from > rm ? ' · 整套 RM ' + fmt(c.snapshot.rent_from) + ' 起' : ''}</span></li>`; }).join('')}</ol>
+    </div>`;
+}
+
+/* ---------- 三层标记：档案 / 行情 / 判断（ADR-001） ---------- */
+const TIER_LABEL = { profile: '固定信息', market: '实时信息', judgment: '观点' };
+const MARKET_STALE_HOURS = 36;
+function mytToDate(s) {
+  // "2026-09-08 14:49" 是马来西亚时间（UTC+8）
+  const m = String(s || '').match(/(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2})/);
+  return m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4] - 8, +m[5])) : null;
+}
+function marketAgeHours() {
+  const d = mytToDate(state.meta.prices_updated_myt);
+  return d ? (Date.now() - d.getTime()) / 3600e3 : null;
+}
+function tierText(kind, c) {
+  if (kind === 'profile') return `固定信息 · 核实于 ${(c && c.verified_at) || state.meta.verified_at || '未知'}`;
+  if (kind === 'market') {
+    const h = marketAgeHours();
+    if (h != null && h > MARKET_STALE_HOURS) return `实时信息 · 已 ${Math.round(h)} 小时未更新`;
+    return `实时信息 · 抓取于 ${state.meta.prices_updated_myt || '未知'}`;
+  }
+  return '观点';
+}
+function tierMark(kind, c) {
+  const stale = kind === 'market' && (marketAgeHours() ?? 0) > MARKET_STALE_HOURS;
+  return `<button type="button" class="tier tier-${kind}${stale ? ' stale' : ''}" data-tier="${kind}"${c ? ` data-id="${esc(c.id)}"` : ''}><i></i>${esc(tierText(kind, c))}</button>`;
+}
+function renderTierPills() {
+  const box = $('#tiers-top');
+  if (!box) return;
+  // 首屏右下角的三条：固定信息精确到日，实时信息精确到时
+  const h = marketAgeHours(); const stale = h != null && h > MARKET_STALE_HOURS;
+  const m = String(state.meta.prices_updated_myt || '').match(/^(\d{4}-\d{2}-\d{2}) (\d{2}):/);
+  const hourText = m ? `${m[1]} ${m[2]}:00` : (state.meta.prices_updated_myt || '未知');
+  box.innerHTML = `<button type="button" class="tier tier-profile" data-tier="profile"><i></i>固定信息：更新 ${esc(state.meta.verified_at || '未知')}</button>` +
+    `<button type="button" class="tier tier-market${stale ? ' stale' : ''}" data-tier="market"><i></i>实时信息：更新 ${esc(hourText)}${stale ? `（已 ${Math.round(h)} 小时未更新）` : ''}</button>` +
+    `<button type="button" class="tier tier-judgment" data-tier="judgment"><i></i>观点：估算和主观判断</button>`;
+}
+function renderAboutTiers() {
+  const box = $('#about-tiers');
+  const tiers = state.meta.tiers;
+  if (!box || !tiers) return;
+  const extra = {
+    profile: `核实于 ${state.meta.verified_at}。每张卡片的"来源与详情"里能点到原页面自己核对。`,
+    market: `最近一次抓取 ${state.meta.prices_updated_myt || '未知'}（马来西亚时间）。真正下决定前，点"iProperty 在租房源"看当下挂牌，价格以中介当场报的为准。`,
+    judgment: '出现在"先想清楚"的打分、交通里标"估"的分钟数、卡片里的"要知道的"。有实测或一手来源后会升级为档案。',
+  };
+  box.innerHTML = ['profile', 'market', 'judgment'].map((k) => `<div class="about-tier tier-${k}"><h3><i class="tier-dot"></i>${esc(tiers[k].label)}${k === 'profile' ? '：可以直接信' : k === 'market' ? '：只能当参考' : '：我们的看法，别当事实'}</h3><p>${esc(tiers[k].desc)}</p><p class="muted">${esc(extra[k])}</p></div>`).join('');
+}
+// 对外版变更记录：只显示日期、小区、"更新了什么"，不显示人（ADR-002）
+const FIELD_ZH = { record: '新增小区', name: '名称', completed: '建成年份', units: '户数', floors: '楼层', tenure: '地契', type: '类型', developer: '开发商', address: '地址', geo: '坐标', facilities: '设施清单', flags: '设施开关', transit: '交通', verified_at: '核实日期' };
+async function renderChangelog() {
+  const box = $('#changelog'), list = $('#changelog-list');
+  if (!box || !list) return;
+  let log;
+  try { log = await fetch('../data/changelog.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
+  const entries = (log.entries || []).slice().reverse();
+  if (!entries.length) return;
+  // 同一天同一小区合并成一行
+  const groups = new Map();
+  for (const e of entries) {
+    const key = `${e.date_myt}|${e.condo}`;
+    if (!groups.has(key)) groups.set(key, { date: e.date_myt, condo: e.condo, notes: new Set(), fields: new Set() });
+    const g = groups.get(key);
+    if (e.public_note) g.notes.add(e.public_note);
+    g.fields.add(FIELD_ZH[e.field] || e.field);
+  }
+  // 同一天、同一句说明、涉及 3 个以上小区的（批量核对）再合并成一行
+  const byNote = new Map();
+  for (const g of groups.values()) {
+    const what = g.notes.size ? [...g.notes].join('；') : `核对了${[...g.fields].join('、')}`;
+    const key = `${g.date}|${what}`;
+    if (!byNote.has(key)) byNote.set(key, { date: g.date, what, condos: [] });
+    byNote.get(key).condos.push(g.condo);
+  }
+  const rows = [...byNote.values()].slice(0, 12);
+  const nameOf = (id) => { const c = state.condos.find((x) => x.id === id); return c ? shortAlias(c) : id; };
+  list.innerHTML = rows.map((g) => {
+    const who = g.condos.length >= 3 ? `${g.condos.length} 个小区` : g.condos.map(nameOf).join('、');
+    const title = g.condos.length >= 3 ? ` title="${esc(g.condos.map(nameOf).join('、'))}"` : '';
+    return `<li><time>${esc(g.date)}</time><span><b${title}>${esc(who)}</b> · ${esc(g.what)}</span></li>`;
+  }).join('');
+  box.hidden = false;
+}
+function tierPopHTML(kind, c) {
+  const tiers = state.meta.tiers || {};
+  const t = tiers[kind] || {};
+  if (kind === 'profile') {
+    const src = c ? (c.sources || []).map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('') : '';
+    // 交叉验证结果（provenance.*.check）
+    const checks = [];
+    // 第二来源（StarProperty）逐字段结论（provenance.*.second）
+    const secondFields = [['completed', '建成年份'], ['units', '户数'], ['tenure', '地契'], ['developer', '开发商'], ['floors', '楼层'], ['flags', '泳池健身房']];
+    const agree = [], conflict = [], reviewed = [];
+    for (const [f, zh] of secondFields) {
+      const sd = c?.provenance?.[f]?.second; if (!sd) continue;
+      if (sd.status === 'agree') agree.push(sd.note ? `${zh}（${sd.note}）` : zh);
+      else if (sd.status === 'conflict') (sd.arbitrated ? reviewed : conflict).push(sd.note ? `${zh}：${sd.note}` : `${zh}：StarProperty 写 ${sd.value ?? '—'}`);
+    }
+    if (agree.length) checks.push(`${agree.join('、')}：iProperty 和 StarProperty 两个来源一致`);
+    if (reviewed.length) checks.push(`两个来源不一致，已人工复核：${reviewed.join('；')}`);
+    if (conflict.length) checks.push(`两个来源不一致，待复核：${conflict.join('；')}`);
+    const geoK = c?.provenance?.lat?.check;
+    if (geoK) checks.push(`坐标和 ${geoK.with} ${geoK.status === 'agree' ? '一致' : geoK.status === 'near' ? '接近' : geoK.status === 'conflict' ? '不一致，待复核' : '未能核对'}${geoK.distance_m != null ? `（相差 ${geoK.distance_m} m）` : ''}`);
+    const tr = c?.provenance?.transit;
+    if (tr?.check) checks.push(tr.method === 'route' ? `步行距离按 OpenStreetMap 路网计算（${tr.check.route_m} m，${tr.check.route_min} 分钟），未实地走过` : `步行距离和 OSM 路网${tr.check.status === 'agree' ? '一致' : tr.check.status === 'conflict' ? '不符，待复核' : '未能核对'}${tr.check.route_m != null ? `（路线 ${tr.check.route_m} m，${tr.check.route_min} 分钟）` : ''}`);
+    return `<h4><i class="tier-dot tier-profile"></i>固定信息：可以直接信</h4><p>${esc(t.desc || '')}</p><p>${c ? `${esc(shortAlias(c))} 核实于 ${esc(c.verified_at || state.meta.verified_at)}` : `核实于 ${esc(state.meta.verified_at)}`}。</p>${checks.length ? `<p>交叉验证：</p><ul>${checks.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}${src ? `<p>来源：</p><ul>${src}</ul>` : ''}`;
+  }
+  if (kind === 'market') {
+    const h = marketAgeHours();
+    const links = c ? `<ul><li><a href="${esc(c.links.iproperty_rent)}" target="_blank" rel="noopener">iProperty 在租列表</a></li>${c.links.ibilik ? `<li><a href="${esc(c.links.ibilik)}" target="_blank" rel="noopener">iBilik 单间列表</a></li>` : ''}</ul>` : '';
+    // 二源比对（Mudah）
+    const mu = c?.snapshot?.check?.mudah;
+    let cross = '';
+    if (mu) {
+      const bits = [];
+      if (mu.unit_n) bits.push(`整套 RM ${fmt(mu.unit_min)} 起（${mu.unit_n} 条${mu.unit_status === 'agree' ? '，和 iProperty 一致' : mu.unit_status === 'gap' ? '，<b>和 iProperty 差得多，看清楚是不是单间冒充整套</b>' : ''}）`);
+      if (mu.room_n) bits.push(`单间 RM ${fmt(mu.room_min)} 起（${mu.room_n} 条${mu.room_status === 'agree' ? '，和上面一致' : mu.room_status === 'gap' ? '，<b>和上面差得多</b>' : ''}）`);
+      cross = `<p>另一来源 Mudah（${esc(mu.at)}）：${bits.length ? bits.join('；') : '没搜到这个小区的帖子'}。</p>`;
+    }
+    return `<h4><i class="tier-dot tier-market"></i>实时信息：只能当参考</h4><p>${esc(t.desc || '')}</p><p>最近一次抓取 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今约 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>已超过 36 小时，可能过期</b>' : ''}。</p>${cross}${links}`;
+  }
+  return `<h4><i class="tier-dot tier-judgment"></i>观点：我们的看法</h4><p>${esc(t.desc || '')}</p>${c && c.judgment ? `<ul>${c.judgment.daily ? `<li>吃饭购物：${esc(c.judgment.daily.note)}</li>` : ''}${c.judgment.quiet ? `<li>安静程度：${esc(c.judgment.quiet.note)}</li>` : ''}${c.judgment.walk_min_est ? `<li>步行分钟：${esc(c.judgment.walk_min_est.note)}</li>` : ''}</ul>` : ''}`;
+}
+function bindTierPop() {
+  let pop = $('#tier-pop');
+  if (!pop) { pop = document.createElement('div'); pop.id = 'tier-pop'; pop.className = 'tier-pop'; pop.hidden = true; document.body.appendChild(pop); }
+  const hide = () => { pop.hidden = true; if (pop.parentElement !== document.body) document.body.appendChild(pop); };
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('.tier[data-tier]');
+    if (!b) { if (!e.target.closest('#tier-pop')) hide(); return; }
+    const c = b.dataset.id ? state.condos.find((x) => x.id === b.dataset.id) : null;
+    pop.innerHTML = tierPopHTML(b.dataset.tier, c);
+    if (c) pop.insertAdjacentHTML('beforeend', `<p class="pop-act"><button type="button" class="linkish" data-report="${esc(c.id)}" data-report-tier="${esc(b.dataset.tier)}">这条信息不对？反馈</button></p>`);
+    // 弹窗里的标记要把气泡放进弹窗，否则会被遮住
+    const host = b.closest('.detail-inner') || document.body;
+    if (pop.parentElement !== host) host.appendChild(pop);
+    pop.hidden = false;
+    const r = b.getBoundingClientRect();
+    const hr = host === document.body ? { left: 0, top: 0 } : host.getBoundingClientRect();
+    const sx = host === document.body ? window.scrollX : host.scrollLeft, sy = host === document.body ? window.scrollY : host.scrollTop;
+    const w = pop.offsetWidth;
+    let left = r.left - hr.left + sx;
+    const maxLeft = (host === document.body ? document.documentElement.clientWidth : host.clientWidth) - w - 12;
+    if (left > maxLeft) left = Math.max(12, maxLeft);
+    pop.style.left = `${left}px`;
+    pop.style.top = `${r.bottom - hr.top + sy + 6}px`;
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+}
+
+/* ---------- 开始之前：想清楚要什么（需求自评 + 按权重给小区打分） ---------- */
+const NEEDS_KEY = 'um-needs';
+const NEEDS_PRICE_LABEL = { room: '单间', share2: '两房人均', solo: '开间或一房整套' };
+// 档位、住法、8 项标准的文案和看房要问的清单都在 needs-data.js 里，和出图页共用
+
+// 从“开间 300 sqft RM 1,600 起 · 2 房 581 sqft RM 1,950 起”里把各房型价格拆出来
+function wholePrices(c) {
+  const out = {};
+  for (const m of String(c.snapshot.whole || '').matchAll(/(开间|\d 房)[^·]*?RM\s?([\d,]+)/g)) out[m[1]] = Number(m[2].replace(/,/g, ''));
+  return out;
+}
+function needsPrice(c, mode) {
+  if (mode === 'room') return roomsMin(c);
+  const w = wholePrices(c);
+  if (mode === 'share2') return w['2 房'] ? Math.round(w['2 房'] / 2) : null;
+  const cands = [w['开间'], w['1 房']].filter(Boolean);
+  return cands.length ? Math.min(...cands) : null;
+}
+// 上学：走到轨道站的分钟数，再加坐到 Universiti 站（UM 正门）的时间
+function commuteMin(c) {
+  const t = c.transit;
+  if (t.walk_min == null) return { min: 35, why: '没有走得到的轨道站，靠公交或 Grab' };
+  const n = t.nearest || '';
+  const ktm = /KTM/.test(n);
+  const ride = /Universiti/.test(n) ? 0 : /Kerinchi/.test(n) ? 4 : /Taman Jaya/.test(n) ? 6 : /Asia Jaya/.test(n) ? 9 : ktm ? 30 : 12;
+  const st = stationZh(n).replace(/（.*?）/, '');
+  return { min: t.walk_min + ride, why: `走 ${t.walk_min} 分钟到 ${st}${ktm ? '（KTM）' : ''}${ride ? `，再${ktm ? '换乘' : '坐'} ${ride} 分钟到 Universiti 站` : '，出站就是校门'}` };
+}
+function needsCriteria() {
+  const norm = (v, lo, hi) => Math.max(0, Math.min(1, (v - lo) / (hi - lo)));
+  const maxRent = Math.max(1, ...state.condos.map((c) => c.snapshot.for_rent || 0));
+  const scorers = {
+    price: (c, o) => {
+      const p = needsPrice(c, o.mode);
+      if (p == null) return { s: 0.5, why: `没抓到${NEEDS_PRICE_LABEL[o.mode]}的价格`, unknown: true };
+      const ratio = p / Math.max(o.budget, 1);
+      const s = ratio <= 0.85 ? 1 : ratio >= 1.25 ? 0 : (1.25 - ratio) / 0.4;
+      return { s, why: `${NEEDS_PRICE_LABEL[o.mode]} RM ${fmt(p)} 起${ratio > 1 ? '，超预算' : ''}` };
+    },
+    commute: (c) => { const r = commuteMin(c); return { s: 1 - norm(r.min, 2, 35), why: r.why }; },
+    facilities: (c) => ({ s: norm(c.facilities.length, 8, 17), why: `${c.facilities.length} 项设施` }),
+    age: (c) => c.completed ? { s: norm(c.completed, 1996, 2025), why: `${c.completed} 年建成` } : { s: 0.3, why: '建成年份不详，是老楼' },
+    density: (c) => c.units ? { s: 1 - norm(c.units, 200, 1450), why: `${fmt(c.units)} 户` } : { s: 0.5, why: '户数不详', unknown: true },
+    daily: (c) => ({ s: norm(c.judgment?.daily?.score ?? 3, 1, 5), why: c.judgment?.daily?.note || '' }),
+    roommates: (c) => ({ s: (c.region === 2 ? 0.7 : c.region === 1 ? 0.35 : 0.15) + 0.3 * norm(c.snapshot.for_rent || 0, 0, maxRent), why: `${state.meta.regions[String(c.region)].short}，在租 ${fmt(c.snapshot.for_rent)} 套` }),
+    quiet: (c) => ({ s: norm(c.judgment?.quiet?.score ?? 3, 1, 5), why: c.judgment?.quiet?.note || '' }),
+  };
+  return CRITERIA.map((m) => ({ ...m, score: scorers[m.k] }));
+}
+function needsCompute(o, crit) {
+  const active = crit.filter((x) => (o.w[x.k] || 0) > 0);
+  const total = active.reduce((a, x) => a + o.w[x.k], 0);
+  return state.condos.map((c) => {
+    let sum = 0; const parts = []; const fails = [];
+    for (const x of active) {
+      const r = x.score(c, o);
+      sum += o.w[x.k] * r.s;
+      parts.push({ label: x.label, w: o.w[x.k], ...r });
+      if (o.w[x.k] === 3 && r.s < 0.4 && !r.unknown) fails.push(x.label);
+    }
+    parts.sort((a, b) => b.w - a.w || b.s - a.s);
+    return { c, score: total ? sum / total : 0, parts, fails };
+  }).sort((a, b) => a.fails.length - b.fails.length || b.score - a.score || a.c.no - b.c.no);
+}
+function needsSentence(o, crit) {
+  const by = (w) => crit.filter((x) => (o.w[x.k] || 0) === w).map((x) => x.label);
+  const must = by(3), high = by(2), some = by(1), none = by(0);
+  const bits = [`<b>${NEEDS_MODES[o.mode]}</b>，每人每月房租不超过 <b>RM ${fmt(o.budget)}</b>`];
+  if (must.length) bits.push(`必须满足 <b>${esc(must.join('、'))}</b>`);
+  if (high.length) bits.push(`很在意 ${esc(high.join('、'))}`);
+  if (some.length) bits.push(`有点在意 ${esc(some.join('、'))}`);
+  if (none.length && none.length < crit.length) bits.push(`${esc(none.join('、'))}不比`);
+  return bits.join('；') + '。';
+}
+function needsSummaryHTML(o, crit, showAll) {
+  const anyW = crit.some((x) => (o.w[x.k] || 0) > 0);
+  const res = anyW ? needsCompute(o, crit) : [];
+  const list = showAll ? res : res.slice(0, 5);
+  const asks = NEEDS_ASK.filter(([k]) => o.ask.includes(k));
+  const row = (r) => {
+    const n = Math.round(r.score * 100);
+    const why = r.parts.slice(0, 3).map((p) => p.why).filter(Boolean).join(' · ');
+    return `<li class="${r.fails.length ? 'fail' : ''}"><span><a href="#card-${r.c.id}">${esc(shortAlias(r.c))}</a><i class="rk-no r${r.c.region}">${r.c.no}</i></span><span class="score">${n}<small>分</small></span><span class="bar"><i style="width:${n}%"></i></span><small class="why">${r.fails.length ? `<b>不满足：${esc(r.fails.join('、'))}</b> · ` : ''}${esc(why)}</small></li>`;
+  };
+  return `
+    <h3>你要的房子</h3>
+    <p class="needs-sentence">${needsSentence(o, crit)}</p>
+    <h3>最对路的小区</h3>
+    ${anyW ? `<ol class="match">${list.map(row).join('')}</ol>
+    <div class="needs-acts"><button type="button" class="linkish" id="needs-more">${showAll ? '只看前 5 个' : `看全部 ${state.condos.length} 个的得分`}</button><span class="muted">分数是按你的权重算的，点名字看小区卡片</span></div>` : `<p class="muted">左边先点几项在意的，这里就会按你的权重给 ${state.condos.length} 个小区排序。</p>`}
+    <h3>看房时要问</h3>
+    ${asks.length ? `<ul class="needs-ask-list">${asks.map(([, t]) => `<li>${esc(t)}</li>`).join('')}</ul>
+    <div class="needs-acts"><button type="button" class="btn" id="needs-copy">复制问题清单</button><a class="btn" href="#s5">找中介的话术</a></div>` : '<p class="muted">左边勾几个，这里会整理成发给中介的问题。</p>'}
+    <p class="src-line">按 um-housing.evasuka.com 的数据和你的权重算的</p>`;
+}
+function bindNeeds() {
+  const rows = $('#needs-rows');
+  const box = $('#needs-summary');
+  if (!rows || !box) return;
+  let o = { mode: 'room', budget: 1300, w: { price: 2, commute: 1 }, ask: [] };
+  try { const saved = JSON.parse(localStorage.getItem(NEEDS_KEY) || '{}'); o = { ...o, ...saved, w: { ...o.w, ...(saved.w || {}) } }; } catch { /* 隐私模式下忽略 */ }
+  if (!NEEDS_MODES[o.mode]) o.mode = 'room';
+  const save = () => { try { localStorage.setItem(NEEDS_KEY, JSON.stringify(o)); } catch { /* ignore */ } if (state.sort === 'needs') renderList(); renderConclusion(); };
+  const crit = needsCriteria();
+  let showAll = false;
+  rows.innerHTML = crit.map((x) => `<div class="needs-row" data-k="${x.k}"><div class="needs-label"><b>${esc(x.label)}</b><span>${esc(x.hint)}${x.k === 'daily' || x.k === 'quiet' ? ' ' + tierMark('judgment') : ''}</span></div><div class="seg small" role="radiogroup" aria-label="${esc(x.label)}">${NEEDS_LEVELS.map((l, i) => `<button type="button" data-w="${i}" aria-pressed="${(o.w[x.k] || 0) === i}">${l}</button>`).join('')}</div></div>`).join('');
+  $('#needs-ask').innerHTML = NEEDS_ASK.map(([k, t]) => `<label><input type="checkbox" value="${k}"${o.ask.includes(k) ? ' checked' : ''}> ${esc(t)}</label>`).join('');
+  // 手机上每项的说明默认收起，点一下再看；"要问的"整块默认收起，标题上显示勾了几项
+  const hintsBtn = $('#needs-hints');
+  if (hintsBtn) hintsBtn.addEventListener('click', () => { const on = rows.classList.toggle('show-hints'); hintsBtn.textContent = on ? '隐藏说明' : '显示每一项的说明'; hintsBtn.setAttribute('aria-expanded', String(on)); });
+  const askBox = $('#needs-ask-box');
+  if (askBox && window.innerWidth <= 720) askBox.open = false;
+  const askCount = () => { const el = $('#needs-ask-count'); if (el) el.textContent = o.ask.length ? `（已勾 ${o.ask.length} 项）` : `（${NEEDS_ASK.length} 项）`; };
+  askCount();
+  $$('#needs-mode button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === o.mode)));
+  const budgetEl = $('#needs-budget');
+  budgetEl.value = o.budget;
+  const render = () => { box.innerHTML = needsSummaryHTML(o, crit, showAll); };
+  rows.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-w]'); if (!b) return;
+    const k = b.closest('.needs-row').dataset.k;
+    o.w[k] = Number(b.dataset.w);
+    $$('button', b.parentElement).forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    save(); render();
+  });
+  $('#needs-mode').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-v]'); if (!b) return;
+    o.mode = b.dataset.v;
+    $$('#needs-mode button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    save(); render();
+  });
+  budgetEl.addEventListener('input', () => { const v = Number(budgetEl.value); if (v >= 100) { o.budget = v; save(); render(); } });
+  $('#needs-ask').addEventListener('change', () => { o.ask = $$('#needs-ask input:checked').map((i) => i.value); save(); askCount(); render(); });
+  box.addEventListener('click', async (e) => {
+    if (e.target.id === 'needs-more') { showAll = !showAll; render(); return; }
+    if (e.target.id === 'needs-copy') {
+      const qs = NEEDS_ASK.filter(([k]) => o.ask.includes(k)).map(([, t], i) => `${i + 1}. ${t}`);
+      const text = ['你好，想问一下这套房：', ...qs].join('\n');
+      try { await navigator.clipboard.writeText(text); e.target.textContent = '已复制'; setTimeout(() => { e.target.textContent = '复制问题清单'; }, 1500); } catch { window.prompt('复制下面的文字', text); }
+    }
+  });
+  render();
+}
