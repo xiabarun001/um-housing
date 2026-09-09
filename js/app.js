@@ -2,13 +2,13 @@
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
+// 容器还没有尺寸时 fitBounds 会算出 NaN，Leaflet 就抛 Invalid LatLng；先确认能算再定视野
+const canFit = (map, b) => !!(map && b && b.isValid && b.isValid() && map.getContainer().clientWidth > 0 && map.getContainer().clientHeight > 0);
 const state = {
   condos: [],
   meta: {},
   filters: new Set(),
   sort: 'no',
-  intents: [],
-  intentsOk: null,
   expanded: new Set(),
   startText: null,
   final: null,
@@ -22,12 +22,6 @@ const fmt = (n) => n == null ? '—' : Number(n).toLocaleString('en-MY');
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const shortAlias = (c) => c.alias.replace(/（.*?）/, '');
 const ELMU_GATE = [3.11955, 101.65022]; // Jalan Elmu 门：校园边界上离 Jalan Ilmu 最近的点（近似）
-function distKm(a, b) {
-  const R = 6371, toR = (x) => x * Math.PI / 180;
-  const dLat = toR(b[0] - a[0]), dLon = toR(b[1] - a[1]);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(toR(a[0])) * Math.cos(toR(b[0])) * Math.sin(dLon / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
-}
 
 init();
 
@@ -63,7 +57,7 @@ async function init() {
   bindFinal();
   renderConclusion();
   // 页面都摆好之后再定一次全图视野，避免地图在排版没完成时算错缩放
-  if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); state.map.fitBounds(state.allBounds, FIT_OPTS); });
+  if (state.map && state.allBounds) requestAnimationFrame(() => { state.map.invalidateSize(); if (canFit(state.map, state.allBounds)) state.map.fitBounds(state.allBounds, FIT_OPTS); });
   bindChecklists();
   bindNav();
   clearCardHash();
@@ -473,7 +467,7 @@ function drawMap(campus) {
   });
 
   state.allBounds = bounds.pad(0.03);
-  map.fitBounds(state.allBounds, FIT_OPTS);
+  if (canFit(map, state.allBounds)) map.fitBounds(state.allBounds, FIT_OPTS);
   $('#map-reset')?.addEventListener('click', () => { clearSelection(); endTour(); map.fitBounds(state.allBounds, FIT_OPTS); });
   // 容器尺寸变了（页面还在排版、标签页从后台切回来、手机转屏）要告诉 Leaflet；
   // 如果之前是在 0 尺寸下算的视野（会缩成世界地图），顺手重新定位到全图
@@ -482,7 +476,7 @@ function drawMap(campus) {
     const prev = lastSize;
     map.invalidateSize();
     lastSize = map.getSize();
-    if (prev.x === 0 || prev.y === 0 || map.getZoom() <= 3) map.fitBounds(state.allBounds, FIT_OPTS);
+    if ((prev.x === 0 || prev.y === 0 || map.getZoom() <= 3) && canFit(map, state.allBounds)) map.fitBounds(state.allBounds, FIT_OPTS);
   };
   if (typeof ResizeObserver !== 'undefined') new ResizeObserver(refit).observe($('#map'));
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') refit(); });
@@ -491,18 +485,6 @@ function drawMap(campus) {
   map.on('mouseout', () => map.scrollWheelZoom.disable());
 
   setupTour({ map, campusLayer: state.campusLayer, regionBounds, uni, gate, lrtLine, walkLayers });
-}
-
-function convexHull(points) {
-  const pts = points.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-  if (pts.length < 3) return pts;
-  const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
-  const lower = [];
-  for (const p of pts) { while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop(); lower.push(p); }
-  const upper = [];
-  for (const p of pts.slice().reverse()) { while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop(); upper.push(p); }
-  upper.pop(); lower.pop();
-  return lower.concat(upper);
 }
 
 /* ---------- guided tour ---------- */
@@ -672,7 +654,6 @@ function renderList() {
   $$('[data-detail]', grid).forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.detail)));
   $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
   $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
-  paintIntentCounts();
   sizeCards();
 }
 
@@ -819,7 +800,6 @@ function cardHTML(c) {
       <button type="button" class="linkish" data-report="${c.id}">反馈</button>
     </div>
     </div>
-    <span class="who" data-count-for="${c.id}" hidden></span>
   </article>`;
 }
 
@@ -828,7 +808,6 @@ function openDetail(id) {
   const c = state.condos.find((x) => x.id === id);
   if (!c) return;
   const t = c.transit;
-  const mine = state.intents.filter((i) => (i.condos || []).includes(c.id));
   $('#detail-inner').innerHTML = `
     <button type="button" class="btn detail-close" data-close aria-label="关闭">关闭</button>
     <h2 id="detail-title">${c.no} · ${esc(c.name)}</h2>
@@ -852,8 +831,6 @@ function openDetail(id) {
       ${c.snapshot.whole ? `<li>整套：${esc(c.snapshot.whole)}（${esc(c.snapshot.whole_source || '')}）</li>` : ''}
     </ul>
     ${c.notes?.length ? `<h3>要知道的 ${tierMark('judgment', c)}</h3><ul>${c.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}
-    <h3>同学意向（${mine.length}）</h3>
-    ${mine.length ? `<ul>${mine.map((i) => `<li>${esc(i.nickname)} · RM ${fmt(i.budget)} · ${esc(i.room_type || '不限')}${i.need_roommate ? ' · 想找室友' : ''}</li>`).join('')}</ul>` : '<p class="sub">还没有同学选这里。</p>'}
     <h3>来源</h3>
     <ul>${c.sources.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join('')}</ul>
     <div class="detail-acts">
@@ -1047,6 +1024,10 @@ async function renderCampus(geo) {
 }
 
 /* ---------- reader reports（读者纠错）---------- */
+function cfg() {
+  const c = window.UM_CONFIG || {};
+  return c.SUPABASE_URL && c.SUPABASE_KEY ? c : null;
+}
 // 匿名只能往 Supabase 的 reports 表写，读不到别人写的；管理员用 scripts/reports.mjs 或后台处理
 const REPORT_FIELDS = {
   profile: ['建成年份', '户数', '楼层', '地契', '开发商', '地址或坐标', '设施（泳池、健身房等）', '最近轨道站或步行分钟', '其他'],
@@ -1102,172 +1083,6 @@ function bindReport() {
   });
 }
 
-/* ---------- intents (shared sheet) ---------- */
-function cfg() {
-  const c = window.UM_CONFIG || {};
-  return c.SUPABASE_URL && c.SUPABASE_KEY ? c : null;
-}
-function buildCondoPicks() {
-  const box = $('#condo-picks');
-  box.innerHTML = state.condos.map((c) => `<label><input type="checkbox" name="condos" value="${c.id}"> ${c.no} ${esc(shortAlias(c))}</label>`).join('');
-  box.addEventListener('change', () => {
-    const on = $$('input[name="condos"]:checked', box);
-    $$('input[name="condos"]', box).forEach((i) => { i.disabled = !i.checked && on.length >= 3; });
-  });
-}
-async function loadIntents() {
-  const c = cfg();
-  if (!c) { state.intentsOk = false; renderIntents(); return; }
-  try {
-    const r = await fetch(`${c.SUPABASE_URL}/rest/v1/intents?select=*&order=created_at.desc&limit=300`, { headers: { apikey: c.SUPABASE_KEY, Accept: 'application/json' } });
-    if (!r.ok) throw new Error(r.status);
-    state.intents = await r.json();
-    state.intentsOk = true;
-  } catch (e) {
-    console.warn('intents load failed', e);
-    state.intentsOk = false;
-  }
-  renderIntents();
-}
-/* 删除权限：填写者在自己的浏览器里保存了一把随机口令；管理员口令存在 sessionStorage */
-const TOKENS_KEY = 'um-intent-tokens';
-function ownTokens() { try { return JSON.parse(localStorage.getItem(TOKENS_KEY) || '{}'); } catch { return {}; } }
-function saveOwnToken(id, token) { const t = ownTokens(); t[id] = token; try { localStorage.setItem(TOKENS_KEY, JSON.stringify(t)); } catch { /* ignore */ } }
-function adminToken() { try { return sessionStorage.getItem('um-admin') || ''; } catch { return ''; } }
-async function sha256(s) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
-  return [...new Uint8Array(buf)].map((x) => x.toString(16).padStart(2, '0')).join('');
-}
-async function rpc(name, body) {
-  const c = cfg();
-  const r = await fetch(`${c.SUPABASE_URL}/rest/v1/rpc/${name}`, { method: 'POST', headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-  if (!r.ok) throw new Error(await r.text());
-  return r.json();
-}
-async function deleteIntent(id) {
-  const token = ownTokens()[id] || adminToken();
-  if (!token) return;
-  if (!confirm('删除这一条？删了就没有了。')) return;
-  try {
-    const ok = await rpc('delete_intent', { p_id: id, p_token: token });
-    if (!ok) { alert('没有删除权限：只能删自己填的那条，或者输入管理口令。'); return; }
-    state.intents = state.intents.filter((i) => i.id !== id);
-    const t = ownTokens(); delete t[id]; try { localStorage.setItem(TOKENS_KEY, JSON.stringify(t)); } catch { /* ignore */ }
-    renderIntents();
-  } catch (e) { console.warn(e); alert('删除失败，刷新后再试。'); }
-}
-async function toggleAdmin() {
-  if (adminToken()) { sessionStorage.removeItem('um-admin'); renderIntents(); return; }
-  const t = prompt('输入管理口令（只有整理这页的人有）：');
-  if (!t) return;
-  try {
-    const ok = await rpc('check_admin', { p_token: t.trim() });
-    if (!ok) { alert('口令不对。'); return; }
-    sessionStorage.setItem('um-admin', t.trim());
-    renderIntents();
-  } catch (e) { console.warn(e); alert('校验失败，稍后再试。'); }
-}
-function renderIntents() {
-  const tbody = $('#intent-table tbody');
-  const wrap = $('.table-wrap');
-  $('#intent-offline').hidden = state.intentsOk !== false;
-  $('#intent-empty').hidden = !(state.intentsOk && state.intents.length === 0);
-  wrap.hidden = !(state.intentsOk && state.intents.length > 0);
-  const byId = Object.fromEntries(state.condos.map((c) => [c.id, shortAlias(c)]));
-  const mine = ownTokens();
-  const isAdmin = !!adminToken();
-  const adminBtn = $('#admin-toggle');
-  if (adminBtn) adminBtn.textContent = isAdmin ? '退出管理模式' : '管理口令';
-  tbody.innerHTML = state.intents.map((i) => `
-    <tr>
-      <td>${esc(new Date(i.created_at).toLocaleDateString('zh-CN', { month: 'numeric', day: 'numeric' }))}</td>
-      <td>${esc(i.nickname)}${mine[i.id] ? ' <span class="mine">我</span>' : ''}</td>
-      <td>${i.budget ? 'RM ' + fmt(i.budget) : '—'}</td>
-      <td>${esc(i.room_type || '不限')}</td>
-      <td>${(i.condos || []).map((id) => `<span class="pick-chip">${esc(byId[id] || id)}</span>`).join('') || '—'}</td>
-      <td>${esc(i.move_in || '—')}</td>
-      <td>${i.need_roommate ? '想找' : '—'}</td>
-      <td>${esc(i.contact || '—')}</td>
-      <td>${esc(i.note || '')}</td>
-      <td>${(mine[i.id] || isAdmin) ? `<button type="button" class="linkish del" data-del="${i.id}">删除</button>` : ''}</td>
-    </tr>`).join('');
-  $$('[data-del]', tbody).forEach((b) => b.addEventListener('click', () => deleteIntent(b.dataset.del)));
-  const sum = $('#intent-summary');
-  if (state.intentsOk && state.intents.length) {
-    const counts = {};
-    state.intents.forEach((i) => (i.condos || []).forEach((id) => { counts[id] = (counts[id] || 0) + 1; }));
-    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id, n]) => `${byId[id] || id} ${n} 人`).join('、');
-    const budgets = state.intents.map((i) => i.budget).filter(Boolean).sort((a, b) => a - b);
-    const med = budgets.length ? budgets[Math.floor(budgets.length / 2)] : null;
-    const rm = state.intents.filter((i) => i.need_roommate).length;
-    sum.innerHTML = `<span><b>${state.intents.length}</b>人已填</span>${med ? `<span><b>RM ${fmt(med)}</b>预算中位数</span>` : ''}<span><b>${rm}</b>人想找室友</span>${top ? `<span>选得最多：${esc(top)}</span>` : ''}`;
-  } else sum.innerHTML = '';
-  paintIntentCounts();
-}
-function paintIntentCounts() {
-  if (!state.intents || !state.intents.length) return;
-  const counts = {};
-  state.intents.forEach((i) => (i.condos || []).forEach((id) => { counts[id] = (counts[id] || 0) + 1; }));
-  $$('[data-count-for]').forEach((el) => {
-    const n = counts[el.dataset.countFor] || 0;
-    el.hidden = n === 0;
-    el.textContent = `${n} 位同学想住这里`;
-  });
-}
-function bindForm() {
-  const form = $('#intent-form');
-  const msg = $('#form-msg');
-  const btn = $('#i-submit');
-  $('#admin-toggle')?.addEventListener('click', toggleAdmin);
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const c = cfg();
-    msg.className = 'form-msg';
-    if (!c) { msg.textContent = '共享表还没接上数据库。'; msg.classList.add('err'); return; }
-    const fd = new FormData(form);
-    const nickname = String(fd.get('nickname') || '').trim();
-    const budget = Number(fd.get('budget'));
-    if (!nickname) { msg.textContent = '昵称要填。'; msg.classList.add('err'); $('#i-nick').focus(); return; }
-    if (!(budget >= 300 && budget <= 20000)) { msg.textContent = '预算填 300 到 20,000 之间的数字。'; msg.classList.add('err'); $('#i-budget').focus(); return; }
-    const body = {
-      nickname, budget,
-      room_type: fd.get('room_type') || '不限',
-      condos: fd.getAll('condos').slice(0, 3),
-      move_in: String(fd.get('move_in') || '').trim() || null,
-      need_roommate: fd.get('need_roommate') === 'on',
-      contact: String(fd.get('contact') || '').trim() || null,
-      note: String(fd.get('note') || '').trim() || null,
-    };
-    btn.disabled = true; msg.textContent = '提交中…';
-    try {
-      // 给这一条生成一把只有本浏览器知道的口令，以后凭它删除
-      const token = crypto.randomUUID();
-      body.token_hash = await sha256(token);
-      const r = await fetch(`${c.SUPABASE_URL}/rest/v1/intents`, {
-        method: 'POST',
-        headers: { apikey: c.SUPABASE_KEY, 'Content-Type': 'application/json', Prefer: 'return=representation' },
-        body: JSON.stringify(body),
-      });
-      if (!r.ok) { const t = await r.text(); throw new Error(t.slice(0, 200)); }
-      const [row] = await r.json();
-      saveOwnToken(row.id, token);
-      state.intents.unshift(row);
-      state.intentsOk = true;
-      renderIntents();
-      form.reset();
-      $$('input[name="condos"]').forEach((i) => { i.disabled = false; });
-      msg.textContent = '已提交，表里能看到了。'; msg.classList.add('ok');
-    } catch (err) {
-      console.warn(err);
-      msg.textContent = /too many/.test(String(err)) ? '这一分钟提交的人太多了，等一会儿再试。' : '提交失败，刷新后再试一次。';
-      msg.classList.add('err');
-    } finally {
-      btn.disabled = false;
-    }
-  });
-}
-
-/* ---------- rankings ---------- */
 /* ---------- 大同小异：25 个小区的共同点，数字全部从档案现算 ---------- */
 function renderCommon() {
   const box = $('#common'); if (!box) return;
@@ -1321,7 +1136,6 @@ function renderCommon() {
 /* ---------- 排行榜：一次看一个榜，25 个全列出来，长条表示差距 ----------
    规矩：每个榜只用档案或抓取里真实存在的字段，绝不拿直线距离之类的估算凑数；
    没有这项数据的小区不参与排名，灰着排在最后，并写明为什么没有。 */
-const BOARD_KEY = 'um-board';
 // "24–33 层 × 3 栋" 这种写法里取最高的那个数；写"单栋""N/A"的就是没有数据
 function topFloors(c) {
   const head = String(c.floors || '').split('层')[0];
@@ -1373,8 +1187,8 @@ function boardData() {
 function renderBoard() {
   const box = $('#board'); if (!box) return;
   const boards = boardData();
+  // 每次进页面都从第一个榜开始，不记上次看的是哪个
   let cur = 0;
-  try { const k = localStorage.getItem(BOARD_KEY); const i = boards.findIndex((b) => b.k === k); if (i >= 0) cur = i; } catch { /* ignore */ }
   const paint = () => {
     const b = boards[cur];
     const rows = b.rows();
@@ -1389,7 +1203,7 @@ function renderBoard() {
       <p class="board-note">${esc(b.note)}</p>
       <p class="board-src">数据：${esc(b.src)} · 25 个里 ${good.length} 个有这项 ${tierMark(b.tier)}</p>
       <ol class="board-list" style="--rows:${Math.ceil(list.length / 2)}">${list.map((r) => `<li class="brow${r.ok ? '' : ' dim'}"><i class="bno r${r.c.region}">${r.c.no}</i><a class="bname" href="#card-${r.c.id}">${esc(shortAlias(r.c))}</a><span class="bbar"><i style="width:${r.ok ? pct(r) : 0}%"></i></span><b class="bval">${esc(r.txt)}</b><small class="bsub">${esc(r.sub || '')}</small></li>`).join('')}</ol>`;
-    $$('.btab', box).forEach((t) => t.addEventListener('click', () => { cur = Number(t.dataset.b); try { localStorage.setItem(BOARD_KEY, boards[cur].k); } catch { /* ignore */ } paint(); }));
+    $$('.btab', box).forEach((t) => t.addEventListener('click', () => { cur = Number(t.dataset.b); paint(); }));
   };
   paint();
 }

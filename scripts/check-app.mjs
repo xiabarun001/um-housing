@@ -25,10 +25,7 @@ const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
 const wanted = new Set([...app.matchAll(/\$\('#([A-Za-z][\w-]*)'\)/g)].map((m) => m[1]));
 // 这些是运行时才插进页面的，不在 index.html 里
 const RUNTIME = new Set(['tier-pop', 'con-copy', 'con-text', 'filter-reset', 'filter-done', 'm-each-wrap']);
-// 意向表 2026-09-09 从页面上撤了（Supabase 的表还在），loadIntents / bindForm /
-// buildCondoPicks 不再被 init 调用，留着以后可能恢复。它们要的 id 自然找不到，跳过。
-const DEAD = new Set(['condo-picks', 'intent-offline', 'intent-empty', 'admin-toggle', 'intent-summary', 'intent-form', 'form-msg', 'i-submit', 'i-nick', 'i-budget', 'i-mode', 'i-note', 'intent-rows', 'intent-count', 'intents-body']);
-for (const id of wanted) if (!ids.has(id) && !RUNTIME.has(id) && !DEAD.has(id)) problems.push(`app.js 找 #${id}，但 index.html 里没有这个 id`);
+for (const id of wanted) if (!ids.has(id) && !RUNTIME.has(id)) problems.push(`app.js 找 #${id}，但 index.html 里没有这个 id`);
 
 /* 3. 七站路线图的每一站都要真的存在 */
 const stops = app.match(/const ROUTE_STOPS = \[([^\]]+)\]/);
