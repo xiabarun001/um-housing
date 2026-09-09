@@ -221,9 +221,6 @@ h3 { font-size: 17px; }
 
 
 
-.tpl { position: relative; border: 1px solid var(--line); border-radius: 6px; background: var(--bg-2); padding: 12px 14px; }
-.tpl pre { margin: 0; white-space: pre-wrap; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14px; line-height: 1.6; color: var(--ink-2); padding-right: 52px; }
-.copy { position: absolute; top: 8px; right: 8px; font-size: 13.5px; padding: 4px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); cursor: pointer; }
 
 .checks { list-style: none; margin: 0; padding: 0; font-size: 15.5px; }
 .checks li { padding: 6px 0; border-bottom: 1px dashed var(--line); }
@@ -491,7 +488,7 @@ main { max-width: 1400px; }
 .btn:active { transform: translateY(1px); }
 .btn.primary { background: var(--ink); border-color: var(--ink); color: var(--bg); box-shadow: none; }
 .btn.primary:hover { background: color-mix(in srgb, var(--ink) 86%, var(--accent)); border-color: transparent; opacity: 1; }
-.copy, .map-reset, .map-detail, .map-tour-btn, .map-style, .tool-more summary { border-radius: 6px; }
+.map-reset, .map-detail, .map-tour-btn, .map-style { border-radius: 6px; }
 .seg button { background: var(--card); box-shadow: var(--shadow-sm); border-color: var(--line); }
 .seg button:hover { border-color: var(--ink-3); color: var(--ink); }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); box-shadow: none; }
@@ -511,7 +508,6 @@ main { max-width: 1400px; }
 .match .score { color: var(--ink); }
 
 /* 第 5 到 7 步 */
-.tpl { background: var(--bg-2); border-radius: 10px; }
 .checks li { border-bottom-color: var(--line); }
 .checks input { accent-color: var(--accent); }
 .callout { border-radius: 0 10px 10px 0; background: var(--card); box-shadow: var(--shadow-sm); border-left-color: var(--accent); }
@@ -1073,3 +1069,10 @@ main { max-width: 1400px; }
 .cm .checks li { margin: 0; }
 .cm .callout { margin-top: 14px; }
 .cm h4 + .checks { margin-top: 2px; }
+
+/* 中介会要的个人信息：整行一块，里面用和地图注释同一套对齐的行 */
+.infobox { margin-top: 16px; padding: 18px 20px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow-sm); }
+.infobox h4 { font-family: var(--serif); font-size: 16px; margin: 0 0 5px; color: var(--ink); }
+.infobox .mapnotes { margin-top: 14px; }
+/* 这块的标签比地图注释长，列宽放宽一点，四行才都是一行 */
+.infobox .mapnotes > div { grid-template-columns: 8em minmax(0, 1fr); }

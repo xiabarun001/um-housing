@@ -59,7 +59,6 @@ async function init() {
   renderCommon();
   renderBoard();
   bindCalc();
-  bindCopy();
   bindStart();
   bindFinal();
   renderConclusion();
@@ -120,14 +119,6 @@ function bindCalc() {
   run();
 }
 
-function bindCopy() {
-  $$('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
-    const text = $('#' + b.dataset.copy)?.textContent || '';
-    try { await navigator.clipboard.writeText(text); b.textContent = '已复制'; }
-    catch { b.textContent = '请手动选中复制'; }
-    setTimeout(() => { b.textContent = '复制'; }, 1800);
-  }));
-}
 
 function bindChecklists() {
   $$('[data-checklist]').forEach((list) => {
