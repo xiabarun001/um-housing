@@ -283,7 +283,7 @@ function bindFinal() {
     const g = btn.dataset.add, holder = btn.parentElement;
     if (holder.querySelector('.chip-input')) return;
     const inp = document.createElement('input');
-    inp.type = 'text'; inp.className = 'chip-input'; inp.placeholder = '自己写一个'; inp.maxLength = 30;
+    inp.type = 'text'; inp.className = 'chip-input'; inp.placeholder = '回车确认'; inp.maxLength = 30;
     holder.insertBefore(inp, btn);
     inp.focus();
     let closed = false;
