@@ -73,7 +73,7 @@ npm run monthly                 # 采集 + 交叉验证 + 报告 + 状态，一�
 
 | 工作流 | 触发 | 做什么 | 提交什么 |
 |---|---|---|---|
-| refresh prices | 每天 UTC 02:00 / 14:00（马来西亚 10:00 / 22:00，可能延后）；可手动 | 抓 iProperty、Mudah、iBilik，重算健康状态 | prices.json、price-history.json、refresh-log.json、status.json |
+| refresh prices | 每天 UTC 00:00 / 12:00（马来西亚 08:00 / 20:00，可能延后）；可手动 | 抓 iProperty、Mudah、iBilik，重算健康状态 | prices.json、price-history.json、refresh-log.json、status.json |
 | collect profiles | 每月 1 日 UTC 03:00；可手动 | iProperty + StarProperty 采集、OSM 交叉验证、审核报告 | data/staging、status.json（不碰 condos.json） |
 | console action | 后台 /console 触发（未开通前不会跑） | publish / arbitrate / collect / crosscheck / refresh | data 目录里对应文件 |
 | probe sources、fetch probe | 只手动 | 试探各来源能不能抓 | 不提交，只出产物 |

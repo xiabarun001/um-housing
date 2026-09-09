@@ -1,12 +1,12 @@
 name: refresh prices
 
 # 每 12 小时抓一次 iProperty 在租列表、Mudah 二源和 iBilik 单间，更新 data/prices.json 的价格快照。
-# 马来西亚时间 10:00 和 22:00（UTC 02:00 / 14:00），GitHub 的定时任务可能晚几十分钟到几小时。也可以在 Actions 页面手动运行。
+# 马来西亚时间 08:00 和 20:00（UTC 00:00 / 12:00），GitHub 的定时任务可能晚几十分钟到几小时。也可以在 Actions 页面手动运行。
 # 保护措施：抓取失败超过 2 个小区不提交；提交前校验快照；推送前先 pull --rebase，被拒自动重试 4 次；
 # 失败自动开 issue（下次成功后自动关闭）；所有写数据的工作流排队执行，不会同时提交。
 on:
   schedule:
-    - cron: "0 2,14 * * *"
+    - cron: "0 0,12 * * *"
   workflow_dispatch:
 
 permissions:
