@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-09-08T13:08:23.130Z",
-  "generated_myt": "2026-09-08 21:08",
+  "generated_at": "2026-09-09T01:48:23.470Z",
+  "generated_myt": "2026-09-09 09:48",
   "condos": 25,
   "regions": 3,
   "market": {
-    "updated_myt": "2026-09-08 20:15",
-    "age_hours": 1,
+    "updated_myt": "2026-09-09 09:48",
+    "age_hours": 0,
     "condos_with_price": 25,
     "last_run_ok": true,
     "last_run_errors": 0,
     "mudah": {
-      "agree": 12,
-      "gap": 7,
-      "single": 6,
+      "agree": 13,
+      "gap": 8,
+      "single": 4,
       "none": 0
     }
   },
@@ -21,7 +21,7 @@
     "oldest_days": 1,
     "stale_over_45d": [],
     "last_collect_at": "2026-09-08T12:56:37.283Z",
-    "last_collect_days": 0,
+    "last_collect_days": 1,
     "staging_failed": [],
     "pending_changes": [
       "atwater",

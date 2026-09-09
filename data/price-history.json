@@ -230,6 +230,136 @@
           "rooms_min": 1050
         }
       }
+    },
+    {
+      "date": "2026-09-09",
+      "condos": {
+        "seventeen": {
+          "for_rent": 74,
+          "rent_from": 1800,
+          "rooms_min": null
+        },
+        "atwater": {
+          "for_rent": 79,
+          "rent_from": 2500,
+          "rooms_min": null
+        },
+        "ryan-miho": {
+          "for_rent": 141,
+          "rent_from": 1800,
+          "rooms_min": 950
+        },
+        "pacific-star": {
+          "for_rent": 206,
+          "rent_from": 1800,
+          "rooms_min": 780
+        },
+        "pacific-63": {
+          "for_rent": 11,
+          "rent_from": 1700,
+          "rooms_min": null
+        },
+        "pj-midtown": {
+          "for_rent": 148,
+          "rent_from": 1300,
+          "rooms_min": 1300
+        },
+        "centrestage": {
+          "for_rent": 150,
+          "rent_from": 1099,
+          "rooms_min": 600
+        },
+        "pj8": {
+          "for_rent": 18,
+          "rent_from": 1900,
+          "rooms_min": null
+        },
+        "tiara-damansara": {
+          "for_rent": 6,
+          "rent_from": 2500,
+          "rooms_min": null
+        },
+        "dvogue": {
+          "for_rent": 49,
+          "rent_from": 1650,
+          "rooms_min": null
+        },
+        "kl-gateway": {
+          "for_rent": 147,
+          "rent_from": 2000,
+          "rooms_min": 650
+        },
+        "pantai-panorama": {
+          "for_rent": 35,
+          "rent_from": 2000,
+          "rooms_min": 850
+        },
+        "south-view": {
+          "for_rent": 423,
+          "rent_from": 1900,
+          "rooms_min": 750
+        },
+        "southlink": {
+          "for_rent": 532,
+          "rent_from": 1299,
+          "rooms_min": 1300
+        },
+        "novum": {
+          "for_rent": 258,
+          "rent_from": 2100,
+          "rooms_min": 1400
+        },
+        "laurel": {
+          "for_rent": 338,
+          "rent_from": 1600,
+          "rooms_min": 1550
+        },
+        "saville": {
+          "for_rent": 50,
+          "rent_from": 2400,
+          "rooms_min": 950
+        },
+        "inwood": {
+          "for_rent": 63,
+          "rent_from": 3200,
+          "rooms_min": null
+        },
+        "secoya": {
+          "for_rent": 59,
+          "rent_from": 3200,
+          "rooms_min": 1100
+        },
+        "avara": {
+          "for_rent": 115,
+          "rent_from": 2050,
+          "rooms_min": null
+        },
+        "tria-seputeh": {
+          "for_rent": 103,
+          "rent_from": 2000,
+          "rooms_min": 1500
+        },
+        "vivo": {
+          "for_rent": 296,
+          "rent_from": 1400,
+          "rooms_min": 750
+        },
+        "southbank": {
+          "for_rent": 236,
+          "rent_from": 1900,
+          "rooms_min": null
+        },
+        "avantas": {
+          "for_rent": 25,
+          "rent_from": 1500,
+          "rooms_min": 1250
+        },
+        "millerz": {
+          "for_rent": 388,
+          "rent_from": 1700,
+          "rooms_min": 1050
+        }
+      }
     }
   ]
 }
