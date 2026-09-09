@@ -1,6 +1,6 @@
 /* 小红书出图：从 data/condos.json（固定信息）现场画成 1080×1440 的图片。
    三篇帖子：总览地图 1 张；区域 1 概览 1 张 + 小区卡片 10 张；区域 2 概览 1 张 + 小区卡片 9 张。 */
-import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609092200';
+import { NEEDS_LEVELS, NEEDS_MODES, CRITERIA } from './needs-data.js?v=202609092230';
 const W = 1080, H = 1440, PAD = 72;
 const SITE = 'um-housing.evasuka.com';
 const C = { paper: '#FAF9F6', card: '#FFFFFF', ink: '#1B1F24', ink2: '#4B5560', ink3: '#7B8590', line: '#E3E0D8', line2: '#D2CEC4', accent: '#C96A1B', r1: '#C96A1B', r2: '#2F6BCC', r3: '#6B4FBB', lrt: '#D6336C', ktm: '#1F7A8C', campus: '#3E8E5B', ok: '#2E7D4F' };
@@ -309,6 +309,16 @@ function drawMap(ctx, data, campus, cfg) {
   footer(ctx, cfg);
 }
 
+// 行情区间（2026-09-08 人工整理）。原来是从 index.html 的表格里抓的，那张表 2026-09-09 撤了，数据搬到这里
+const PRICE_HEAD = ["房型", "区域 2 · Bangsar South", "区域 1 · PJ", "适合谁"];
+const PRICE_ROWS = [
+  ["小房", "RM 920 到 1,150", "RM 600 到 800（只有 Pacific Star 有）", "一个人、预算紧、东西少"],
+  ["中房", "RM 1,050 到 1,300", "现价没抓到，旧帖 RM 820 到 1,280", "一个人、要放得下书桌"],
+  ["大房", "RM 1,300 到 1,800", "RM 1,400 到 1,550", "一定要独立卫生间"],
+  ["一房整套", "RM 2,000 到 2,600", "RM 1,700 到 2,400", "一个人住整套"],
+  ["两房整套", "RM 2,400 到 3,000", "RM 2,800 到 3,600", "两个朋友合租，人均最划算"],
+];
+
 /* ---------- 方法篇：文字直接从 index.html 里取，网站改了这里跟着变 ---------- */
 async function loadGuide() {
   const html = await fetch('index.html', { cache: 'no-cache' }).then((r) => r.text());
@@ -316,10 +326,10 @@ async function loadGuide() {
   const txt = (el) => clean(el?.textContent || '').replace(/\s+/g, ' ').trim();
   const list = (sel) => [...doc.querySelectorAll(sel)].map(txt).filter(Boolean);
   return {
-    priceHead: [...doc.querySelectorAll('#s2 .price-table thead th')].map(txt),
-    priceRows: [...doc.querySelectorAll('#s2 .price-table tbody tr')].map((tr) => [...tr.children].map(txt)),
-    monthly: list('#s2 .monthly ul li'),
-    commission: txt(doc.querySelector('#s2 .monthly p')),
+    priceHead: PRICE_HEAD,
+    priceRows: PRICE_ROWS,
+    monthly: [...doc.querySelectorAll('#s2 .cost-card:nth-child(2) .cost-rows tr')].map((tr) => txt(tr)).filter(Boolean),
+    commission: txt(doc.querySelector('#s2 .cost-note')),
     where: list('#s5 .three-col > div:nth-child(1) ul li'),
     tpl: (doc.querySelector('#tpl-1')?.textContent || '').trim(),
     tplNote: txt(doc.querySelector('#s5 .three-col > div:nth-child(2) p.muted')),
@@ -381,7 +391,7 @@ function drawBudgetCard(ctx, g, cfg) {
   }
   y += 26;
   y = label(ctx, '入住前要付多少', PAD, y);
-  const r = 1200, stamp = Math.max(0, Math.round((r * 12 - 2400) / 250)) + 10, base0 = r * 3.5 + stamp;
+  const r = 1200, stamp = Math.max(0, Math.ceil((r * 12 - 2400) / 250)) + 10, base0 = r * 3.5 + stamp;
   y = para(ctx, `惯例是 2 个月押金 + 1 个月预付 + 半个月水电押金，押金退房时退。按月租 RM ${fmt(r)} 算：押金 RM ${fmt(r * 2)}、首月 RM ${fmt(r)}、水电押金 RM ${fmt(r / 2)}、门禁卡押金 RM 100 到 200、印花税约 RM ${fmt(stamp)}、合同费 RM 150 到 300，合计带够 RM ${fmt(base0 + 250)} 到 ${fmt(base0 + 500)}。合租单间常见简化版：押金 1 到 2.5 个月加首月。`, PAD, y, W - PAD * 2, 37, { font: `400 25px ${SANS}`, color: C.ink2, maxLines: 6 });
   footer(ctx, cfg, `填你的月租自动算：${SITE}「算预算」`);
 }

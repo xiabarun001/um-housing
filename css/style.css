@@ -166,7 +166,6 @@ main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 64px
 .form-msg.err { color: var(--lrt); }
 .intent-summary { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-bottom: 10px; font-size: 15.5px; color: var(--ink-2); }
 .intent-summary b { font-family: var(--serif); font-size: 18px; color: var(--ink); margin-right: 4px; }
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
 .intent-table { width: 100%; border-collapse: collapse; font-size: 14.5px; min-width: 760px; }
 .intent-table th { text-align: left; font-weight: 500; font-size: 13.5px; color: var(--ink-3); padding: 9px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; background: var(--bg-2); }
 .intent-table td { padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -211,11 +210,6 @@ h3 { font-size: 17px; }
 .map-reset { position: absolute; top: 12px; right: 12px; z-index: 500; font-size: 13.5px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); cursor: pointer; }
 .two-col h3, .three-col h3 { margin-bottom: 8px; }
 
-.price-table { width: 100%; border-collapse: collapse; font-size: 15.5px; min-width: 640px; }
-.price-table th { text-align: left; font-weight: 500; font-size: 13.5px; color: var(--ink-3); background: var(--bg-2); padding: 9px 12px; border-bottom: 1px solid var(--line); }
-.price-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-.price-table td:first-child { font-weight: 700; white-space: nowrap; }
-.price-table tr:last-child td { border-bottom: 0; }
 
 .two-col { display: grid; grid-template-columns: minmax(300px, 440px) 1fr; gap: 28px; margin-top: 26px; align-items: start; }
 .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 8px; }
@@ -363,7 +357,6 @@ main { max-width: 1400px; }
   .section-title { font-size: 22px; }
   .lead h1 { font-size: 26px; }
   .fresh { font-size: 13.5px; }
-  .price-table { min-width: 560px; }
 }
 @media (max-width: 720px) {
   .leaflet-control-zoom { display: none; } /* 手机上双指缩放，给导览框腾位置 */
@@ -504,10 +497,6 @@ main { max-width: 1400px; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); box-shadow: none; }
 
 /* 表格 */
-.price-table th, .intent-table th { background: var(--bg-2); color: var(--ink-2); font-weight: 600; letter-spacing: .02em; border-bottom-color: var(--line-2); }
-.price-table td, .intent-table td { border-bottom-color: var(--line); }
-.price-table tbody tr:nth-child(even) td, .intent-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--bg-2) 45%, transparent); }
-.price-table td:first-child { font-family: var(--serif); font-size: 16px; }
 
 /* 地图区 */
 .map-frame { overflow: hidden; }
@@ -551,11 +540,9 @@ main { max-width: 1400px; }
 
 /* 补充：第 2 步右栏、意向表列表也做成卡片；首屏徽章在窄屏允许换行 */
 .intent-list { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px 22px; box-shadow: var(--shadow-sm); }
-.intent-list .table-wrap { margin: 0 -22px -18px; padding: 0 22px 18px; }
 @media (max-width: 720px) {
   .fresh { white-space: normal; line-height: 1.5; border-radius: 12px; }
   .intent-list { padding: 14px 16px; }
-  .intent-list .table-wrap { margin: 0 -16px -14px; padding: 0 16px 14px; }
 }
 @media (max-width: 720px) {
   .fresh { display: block; }
