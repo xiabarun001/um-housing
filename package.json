@@ -12,6 +12,7 @@
     "status": "node scripts/status.mjs",
     "monthly": "node scripts/collect.mjs --all && node scripts/crosscheck.mjs --all && node scripts/collect.mjs --report-only && node scripts/status.mjs",
     "serve": "npx --yes serve -l 8765 .",
-    "arbitrate": "node scripts/arbitrate.mjs"
+    "arbitrate": "node scripts/arbitrate.mjs",
+    "check": "node scripts/check-app.mjs"
   }
 }

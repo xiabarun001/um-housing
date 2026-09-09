@@ -121,6 +121,30 @@ function bindCalc() {
   run();
 }
 
+function bindCopy() {
+  $$('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+    const text = $('#' + b.dataset.copy)?.textContent || '';
+    try { await navigator.clipboard.writeText(text); b.textContent = '已复制'; }
+    catch { b.textContent = '请手动选中复制'; }
+    setTimeout(() => { b.textContent = '复制'; }, 1800);
+  }));
+}
+
+function bindChecklists() {
+  $$('[data-checklist]').forEach((list) => {
+    const key = 'um-check:' + list.dataset.checklist;
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch { saved = {}; }
+    $$('input[type=checkbox]', list).forEach((cb, i) => {
+      cb.checked = !!saved[i];
+      cb.addEventListener('change', () => {
+        saved[i] = cb.checked;
+        try { localStorage.setItem(key, JSON.stringify(saved)); } catch { /* 隐私模式下忽略 */ }
+      });
+    });
+  });
+}
+
 /* ---------- 路线图：头部一条路，七站；小人随滚动走到当前站 ---------- */
 const ROUTE_STOPS = ['s-start', 'campus', 'regions', 's3', 's2', 's5', 's0'];
 function bindNav() {
