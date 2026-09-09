@@ -616,10 +616,10 @@ function bindFilters() {
   const panel = $('#filter-panel'), btn = $('#filter-open'), tag = $('#filter-n');
   if (!panel || !btn) return;
   const groups = filterGroups();
-  panel.innerHTML = groups.map((gr) => `<div class="fg"><h4>${esc(gr.title)}${gr.or ? '<span class="fg-or">满足其一</span>' : ''}</h4><div class="fg-opts">`
+  panel.innerHTML = groups.map((gr) => `<div class="fg"><h4>${esc(gr.title)}</h4><div class="fg-opts">`
     + gr.opts.map((o) => `<button type="button" class="fchip" data-f="${esc(gr.g)}:${esc(o.k)}" aria-pressed="false">${esc(o.label)}</button>`).join('')
     + '</div></div>').join('')
-    + '<div class="fg-acts"><button type="button" class="linkish" id="filter-reset">全部清除</button><button type="button" class="btn" id="filter-done">看结果</button></div>';
+    + '<div class="fg-acts"><button type="button" class="linkish" id="filter-reset">清除</button><button type="button" class="btn" id="filter-done">确定</button></div>';
   const paint = () => {
     $$('.fchip', panel).forEach((b) => { const on = state.filters.has(b.dataset.f); b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
     const n = state.filters.size;
@@ -666,7 +666,7 @@ function renderList() {
   const grid = $('#grid');
   grid.innerHTML = list.map(cardHTML).join('');
   $('#empty').hidden = list.length > 0;
-  $('#result-count').textContent = `显示 ${list.length} 个，共 ${state.condos.length} 个`;
+  $('#result-count').textContent = list.length === state.condos.length ? `${state.condos.length} 个小区` : `筛出 ${list.length} 个，共 ${state.condos.length} 个`;
   $$('[data-detail]', grid).forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.detail)));
   $$('[data-locate]', grid).forEach((b) => b.addEventListener('click', () => locate(b.dataset.locate)));
   $$('[data-toggle]', grid).forEach((b) => b.addEventListener('click', () => toggleCard(b.dataset.toggle)));
