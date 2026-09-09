@@ -1248,17 +1248,6 @@ function bindForm() {
 }
 
 /* ---------- rankings ---------- */
-function nearestRailMin(c) {
-  const t = c.transit;
-  if (t.walk_min != null) return { min: t.walk_min, label: stationZh(t.nearest), est: !!t.walk_est };
-  const st = [...(state.meta.stations || []), ...(state.meta.mrt || []), ...(state.meta.ktm || [])];
-  let best = null;
-  st.forEach((s) => { const km = distKm([c.lat, c.lng], [s.lat, s.lng]); if (!best || km < best.km) best = { km, s }; });
-  // 交叉验证过的（OSM 路网算出的路线分钟）优先于直线估算
-  const chk = c.provenance?.transit?.check;
-  if (chk && chk.route_min != null) return { min: chk.route_min, label: best.s.zh.replace(/（.*?）/, ''), est: false, route: true };
-  return { min: Math.round(best.km * 1000 / 75), label: best.s.zh.replace(/（.*?）/, ''), est: true, straight: true };
-}
 /* ---------- 大同小异：25 个小区的共同点，数字全部从档案现算 ---------- */
 function renderCommon() {
   const box = $('#common'); if (!box) return;
@@ -1309,24 +1298,56 @@ function renderCommon() {
   box.innerHTML = items.map(([t, d]) => `<div class="cm"><h4>${t}</h4><p>${d}</p></div>`).join('');
 }
 
-/* ---------- 排行榜：一次看一个榜，25 个全列出来，长条表示差距 ---------- */
+/* ---------- 排行榜：一次看一个榜，25 个全列出来，长条表示差距 ----------
+   规矩：每个榜只用档案或抓取里真实存在的字段，绝不拿直线距离之类的估算凑数；
+   没有这项数据的小区不参与排名，灰着排在最后，并写明为什么没有。 */
 const BOARD_KEY = 'um-board';
+// "24–33 层 × 3 栋" 这种写法里取最高的那个数；写"单栋""N/A"的就是没有数据
+function topFloors(c) {
+  const head = String(c.floors || '').split('层')[0];
+  const nums = (head.match(/\d+/g) || []).map(Number);
+  return nums.length ? Math.max(...nums) : null;
+}
+// 这次挂牌里最大的一套有多少平方英尺
+function maxSqft(c) {
+  const m = (String(c.snapshot.whole || '').match(/(\d[\d,]*) sqft/g) || []).map((x) => Number(x.replace(/[^\d]/g, '')));
+  return m.length ? Math.max(...m) : null;
+}
+function routeMin(c) { const k = c.provenance?.transit?.check; return k && k.route_min != null ? k.route_min : null; }
 function boardData() {
   const C = state.condos;
-  const cheapestOf = (c) => Math.min(roomsMin(c) ?? Infinity, c.snapshot.rent_from ?? Infinity);
+  const chk = C.map((c) => c.provenance?.transit?.check).find((k) => k && k.with);
+  const walkSrc = chk ? `${chk.with}，${chk.at} 算的` : 'OpenStreetMap 路网';
+  const profileSrc = `iProperty 项目页 + StarProperty 复核，核实于 ${state.meta.verified_at || '未知'}`;
+  const marketSrc = `iProperty 和 iBilik 挂牌，抓取于 ${state.meta.prices_updated_myt || '未知'}`;
   return [
-    { k: 'transit', tab: '离轨道站近', tier: 'profile', low: true,
-      note: '走到最近轨道站要多少分钟。没有走得到的站时，写的是按路网或直线估算的分钟数。',
-      rows: () => C.map((c) => { const r = nearestRailMin(c); const ok = c.transit.walk_min != null; return { c, v: r.min, ok, txt: ok ? `${r.min} 分钟` : `约 ${r.min} 分钟`, sub: ok ? r.label + (c.transit.walk_est ? '（估算）' : '') : '最近是 ' + r.label + '，走不过去，靠公交或 Grab' }; }) },
-    { k: 'price', tab: '最便宜', tier: 'market', low: true,
-      note: '能租到的最便宜一间：有房间挂牌的按房间起价算，只有整套的按整套起价算。',
-      rows: () => C.map((c) => { const rm = roomsMin(c), v = cheapestOf(c); const ok = Number.isFinite(v); return { c, v, ok, txt: ok ? `RM ${fmt(v)}` : '没有挂牌', sub: ok ? (rm != null && v === rm ? '房间起' : '整套起') : '这次没抓到在租房源' }; }) },
-    { k: 'fac', tab: '设施最多', tier: 'profile', low: false,
+    { k: 'walk', tab: '走到轨道站最近', tier: 'profile', low: true, src: walkSrc,
+      note: '从小区门口走到最近轨道站的实际路线分钟数。25 个用的是同一个方法、同一天算的，所以能直接比。卡片上写的分钟数来自中介帖子，有的比这个短。',
+      rows: () => C.map((c) => { const v = routeMin(c); const st = stationZh(c.transit.nearest) || '最近的站'; return { c, v, ok: v != null, txt: v != null ? `${v} 分钟` : '没算出来', sub: c.transit.walk_min != null ? `到${st}` : `到${st}，太远，平时靠公交或 Grab` }; }) },
+    { k: 'room', tab: '房间最便宜', tier: 'market', low: true, src: marketSrc,
+      note: '这次抓到的房间（单间）最低挂牌价。只有整套出租的小区没有这项。',
+      rows: () => C.map((c) => { const v = roomsMin(c); return { c, v, ok: v != null, txt: v != null ? `RM ${fmt(v)}` : '没有房间在租', sub: v != null ? (c.snapshot.rooms_source || '') : '这次只有整套出租' }; }) },
+    { k: 'whole', tab: '整套最便宜', tier: 'market', low: true, src: marketSrc,
+      note: '这次抓到的整套出租最低价，不分房型。',
+      rows: () => C.map((c) => { const v = c.snapshot.rent_from; return { c, v, ok: v != null, txt: v != null ? `RM ${fmt(v)}` : '没有整套在租', sub: c.snapshot.whole_source || '' }; }) },
+    { k: 'stock', tab: '在租房源最多', tier: 'market', low: false, src: marketSrc,
+      note: 'iProperty 上这个小区当下挂着的在租条数，含单间帖子。条数多的容易找到房，也容易找室友。',
+      rows: () => C.map((c) => { const v = c.snapshot.for_rent; return { c, v, ok: v != null, txt: v != null ? `${fmt(v)} 条` : '没抓到', sub: c.snapshot.date ? `${c.snapshot.date} 的挂牌` : '' }; }) },
+    { k: 'size', tab: '户型最大', tier: 'market', low: false, src: marketSrc,
+      note: '这次挂牌里最大的一套有多少平方英尺。挂牌变了这个数也会变。',
+      rows: () => C.map((c) => { const v = maxSqft(c); return { c, v, ok: v != null, txt: v != null ? `${fmt(v)} 平方英尺` : '没抓到面积', sub: v != null ? String(c.snapshot.whole || '').split(' · ').find((x) => x.includes(fmt(v))) || '' : '这次的帖子没写面积' }; }) },
+    { k: 'fac', tab: '设施最多', tier: 'profile', low: false, src: profileSrc,
       note: '档案里列出的设施项数，后面是泳池和健身房之外的加分项。',
       rows: () => C.map((c) => ({ c, v: c.facilities.length, ok: true, txt: `${c.facilities.length} 项`, sub: Object.keys(FAC_ZH).filter((k) => k !== 'pool' && k !== 'gym' && c.flags[k]).map((k) => FAC_ZH[k]).join('、') || '只有泳池和健身房' })) },
-    { k: 'year', tab: '楼最新', tier: 'profile', low: false,
+    { k: 'year', tab: '楼最新', tier: 'profile', low: false, src: profileSrc,
       note: '建成年份，越新越靠前；后面是户数。',
-      rows: () => C.map((c) => ({ c, v: c.completed || 0, ok: !!c.completed, txt: c.completed ? `${c.completed} 年` : '年份不详', sub: c.units ? `${fmt(c.units)} 户` : '户数不详' })) },
+      rows: () => C.map((c) => ({ c, v: c.completed || null, ok: !!c.completed, txt: c.completed ? `${c.completed} 年` : '年份没查到', sub: c.units ? `${fmt(c.units)} 户` : '户数没查到' })) },
+    { k: 'units', tab: '户数最少', tier: 'profile', low: true, src: profileSrc,
+      note: '总户数，越少越清静、等电梯越短；后面是楼型。',
+      rows: () => C.map((c) => ({ c, v: c.units || null, ok: c.units != null, txt: c.units ? `${fmt(c.units)} 户` : '户数没查到', sub: c.type })) },
+    { k: 'floors', tab: '楼最高', tier: 'profile', low: false, src: profileSrc,
+      note: '最高的一栋有多少层。档案里写"单栋""N/A"没给层数的排在最后。',
+      rows: () => C.map((c) => { const v = topFloors(c); return { c, v, ok: v != null, txt: v != null ? `${v} 层` : '层数没查到', sub: String(c.floors || '') }; }) },
   ];
 }
 function renderBoard() {
@@ -1341,13 +1362,13 @@ function renderBoard() {
     good.sort((x, y) => (b.low ? x.v - y.v : y.v - x.v) || x.c.no - y.c.no);
     const lo = Math.min(...good.map((r) => r.v)), hi = Math.max(...good.map((r) => r.v));
     const span = Math.max(1, hi - lo);
-    // 条长只表示相对差距：最好的满格，最差的留一小截
+    // 条长只表示这一榜里的相对差距：第一名满格，最后一名留一小截
     const pct = (r) => Math.round(14 + 86 * (b.low ? (hi - r.v) / span : (r.v - lo) / span));
     const list = [...good, ...bad];
-    const rowsN = Math.ceil(list.length / 2);
     box.innerHTML = `<div class="board-tabs" role="tablist">${boards.map((x, i) => `<button type="button" role="tab" class="btab${i === cur ? ' on' : ''}" aria-selected="${i === cur}" data-b="${i}">${esc(x.tab)}</button>`).join('')}</div>
-      <p class="board-note">${esc(b.note)} ${tierMark(b.tier)}</p>
-      <ol class="board-list" style="--rows:${rowsN}">${list.map((r) => `<li class="brow${r.ok ? '' : ' dim'}"><i class="bno r${r.c.region}">${r.c.no}</i><a class="bname" href="#card-${r.c.id}">${esc(shortAlias(r.c))}</a><span class="bbar"><i style="width:${r.ok ? pct(r) : 0}%"></i></span><b class="bval">${esc(r.txt)}</b><small class="bsub">${esc(r.sub || '')}</small></li>`).join('')}</ol>`;
+      <p class="board-note">${esc(b.note)}</p>
+      <p class="board-src">数据：${esc(b.src)} · 25 个里 ${good.length} 个有这项 ${tierMark(b.tier)}</p>
+      <ol class="board-list" style="--rows:${Math.ceil(list.length / 2)}">${list.map((r) => `<li class="brow${r.ok ? '' : ' dim'}"><i class="bno r${r.c.region}">${r.c.no}</i><a class="bname" href="#card-${r.c.id}">${esc(shortAlias(r.c))}</a><span class="bbar"><i style="width:${r.ok ? pct(r) : 0}%"></i></span><b class="bval">${esc(r.txt)}</b><small class="bsub">${esc(r.sub || '')}</small></li>`).join('')}</ol>`;
     $$('.btab', box).forEach((t) => t.addEventListener('click', () => { cur = Number(t.dataset.b); try { localStorage.setItem(BOARD_KEY, boards[cur].k); } catch { /* ignore */ } paint(); }));
   };
   paint();
