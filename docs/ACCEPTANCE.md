@@ -92,7 +92,7 @@
 
 ## P4 UMH Console（2026-09-08 代码完成，待 Sasha 按 docs/CONSOLE-SETUP.md 开通）
 
-- [x] `/console/` 和 `/api/*` 由 Cloudflare Access 保护（邮箱一次性验证码、白名单），Functions 再校验 JWT 签名 / 受众 / 有效期；没配置时返回 503 说明，不会裸奔。
+- [x] `/console/` 和 `/api/*` 要登录才进得去：Supabase 邮箱一次性验证码，token 放 HttpOnly cookie，Functions 每次请求再验一次并比对 `ADMIN_EMAILS` 白名单；没配白名单时返回 503 说明，不会裸奔。
 - [x] 代码里没有任何密码、密钥或邮箱名单；管理员在 Access 策略里增删。
 - [x] 总览：实时信息新鲜度、固定信息最旧天数、待审核差异、二源冲突、反馈待处理、告警；一键刷新 / 采集；最近动作运行状态。
 - [x] 采集与审核：按小区看 iProperty 差异、StarProperty 二源、坐标 / 步行交叉验证；勾选字段 + 对外说明 → 发布（触发工作流跑 publish.mjs）；两源冲突可仲裁。

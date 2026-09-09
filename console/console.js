@@ -1,4 +1,4 @@
-/* UMH Console：静态页 + /api/*（Pages Functions）。登录由 Cloudflare Access 负责，这里不做任何鉴权逻辑。
+/* UMH Console：静态页 + /api/*（Pages Functions）。登录在 /login/ 用邮箱验证码换 HttpOnly cookie，这里不碰 token。
    读取：仓库里的 data/*.json（和读者页同源）；写入：/api/reports、/api/intents（Supabase），/api/actions（触发 GitHub 工作流）。 */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
@@ -18,6 +18,8 @@
   async function api(path, opts = {}) {
     const r = await fetch(path, { credentials: 'same-origin', ...opts, headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) } });
     let j = null; try { j = await r.json(); } catch { /* not json */ }
+    // 没登录或者登录过期了，直接回登录页，别让人对着一堆报错发呆
+    if (r.status === 401 || r.status === 403) { location.replace('/login/'); throw new Error((j && j.error) || '还没登录'); }
     if (!r.ok) throw new Error((j && j.error) || (r.status === 404 ? '接口不存在（本地预览没有 Functions）' : 'HTTP ' + r.status));
     return j;
   }

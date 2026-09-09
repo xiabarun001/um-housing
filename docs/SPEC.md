@@ -95,7 +95,7 @@ status: draft
 ```
 /                指南（读者）
   先想清楚 → 1 地形 → 2 预算 → 3 挑候选 → 4 逐个看 → 5 找中介 → 6 看房签约 → 7 时间表 → 意向表 → 说明
-/console/        管理后台 UMH Console（管理员，Cloudflare Access 保护）
+/console/        管理后台 UMH Console（管理员，登录后可进）
   总览 · 采集与审核 · 小区档案 · 纠错 · 意向表 · 日志
 ```
 
@@ -141,7 +141,7 @@ status: draft
 
 **D. 管理后台 UMH Console（最后做）**
 
-- FR-17 路径 `/console/`，Cloudflare Access 邮箱一次性验证码登录，白名单邮箱，无注册。
+- FR-17 路径 `/console/`，登录页 `/login/`，Supabase 邮箱一次性验证码，白名单邮箱，无注册，无密码。
 - FR-18 总览：行情新鲜度、档案复核到期、待审核数、未处理纠错。
 - FR-19 采集与审核：看 staging 差异，逐字段接受或拒绝，一键发布（Pages Function 调 GitHub API 提交）。
 - FR-20 意向表：查看、删除（替代口令方式）；纠错：处理、关闭。
@@ -176,7 +176,7 @@ status: draft
 
 | 类型 | 内容 | 负责 |
 |---|---|---|
-| 依赖 | Cloudflare Access（免费版 ≤ 50 用户）在控制台配置应用和白名单 | Sasha |
+| 依赖 | Pages 环境变量 `ADMIN_EMAILS` 配白名单 | Sasha |
 | 依赖 | GitHub fine-grained token（只限本仓库 contents:write）存 Pages 密钥 | Sasha |
 | 风险 | iProperty 再改反爬，采集失败 | 本机脚本兜底；probe workflow 定期试 |
 | 风险 | 区域 3 来源少、交通复杂，容易写错 | 走流水线双源核对；交通标「观点」直到实测 |

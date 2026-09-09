@@ -1,20 +1,22 @@
 # UMH Console 开通步骤
 
-后台代码已在仓库里（`/console/` 页面 + `/functions/` 接口 + `console-action.yml` 工作流）。代码不含任何密码或密钥，下面四步都在网页控制台完成，做一次就好，约 20 分钟。
+后台代码已在仓库里（`/login/` 登录页 + `/console/` 页面 + `/functions/` 接口 + `console-action.yml` 工作流）。代码不含任何密码、密钥或邮箱，下面几步都在网页控制台完成，做一次就好，约 15 分钟。
 
-## 1. Cloudflare Access：谁能登录
+## 1. 登录是怎么回事：Supabase 邮箱验证码
 
-1. 打开 Cloudflare 控制台 → **Zero Trust**（第一次会让你选免费套餐，50 个用户以内免费）。
-2. **Access → Applications → Add an application → Self-hosted**。
-   - Application name：`UMH Console`
-   - Session duration：`24 hours`
-   - Application domain：先加 `um-housing.evasuka.com`，Path 填 `console`；点 **Add domain** 再加一条 `um-housing.evasuka.com`，Path 填 `api`。两条都要，页面和接口都受保护。
-   - Identity providers：只勾 **One-time PIN**（邮箱验证码，不用密码）。
-3. **Policies → Add a policy**：
-   - Policy name：`admins`，Action：`Allow`
-   - Include → Selector `Emails` → 填管理员邮箱：`xiabarun001@gmail.com`（第二个邮箱定了再加一行）。
-4. 保存后进入这个应用的 **Overview**，复制 **Application Audience (AUD) Tag**（一串 64 位的字符）。
-5. Team domain 在 Zero Trust 首页右侧 Account details 里：`snowy-pine-d1ec.cloudflareaccess.com`。
+没有密码，也不用绑卡。流程是：
+
+1. 顶栏最右边的齿轮 → `/login/` → 填邮箱 → `/api/auth/start` 先拿邮箱比对白名单，**名单外的邮箱一封信都不会发**。
+2. 名单内的才让 Supabase 发一封 6 位验证码。
+3. 填码 → `/api/auth/verify` 换到 token，写进 `HttpOnly` cookie（浏览器脚本读不到，也不存 localStorage）。
+4. 之后每次访问 `/console/*` 和 `/api/*`，Functions 都拿 cookie 找 Supabase 验一次，再比对一次白名单；token 过期会用 refresh token 自动续，平时不用重新登录。
+
+白名单在下一步的 `ADMIN_EMAILS` 里，不写在代码里。这一步本身不用做任何配置。
+
+两个已知的小坑：
+
+- Supabase 自带的邮件服务有频率限制（免费项目每小时几封）。平时登一次能用很久，够用；真嫌少可以在 Supabase → Authentication → Emails 里接一个自己的 SMTP。
+- 163 / QQ 这类国内邮箱对境外发信比较严，可能进垃圾箱甚至直接丢掉。收不到就先用 Gmail 那个。
 
 ## 2. GitHub token：让后台能触发工作流
 
@@ -36,17 +38,18 @@ Cloudflare 控制台 → **Workers & Pages → um-housing → Settings → Varia
 
 | 名称 | 值 |
 |---|---|
-| `CF_ACCESS_TEAM_DOMAIN` | `https://snowy-pine-d1ec.cloudflareaccess.com`（Sasha 账号的 Team domain，Zero Trust 首页右侧能看到） |
-| `CF_ACCESS_AUD` | 第 1 步第 4 点复制的 AUD |
+| `ADMIN_EMAILS` | 能进后台的邮箱，逗号分隔，例如 `a@gmail.com,b@163.com` |
 | `GITHUB_TOKEN` | 第 2 步的 token |
 | `GITHUB_REPO` | `xiabarun001/um-housing` |
 | `SUPABASE_SERVICE_KEY` | 第 3 步的 service_role 密钥 |
+
+没配 `ADMIN_EMAILS` 的时候后台是关着的（返回 503），不会裸奔。
 
 保存后 **Deployments → 最新一次 → Retry deployment**（环境变量要重新部署才生效）。
 
 ## 5. 验证
 
-1. 打开 https://um-housing.evasuka.com/console/ ，应该先看到 Cloudflare Access 的登录页，输入白名单邮箱，收验证码，进入。
+1. 打开 https://um-housing.evasuka.com/login/ ，填白名单里的邮箱 → 收验证码 → 填码，应该直接进后台。名单外的邮箱会被当场拒掉。
 2. 右上角显示你的邮箱；总览页的"配置检查"三项都是绿色。
 3. 反馈页能列出记录；总览页点"立即刷新实时信息"，一分钟内 GitHub Actions 里出现 `console: refresh … by 你的邮箱` 的运行记录。
 
@@ -60,7 +63,9 @@ Cloudflare 控制台 → **Workers & Pages → um-housing → Settings → Varia
 
 ## 加管理员 / 撤销
 
-Zero Trust → Access → Applications → UMH Console → Policies → admins → 加或删邮箱。立即生效，不用改代码。
+Cloudflare → Workers & Pages → um-housing → Settings → Variables and Secrets → 改 `ADMIN_EMAILS`，重新部署一次生效。不用改代码。撤销就是把那个邮箱从这一行里删掉，他手上的 cookie 下一次请求就过不去了。
+
+想再严一点：两个邮箱都登录过一次之后，去 Supabase → Authentication → Sign In / Providers 关掉 **Allow new users to sign up**，这样连 Supabase 那边也不会再冒出别的账号。
 
 ## 密钥泄露怎么办
 

@@ -1319,7 +1319,7 @@ function renderTierPills() {
   const row = (k, meaning, when, cls) => `<button type="button" class="tier-row tier-${k}${cls || ''}" data-tier="${k}" title="点一下看来源和说明"><b><i></i>${TIER_LABEL[k]}</b><span class="tm">${meaning}</span><time>${when}</time></button>`;
   box.innerHTML = row('profile', '小区档案类事实，人工核实', `更新 ${esc(state.meta.verified_at || '未知')}`) +
     row('market', '挂牌数量和价格，每天早晚 8 点自动抓', stale ? `已 ${Math.round(h)} 小时未更新` : `更新 ${esc(hourText)}`, stale ? ' stale' : '') +
-    row('judgment', '吃饭方便、安静程度这类，我们自己判断的', '不标时间');
+    row('judgment', '主观判断', '不标时间');
 }
 async function renderChangelog() {
   // 页脚只写一句"最近什么时候改过固定信息"，明细不摊开

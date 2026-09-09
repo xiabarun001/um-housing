@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=202609101000">
+<link rel="stylesheet" href="../css/style.css?v=202609101100">
 </head>
 <body>
 <header class="top">
@@ -17,9 +17,23 @@
 <main class="login-wrap">
   <div class="login-card">
     <h1 class="login-title">维护后台</h1>
-    <p class="login-say">登录后进入</p>
-    <p class="login-acts"><a class="btn primary" href="../console/">登录</a><a class="btn" href="../">回到指南</a></p>
+    <p class="login-say">收个验证码就能进，没有密码</p>
+    <form class="login-form" id="form" autocomplete="on">
+      <label class="login-lab" for="email">邮箱</label>
+      <input class="login-inp" id="email" name="email" type="email" inputmode="email" autocomplete="username" placeholder="维护名单里的邮箱" required>
+      <div id="step2" hidden>
+        <label class="login-lab" for="code">验证码</label>
+        <input class="login-inp" id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="邮件里的 6 位数字">
+      </div>
+      <p class="login-acts">
+        <button class="btn primary" id="go" type="submit">发验证码</button>
+        <a class="btn" href="../">回到指南</a>
+      </p>
+      <p class="login-again" id="again" hidden><button type="button" class="linkish" id="resend">重新发一封</button><button type="button" class="linkish" id="back">换个邮箱</button></p>
+    </form>
+    <p class="login-state" id="state" hidden></p>
   </div>
 </main>
+<script src="login.js?v=202609101100"></script>
 </body>
 </html>

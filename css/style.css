@@ -1060,6 +1060,16 @@ main { max-width: 1400px; }
 .login-card { max-width: 560px; padding: 28px 30px 26px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); }
 .login-title { font-family: var(--serif); font-size: 27px; margin: 0 0 6px; }
 .login-say { margin: 0 0 14px; font-family: "ZCOOL XiaoWei", var(--serif); font-size: 18px; letter-spacing: .06em; color: var(--accent); }
-.login-note { margin: 0 0 18px; font-size: 15px; line-height: 1.8; color: var(--ink-2); }
 .login-acts { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
 .login-state { margin: 16px 0 0; padding: 12px 14px; background: var(--bg-2); border-radius: 8px; font-size: 14px; line-height: 1.75; color: var(--ink-2); }
+.login-state.ok { border-left: 3px solid var(--ok); }
+.login-state.err { border-left: 3px solid var(--lrt); color: var(--ink); }
+.login-form { margin: 4px 0 0; }
+.login-lab { display: block; margin: 12px 0 6px; font-size: 14px; color: var(--ink-2); }
+.login-inp { width: 100%; box-sizing: border-box; font: 400 16px/1.4 var(--sans); padding: 10px 12px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--bg); color: var(--ink); }
+.login-inp:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.login-inp[readonly] { background: var(--bg-2); color: var(--ink-3); }
+#code { font-family: var(--serif); letter-spacing: .35em; }
+.login-form .login-acts { margin-top: 18px; }
+.login-again { display: flex; gap: 16px; margin: 12px 0 0; }
+.login-again .linkish:disabled { color: var(--ink-3); text-decoration: none; cursor: default; }

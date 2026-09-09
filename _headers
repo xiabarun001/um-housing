@@ -16,7 +16,7 @@
 /data/refresh-log.json
   Cache-Control: public, max-age=300, must-revalidate
 
-# 后台和接口：不缓存、不索引（登录由 Cloudflare Access 负责，Functions 再校验）
+# 后台和接口：不缓存、不索引（登录在 /login/ 收邮箱验证码，Functions 每次请求再校验）
 /console/*
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
