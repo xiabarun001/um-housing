@@ -1,5 +1,5 @@
 /* UM 租房指南 — app */
-import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090355';
+import { NEEDS_LEVELS, NEEDS_MODES, NEEDS_ASK, CRITERIA } from './needs-data.js?v=202609090400';
 window.addEventListener('unhandledrejection', (e) => console.error('init failed:', e.reason && (e.reason.stack || e.reason)));
 // fitBounds 时留的边，免得边上的编号点贴着地图边缘被切掉
 const FIT_OPTS = { padding: [18, 18] };
@@ -62,9 +62,6 @@ async function init() {
   bindFilters();
   renderList();
   renderRankings();
-  buildCondoPicks();
-  bindForm();
-  loadIntents();
   bindCalc();
   bindCopy();
   bindNeeds();
@@ -147,13 +144,15 @@ function bindNav() {
     for (let i = 0; i < 6; i++) if (probe < tops[i + 1]) return i + Math.min(1, Math.max(0, (probe - tops[i]) / Math.max(1, tops[i + 1] - tops[i])));
     return 6;
   };
-  let walkTimer = null, lastP = -1;
+  let walkTimer = null, lastP = -1, lastX = null;
   const paint = () => {
     if (!centers.length) measure();
     const p = progress();
     const i = Math.min(5, Math.floor(p)), f = p - i;
     const x = p >= 6 ? centers[6] : centers[i] + (centers[i + 1] - centers[i]) * f;
     figure.style.transform = `translateX(${x.toFixed(1)}px)`;
+    if (lastX != null) { if (x < lastX - 0.3) figure.classList.add('back'); else if (x > lastX + 0.3) figure.classList.remove('back'); }
+    lastX = x;
     walked.style.width = Math.max(0, x - centers[0]).toFixed(1) + 'px';
     const cur = Math.round(p);
     stops.forEach((li, k) => { li.classList.toggle('done', k < cur); li.classList.toggle('now', k === cur); });
@@ -1158,6 +1157,7 @@ function renderIntents() {
   paintIntentCounts();
 }
 function paintIntentCounts() {
+  if (!state.intents || !state.intents.length) return;
   const counts = {};
   state.intents.forEach((i) => (i.condos || []).forEach((id) => { counts[id] = (counts[id] || 0) + 1; }));
   $$('[data-count-for]').forEach((el) => {

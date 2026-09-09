@@ -1062,3 +1062,12 @@ details.needs-details summary h3 .muted { font-weight: 400; font-size: 12px; mar
 .con-grid li { margin: 4px 0; }
 .con-grid li b { color: var(--ink); }
 .con-empty { color: var(--ink-3); font-size: 14px; }
+
+/* 站内的分部分（原来的独立区块并进七站） */
+.stop-part { margin-top: 40px; padding-top: 30px; border-top: 1px dashed var(--line); }
+.part-title { font-family: var(--serif); font-size: 21px; margin: 0 0 6px; }
+.part-title.first { margin-top: 18px; }
+@media (max-width: 720px) { .stop-part { margin-top: 30px; padding-top: 22px; } .part-title { font-size: 19px; } }
+/* 小人往回走时转身 */
+.route .f-body { transform-origin: 14px 22px; transition: transform .15s; }
+.route .figure.back .f-body { transform: scaleX(-1); }
