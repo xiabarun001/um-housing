@@ -495,12 +495,12 @@
       "date": "2026-09-11",
       "condos": {
         "seventeen": {
-          "for_rent": 75,
+          "for_rent": 76,
           "rent_from": 1800,
           "rooms_min": null
         },
         "atwater": {
-          "for_rent": 80,
+          "for_rent": 83,
           "rent_from": 2500,
           "rooms_min": null
         },
@@ -525,7 +525,7 @@
           "rooms_min": 1300
         },
         "centrestage": {
-          "for_rent": 152,
+          "for_rent": 153,
           "rent_from": 1099,
           "rooms_min": 600
         },
@@ -545,9 +545,9 @@
           "rooms_min": null
         },
         "kl-gateway": {
-          "for_rent": 146,
+          "for_rent": 147,
           "rent_from": 2000,
-          "rooms_min": 650
+          "rooms_min": 780
         },
         "pantai-panorama": {
           "for_rent": 35,
@@ -555,22 +555,22 @@
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 442,
+          "for_rent": 445,
           "rent_from": 1900,
           "rooms_min": 750
         },
         "southlink": {
-          "for_rent": 534,
+          "for_rent": 536,
           "rent_from": 1299,
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 264,
+          "for_rent": 265,
           "rent_from": 2100,
           "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 354,
+          "for_rent": 356,
           "rent_from": 1600,
           "rooms_min": 1550
         },
@@ -580,7 +580,7 @@
           "rooms_min": 950
         },
         "inwood": {
-          "for_rent": 62,
+          "for_rent": 63,
           "rent_from": 3200,
           "rooms_min": null
         },
@@ -600,12 +600,12 @@
           "rooms_min": 1500
         },
         "vivo": {
-          "for_rent": 282,
+          "for_rent": 283,
           "rent_from": 1400,
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 234,
+          "for_rent": 235,
           "rent_from": 1900,
           "rooms_min": null
         },
@@ -615,7 +615,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 392,
+          "for_rent": 396,
           "rent_from": 1700,
           "rooms_min": 1050
         }
