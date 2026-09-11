@@ -1,5 +1,5 @@
 /* UMH Console：静态页 + /api/*（Pages Functions）。登录在 /login/ 用邮箱验证码换 HttpOnly cookie，这里不碰 token。
-   读取：仓库里的 data/*.json（和读者页同源）；写入：/api/reports、/api/intents（Supabase），/api/actions（触发 GitHub 工作流）。 */
+   读取：仓库里的 data/*.json（和读者页同源）；写入：/api/intents（Supabase），/api/actions（触发 GitHub 工作流）。 */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -42,7 +42,6 @@
     const oldCls = st.profile.oldest_days > 45 ? 'bad' : st.profile.oldest_days > 30 ? 'warn' : '';
     const pend = st.profile.pending_changes?.length || 0;
     const conf = st.second_source?.fields_conflict || 0;
-    const rep = st.reports?.new;
     main.innerHTML = `
       <h1>总览</h1>
       <p class="lead">数据健康快照生成于 ${esc(st.generated_myt)}（马来西亚时间）。每次自动刷新、采集和后台动作之后都会重算。</p>
@@ -51,7 +50,6 @@
         <div class="stat ${oldCls}"><div class="k">固定信息最旧</div><div class="v">${esc(st.profile.oldest_days ?? '—')} 天</div><div class="s">上次采集 ${esc(fmtT(st.profile.last_collect_at))} · 45 天复核一次</div></div>
         <div class="stat ${pend ? 'warn' : ''}"><div class="k">待审核差异</div><div class="v">${pend}</div><div class="s"><a href="#review">去采集与审核</a></div></div>
         <div class="stat ${conf ? 'warn' : ''}"><div class="k">两源冲突待复核</div><div class="v">${conf}</div><div class="s">一致 ${st.second_source?.fields_agree ?? 0} · 已复核 ${st.second_source?.fields_reviewed ?? 0}</div></div>
-        <div class="stat ${rep ? 'warn' : ''}"><div class="k">反馈待处理</div><div class="v">${rep ?? '—'}</div><div class="s">累计 ${st.reports?.total ?? '—'} · <a href="#feedback">去处理</a></div></div>
         <div class="stat"><div class="k">交叉验证</div><div class="v">${st.crosscheck.geo.agree + st.crosscheck.geo.near}/${st.condos}</div><div class="s">坐标一致或接近 · 步行路线值 ${st.crosscheck.walk.route_adopted}</div></div>
       </div>
       <h2>告警</h2>
@@ -186,27 +184,6 @@
       ${list.map((c) => { const g = c.provenance?.lat?.check; const t = c.provenance?.transit; const stale = c.verified_at && (Date.now() - new Date(c.verified_at)) / 86400e3 > 45; return `<tr><td class="num">${c.no ?? ''}</td><td><b>${esc(c.alias || c.name)}</b><br><span class="muted">${esc(c.name)}</span></td><td>${esc(regions[c.region]?.short || c.region)}</td><td class="num">${c.completed ?? '—'}</td><td class="num">${c.units ?? '—'}</td><td>${pill(c.verified_at || '—', stale ? 'warn' : 'ok')}</td><td>${esc(secondSummary(c))}</td><td>${g ? pill(g.status === 'agree' ? '一致' : g.status === 'near' ? '接近' : g.status, g.status === 'agree' ? 'ok' : 'warn') : pill('无', 'gray')}</td><td>${t?.method === 'route' ? pill('路线值', 'ok') : c.transit?.walk_est ? pill('估计', 'warn') : pill('实测', 'ok')}</td><td><a href="${esc(c.links?.iproperty_building || '#')}" target="_blank" rel="noopener">iProperty</a>${c.links?.starproperty ? ` · <a href="${esc(c.links.starproperty)}" target="_blank" rel="noopener">StarProperty</a>` : ''}</td><td><a href="#review/${esc(c.id)}">审核</a></td></tr>`; }).join('')}</table></div>`;
   }
 
-  /* ---------- 反馈 ---------- */
-  async function feedback(args) {
-    const filter = args[0] === 'all' ? 'all' : 'new';
-    main.innerHTML = `<h1>反馈</h1><p class="lead">读者在页面上提交的反馈。处理完标记状态；要改数据请去「采集与审核」发布，更新日志才有痕迹。</p>
-      <div class="tools"><a class="btn small ${filter === 'new' ? 'primary' : ''}" href="#feedback">待处理</a><a class="btn small ${filter === 'all' ? 'primary' : ''}" href="#feedback/all">全部</a><span class="msg" id="fb-msg"></span></div>
-      <div id="fb-list"><p class="empty">加载中…</p></div>`;
-    let rows;
-    try { ({ rows } = await api(`/api/reports?status=${filter}`)); } catch (e) { $('#fb-list').innerHTML = `<p class="msg err">${esc(e.message)}</p>`; return; }
-    if (!rows.length) { $('#fb-list').innerHTML = `<p class="empty">${filter === 'new' ? '没有待处理的反馈。' : '还没有反馈。'}</p>`; return; }
-    $('#fb-list').innerHTML = `<div class="tbl-wrap"><table class="tbl"><tr><th>时间</th><th>小区</th><th>类别 / 项</th><th>内容</th><th>联系</th><th>状态</th><th>操作</th></tr>${rows.map((r) => `<tr data-id="${esc(r.id)}"><td>${esc(fmtT(r.created_at))}</td><td>${esc(condoName(r.condo_id))}</td><td>${esc(TIER_ZH[r.tier] || r.tier)}<br><span class="muted">${esc(r.field || '')}</span></td><td class="diffcell">${esc(r.message)}${r.handler_note ? `<br><span class="muted">处理备注：${esc(r.handler_note)}（${esc(r.handled_by || '')} ${esc(fmtT(r.handled_at))}）</span>` : ''}</td><td>${esc(r.contact || '—')}</td><td>${pill(...(RSTATUS[r.status] || [r.status, 'gray']))}</td><td><div class="row-acts">${r.status === 'new' ? `<button class="btn small" data-set="accepted">确认待改</button>` : ''}${r.status !== 'done' ? `<button class="btn small" data-set="done">已处理</button>` : ''}${r.status !== 'rejected' ? `<button class="btn small" data-set="rejected">不改</button>` : ''}<button class="btn small danger" data-del>删除</button></div></td></tr>`).join('')}</table></div>`;
-    $$('[data-set]', main).forEach((b) => b.addEventListener('click', async () => {
-      const id = b.closest('tr').dataset.id; const status = b.dataset.set;
-      const note = window.prompt(`标记为「${RSTATUS[status][0]}」，备注（可空）：`, ''); if (note === null) return;
-      try { await api('/api/reports', { method: 'PATCH', body: JSON.stringify({ id, status, note }) }); say($('#fb-msg'), '已更新', 'ok'); feedback(args); } catch (e) { say($('#fb-msg'), e.message, 'err'); }
-    }));
-    $$('[data-del]', main).forEach((b) => b.addEventListener('click', async () => {
-      const id = b.closest('tr').dataset.id;
-      if (!confirmDo('删除这条反馈？删了就没了。')) return;
-      try { await api('/api/reports', { method: 'DELETE', body: JSON.stringify({ id }) }); say($('#fb-msg'), '已删除', 'ok'); feedback(args); } catch (e) { say($('#fb-msg'), e.message, 'err'); }
-    }));
-  }
 
   /* ---------- 意向表 ---------- */
   async function intents() {
@@ -235,7 +212,7 @@
   }
 
   /* ---------- 路由 ---------- */
-  const views = { overview, review, condos, feedback, intents, log };
+  const views = { overview, review, condos, intents, log };
   async function route() {
     const parts = (location.hash || '#overview').slice(1).split('/');
     const name = views[parts[0]] ? parts[0] : 'overview';

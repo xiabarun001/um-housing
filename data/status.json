@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-11T02:42:02.930Z",
-  "generated_myt": "2026-09-11 10:42",
+  "generated_at": "2026-09-11T06:07:26.622Z",
+  "generated_myt": "2026-09-11 14:07",
   "condos": 25,
   "regions": 3,
   "market": {
     "updated_myt": "2026-09-11 10:42",
-    "age_hours": 0,
+    "age_hours": 3,
     "condos_with_price": 25,
     "last_run_ok": true,
     "last_run_errors": 0,
@@ -18,7 +18,7 @@
   },
   "profile": {
     "verified_at_meta": "2026-09-08",
-    "oldest_days": 3,
+    "oldest_days": 4,
     "stale_over_45d": [],
     "last_collect_at": "2026-09-08T12:56:37.283Z",
     "last_collect_days": 3,
@@ -74,11 +74,6 @@
     "conflicts": []
   },
   "alerts": [],
-  "reports": {
-    "new": 0,
-    "total": 0,
-    "last_at": null
-  },
   "changelog_entries": 123,
   "last_change": "2026-09-08"
 }

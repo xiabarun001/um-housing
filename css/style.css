@@ -95,7 +95,7 @@ main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 64px
 
 /* toolbar */
 .tool-sort { display: inline-flex; align-items: center; gap: 8px; font-size: 15.5px; color: var(--ink-2); margin-left: auto; }
-.tool-sort select, .intent-form select, .intent-form input, .intent-form textarea { background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 6px 9px; color: var(--ink); }
+.tool-sort select { background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 6px 9px; color: var(--ink); }
 .count { font-size: 14.5px; color: var(--ink-3); margin: 10px 0 14px; }
 
 /* list */
@@ -144,18 +144,7 @@ main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 64px
 .detail-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 
 /* intents */
-.intent-form { border: 1px solid var(--line); border-radius: 6px; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
-.field { display: flex; flex-direction: column; gap: 5px; margin: 0; padding: 0; border: 0; min-width: 0; }
-.field.two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.field.two > div { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-.field label, .field legend { font-size: 14.5px; color: var(--ink-2); }
-.field input, .field select, .field textarea { width: 100%; }
-.req { color: var(--lrt); font-size: 12.5px; margin-left: 4px; }
 .hint { color: var(--ink-3); font-size: 13.5px; }
-.form-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.form-msg { font-size: 14.5px; color: var(--ink-2); }
-.form-msg.ok { color: var(--ok); }
-.form-msg.err { color: var(--lrt); }
 
 .foot { border-top: 1px solid var(--line); padding: 20px clamp(16px, 4vw, 40px) 36px; font-size: 14.5px; color: var(--ink-3); }
 .foot p { margin: 0; max-width: 1120px; margin-inline: auto; }
@@ -170,7 +159,6 @@ main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 64px
   .map { height: 62vh; min-height: 380px; }
   .map-legend { position: static; max-width: none; border-left: 0; border-right: 0; border-bottom: 0; border-radius: 0; }
   .list { grid-template-columns: 1fr; }
-  .field.two { grid-template-columns: 1fr; }
   .detail-inner { padding: 18px 16px 22px; }
   .kv { grid-template-columns: 84px 1fr; }
 }
@@ -306,7 +294,6 @@ main { max-width: 1400px; }
 .lead-steps-line { margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: 14.5px; }
 .lead-steps-line a { color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 3px 11px; background: var(--bg); }
 .lead-steps-line a:hover { border-color: var(--ink); }
-.intent-form input[type="date"] { min-height: 34px; }
 
 .map-style { font-size: 14.5px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--bg); color: var(--ink); }
 .leaflet-container .maplibregl-map { font-family: var(--sans); }
@@ -431,7 +418,7 @@ main { max-width: 1400px; }
 .band { padding-bottom: 56px; }
 
 /* 卡片类容器：统一白底、圆角、浅阴影 */
-.card, .filter-panel, .board, .cm, .intent-form, .map-frame, .map-panel, .tour-box, .detail {
+.card, .filter-panel, .board, .cm, .map-frame, .map-panel, .tour-box, .detail {
   background: var(--card); border-color: var(--line); border-radius: 10px; box-shadow: var(--shadow-sm);
 }
 .card { padding: 20px 22px 18px; transition: transform .15s, box-shadow .15s, border-color .15s; }
@@ -440,8 +427,7 @@ main { max-width: 1400px; }
 .card h3 { font-size: 21px; }
 .card > .no { width: 30px; height: 30px; font-size: 14.5px; box-shadow: 0 2px 6px rgba(0, 0, 0, .15); }
 .card .price { border-top-color: var(--line); }
-.tool-sort select, .intent-form select, .intent-form input, .intent-form textarea { border-radius: 6px; border-color: var(--line-2); background: var(--card); }
-.intent-form input:focus, .intent-form select:focus, .intent-form textarea:focus { border-color: var(--accent); }
+.tool-sort select { border-radius: 6px; border-color: var(--line-2); background: var(--card); }
 
 /* 按钮 */
 .btn { border-radius: 6px; padding: 7px 14px; background: var(--card); border-color: var(--line-2); box-shadow: var(--shadow-sm); transition: background .12s, border-color .12s, transform .12s; }
@@ -472,7 +458,6 @@ main { max-width: 1400px; }
 .three-col h3, .two-col h3 { padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 
 /* 意向表 */
-.intent-form { padding: 20px; }
 
 /* 说明与页脚 */
 .foot { background: var(--bg-2); border-top-color: var(--line); padding-top: 28px; padding-bottom: 44px; margin-top: 24px; }
@@ -530,14 +515,6 @@ main { max-width: 1400px; }
 
 /* ---------- 对外版变更记录 ---------- */
 
-/* reader reports（反馈） */
-.report { max-width: min(560px, 94vw); }
-.report .intent-form { border: 0; padding: 0; margin-top: 14px; }
-.report-condo { font-size: 15.5px; margin: 0; }
-.report-condo b { font-weight: 600; }
-.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.pop-act { margin: 10px 0 0; padding-top: 8px; border-top: 1px solid var(--line); }
-.pop-act .linkish { font-size: 13.5px; }
 
 /* 窄屏地图：区域大字交给下面的分组标题，正门标签去掉长尾巴，次要校门缩得远时不显示，版权文字缩小 */
 @media (max-width: 640px) {

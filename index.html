@@ -21,7 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-<link rel="stylesheet" href="css/style.css?v=202609111800">
+<link rel="stylesheet" href="css/style.css?v=202609111900">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23C96A1B'/%3E%3Cpath d='M16 6.5 27 16 24 16 24 25.5 8 25.5 8 16 5 16Z' fill='%23FDF8F0'/%3E%3Crect x='13.4' y='18.5' width='5.2' height='7' fill='%23C96A1B'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -408,34 +408,10 @@
   <div class="detail-inner" id="detail-inner"></div>
 </dialog>
 
-<dialog id="report" class="detail report" aria-labelledby="report-title">
-  <div class="detail-inner">
-    <button type="button" class="btn detail-close" data-close aria-label="关闭">关闭</button>
-    <h2 id="report-title">反馈</h2>
-    <p class="sub">信息不对、有建议，都可以告诉我们。7 天内核对处理，改好了直接更新到页面上。不用留联系方式。</p>
-    <form id="report-form" class="intent-form" novalidate>
-      <input type="hidden" name="condo_id">
-      <p class="report-condo">小区：<b id="report-condo"></b></p>
-      <div class="field two">
-        <div><label for="rp-tier">哪一类信息</label><select id="rp-tier" name="tier"><option value="profile">固定信息</option><option value="market">实时信息</option><option value="judgment">观点</option><option value="other">其他</option></select></div>
-        <div><label for="rp-field">具体哪一项</label><select id="rp-field" name="field"></select></div>
-      </div>
-      <div class="field"><label for="rp-message">哪里不对，或想说什么<span class="req">必填</span></label><textarea id="rp-message" name="message" rows="4" maxlength="500" required placeholder="例如：户数不是 714，开发商官网写的是 720。"></textarea></div>
-      <div class="field"><label for="rp-contact">联系方式（选填，方便追问）</label><input id="rp-contact" name="contact" maxlength="60" placeholder="微信号或邮箱"></div>
-      <div class="hp" aria-hidden="true"><label>网址<input name="website" tabindex="-1" autocomplete="off"></label></div>
-      <div class="form-actions"><button type="submit" class="btn primary">提交</button><span id="report-msg" class="form-msg"></span></div>
-    </form>
-    <div id="report-done" hidden>
-      <p class="form-msg ok">收到，谢谢。我们核对后会处理，改好了直接更新到页面上。</p>
-      <div class="detail-acts"><button type="button" class="btn" data-close>关闭</button></div>
-    </div>
-  </div>
-</dialog>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
-<script src="js/config.js?v=202609111800"></script>
-<script type="module" src="js/app.js?v=202609111800"></script>
+<script type="module" src="js/app.js?v=202609111900"></script>
 </body>
 </html>
