@@ -48,7 +48,6 @@ async function init() {
   renderTierPills();
   bindTierPop();
   bindReport();
-  renderChangelog();
   renderCampus(campus);
   drawMap(campus);
   buildPanel();
@@ -1320,17 +1319,6 @@ function renderTierPills() {
   box.innerHTML = row('profile', '小区档案类事实，人工核实', `更新 ${esc(state.meta.verified_at || '未知')}`) +
     row('market', '挂牌数量和价格，每天早晚 8 点自动抓', stale ? `已 ${Math.round(h)} 小时未更新` : `更新 ${esc(hourText)}`, stale ? ' stale' : '') +
     row('judgment', '主观判断', '—');
-}
-async function renderChangelog() {
-  // 页脚只写一句"最近什么时候改过固定信息"，明细不摊开
-  const box = $('#changelog'), when = $('#changelog-date');
-  if (!box || !when) return;
-  let log;
-  try { log = await fetch('data/changelog.json', { cache: 'no-cache' }).then((r) => r.json()); } catch { return; }
-  const dates = (log.entries || []).map((e) => e.date_myt).filter(Boolean).sort();
-  if (!dates.length) return;
-  when.textContent = dates[dates.length - 1];
-  box.hidden = false;
 }
 function tierPopHTML(kind, c) {
   const tiers = state.meta.tiers || {};
