@@ -1052,20 +1052,25 @@ main { max-width: 1400px; }
 @media (max-width: 960px) { .gear { position: absolute; top: 10px; right: clamp(16px, 4vw, 40px); margin: 0; } }
 
 /* 登录页和后台的空页面 */
-.login-wrap { max-width: 1120px; margin: 0 auto; padding: clamp(40px, 12vh, 120px) clamp(16px, 4vw, 40px) 80px; }
-.login-card { max-width: 560px; padding: 28px 30px 26px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm); }
-.login-title { font-family: var(--serif); font-size: 27px; margin: 0 0 6px; }
-.login-say { margin: 0 0 14px; font-family: "ZCOOL XiaoWei", var(--serif); font-size: 18px; letter-spacing: .06em; color: var(--accent); }
-.login-acts { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; }
+.login-wrap { min-height: calc(100vh - var(--top-h, 77px)); display: grid; place-items: center; padding: 24px 16px 72px; }
+.login-card { width: min(400px, 100%); padding: 34px 34px 28px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); text-align: center; }
+.login-mark { display: block; width: 52px; height: 52px; margin: 0 auto 14px; }
+.login-mark svg { display: block; width: 100%; height: 100%; }
+.login-mark circle { fill: var(--r1); }
+.login-mark path { fill: #FDF8F0; }
+.login-mark rect { fill: var(--r1); }
+.login-title { font-family: var(--serif); font-size: 26px; letter-spacing: .05em; margin: 0 0 6px; }
+.login-say { margin: 0 0 22px; font-family: "ZCOOL XiaoWei", var(--serif); font-size: 16.5px; letter-spacing: .06em; color: var(--accent); }
+.login-acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0; }
 .login-state { margin: 16px 0 0; padding: 12px 14px; background: var(--bg-2); border-radius: 8px; font-size: 14px; line-height: 1.75; color: var(--ink-2); }
 .login-state.ok { border-left: 3px solid var(--ok); }
 .login-state.err { border-left: 3px solid var(--lrt); color: var(--ink); }
-.login-form { margin: 4px 0 0; }
+.login-form { margin: 4px 0 0; text-align: left; }
 .login-lab { display: block; margin: 12px 0 6px; font-size: 14px; color: var(--ink-2); }
 .login-inp { width: 100%; box-sizing: border-box; font: 400 16px/1.4 var(--sans); padding: 10px 12px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--bg); color: var(--ink); }
 .login-inp:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
 .login-inp[readonly] { background: var(--bg-2); color: var(--ink-3); }
 #code { font-family: var(--serif); letter-spacing: .35em; }
 .login-form .login-acts { margin-top: 18px; }
-.login-again { display: flex; gap: 16px; margin: 12px 0 0; }
+.login-again { display: flex; justify-content: center; gap: 16px; margin: 12px 0 0; }
 .login-again .linkish:disabled { color: var(--ink-3); text-decoration: none; cursor: default; }

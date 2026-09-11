@@ -101,12 +101,13 @@ export async function guard(context) {
     h.set('Content-Type', 'text/html; charset=utf-8');
     const page = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow"><title>维护后台 · UM 租房指南</title>
+<meta name="robots" content="noindex, nofollow"><title>编辑台 · UM 租房指南</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23C96A1B'/%3E%3Cpath d='M16 6.5 27 16 24 16 24 25.5 8 25.5 8 16 5 16Z' fill='%23FDF8F0'/%3E%3Crect x='13.4' y='18.5' width='5.2' height='7' fill='%23C96A1B'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css"></head><body>
 <header class="top"><a class="brand" href="/">UM 租房指南</a></header>
 <main class="login-wrap"><div class="login-card">
-<h1 class="login-title">维护后台</h1>
+<h1 class="login-title">编辑台</h1>
 <p class="login-say">${escapeHtml(v.error)}</p>
 <p class="login-acts"><a class="btn primary" href="/login/">去登录</a><a class="btn" href="/">回到指南</a></p>
 </div></main></body></html>`;
