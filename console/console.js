@@ -162,7 +162,7 @@
       $('#arb-box').innerHTML = `<div class="panel"><h3>仲裁 ${esc(condoName(id))} · ${esc(fz(field))}</h3>
         <form id="arb-form">
         <div class="form-row"><label>结论</label><select name="verdict"><option value="agree">其实一致（比如按栋计数）</option><option value="conflict">确实不一致，以现有值为准</option><option value="second-only">只有第二来源有</option></select></div>
-        <div class="form-row"><label>理由</label><input name="note" maxlength="300" required placeholder="读者页会显示这句话"></div>
+        <div class="form-row"><label>理由</label><input name="note" maxlength="300" required placeholder="记进档案的复核说明，读者页只显示已复核的项数"></div>
         <div class="tools"><button type="submit" class="btn primary">记录仲裁</button><span class="msg" id="arb-msg"></span></div>
         </form></div>`;
       $('#arb-form').addEventListener('submit', async (e) => {

@@ -43,8 +43,6 @@ async function init() {
   state.condos = data.condos;
   state.meta = data.meta;
   state.meta.prices_updated_myt = prices.updated_myt || null;
-  $$('.verified-at').forEach((t) => { t.textContent = data.meta.verified_at; });
-  $$('.prices-at').forEach((t) => { t.textContent = prices.updated_myt ? prices.updated_myt + '（马来西亚时间）' : '暂无'; });
   renderTierPills();
   bindTierPop();
   renderCampus(campus);
@@ -792,7 +790,7 @@ function buildPanel() {
     state.condos.filter((c) => c.region === r).map((c) => {
       const t = c.transit;
       const walk = t.walk_min == null
-        ? '<span class="mwalk none">没有轻轨</span>'
+        ? '<span class="mwalk none">走不到轨道站</span>'
         : `<span class="mwalk"><b>${t.walk_min}</b> 分钟到 ${esc(stationZh(t.nearest))}</span>`;
       const sub = [priceLine(c), c.completed ? c.completed + ' 年' : null, c.units ? fmt(c.units) + ' 户' : null].filter(Boolean).join(' · ');
       return `<button type="button" class="mrow r${c.region}" data-select="${c.id}"><span class="mno">${c.no}</span><span class="mname">${esc(shortAlias(c))}</span>${walk}<span class="msub">${esc(sub)}</span></button>`;
@@ -1117,7 +1115,8 @@ function renderCommon() {
   const withRoom = C.filter((c) => roomsMin(c) != null), noRoom = C.filter((c) => roomsMin(c) == null);
   const sqft = [...new Set(C.map((c) => c.snapshot.whole).filter(Boolean).join(' ').match(/\d[\d,]* sqft/g) || [])].map((x) => Number(x.replace(/[^\d]/g, ''))).sort((a, b) => a - b);
   const facN = C.map((c) => c.facilities.length);
-  const floors = C.map((c) => (String(c.floors || '').match(/\d+/g) || [])).flat().map(Number).filter((x) => x > 0 && x < 100).sort((a, b) => a - b);
+  // 每个小区取最高那栋的层数（「27 层 × 2 栋」里的 2 是栋数，不是层数），再看最矮和最高
+  const floors = C.map(topFloors).filter((x) => x != null).sort((a, b) => a - b);
   const extras = ['sauna', 'steam', 'jacuzzi', 'badminton', 'basketball', 'squash', 'tennis', 'bbq', 'minimart'];
   const oldest = byYear[0], newest = byYear[byYear.length - 1];
   const items = [

@@ -128,4 +128,12 @@ body { background-color: var(--bg-2); background-image: none; font-size: 16px; }
   .c-main { padding: 20px 16px 60px; }
   .c-main h1 { font-size: 25px; }
   .form-row { grid-template-columns: 1fr; gap: 6px; }
+  .c-nav a { flex: 1 0 auto; text-align: center; padding: 12px 10px; font-size: 15px; }
+  .c-top { gap: 12px; }
+  .c-top .c-brand { font-size: 17px; }
+}
+@media (max-width: 600px) {
+  /* 手机上邮箱太长，只留那个绿点表示已登录 */
+  .c-top .me { font-size: 0; gap: 0; }
+  .c-top .me::before { width: 9px; height: 9px; }
 }
