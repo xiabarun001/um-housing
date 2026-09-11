@@ -145,7 +145,7 @@
       <h2>发布</h2>
       <div class="panel">
         <div class="form-row"><label>理由（后台可见）</label><input name="reason" maxlength="200" placeholder="例如：核对了 iProperty 项目页，设施清单按最新的改"></div>
-        <div class="form-row"><label>对外一句话</label><input name="note" maxlength="300" placeholder="读者页更新记录里显示，例如：更新了设施清单"></div>
+        <div class="form-row"><label>对外一句话</label><input name="note" maxlength="300" placeholder="记进更新日志，例如：更新了设施清单"></div>
         <div class="tools"><button type="submit" class="btn primary">发布勾选的字段</button><span class="muted">不勾任何字段也可以发布，只更新核实日期。</span><span class="msg" id="rv-msg"></span></div>
       </div>
       </form>
@@ -189,7 +189,7 @@
   /* ---------- 反馈 ---------- */
   async function feedback(args) {
     const filter = args[0] === 'all' ? 'all' : 'new';
-    main.innerHTML = `<h1>反馈</h1><p class="lead">读者在页面上提交的反馈。处理完标记状态；要改数据请去「采集与审核」发布，更新记录才有痕迹。</p>
+    main.innerHTML = `<h1>反馈</h1><p class="lead">读者在页面上提交的反馈。处理完标记状态；要改数据请去「采集与审核」发布，更新日志才有痕迹。</p>
       <div class="tools"><a class="btn small ${filter === 'new' ? 'primary' : ''}" href="#feedback">待处理</a><a class="btn small ${filter === 'all' ? 'primary' : ''}" href="#feedback/all">全部</a><span class="msg" id="fb-msg"></span></div>
       <div id="fb-list"><p class="empty">加载中…</p></div>`;
     let rows;
@@ -228,7 +228,7 @@
     const pick = args[0] || '';
     const rows = pick ? all.filter((e) => e.condo === pick) : all;
     const condosIn = [...new Set(all.map((e) => e.condo))];
-    main.innerHTML = `<h1>日志</h1><p class="lead">谁、什么时候、改了什么、为什么。读者页的更新记录只显示"改了什么"。共 ${all.length} 条。</p>
+    main.innerHTML = `<h1>日志</h1><p class="lead">谁、什么时候、改了什么、为什么。共 ${all.length} 条。</p>
       <div class="tools"><label>小区 <select id="lg-pick"><option value="">全部</option>${condosIn.map((id) => `<option value="${esc(id)}" ${id === pick ? 'selected' : ''}>${esc(condoName(id))}</option>`).join('')}</select></label></div>
       <div class="tbl-wrap"><table class="tbl"><tr><th>时间</th><th>谁</th><th>小区</th><th>字段</th><th>从</th><th>到</th><th>理由</th><th>对外说明</th></tr>${rows.slice(0, 300).map((e) => `<tr><td>${esc(fmtT(e.at))}</td><td>${esc(e.who)}</td><td>${esc(condoName(e.condo))}</td><td>${esc(fz(e.field))}</td><td class="diffcell">${esc(val(e.from))}</td><td class="diffcell">${esc(val(e.to))}</td><td class="diffcell">${esc(e.reason || '')}</td><td class="diffcell">${esc(e.public_note || '')}</td></tr>`).join('')}</table></div>${rows.length > 300 ? '<p class="muted">只显示最近 300 条。</p>' : ''}`;
     $('#lg-pick').addEventListener('change', (e) => { location.hash = e.target.value ? `#log/${e.target.value}` : '#log'; });
