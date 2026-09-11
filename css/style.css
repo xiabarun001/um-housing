@@ -36,6 +36,8 @@
 html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 body { margin: 0; background-color: var(--bg); background-image: var(--wm); background-repeat: repeat; color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+/* 元素带 hidden 就该藏起来。类里的 display 会盖过浏览器默认的 [hidden]，所以这条要有 */
+[hidden] { display: none !important; }
 a { color: var(--r2); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--ink); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
@@ -874,7 +876,6 @@ main { max-width: 1400px; }
 .filter-btn::before { content: ''; width: 14px; height: 12px; background: currentColor; -webkit-mask: var(--ico-filter) center/contain no-repeat; mask: var(--ico-filter) center/contain no-repeat; }
 .filter-btn:hover { border-color: var(--ink-3); }
 .filter-btn.has { background: var(--walked); border-color: var(--walked); color: #fff; }
-.fb-n[hidden] { display: none; }
 .fb-n { font-size: 13.5px; min-width: 18px; height: 18px; border-radius: 999px; background: var(--walked); color: #fff; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px; }
 .filter-btn.has .fb-n { background: rgba(255, 255, 255, .3); }
 
