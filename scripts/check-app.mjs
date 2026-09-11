@@ -4,8 +4,11 @@
    所以专门加一条：跑 npm run check。 */
 import fs from 'node:fs';
 
-const app = fs.readFileSync(new URL('../js/app.js', import.meta.url), 'utf8');
-const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+// Windows 上 git 会把工作区的换行换成回车加换行，下面的正则都是按换行写的，先统一一下，
+// 否则 init() 那一段切不出来，会报出一堆根本不存在的"函数没定义"。
+const read = (rel) => fs.readFileSync(new URL(rel, import.meta.url), 'utf8').split('\r\n').join('\n');
+const app = read('../js/app.js');
+const html = read('../index.html');
 const problems = [];
 
 /* 1. init() 里调用的函数必须都有定义 */

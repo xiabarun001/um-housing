@@ -1034,7 +1034,12 @@ main { max-width: 1400px; }
 @media (max-width: 720px) { .pickbox { padding: 4px 16px 12px; } .budget-row input[type="range"] { flex-basis: 100%; } }
 
 /* 页脚的署名 */
-.foot .sign { margin-top: 12px; font-size: 13.5px; font-style: italic; letter-spacing: .03em; color: var(--ink-3); }
+/* 页脚一行：左边那句话，右边网址和年份 */
+.foot-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 28px; max-width: 1120px; margin-inline: auto; }
+.foot-row p { max-width: none; margin-inline: 0; }
+.foot-row > p:first-child { flex: 1 1 30em; min-width: 0; }
+.foot .sign { margin: 0 0 0 auto; font-size: 13.5px; font-style: italic; letter-spacing: .03em; color: var(--ink-3); white-space: nowrap; }
+@media (max-width: 720px) { .foot .sign { margin-left: 0; } }
 
 /* 结论紧跟在选项下面 */
 .conclusion { margin-top: 16px; }
