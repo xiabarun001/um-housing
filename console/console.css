@@ -11,13 +11,15 @@ body { background-color: var(--bg-2); background-image: none; font-size: 16px; }
 }
 .c-top .c-brand { font-family: var(--serif); font-size: 19px; font-weight: 600; letter-spacing: .03em; color: var(--ink); }
 .c-top .spacer { flex: 1; }
-.c-top .me { font-size: 14.5px; color: var(--ink-2); }
+.c-top .me { display: inline-flex; align-items: center; gap: 7px; font-size: 14.5px; color: var(--ink-2); }
+.c-top .me::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); flex: none; }
 .c-top a { color: var(--ink-2); font-size: 14.5px; text-decoration: none; border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
 .c-top a:hover { color: var(--ink); border-bottom-color: var(--ink); }
 
 /* 左边导航 */
 .c-wrap { display: grid; grid-template-columns: 208px 1fr; min-height: calc(100vh - 62px); }
-.c-nav { background: var(--card); border-right: 1px solid var(--line); padding: 18px 0; }
+.c-nav { background: var(--card); border-right: 1px solid var(--line); padding: 20px 0; }
+.c-nav .navlab { display: block; padding: 0 24px 10px; font-size: 12.5px; letter-spacing: .14em; color: var(--ink-3); }
 .c-nav a {
   display: block; padding: 11px 24px; font-size: 16px; line-height: 1.5;
   color: var(--ink-2); text-decoration: none; border-left: 3px solid transparent;
@@ -27,15 +29,15 @@ body { background-color: var(--bg-2); background-image: none; font-size: 16px; }
 .c-nav .sep { margin: 12px 24px; border-top: 1px solid var(--line); }
 
 /* 正文 */
-.c-main { padding: 30px clamp(18px, 3vw, 36px) 80px; min-width: 0; }
-.c-main > * { max-width: 1080px; }
+.c-main { max-width: none; margin: 0; padding: 30px clamp(20px, 3vw, 40px) 80px; min-width: 0; }
+.c-main > * { max-width: 1200px; }
 .c-main h1 { font-family: var(--serif); font-size: 30px; font-weight: 600; letter-spacing: .02em; margin: 0 0 6px; }
 .c-main h2 { font-family: var(--serif); font-size: 21px; font-weight: 600; margin: 36px 0 12px; }
 .c-main h3 { font-size: 17px; margin: 0 0 10px; }
 .c-main .lead { color: var(--ink-2); font-size: 15.5px; line-height: 1.8; margin: 0 0 24px; max-width: 62em; }
 
 /* 总览的数字卡片 */
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 14px; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; box-shadow: var(--shadow-sm); }
 .stat .k { font-size: 14px; color: var(--ink-3); }
 .stat .v { font-family: var(--serif); font-size: 32px; line-height: 1.25; margin: 4px 0 6px; color: var(--ink); }
@@ -100,6 +102,22 @@ body { background-color: var(--bg-2); background-image: none; font-size: 16px; }
 .diffcell { max-width: 420px; white-space: pre-wrap; word-break: break-word; font-size: 14px; }
 .runs .pill { min-width: 68px; text-align: center; }
 .empty { color: var(--ink-3); font-size: 15px; padding: 18px 0; }
+
+/* 立即执行：一行一个动作，左边说清楚它干什么 */
+.acts { background: var(--card); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow-sm); overflow: hidden; }
+.act-row { display: flex; align-items: center; gap: 20px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+.act-row:last-child { border-bottom: 0; }
+.act-row .t { flex: 1; min-width: 0; }
+.act-row .t b { display: block; font-size: 16px; font-weight: 600; color: var(--ink); }
+.act-row .t span { font-size: 14px; line-height: 1.7; color: var(--ink-3); }
+.act-foot { display: flex; align-items: center; gap: 12px; margin: 12px 0 0; min-height: 24px; }
+
+/* 没有告警的时候不要摆一个空框 */
+.allgood { display: flex; align-items: center; gap: 9px; margin: 12px 0 0; font-size: 15px; color: var(--ink-2); }
+.allgood::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+
+/* 配置检查放到最下面，安静一点 */
+.cfg-line { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 46px 0 0; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-3); }
 
 @media (max-width: 860px) {
   .c-wrap { grid-template-columns: 1fr; min-height: 0; }

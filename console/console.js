@@ -53,21 +53,22 @@
         <div class="stat"><div class="k">交叉验证</div><div class="v">${st.crosscheck.geo.agree + st.crosscheck.geo.near}/${st.condos}</div><div class="s">坐标一致或接近 · 步行路线值 ${st.crosscheck.walk.route_adopted}</div></div>
       </div>
       <h2>告警</h2>
-      <ul class="alerts">${st.alerts?.length ? st.alerts.map((a) => `<li>[${esc(a.level)}] ${esc(a.text)}</li>`).join('') : '<li class="ok">没有告警。</li>'}</ul>
-      <h2>配置检查</h2>
-      <p class="msg" id="cfg">检查中…</p>
+      ${st.alerts?.length
+        ? `<ul class="alerts">${st.alerts.map((a) => `<li>${esc(a.text)}</li>`).join('')}</ul>`
+        : '<p class="allgood">一切正常，没有要处理的。</p>'}
       <h2>立即执行</h2>
-      <div class="tools">
-        <button class="btn" data-act="refresh">刷新实时信息（约 8 分钟）</button>
-        <button class="btn" data-act="collect">采集固定信息 + 交叉验证（约 7 分钟，只进 staging）</button>
-        <button class="btn" data-act="status">重算健康状态</button>
-        <span class="msg" id="act-msg"></span>
+      <div class="acts">
+        <div class="act-row"><div class="t"><b>刷新实时信息</b><span>重抓 25 个小区的挂牌数量和价格，约 8 分钟。平时每天早晚 8 点自动跑一次。</span></div><button class="btn" data-act="refresh" data-name="刷新实时信息">执行</button></div>
+        <div class="act-row"><div class="t"><b>采集固定信息 + 交叉验证</b><span>重新抓档案并和第二来源比对，约 7 分钟。只写进 staging，要不要采用还是你在「采集与审核」里定。</span></div><button class="btn" data-act="collect" data-name="采集固定信息 + 交叉验证">执行</button></div>
+        <div class="act-row"><div class="t"><b>重算健康状态</b><span>只重算上面那几个数字，几秒钟，不动任何数据。</span></div><button class="btn" data-act="status" data-name="重算健康状态">执行</button></div>
       </div>
+      <p class="act-foot"><span class="msg" id="act-msg"></span></p>
       <h2>最近的后台动作</h2>
-      <div id="runs" class="runs"><p class="empty">加载中…</p></div>`;
+      <div id="runs" class="runs"><p class="empty">加载中…</p></div>
+      <p class="cfg-line" id="cfg">检查中…</p>`;
     $$('[data-act]', main).forEach((b) => b.addEventListener('click', async () => {
       const a = b.dataset.act;
-      if (!confirmDo(`确定现在执行「${b.textContent.trim()}」？会在 GitHub Actions 里跑，完成后自动提交。`)) return;
+      if (!confirmDo(`确定现在执行「${b.dataset.name}」？会在 GitHub Actions 里跑，完成后自动提交。`)) return;
       b.disabled = true; say($('#act-msg'), '已提交，等 GitHub 排队…');
       try { await api('/api/actions', { method: 'POST', body: JSON.stringify({ action: a }) }); say($('#act-msg'), '已触发，下面的列表半分钟内会出现。', 'ok'); setTimeout(loadRuns, 4000); }
       catch (e) { say($('#act-msg'), e.message, 'err'); }
@@ -81,7 +82,7 @@
     const el = $('#cfg'); if (!el) return;
     if (!state.me) { el.textContent = '还没拿到登录信息（本地预览没有 Functions 时属正常）。'; return; }
     const c = state.me.configured || {};
-    el.innerHTML = `${pill(c.github ? 'GitHub token 已配置' : 'GitHub token 未配置', c.github ? 'ok' : 'bad')} ${pill('仓库 ' + (c.repo || '—'), 'gray')}`;
+    el.innerHTML = `登录为 ${esc(state.me.email || '—')} · ${pill(c.github ? 'GitHub token 已配置' : 'GitHub token 未配置', c.github ? 'ok' : 'bad')} ${pill('仓库 ' + (c.repo || '—'), 'gray')}`;
   }
   async function loadRuns() {
     const box = $('#runs'); if (!box) return;
