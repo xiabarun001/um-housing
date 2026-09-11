@@ -1,6 +1,6 @@
 ﻿# UM 租房指南
 
-马来亚大学（Universiti Malaya）周边三个区域 25 个小区的静态信息站：设施、楼龄、户数、地契、到最近 LRT 的步行时间、在租行情快照，加一张所有同学都能填的租房意向表。
+马来亚大学（Universiti Malaya）周边三个区域 25 个小区的静态信息站：设施、楼龄、户数、地契、到最近轨道站的步行时间、在租行情快照。
 
 - 线上：`um-housing.evasuka.com`（DNS 生效前可用 `https://xiabarun001.github.io/um-housing/`）
 - 无构建步骤，纯静态 HTML / CSS / JS，GitHub Pages 直接托管。
@@ -18,7 +18,7 @@
 ```
 index.html          页面结构
 css/style.css       样式（含深色模式）
-js/app.js           渲染、筛选、距离带 SVG、意向表读写
+js/app.js           渲染、筛选、地图、费用计算、榜单
 js/config.js        Supabase 地址与 publishable key（公开的，只允许匿名读和写入）
 data/condos.json    固定信息：设施、楼龄、户数、地契、坐标、链接。人工维护，半个月到一个月复核一次
 data/campus.json    校园地点（学院、校门）坐标，来自 OpenStreetMap；"熟悉校园"示意图用它画
@@ -34,7 +34,7 @@ scripts/publish.mjs 固定信息发布脚本（staging → condos.json + provena
 scripts/arbitrate.mjs 两源冲突仲裁脚本（结论和理由写进 provenance）
 scripts/status.mjs 数据健康检查（data/status.json）
 console/            管理后台 UMH Console（邮箱验证码登录，登录页 login/；开通步骤见 docs/CONSOLE-SETUP.md）
-functions/          Pages Functions：/api/me、/api/intents、/api/actions、/api/auth/*（校验登录）
+functions/          Pages Functions：/api/me、/api/actions、/api/auth/*（校验登录）
 .github/workflows/refresh.yml  每 12 小时刷新行情并提交
 .github/workflows/collect.yml  每月 1 日全量采集档案，只提交 staging 和报告
 docs/               规格、决策记录、验收标准
@@ -117,13 +117,6 @@ node scripts/refresh.mjs
 如果哪天 GitHub 的机器又被 iProperty 拦了，备用办法是在自己电脑上定时跑 `scripts/refresh-local.ps1`（拉取、刷新、提交、推送一条龙，日志在 `%LOCALAPPDATA%\um-housing\refresh.log`），用 Windows 任务计划程序每天 08:00 和 20:00 各跑一次即可。
 
 设施、楼龄、户数、坐标这些固定信息不在自动范围内，改 `condos.json` 后记得把 `meta.verified_at` 改成当天。
-
-## 意向表（Supabase）
-
-- 表 `public.intents`，RLS 只开放 `select` 和 `insert` 给匿名角色，前端拿不到删改权限。
-- 每分钟最多 20 条插入（数据库触发器），防刷。
-- 删除或修改某一行：登录 Supabase 控制台 → Table Editor → `intents`。
-- 换项目：改 `js/config.js` 里的两个值。
 
 ## 本地预览
 

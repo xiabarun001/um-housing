@@ -1,5 +1,5 @@
 /* UMH Console：静态页 + /api/*（Pages Functions）。登录在 /login/ 用邮箱验证码换 HttpOnly cookie，这里不碰 token。
-   读取：仓库里的 data/*.json（和读者页同源）；写入：/api/intents（Supabase），/api/actions（触发 GitHub 工作流）。 */
+   读取：仓库里的 data/*.json（和读者页同源）；写入：/api/actions（触发 GitHub 工作流）。 */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -81,7 +81,7 @@
     const el = $('#cfg'); if (!el) return;
     if (!state.me) { el.textContent = '还没拿到登录信息（本地预览没有 Functions 时属正常）。'; return; }
     const c = state.me.configured || {};
-    el.innerHTML = `${pill(c.supabase ? 'Supabase 服务密钥 已配置' : 'Supabase 服务密钥 未配置', c.supabase ? 'ok' : 'bad')} ${pill(c.github ? 'GitHub token 已配置' : 'GitHub token 未配置', c.github ? 'ok' : 'bad')} ${pill('仓库 ' + (c.repo || '—'), 'gray')}`;
+    el.innerHTML = `${pill(c.github ? 'GitHub token 已配置' : 'GitHub token 未配置', c.github ? 'ok' : 'bad')} ${pill('仓库 ' + (c.repo || '—'), 'gray')}`;
   }
   async function loadRuns() {
     const box = $('#runs'); if (!box) return;
@@ -185,19 +185,6 @@
   }
 
 
-  /* ---------- 意向表 ---------- */
-  async function intents() {
-    main.innerHTML = `<h1>意向表</h1><p class="lead">读者填的租房意向。这里可以删除刷屏或过期的行（读者页的口令删除仍然可用）。</p><span class="msg" id="it-msg"></span><div id="it-list"><p class="empty">加载中…</p></div>`;
-    let rows;
-    try { ({ rows } = await api('/api/intents')); } catch (e) { $('#it-list').innerHTML = `<p class="msg err">${esc(e.message)}</p>`; return; }
-    if (!rows.length) { $('#it-list').innerHTML = '<p class="empty">还没有人填。</p>'; return; }
-    $('#it-list').innerHTML = `<div class="tbl-wrap"><table class="tbl"><tr><th>时间</th><th>昵称</th><th>预算</th><th>房型</th><th>想住</th><th>入住</th><th>找室友</th><th>联系</th><th>备注</th><th></th></tr>${rows.map((r) => `<tr data-id="${esc(r.id)}"><td>${esc(fmtT(r.created_at))}</td><td>${esc(r.nickname)}</td><td class="num">${r.budget ?? '—'}</td><td>${esc(r.room_type || '—')}</td><td>${esc((r.condos || []).map(condoName).join('、') || '—')}</td><td>${esc(r.move_in || '—')}</td><td>${r.need_roommate ? '是' : ''}</td><td>${esc(r.contact || '—')}</td><td class="diffcell">${esc(r.note || '')}</td><td><button class="btn small danger" data-del>删除</button></td></tr>`).join('')}</table></div>`;
-    $$('[data-del]', main).forEach((b) => b.addEventListener('click', async () => {
-      const id = b.closest('tr').dataset.id;
-      if (!confirmDo('删除这一行意向？')) return;
-      try { await api('/api/intents', { method: 'DELETE', body: JSON.stringify({ id }) }); say($('#it-msg'), '已删除', 'ok'); intents(); } catch (e) { say($('#it-msg'), e.message, 'err'); }
-    }));
-  }
 
   /* ---------- 日志 ---------- */
   async function log(args) {
@@ -212,7 +199,7 @@
   }
 
   /* ---------- 路由 ---------- */
-  const views = { overview, review, condos, intents, log };
+  const views = { overview, review, condos, log };
   async function route() {
     const parts = (location.hash || '#overview').slice(1).split('/');
     const name = views[parts[0]] ? parts[0] : 'overview';

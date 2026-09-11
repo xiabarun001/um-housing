@@ -28,11 +28,7 @@
 
 后台只用它触发 `console-action.yml`；改数据、提交都由工作流自带的权限完成。
 
-## 3. Supabase 服务密钥：让后台能处理意向表
-
-Supabase 控制台 → 项目 `um-housing` → **Project Settings → API Keys** → 复制 **service_role** 密钥。这个密钥能绕过数据库权限，只能放在下一步的 Pages 密钥里，绝不能写进代码或发给别人。
-
-## 4. Pages 环境变量：把三样东西交给 Functions
+## 3. Pages 环境变量：交给 Functions
 
 Cloudflare 控制台 → **Workers & Pages → um-housing → Settings → Variables and Secrets**，Production 环境加以下几项，类型都选 **Secret**：
 
@@ -41,13 +37,12 @@ Cloudflare 控制台 → **Workers & Pages → um-housing → Settings → Varia
 | `ADMIN_EMAILS` | 能进后台的邮箱，逗号分隔，例如 `a@gmail.com,b@163.com` |
 | `GITHUB_TOKEN` | 第 2 步的 token |
 | `GITHUB_REPO` | `xiabarun001/um-housing` |
-| `SUPABASE_SERVICE_KEY` | 第 3 步的 service_role 密钥 |
 
 没配 `ADMIN_EMAILS` 的时候后台是关着的（返回 503），不会裸奔。
 
 保存后 **Deployments → 最新一次 → Retry deployment**（环境变量要重新部署才生效）。
 
-## 5. 验证
+## 4. 验证
 
 1. 打开 https://um-housing.evasuka.com/login/ ，填白名单里的邮箱 → 收验证码 → 填码，应该直接进后台。名单外的邮箱会被当场拒掉。
 2. 右上角显示你的邮箱；总览页的"配置检查"三项都是绿色。
@@ -57,7 +52,6 @@ Cloudflare 控制台 → **Workers & Pages → um-housing → Settings → Varia
 
 - **总览**：新鲜度、待审核、告警；一键刷新 / 采集。
 - **采集与审核**：选小区，看 iProperty 采集值和现有值的差异、StarProperty 二源结论、坐标和步行的交叉验证；勾选要接受的字段，填一句对外说明，点发布。发布是提交到仓库并自动部署，约一分钟生效。
-- **意向表**：查看和删除。
 - **日志**：谁、什么时候、改了什么（读者页只显示"改了什么"）。
 
 ## 加管理员 / 撤销
@@ -68,4 +62,4 @@ Cloudflare → Workers & Pages → um-housing → Settings → Variables and Sec
 
 ## 密钥泄露怎么办
 
-GitHub token：在 GitHub 里 Revoke，重新生成，更新 Pages 密钥。Supabase：Project Settings → API Keys → 轮换 service_role，更新 Pages 密钥。都不需要改代码。
+GitHub token：在 GitHub 里 Revoke，重新生成，更新 Pages 密钥。不需要改代码。
