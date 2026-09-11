@@ -1060,7 +1060,7 @@ main { max-width: 1400px; }
 .login-mark circle { fill: var(--r1); }
 .login-mark path { fill: #FDF8F0; }
 .login-mark rect { fill: var(--r1); }
-.login-title { font-family: var(--serif); font-size: 26px; letter-spacing: .05em; margin: 0 0 6px; }
+.login-title { font-family: var(--serif); font-size: clamp(19px, 5.4vw, 22px); letter-spacing: .02em; line-height: 1.45; margin: 0 0 6px; }
 .login-say { margin: 0 0 22px; font-family: "ZCOOL XiaoWei", var(--serif); font-size: 16.5px; letter-spacing: .06em; color: var(--accent); }
 .login-acts { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0; }
 .login-state { margin: 16px 0 0; padding: 12px 14px; background: var(--bg-2); border-radius: 8px; font-size: 14px; line-height: 1.75; color: var(--ink-2); }
