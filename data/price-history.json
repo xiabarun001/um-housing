@@ -505,12 +505,12 @@
           "rooms_min": null
         },
         "ryan-miho": {
-          "for_rent": 136,
+          "for_rent": 137,
           "rent_from": 1800,
           "rooms_min": 950
         },
         "pacific-star": {
-          "for_rent": 204,
+          "for_rent": 205,
           "rent_from": 1800,
           "rooms_min": 780
         },
@@ -560,7 +560,7 @@
           "rooms_min": 750
         },
         "southlink": {
-          "for_rent": 533,
+          "for_rent": 534,
           "rent_from": 1299,
           "rooms_min": 1300
         },
@@ -595,7 +595,7 @@
           "rooms_min": null
         },
         "tria-seputeh": {
-          "for_rent": 104,
+          "for_rent": 101,
           "rent_from": 2000,
           "rooms_min": 1500
         },
@@ -605,7 +605,7 @@
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 232,
+          "for_rent": 234,
           "rent_from": 1900,
           "rooms_min": null
         },
@@ -615,7 +615,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 390,
+          "for_rent": 392,
           "rent_from": 1700,
           "rooms_min": 1050
         }

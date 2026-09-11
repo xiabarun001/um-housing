@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-11T06:07:26.622Z",
-  "generated_myt": "2026-09-11 14:07",
+  "generated_at": "2026-09-11T07:17:22.305Z",
+  "generated_myt": "2026-09-11 15:17",
   "condos": 25,
   "regions": 3,
   "market": {
-    "updated_myt": "2026-09-11 10:42",
-    "age_hours": 3,
+    "updated_myt": "2026-09-11 15:17",
+    "age_hours": 0,
     "condos_with_price": 25,
     "last_run_ok": true,
     "last_run_errors": 0,
