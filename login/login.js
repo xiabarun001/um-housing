@@ -1,4 +1,4 @@
-/* 维护后台的登录：填邮箱 → 收 6 位验证码 → 换 token。
+/* 维护后台的登录：填邮箱 → 收邮件里的验证码 → 换 token。
    token 由服务端写进 HttpOnly cookie，这个脚本从头到尾拿不到，也不往本地存东西。 */
 (() => {
   const $ = (s) => document.querySelector(s);

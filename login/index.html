@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@500;600;700&family=Noto+Sans+SC:wght@400;500;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=202609111300">
+<link rel="stylesheet" href="../css/style.css?v=202609111400">
 </head>
 <body>
 <header class="top">
@@ -23,7 +23,7 @@
       <input class="login-inp" id="email" name="email" type="email" inputmode="email" autocomplete="username" placeholder="维护名单里的邮箱" required>
       <div id="step2" hidden>
         <label class="login-lab" for="code">验证码</label>
-        <input class="login-inp" id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="邮件里的 6 位数字">
+        <input class="login-inp" id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" autocomplete="one-time-code" placeholder="邮件里那串数字">
       </div>
       <p class="login-acts">
         <button class="btn primary" id="go" type="submit">发验证码</button>
@@ -34,6 +34,6 @@
     <p class="login-state" id="state" hidden></p>
   </div>
 </main>
-<script src="login.js?v=202609111300"></script>
+<script src="login.js?v=202609111400"></script>
 </body>
 </html>

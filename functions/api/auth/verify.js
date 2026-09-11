@@ -17,7 +17,7 @@ export async function onRequestPost({ request, env }) {
   const email = String(body.email || '').trim();
   const code = String(body.code || '').trim();
   if (!isAdmin(env, email)) return reply({ error: '这个邮箱不在维护名单里' }, 403);
-  if (!/^\d{6}$/.test(code)) return reply({ error: '验证码是 6 位数字' }, 400);
+  if (!/^\d{6,10}$/.test(code)) return reply({ error: '验证码是一串数字，照邮件里抄' }, 400);
 
   let last = '验证码不对或者过期了';
   for (const type of TYPES) {
