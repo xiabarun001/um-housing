@@ -630,17 +630,17 @@
           "rooms_min": null
         },
         "atwater": {
-          "for_rent": 82,
+          "for_rent": 84,
           "rent_from": 2500,
           "rooms_min": null
         },
         "ryan-miho": {
-          "for_rent": 0,
-          "rent_from": null,
-          "rooms_min": null
+          "for_rent": 135,
+          "rent_from": 1800,
+          "rooms_min": 950
         },
         "pacific-star": {
-          "for_rent": 204,
+          "for_rent": 203,
           "rent_from": 1800,
           "rooms_min": 780
         },
@@ -680,12 +680,12 @@
           "rooms_min": 780
         },
         "pantai-panorama": {
-          "for_rent": 35,
+          "for_rent": 34,
           "rent_from": 2000,
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 438,
+          "for_rent": 441,
           "rent_from": 1900,
           "rooms_min": 750
         },
@@ -695,22 +695,22 @@
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 261,
+          "for_rent": 263,
           "rent_from": 2100,
           "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 346,
+          "for_rent": 345,
           "rent_from": 1600,
           "rooms_min": 1550
         },
         "saville": {
-          "for_rent": 50,
+          "for_rent": 51,
           "rent_from": 2400,
           "rooms_min": 950
         },
         "inwood": {
-          "for_rent": 61,
+          "for_rent": 62,
           "rent_from": 3200,
           "rooms_min": null
         },
@@ -720,22 +720,22 @@
           "rooms_min": 1100
         },
         "avara": {
-          "for_rent": 117,
+          "for_rent": 123,
           "rent_from": 2050,
           "rooms_min": null
         },
         "tria-seputeh": {
-          "for_rent": 97,
+          "for_rent": 98,
           "rent_from": 2000,
           "rooms_min": 1500
         },
         "vivo": {
-          "for_rent": 273,
-          "rent_from": 1400,
+          "for_rent": 274,
+          "rent_from": 1350,
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 232,
+          "for_rent": 231,
           "rent_from": 1900,
           "rooms_min": null
         },
@@ -745,7 +745,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 386,
+          "for_rent": 387,
           "rent_from": 1700,
           "rooms_min": 1050
         }
