@@ -755,7 +755,7 @@
       "date": "2026-09-13",
       "condos": {
         "seventeen": {
-          "for_rent": 71,
+          "for_rent": 72,
           "rent_from": 1800,
           "rooms_min": null
         },
@@ -770,7 +770,7 @@
           "rooms_min": 950
         },
         "pacific-star": {
-          "for_rent": 199,
+          "for_rent": 197,
           "rent_from": 1800,
           "rooms_min": 780
         },
@@ -785,7 +785,7 @@
           "rooms_min": 1350
         },
         "centrestage": {
-          "for_rent": 151,
+          "for_rent": 150,
           "rent_from": 1099,
           "rooms_min": 600
         },
@@ -805,7 +805,7 @@
           "rooms_min": null
         },
         "kl-gateway": {
-          "for_rent": 139,
+          "for_rent": 140,
           "rent_from": 2000,
           "rooms_min": 780
         },
@@ -815,7 +815,7 @@
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 435,
+          "for_rent": 436,
           "rent_from": 1900,
           "rooms_min": 750
         },
@@ -830,12 +830,12 @@
           "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 340,
+          "for_rent": 343,
           "rent_from": 1600,
           "rooms_min": 1550
         },
         "saville": {
-          "for_rent": 50,
+          "for_rent": 51,
           "rent_from": 2400,
           "rooms_min": 950
         },
@@ -850,7 +850,7 @@
           "rooms_min": 1100
         },
         "avara": {
-          "for_rent": 123,
+          "for_rent": 125,
           "rent_from": 2050,
           "rooms_min": null
         },
@@ -860,7 +860,7 @@
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 269,
+          "for_rent": 266,
           "rent_from": 1350,
           "rooms_min": 750
         },
@@ -875,7 +875,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 380,
+          "for_rent": 383,
           "rent_from": 1700,
           "rooms_min": 1050
         }

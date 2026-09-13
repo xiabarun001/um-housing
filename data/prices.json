@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-09-13T02:48:13.926Z",
-  "updated_myt": "2026-09-13 10:48",
+  "updated_at": "2026-09-13T15:38:58.775Z",
+  "updated_myt": "2026-09-13 23:38",
   "source_note": "由 scripts/refresh.mjs 每 12 小时自动写入；按小区 id 对应 condos.json 里的固定信息",
   "condos": {
     "seventeen": {
       "date": "2026-09-13",
-      "for_rent": 71,
+      "for_rent": 72,
       "rent_from": 1800,
       "whole": "开间 550 sqft RM 1,800 起 · 1 房 550 sqft RM 2,000 起",
       "whole_source": "iProperty，2026-09-13",
@@ -71,7 +71,7 @@
     },
     "pacific-star": {
       "date": "2026-09-13",
-      "for_rent": 199,
+      "for_rent": 197,
       "rent_from": 1800,
       "whole": "开间 622 sqft RM 1,800 起 · 1 房 617 sqft RM 2,000 起 · 2 房 723 sqft RM 2,900 起 · 3 房 988 sqft RM 3,200 起 · 4 房 1,242 sqft RM 5,500 起",
       "whole_source": "iProperty，2026-09-13",
@@ -137,9 +137,9 @@
     },
     "centrestage": {
       "date": "2026-09-13",
-      "for_rent": 151,
+      "for_rent": 150,
       "rent_from": 1099,
-      "whole": "开间 301 sqft RM 1,099 起 · 1 房 301 sqft RM 1,299 起 · 2 房 452 sqft RM 1,199 起 · 3 房 689 sqft RM 1,499 起",
+      "whole": "开间 301 sqft RM 1,099 起 · 1 房 301 sqft RM 1,299 起 · 2 房 452 sqft RM 1,199 起",
       "whole_source": "iProperty，2026-09-13",
       "rooms": "大房 RM 800 起 · 房间 RM 600 起（2 条帖子）",
       "rooms_source": "iProperty，2026-09-13",
@@ -147,7 +147,7 @@
       "check": {
         "mudah": {
           "at": "2026-09-13",
-          "unit_min": 900,
+          "unit_min": 1099,
           "unit_n": 18,
           "room_min": 650,
           "room_n": 4,
@@ -225,7 +225,7 @@
     },
     "kl-gateway": {
       "date": "2026-09-13",
-      "for_rent": 139,
+      "for_rent": 140,
       "rent_from": 2000,
       "whole": "开间 500 sqft RM 2,200 起 · 1 房 500 sqft RM 2,000 起 · 2 房 650 sqft RM 2,400 起 · 3 房 1,050 sqft RM 2,700 起",
       "whole_source": "iProperty，2026-09-13",
@@ -258,7 +258,7 @@
         "mudah": {
           "at": "2026-09-13",
           "unit_min": 2500,
-          "unit_n": 1,
+          "unit_n": 2,
           "room_min": 750,
           "room_n": 1,
           "status": "agree",
@@ -269,7 +269,7 @@
     },
     "south-view": {
       "date": "2026-09-13",
-      "for_rent": 435,
+      "for_rent": 436,
       "rent_from": 1900,
       "whole": "开间 300 sqft RM 1,900 起 · 1 房 648 sqft RM 2,200 起 · 2 房 648 sqft RM 2,200 起",
       "whole_source": "iProperty，2026-09-13",
@@ -335,11 +335,11 @@
     },
     "laurel": {
       "date": "2026-09-13",
-      "for_rent": 340,
+      "for_rent": 343,
       "rent_from": 1600,
       "whole": "开间 300 sqft RM 1,600 起 · 1 房 495 sqft RM 2,099 起 · 2 房 495 sqft RM 1,900 起",
       "whole_source": "iProperty，2026-09-13",
-      "rooms": "大房 RM 2,200 起 · 房间 RM 1,550 起（3 条帖子）",
+      "rooms": "大房 RM 1,900 起 · 房间 RM 1,550 起（4 条帖子）",
       "rooms_source": "iProperty + iBilik，2026-09-13",
       "rooms_min": 1550,
       "check": {
@@ -357,7 +357,7 @@
     },
     "saville": {
       "date": "2026-09-13",
-      "for_rent": 50,
+      "for_rent": 51,
       "rent_from": 2400,
       "whole": "3 房 1,019 sqft RM 2,400 起 · 4 房 1,646 sqft RM 2,800 起",
       "whole_source": "iProperty，2026-09-13",
@@ -423,7 +423,7 @@
     },
     "avara": {
       "date": "2026-09-13",
-      "for_rent": 123,
+      "for_rent": 125,
       "rent_from": 2050,
       "whole": "1 房 667 sqft RM 2,050 起 · 2 房 826 sqft RM 2,299 起 · 3 房 915 sqft RM 2,400 起",
       "whole_source": "iProperty，2026-09-13",
@@ -467,7 +467,7 @@
     },
     "vivo": {
       "date": "2026-09-13",
-      "for_rent": 269,
+      "for_rent": 266,
       "rent_from": 1350,
       "whole": "开间 505 sqft RM 1,350 起 · 1 房 300 sqft RM 1,600 起",
       "whole_source": "iProperty，2026-09-13",
@@ -500,7 +500,7 @@
         "mudah": {
           "at": "2026-09-13",
           "unit_min": 1850,
-          "unit_n": 13,
+          "unit_n": 14,
           "room_min": 700,
           "room_n": 1,
           "status": "agree",
@@ -533,9 +533,9 @@
     },
     "millerz": {
       "date": "2026-09-13",
-      "for_rent": 380,
+      "for_rent": 383,
       "rent_from": 1700,
-      "whole": "开间 360 sqft RM 1,700 起 · 1 房 660 sqft RM 2,500 起 · 3 房 852 sqft RM 2,500 起",
+      "whole": "开间 360 sqft RM 1,700 起 · 1 房 660 sqft RM 2,500 起 · 3 房 907 sqft RM 2,500 起",
       "whole_source": "iProperty，2026-09-13",
       "rooms": "大房 RM 1,200 起 · 房间 RM 1,050 起（5 条帖子）",
       "rooms_source": "iProperty，2026-09-13",

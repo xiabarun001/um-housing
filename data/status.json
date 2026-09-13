@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-13T02:48:13.998Z",
-  "generated_myt": "2026-09-13 10:48",
+  "generated_at": "2026-09-13T15:38:58.854Z",
+  "generated_myt": "2026-09-13 23:38",
   "condos": 25,
   "regions": 3,
   "market": {
-    "updated_myt": "2026-09-13 10:48",
+    "updated_myt": "2026-09-13 23:38",
     "age_hours": 0,
     "condos_with_price": 25,
     "last_run_ok": true,
@@ -18,7 +18,7 @@
   },
   "profile": {
     "verified_at_meta": "2026-09-08",
-    "oldest_days": 5,
+    "oldest_days": 6,
     "stale_over_45d": [],
     "last_collect_at": "2026-09-08T12:56:37.283Z",
     "last_collect_days": 5,
