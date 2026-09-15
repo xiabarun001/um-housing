@@ -535,6 +535,12 @@ function drawMap(campus) {
   // 点一下地图再允许滚轮缩放，避免页面滚动被劫持
   map.on('click', () => map.scrollWheelZoom.enable());
   map.on('mouseout', () => map.scrollWheelZoom.disable());
+  // 触屏同理：一根手指划过地图应该是翻页，不是拖地图。点一下地图才开拖动，页面一滚就关掉
+  if (L.Browser.mobile || (window.matchMedia && matchMedia('(pointer: coarse)').matches)) {
+    map.dragging.disable();
+    map.on('click', () => map.dragging.enable());
+    window.addEventListener('scroll', () => { if (map.dragging.enabled()) map.dragging.disable(); }, { passive: true });
+  }
 
   setupTour({ map, campusLayer: state.campusLayer, regionBounds, uni, gate, lrtLine, walkLayers });
 }
@@ -911,6 +917,7 @@ function openDetail(id) {
     </div>`;
   const dlg = $('#detail');
   $('[data-close]', dlg).addEventListener('click', () => dlg.close());
+  if (!dlg.dataset.esc) { dlg.dataset.esc = '1'; dlg.addEventListener('keydown', (e) => { if (e.key === 'Escape') { e.preventDefault(); dlg.close(); } }); }
   dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }, { once: true });
   dlg.showModal();
 }
@@ -1250,10 +1257,11 @@ function renderTierPills() {
   // 页首右下一处说清三类信息：各是什么、更新到什么时候（固定信息精确到日，实时信息精确到时，观点不标时间）。全站只在这里说一次
   const h = marketAgeHours(); const stale = h != null && h > MARKET_STALE_HOURS;
   const m = String(state.meta.prices_updated_myt || '').match(/^(\d{4}-\d{2}-\d{2}) (\d{2}):/);
-  const hourText = m ? `${m[1]} ${m[2]}:00` : (state.meta.prices_updated_myt || '未知');
+  // prices.json 没加载出来的时候别写「未知」，直接说没拿到
+  const hourText = m ? `${m[1]} ${m[2]}:00` : (state.meta.prices_updated_myt || null);
   const row = (k, meaning, when, cls) => `<button type="button" class="tier-row tier-${k}${cls || ''}" data-tier="${k}" title="点一下看来源和说明"><b><i></i>${TIER_LABEL[k]}</b><span class="tm">${meaning}</span><time>${when}</time></button>`;
   box.innerHTML = row('profile', '小区档案类事实，人工核实', `更新于 ${esc(state.meta.verified_at || '未知')}`) +
-    row('market', '挂牌数量和价格，每天早晚 8 点自动抓', stale ? `已 ${Math.round(h)} 小时未更新` : `更新于 ${esc(hourText)}`, stale ? ' stale' : '') +
+    row('market', '挂牌数量和价格，每天早晚 8 点自动抓', stale ? `已 ${Math.round(h)} 小时未更新` : hourText ? `更新于 ${esc(hourText)}` : '这次没加载出来，刷新试试', stale || !hourText ? ' stale' : '') +
     row('judgment', '主观判断', '—');
 }
 function tierPopHTML(kind, c) {
