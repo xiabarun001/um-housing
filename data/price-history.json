@@ -1040,7 +1040,7 @@
           "rooms_min": null
         },
         "pj-midtown": {
-          "for_rent": 139,
+          "for_rent": 140,
           "rent_from": 1350,
           "rooms_min": 1350
         },
@@ -1075,17 +1075,17 @@
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 430,
+          "for_rent": 433,
           "rent_from": 1900,
           "rooms_min": 750
         },
         "southlink": {
-          "for_rent": 467,
+          "for_rent": 469,
           "rent_from": 1299,
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 254,
+          "for_rent": 255,
           "rent_from": 2100,
           "rooms_min": 1400
         },
@@ -1110,32 +1110,32 @@
           "rooms_min": 1100
         },
         "avara": {
-          "for_rent": 122,
+          "for_rent": 123,
           "rent_from": 2050,
           "rooms_min": null
         },
         "tria-seputeh": {
-          "for_rent": 97,
+          "for_rent": 99,
           "rent_from": 2000,
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 252,
+          "for_rent": 253,
           "rent_from": 1350,
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 228,
+          "for_rent": 226,
           "rent_from": 1900,
           "rooms_min": null
         },
         "avantas": {
-          "for_rent": 25,
+          "for_rent": 26,
           "rent_from": 1500,
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 391,
+          "for_rent": 397,
           "rent_from": 1700,
           "rooms_min": 1050
         }
