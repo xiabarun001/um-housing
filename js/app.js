@@ -104,11 +104,14 @@ function bindCalc() {
     set('#m-total', rm(monthly)); set('#m-each', rm(monthly / people)); set('#m-year', rm(monthly * 12));
     // 一个人住的话"每人"和"每月合计"是同一个数，不用说两遍
     const eachWrap = $('#m-each-wrap'); if (eachWrap) eachWrap.hidden = people <= 1;
-    if (input.dataset.touched === '1') {
-      try { localStorage.setItem('um-calc', JSON.stringify({ rent: r, total: Math.round(total), back: Math.round(back), monthly: Math.round(monthly), each: Math.round(monthly / people), people })); } catch { /* ignore */ }
-    }
+    // 结论那句引用的就是这里现算的数，不存本地：刷新后计算器回到默认，结论也跟着回去，两边永远一致
+    state.calc = input.dataset.touched === '1' ? { rent: r, total: Math.round(total), back: Math.round(back), monthly: Math.round(monthly), each: Math.round(monthly / people), people } : null;
     if (typeof renderConclusion === 'function' && state.condos) renderConclusion();
   };
+  // 早先版本把算出来的数存过本地（um-calc），现在不存了，顺手清掉
+  try { localStorage.removeItem('um-calc'); } catch { /* ignore */ }
+  // Firefox 刷新会把表单控件恢复成上次的值，这里显式回到默认，和 state 保持一致
+  [input, ...$$('.ctl input')].forEach((el) => { el.autocomplete = 'off'; el.value = el.defaultValue; });
   input.addEventListener('input', () => { input.dataset.touched = '1'; run(); });
   $$('.ctl input').forEach((el) => el.addEventListener('input', () => { input.dataset.touched = '1'; run(); }));
   run();
@@ -333,7 +336,7 @@ function finalSentence() {
 function renderConclusion() {
   const box = $('#conclusion'); if (!box) return;
   const text = finalSentence();
-  let calc = null; try { calc = JSON.parse(localStorage.getItem('um-calc') || 'null'); } catch { /* ignore */ }
+  const calc = state.calc;
   const money = calc && calc.rent ? `签约当天要带 RM ${fmt(calc.total)}，其中 RM ${fmt(calc.back)} 是押金，退房时退；住进去以后每月${calc.people > 1 ? `每人` : ''} RM ${fmt(calc.people > 1 ? calc.each : calc.monthly)}。` : '';
   const full = text ? text + money : '';
   box.innerHTML = `
@@ -391,7 +394,8 @@ function drawMap(campus) {
     base.addTo(map);
   };
   const styleSel = $('#map-style');
-  setBase(styleSel?.value || 'positron');
+  if (styleSel) { styleSel.autocomplete = 'off'; styleSel.value = 'positron'; }
+  setBase('positron');
   styleSel?.addEventListener('change', () => setBase(styleSel.value));
   // "详细"开关叠加次要信息
   const detail = L.layerGroup();
@@ -668,7 +672,8 @@ function bindFilters() {
   });
   document.addEventListener('click', (e) => { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) open(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) open(false); });
-  $('#sort').addEventListener('change', (e) => { state.sort = e.target.value; renderList(); });
+  const sortSel = $('#sort'); sortSel.autocomplete = 'off'; sortSel.value = state.sort;
+  sortSel.addEventListener('change', (e) => { state.sort = e.target.value; renderList(); });
   paint();
 }
 
