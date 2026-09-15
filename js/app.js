@@ -115,18 +115,12 @@ function bindCalc() {
 }
 
 
+// 清单的勾选不存本地：刷新就是重新来一遍，和终点的选项、展开的卡片一个规矩。
+// 早先版本存过（um-check:*），这里顺手清掉；Firefox 刷新会自己恢复表单状态，所以显式全部取消勾选。
 function bindChecklists() {
   $$('[data-checklist]').forEach((list) => {
-    const key = 'um-check:' + list.dataset.checklist;
-    let saved = {};
-    try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch { saved = {}; }
-    $$('input[type=checkbox]', list).forEach((cb, i) => {
-      cb.checked = !!saved[i];
-      cb.addEventListener('change', () => {
-        saved[i] = cb.checked;
-        try { localStorage.setItem(key, JSON.stringify(saved)); } catch { /* 隐私模式下忽略 */ }
-      });
-    });
+    try { localStorage.removeItem('um-check:' + list.dataset.checklist); } catch { /* ignore */ }
+    $$('input[type=checkbox]', list).forEach((cb) => { cb.checked = false; cb.autocomplete = 'off'; });
   });
 }
 
