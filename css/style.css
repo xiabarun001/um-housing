@@ -196,7 +196,8 @@ h3 { font-size: 17px; }
 .checks label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; color: var(--ink-2); }
 .checks input { margin: 4px 0 0; accent-color: var(--ok); flex: none; }
 .checks input:checked + * , .checks label:has(input:checked) { color: var(--ink-3); text-decoration: line-through; }
-.callout { margin-top: 16px; padding: 12px 14px; border-left: 3px solid var(--r1); background: var(--bg-2); font-size: 15.5px; color: var(--ink-2); border-radius: 0 6px 6px 0; }
+/* 清单末尾的一条注意点：不做成框，就是一段话，和上面的清单用一条虚线隔开 */
+.callout { margin-top: 14px; padding: 12px 0 0; border-top: 1px dashed var(--line); font-size: 15px; line-height: 1.75; color: var(--ink-2); }
 .callout strong { color: var(--ink); }
 
 
@@ -454,7 +455,6 @@ main { max-width: 1400px; }
 /* 第 5 到 7 步 */
 .checks li { border-bottom-color: var(--line); }
 .checks input { accent-color: var(--accent); }
-.callout { border-radius: 0 10px 10px 0; background: var(--card); box-shadow: var(--shadow-sm); border-left-color: var(--accent); }
 .three-col h3, .two-col h3 { padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 
 /* 意向表 */
