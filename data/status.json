@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-15T03:06:49.122Z",
-  "generated_myt": "2026-09-15 11:06",
+  "generated_at": "2026-09-15T16:15:04.492Z",
+  "generated_myt": "2026-09-16 00:15",
   "condos": 25,
   "regions": 3,
   "market": {
-    "updated_myt": "2026-09-15 11:06",
+    "updated_myt": "2026-09-16 00:15",
     "age_hours": 0,
     "condos_with_price": 25,
-    "last_run_ok": true,
-    "last_run_errors": 0,
+    "last_run_ok": false,
+    "last_run_errors": 1,
     "mudah": {
       "agree": 13,
       "gap": 8,
@@ -18,7 +18,7 @@
   },
   "profile": {
     "verified_at_meta": "2026-09-08",
-    "oldest_days": 7,
+    "oldest_days": 8,
     "stale_over_45d": [],
     "last_collect_at": "2026-09-08T12:56:37.283Z",
     "last_collect_days": 7,
@@ -73,7 +73,12 @@
     "fields_single": 77,
     "conflicts": []
   },
-  "alerts": [],
+  "alerts": [
+    {
+      "level": "info",
+      "text": "上次刷新有 1 个错误：iproperty inwood: fetch failed"
+    }
+  ],
   "changelog_entries": 123,
   "last_change": "2026-09-08"
 }
