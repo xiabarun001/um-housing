@@ -1145,17 +1145,17 @@
       "date": "2026-09-16",
       "condos": {
         "seventeen": {
-          "for_rent": 73,
+          "for_rent": 72,
           "rent_from": 1800,
           "rooms_min": null
         },
         "atwater": {
-          "for_rent": 74,
+          "for_rent": 71,
           "rent_from": 2799,
           "rooms_min": null
         },
         "ryan-miho": {
-          "for_rent": 126,
+          "for_rent": 123,
           "rent_from": 1800,
           "rooms_min": 950
         },
@@ -1175,13 +1175,13 @@
           "rooms_min": 1600
         },
         "centrestage": {
-          "for_rent": 158,
+          "for_rent": 157,
           "rent_from": 1099,
           "rooms_min": 600
         },
         "pj8": {
-          "for_rent": 20,
-          "rent_from": 1900,
+          "for_rent": 15,
+          "rent_from": 2000,
           "rooms_min": null
         },
         "tiara-damansara": {
@@ -1190,8 +1190,8 @@
           "rooms_min": null
         },
         "dvogue": {
-          "for_rent": 50,
-          "rent_from": 1550,
+          "for_rent": 52,
+          "rent_from": 1499,
           "rooms_min": null
         },
         "kl-gateway": {
@@ -1200,17 +1200,17 @@
           "rooms_min": 780
         },
         "pantai-panorama": {
-          "for_rent": 33,
+          "for_rent": 32,
           "rent_from": 2000,
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 442,
+          "for_rent": 437,
           "rent_from": 1900,
           "rooms_min": 750
         },
         "southlink": {
-          "for_rent": 469,
+          "for_rent": 471,
           "rent_from": 1299,
           "rooms_min": 1300
         },
@@ -1220,7 +1220,7 @@
           "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 338,
+          "for_rent": 339,
           "rent_from": 1600,
           "rooms_min": 1550
         },
@@ -1235,12 +1235,12 @@
           "rooms_min": null
         },
         "secoya": {
-          "for_rent": 57,
+          "for_rent": 56,
           "rent_from": 3200,
           "rooms_min": 1100
         },
         "avara": {
-          "for_rent": 124,
+          "for_rent": 121,
           "rent_from": 2050,
           "rooms_min": null
         },
@@ -1250,7 +1250,7 @@
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 251,
+          "for_rent": 249,
           "rent_from": 1350,
           "rooms_min": 750
         },
@@ -1265,7 +1265,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 407,
+          "for_rent": 410,
           "rent_from": 1700,
           "rooms_min": 1050
         }
