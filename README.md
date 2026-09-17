@@ -101,7 +101,7 @@ node scripts/publish.mjs <id> --accept=all --region=3 --no=26 --alias="别名" -
 3. Mudah 二源：按小区名搜整套（按 buildingName 精确匹配，低于 RM 900 的不算）和单间（按标题匹配），取最低价和条数，和 iProperty 的最低价比对，相差 35% 以内算一致，否则标 gap。结果在 `prices.json` 每个小区的 `check.mudah`，页面行情弹层里显示。加 `--no-mudah` 可跳过。
    注意：PropertyGuru 马来西亚站和 iProperty 是同一集团同一数据库，不能当二源。
 
-跑完把 `prices.json` 的 `updated_myt` 改成当次时间（页面顶部的“最近一次更新”就读这个字段），并往 `price-history.json` 追加当天一行，有变化才提交，提交后 Cloudflare Pages 自动重新部署。抓取用 curl 带浏览器 UA，两次请求间隔 3 秒。iProperty 按 TLS 指纹拦爬虫：本机 Windows 的 curl 能过，GitHub Actions 的 Linux curl 会被 403（模仿 Chrome 的也不行，模仿 iOS Safari 的能过），所以 workflow 先装 curl-impersonate，把 `curl_safari184_ios` 通过环境变量 `CURL_BIN` 交给脚本。哪些网站给不给抓，可以手动跑一下 `probe sources` 这个 workflow 看状态码。某个小区抓失败会记在 `data/refresh-log.json` 的 `errors` 里并保留旧值；失败超过 2 个小区，脚本以非零退出、不改“最近一次更新”时间，workflow 也不会提交。
+跑完把 `prices.json` 的 `updated_myt` 改成当次时间（页面顶部的“最近一次更新”就读这个字段），并往 `price-history.json` 追加当天一行，有变化才提交，提交后 Cloudflare Pages 自动重新部署。抓取用 curl 带浏览器 UA，两次请求间隔 3 秒。iProperty 按 TLS 指纹拦爬虫：本机 Windows 的 curl 能过，GitHub Actions 的 Linux curl 会被 403（模仿 Chrome 的也不行，模仿 iOS Safari 的能过），所以 workflow 先装 curl-impersonate，把 `curl_safari184_ios` 通过环境变量 `CURL_BIN` 交给脚本。哪些网站给不给抓，可以手动跑一下 `probe sources` 这个 workflow 看状态码。对 403 最多重试 5 次（10/20/30/40 秒递增），第一轮没抓到的小区歇 60 秒再补一轮。仍失败的会记在 `data/refresh-log.json` 的 `errors` 里并保留旧值和旧日期（页面上该小区的实时信息标记会写「沿用 X 抓到的数」）；失败超过 5 个小区，脚本以非零退出、不改「最近一次更新」时间，workflow 也不会提交。
 
 手动跑一次：
 
