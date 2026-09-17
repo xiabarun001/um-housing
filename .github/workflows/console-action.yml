@@ -1,6 +1,6 @@
 name: console action
 
-# 后台（UMH Console）触发的动作：发布 staging、仲裁两源冲突、立即采集 / 刷新。
+# 管理系统触发的动作：发布 staging、仲裁两源冲突、立即采集 / 刷新。
 # 后台不直接改文件，而是让这条工作流跑同一套脚本并提交，留痕和命令行完全一致。
 on:
   workflow_dispatch:

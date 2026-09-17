@@ -11,7 +11,7 @@
 - [docs/SPEC.md](docs/SPEC.md)：2.0 的产品需求（三区覆盖、信息分层、采集审核、管理后台）
 - [docs/ADR-001-信息分层.md](docs/ADR-001-信息分层.md)：档案 / 行情 / 判断三层的定义和字段约定
 - [docs/ADR-002-采集与审核.md](docs/ADR-002-采集与审核.md)：档案信息的流水线
-- [docs/ADR-003-管理后台.md](docs/ADR-003-管理后台.md)：UMH Console 的登录与写入方式（提议中）
+- [docs/ADR-003-管理后台.md](docs/ADR-003-管理后台.md)：管理系统的登录与写入方式
 
 ## 目录
 
@@ -19,7 +19,6 @@
 index.html          页面结构
 css/style.css       样式（含深色模式）
 js/app.js           渲染、筛选、地图、费用计算、榜单
-js/config.js        Supabase 地址与 publishable key（公开的，只允许匿名读和写入）
 data/condos.json    固定信息：设施、楼龄、户数、地契、坐标、链接。人工维护，半个月到一个月复核一次
 data/campus.json    校园地点（学院、校门）坐标，来自 OpenStreetMap；"熟悉校园"示意图用它画
 data/bus-routes.json PJ 免费巴士 PJ01 / PJ02 和 Rapid KL 780 的走向，来自 OpenStreetMap 线路关系；"三大租房区域"示意图用它画
@@ -33,7 +32,7 @@ scripts/collect.mjs 固定信息采集脚本（iProperty 项目页 + StarPropert
 scripts/publish.mjs 固定信息发布脚本（staging → condos.json + provenance + changelog）
 scripts/arbitrate.mjs 两源冲突仲裁脚本（结论和理由写进 provenance）
 scripts/status.mjs 数据健康检查（data/status.json）
-console/            管理后台 UMH Console（邮箱验证码登录，登录页 login/；开通步骤见 docs/CONSOLE-SETUP.md）
+console/            管理系统（邮箱验证码登录，登录页 login/；开通步骤见 docs/CONSOLE-SETUP.md）
 functions/          Pages Functions：/api/me、/api/actions、/api/auth/*（校验登录）
 .github/workflows/refresh.yml  每 12 小时刷新行情并提交
 .github/workflows/collect.yml  每月 1 日全量采集档案，只提交 staging 和报告
@@ -95,7 +94,7 @@ node scripts/publish.mjs <id> --accept=all --region=3 --no=26 --alias="别名" -
 
 ### 价格自动刷新
 
-`scripts/refresh.mjs` 每 12 小时由 GitHub Actions 运行一次（马来西亚时间 08:00 和 20:00），做两件事：
+`scripts/refresh.mjs` 由 GitHub Actions 每 12 小时运行一次（排在马来西亚时间 08:00 和 20:00，GitHub 的定时队列常延后一到几小时；管理系统里也能随时手动触发），做两件事：
 
 1. 逐个打开每条记录的 `links.iproperty_rent`，按价格从低到高最多翻 3 页，读出在租总数、整套最低价、各房型最低价，写进 `prices.json` 该小区的 `for_rent` / `rent_from` / `whole`；页面里的单间帖子（Master / Middle / Single Room）单独归到 `rooms` / `rooms_min`。
 2. 翻 iBilik 的 Bangsar South 单间列表，按小区名匹配，补进区域 2 各小区的单间行情。

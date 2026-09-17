@@ -81,7 +81,7 @@
       },
       "market": {
         "label": "实时信息",
-        "desc": "随市场变的数字，机器每 12 小时从 iProperty 和 iBilik 抓一次。挂牌价不等于成交价。"
+        "desc": "随市场变的数字，机器每天从 iProperty 和 iBilik 自动抓。挂牌价不等于成交价。"
       },
       "judgment": {
         "label": "观点",

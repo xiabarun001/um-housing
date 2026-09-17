@@ -18,7 +18,6 @@
 授权全文：<https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.zh-Hans>
 简要说明：<https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans>
 
-同学们在“租房意向表”里填写的内容属于填写者本人，不在本授权范围内，本站也不会把它们用于任何商业用途。
 
 本站引用的在租价格和数量来自 iProperty、iBilik 等平台的公开页面，版权归各平台及发布者所有，本站只做汇总和链接。
 

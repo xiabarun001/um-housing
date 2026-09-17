@@ -1,4 +1,4 @@
-/* UMH Console：静态页 + /api/*（Pages Functions）。登录在 /login/ 用邮箱验证码换 HttpOnly cookie，这里不碰 token。
+/* 管理系统：静态页 + /api/*（Pages Functions）。登录在 /login/ 用邮箱验证码换 HttpOnly cookie，这里不碰 token。
    读取：仓库里的 data/*.json（和读者页同源）；写入：/api/actions（触发 GitHub 工作流）。 */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);

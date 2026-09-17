@@ -459,7 +459,6 @@ main { max-width: 1400px; }
 .checks input { accent-color: var(--accent); }
 .three-col h3, .two-col h3 { padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 
-/* 意向表 */
 
 /* 说明与页脚 */
 .foot { background: var(--bg-2); border-top-color: var(--line); padding-top: 28px; padding-bottom: 44px; margin-top: 24px; }
@@ -478,7 +477,6 @@ main { max-width: 1400px; }
   .band { padding-bottom: 36px; }
 }
 
-/* 补充：第 2 步右栏、意向表列表也做成卡片；首屏徽章在窄屏允许换行 */
 @media (max-width: 720px) {
 }
 @media (max-width: 720px) {
@@ -811,7 +809,6 @@ main { max-width: 1400px; }
   .tier-row time { grid-column: 2; text-align: left; }
 }
 
-/* 页脚的更新记录：一行，默认收起 */
 
 /* ===== 起点：一句话，先填好开头 ===== */
 .start-box { margin-top: 6px; }
@@ -1024,7 +1021,7 @@ main { max-width: 1400px; }
 /* 结论紧跟在选项下面 */
 .conclusion { margin-top: 16px; }
 
-/* 顶栏最右边的齿轮：进维护后台 */
+/* 顶栏最右边的齿轮：进管理系统 */
 .gear { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; margin-left: 12px; border-radius: 50%; color: var(--ink-3); }
 .gear svg { width: 22px; height: 22px; fill: currentColor; }
 .gear:hover { color: var(--ink); background: var(--bg-2); }

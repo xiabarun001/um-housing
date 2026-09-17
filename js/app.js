@@ -30,7 +30,7 @@ const ELMU_GATE = [3.11955, 101.65022]; // Jalan Elmu 门：校园边界上离 J
 init();
 
 async function init() {
-  // 两层数据：condos.json 是固定信息（人工核实，改得少），prices.json 是实时价格（每 12 小时自动刷新），按小区 id 对上
+  // 两层数据：condos.json 是固定信息（人工核实，改得少），prices.json 是实时价格（GitHub Actions 每天自动刷新），按小区 id 对上
   const [data, prices, campus] = await Promise.all([
     fetch('data/condos.json', { cache: 'no-cache' }).then((r) => r.json()),
     fetch('data/prices.json', { cache: 'no-cache' }).then((r) => r.json()).catch(() => ({ condos: {} })),
@@ -1144,7 +1144,7 @@ function renderCommon() {
     ['房子都不大，家具都齐',
       `这次抓到的在租房源，面积从 ${fmt(sqft[0])} 平方英尺到 ${fmt(sqft[sqft.length - 1])} 平方英尺。帖子基本都标 fully furnished，也就是床、衣柜、空调、冰箱、洗衣机、热水器齐全，拎包入住；标 partially furnished 的要逐件问清楚缺哪几样。`],
     [`这次 ${n(withRoom)} 个有房间在租`,
-      `${n(withRoom)} 个能查到房间（单间）的挂牌价，另外 ${n(noRoom)} 个这次只有整套出租：${names(noRoom)}。挂牌每 12 小时刷新一次，隔天再看会变。`],
+      `${n(withRoom)} 个能查到房间（单间）的挂牌价，另外 ${n(noRoom)} 个这次只有整套出租：${names(noRoom)}。挂牌每天自动刷新，隔天再看会变。`],
     ['租房规矩一模一样',
       '押金 2 个月房租，加 1 个月预付租金，加半个月水电押金，签约当天一次付清；租期以 12 个月为主；中介费由房东付，租客不用给；合同要拿去税务局 LHDN 盖印花才算有效。'],
   ];
