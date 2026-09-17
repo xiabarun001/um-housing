@@ -1243,12 +1243,20 @@ function tierText(kind, c) {
   if (kind === 'market') {
     const h = marketAgeHours();
     if (h != null && h > MARKET_STALE_HOURS) return `实时信息 · 已 ${Math.round(h)} 小时未更新`;
+    const own = condoStaleDate(c);
+    if (own) return `实时信息 · 沿用 ${own} 抓到的数`;
     return `实时信息 · 抓取于 ${state.meta.prices_updated_myt || '未知'}`;
   }
   return '观点';
 }
+// 这个小区上次抓取失败、沿用了更早的数：返回那个日期；正常时返回 null
+function condoStaleDate(c) {
+  const own = c && c.snapshot && c.snapshot.date;
+  const day = String(state.meta.prices_updated_myt || '').slice(0, 10);
+  return own && day && own < day ? own : null;
+}
 function tierMark(kind, c) {
-  const stale = kind === 'market' && (marketAgeHours() ?? 0) > MARKET_STALE_HOURS;
+  const stale = kind === 'market' && ((marketAgeHours() ?? 0) > MARKET_STALE_HOURS || !!condoStaleDate(c));
   return `<button type="button" class="tier tier-${kind}${stale ? ' stale' : ''}" data-tier="${kind}"${c ? ` data-id="${esc(c.id)}"` : ''}><i></i>${esc(tierText(kind, c))}</button>`;
 }
 function renderTierPills() {
@@ -1294,6 +1302,7 @@ function tierPopHTML(kind, c) {
     return `<h4><i class="tier-dot tier-market"></i>实时信息：只能当参考</h4>`
       + `<p>${esc(t.desc || '')}</p>`
       + `<p>抓取于 ${esc(state.meta.prices_updated_myt || '未知')}${h != null ? `，距今 ${Math.round(h)} 小时` : ''}${h != null && h > MARKET_STALE_HOURS ? '，<b>可能过期</b>' : ''}。</p>`
+      + (condoStaleDate(c) ? `<p><b>这个小区这次没抓到</b>，显示的是 ${esc(condoStaleDate(c))} 抓到的数，下次刷新会再试。</p>` : '')
       + cross + links;
   }
   const j = c && c.judgment;

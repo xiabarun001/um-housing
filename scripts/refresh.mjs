@@ -36,7 +36,7 @@ const STATUS_MARK = '__STATUS__';
 const CURL_BIN = process.env.CURL_BIN || 'curl';
 
 // 用 curl 而不是 Node 自带的 fetch：iProperty 的防爬会拦 Node 的 TLS 指纹，但放行 curl（带浏览器 UA）
-async function fetchText(url, tries = 3) {
+async function fetchText(url, tries = 5) {
   for (let i = 0; i < tries; i++) {
     try {
       // curl-impersonate 的包装脚本自带一整套浏览器请求头，这时不要再重复加
@@ -50,6 +50,7 @@ async function fetchText(url, tries = 3) {
       if (status === 404) return null;
       console.warn(`  ${status} ${url}`);
       if (status === 429) { await sleep(12000 * (i + 1)); continue; } // 被限速：多等一会再试
+      if (status === 403) { await sleep(10000 * (i + 1)); continue; } // 防爬间歇性拦，越等越容易过：10/20/30/40 秒
     } catch (e) {
       console.warn(`  curl error ${url}: ${e.message.slice(0, 120)}`);
     }
@@ -181,14 +182,12 @@ const log = { started_at: new Date().toISOString(), date_myt: today, only: ONLY,
 const rooms = {};            // id -> [{ type, price, src }]
 const refreshed = new Set(); // 这次 iProperty 成功的小区，只有这些才会改单间字段
 
-// 1) iProperty：每个小区
-for (const c of condos) {
-  if (ONLY.length && !ONLY.includes(c.id)) continue;
-  if (!c.links?.iproperty_rent) continue;
+// 1) iProperty：每个小区。抓不到的小区保留上一次的数（和 date），不清空
+async function refreshOne(c) {
   const s = prices.condos[c.id];
   process.stdout.write(`iProperty ${c.id} ... `);
   const r = await fetchCondoListings(c);
-  if (r.error) { log.iproperty[c.id] = r.error; log.errors.push(`iproperty ${c.id}: ${r.error}`); console.log(r.error); await sleep(DELAY); continue; }
+  if (r.error) { log.iproperty[c.id] = r.error; console.log(r.error); await sleep(DELAY); return false; }
   // 标成“1 房”但面积不到 250 sqft 的，基本是把单间当整套发的帖子，按单间算
   const isRoom = (l) => !!l.room || (l.beds >= 1 && l.area && l.area < 250);
   const wholes = r.listings.filter((l) => !isRoom(l));
@@ -204,6 +203,16 @@ for (const c of condos) {
   log.iproperty[c.id] = `ok ${r.count} listings (${r.listings.length} read), whole from RM ${s.rent_from ?? '-'}, rooms ${roomPosts.length}`;
   console.log(`${r.count} 套，整套最低 RM ${s.rent_from ?? '—'}，单间帖子 ${roomPosts.length}`);
   await sleep(DELAY);
+  return true;
+}
+const targets = condos.filter((c) => (!ONLY.length || ONLY.includes(c.id)) && c.links?.iproperty_rent);
+const failed = [];
+for (const c of targets) if (!(await refreshOne(c))) failed.push(c);
+// 第一轮没抓到的多半是撞上防爬的一阵拦截，歇一分钟再补一轮；这轮还不行才算失败
+if (failed.length) {
+  console.log(`\n${failed.length} 个小区第一轮没抓到（${failed.map((c) => c.id).join('、')}），等 60 秒再试一轮`);
+  await sleep(60000);
+  for (const c of failed) if (!(await refreshOne(c))) log.errors.push(`iproperty ${c.id}: ${log.iproperty[c.id]}`);
 }
 
 // 1b) Mudah 二源：按小区名搜整套和单间，和 iProperty 的最低价比对（只记录，不改 iProperty 的数）
@@ -311,7 +320,7 @@ if (RUN_MUDAH) finishMudahChecks();
 const okN = Object.values(log.iproperty).filter((v) => v.startsWith('ok')).length;
 const tried = Object.keys(log.iproperty).length;
 // iProperty 失败超过 2 个小区就算这次没更新成：不改“最近一次更新”时间，并以非零退出让 workflow 不提交
-const usable = tried > 0 && tried - okN <= 2;
+const usable = tried > 0 && tried - okN <= 5;
 if (usable) {
   prices.updated_at = new Date().toISOString();
   prices.updated_myt = myt().toISOString().slice(0, 16).replace('T', ' ');
