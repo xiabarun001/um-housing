@@ -1261,7 +1261,7 @@ function renderTierPills() {
   const hourText = m ? `${m[1]} ${m[2]}:00` : (state.meta.prices_updated_myt || null);
   const row = (k, meaning, when, cls) => `<button type="button" class="tier-row tier-${k}${cls || ''}" data-tier="${k}" title="点一下看来源和说明"><b><i></i>${TIER_LABEL[k]}</b><span class="tm">${meaning}</span><time>${when}</time></button>`;
   box.innerHTML = row('profile', '小区档案类事实，人工核实', `更新于 ${esc(state.meta.verified_at || '未知')}`) +
-    row('market', '挂牌数量和价格，每天自动抓两次', stale ? `已 ${Math.round(h)} 小时未更新` : hourText ? `更新于 ${esc(hourText)}` : '这次没加载出来，刷新试试', stale || !hourText ? ' stale' : '') +
+    row('market', '挂牌数量和价格，每天自动抓取', stale ? `已 ${Math.round(h)} 小时未更新` : hourText ? `更新于 ${esc(hourText)}` : '这次没加载出来，刷新试试', stale || !hourText ? ' stale' : '') +
     row('judgment', '主观判断', '—');
 }
 function tierPopHTML(kind, c) {

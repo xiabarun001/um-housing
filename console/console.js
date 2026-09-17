@@ -58,7 +58,7 @@
         : '<p class="allgood">一切正常，没有要处理的。</p>'}
       <h2>立即执行</h2>
       <div class="acts">
-        <div class="act-row"><div class="t"><b>刷新实时信息</b><span>重抓 25 个小区的挂牌数量和价格，约 8 分钟。平时每天自动跑两次，具体几点由 GitHub 排队决定。</span></div><button class="btn" data-act="refresh" data-name="刷新实时信息">执行</button></div>
+        <div class="act-row"><div class="t"><b>刷新实时信息</b><span>重抓 25 个小区的挂牌数量和价格，约 8 分钟。平时每天自动跑，具体几点由 GitHub 排队决定。</span></div><button class="btn" data-act="refresh" data-name="刷新实时信息">执行</button></div>
         <div class="act-row"><div class="t"><b>采集固定信息 + 交叉验证</b><span>重新抓档案并和第二来源比对，约 7 分钟。只写进 staging，要不要采用还是你在「采集与审核」里定。</span></div><button class="btn" data-act="collect" data-name="采集固定信息 + 交叉验证">执行</button></div>
         <div class="act-row"><div class="t"><b>重算健康状态</b><span>只重算上面那几个数字，几秒钟，不动任何数据。</span></div><button class="btn" data-act="status" data-name="重算健康状态">执行</button></div>
       </div>
