@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-09-17T09:00:11.762Z",
-  "generated_myt": "2026-09-17 17:00",
+  "generated_at": "2026-09-17T16:42:24.559Z",
+  "generated_myt": "2026-09-18 00:42",
   "condos": 25,
   "regions": 3,
   "market": {
-    "updated_myt": "2026-09-17 17:00",
-    "age_hours": 0,
+    "updated_myt": "2026-09-18 00:02",
+    "age_hours": 1,
     "condos_with_price": 25,
     "last_run_ok": true,
     "last_run_errors": 0,
     "mudah": {
-      "agree": 10,
-      "gap": 11,
+      "agree": 11,
+      "gap": 10,
       "single": 4,
       "none": 0
     }
