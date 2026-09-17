@@ -28,7 +28,9 @@ const PAGE_SIZE = 20;
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36';
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const myt = (d = new Date()) => new Date(d.getTime() + 8 * 3600e3); // 马来西亚时间 UTC+8
-const today = myt().toISOString().slice(0, 10);
+// 起始时刻只取一次：每个小区的 date 和全局 updated_myt 都用它，跑过午夜也不会一个 16 号一个 17 号
+const startedMyt = myt();
+const today = startedMyt.toISOString().slice(0, 10);
 const fmt = (n) => Number(n).toLocaleString('en-MY');
 const STATUS_MARK = '__STATUS__';
 // 用哪个 curl：本机 Windows 的 curl 能直接过 iProperty 的防爬；GitHub Actions 的 Linux 上要换成 curl-impersonate（模仿 iOS Safari 的 TLS 指纹），
@@ -323,7 +325,7 @@ const tried = Object.keys(log.iproperty).length;
 const usable = tried > 0 && tried - okN <= 5;
 if (usable) {
   prices.updated_at = new Date().toISOString();
-  prices.updated_myt = myt().toISOString().slice(0, 16).replace('T', ' ');
+  prices.updated_myt = startedMyt.toISOString().slice(0, 16).replace('T', ' ');
   // 历史：同一天多次刷新只留最后一次；只保留最近 HISTORY_DAYS 天
   const hist = existsSync(HISTORY) ? JSON.parse(readFileSync(HISTORY, 'utf8')) : { days: [] };
   hist.days = (hist.days || []).filter((d) => d.date !== today);

@@ -43,6 +43,8 @@ async function init() {
   state.condos = data.condos;
   state.meta = data.meta;
   state.meta.prices_updated_myt = prices.updated_myt || null;
+  // 这次刷新真正写到的日期 = 各小区 date 里最新的那个；抓失败的小区 date 会比它旧
+  state.latestSnapshotDate = state.condos.map((c) => c.snapshot.date).filter(Boolean).sort().pop() || null;
   renderTierPills();
   bindTierPop();
   renderCampus(campus);
@@ -1252,8 +1254,8 @@ function tierText(kind, c) {
 // 这个小区上次抓取失败、沿用了更早的数：返回那个日期；正常时返回 null
 function condoStaleDate(c) {
   const own = c && c.snapshot && c.snapshot.date;
-  const day = String(state.meta.prices_updated_myt || '').slice(0, 10);
-  return own && day && own < day ? own : null;
+  const latest = state.latestSnapshotDate;
+  return own && latest && own < latest ? own : null;
 }
 function tierMark(kind, c) {
   const stale = kind === 'market' && ((marketAgeHours() ?? 0) > MARKET_STALE_HOURS || !!condoStaleDate(c));
