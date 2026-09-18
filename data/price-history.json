@@ -1415,7 +1415,7 @@
           "rooms_min": null
         },
         "ryan-miho": {
-          "for_rent": 121,
+          "for_rent": 125,
           "rent_from": 1800,
           "rooms_min": 950
         },
@@ -1430,7 +1430,7 @@
           "rooms_min": null
         },
         "pj-midtown": {
-          "for_rent": 139,
+          "for_rent": 140,
           "rent_from": 1350,
           "rooms_min": 1600
         },
@@ -1440,7 +1440,7 @@
           "rooms_min": 600
         },
         "pj8": {
-          "for_rent": 19,
+          "for_rent": 20,
           "rent_from": 2000,
           "rooms_min": null
         },
@@ -1450,12 +1450,12 @@
           "rooms_min": null
         },
         "dvogue": {
-          "for_rent": 56,
+          "for_rent": 57,
           "rent_from": 1499,
           "rooms_min": null
         },
         "kl-gateway": {
-          "for_rent": 137,
+          "for_rent": 139,
           "rent_from": 2000,
           "rooms_min": 780
         },
@@ -1465,9 +1465,9 @@
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 435,
+          "for_rent": 437,
           "rent_from": 1900,
-          "rooms_min": 750
+          "rooms_min": 550
         },
         "southlink": {
           "for_rent": 462,
@@ -1475,12 +1475,12 @@
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 261,
+          "for_rent": 265,
           "rent_from": 2100,
           "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 327,
+          "for_rent": 329,
           "rent_from": 1600,
           "rooms_min": 1550
         },
@@ -1490,12 +1490,12 @@
           "rooms_min": 950
         },
         "inwood": {
-          "for_rent": 60,
+          "for_rent": 61,
           "rent_from": 3300,
           "rooms_min": null
         },
         "secoya": {
-          "for_rent": 60,
+          "for_rent": 63,
           "rent_from": 3200,
           "rooms_min": 1100
         },
@@ -1505,17 +1505,17 @@
           "rooms_min": null
         },
         "tria-seputeh": {
-          "for_rent": 99,
+          "for_rent": 101,
           "rent_from": 2000,
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 240,
+          "for_rent": 243,
           "rent_from": 1350,
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 235,
+          "for_rent": 234,
           "rent_from": 1900,
           "rooms_min": 850
         },
@@ -1525,7 +1525,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 411,
+          "for_rent": 416,
           "rent_from": 1700,
           "rooms_min": 1050
         }
