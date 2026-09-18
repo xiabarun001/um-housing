@@ -1405,17 +1405,17 @@
       "date": "2026-09-18",
       "condos": {
         "seventeen": {
-          "for_rent": 71,
+          "for_rent": 69,
           "rent_from": 1800,
           "rooms_min": null
         },
         "atwater": {
-          "for_rent": 73,
+          "for_rent": 72,
           "rent_from": 2799,
           "rooms_min": null
         },
         "ryan-miho": {
-          "for_rent": 122,
+          "for_rent": 121,
           "rent_from": 1800,
           "rooms_min": 950
         },
@@ -1435,12 +1435,12 @@
           "rooms_min": 1600
         },
         "centrestage": {
-          "for_rent": 158,
+          "for_rent": 156,
           "rent_from": 1099,
           "rooms_min": 600
         },
         "pj8": {
-          "for_rent": 15,
+          "for_rent": 19,
           "rent_from": 2000,
           "rooms_min": null
         },
@@ -1455,7 +1455,7 @@
           "rooms_min": null
         },
         "kl-gateway": {
-          "for_rent": 138,
+          "for_rent": 137,
           "rent_from": 2000,
           "rooms_min": 780
         },
@@ -1470,27 +1470,27 @@
           "rooms_min": 750
         },
         "southlink": {
-          "for_rent": 469,
+          "for_rent": 462,
           "rent_from": 1299,
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 262,
+          "for_rent": 261,
           "rent_from": 2100,
           "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 330,
+          "for_rent": 327,
           "rent_from": 1600,
           "rooms_min": 1550
         },
         "saville": {
-          "for_rent": 51,
+          "for_rent": 50,
           "rent_from": 2400,
           "rooms_min": 950
         },
         "inwood": {
-          "for_rent": 59,
+          "for_rent": 60,
           "rent_from": 3300,
           "rooms_min": null
         },
@@ -1500,27 +1500,27 @@
           "rooms_min": 1100
         },
         "avara": {
-          "for_rent": 121,
+          "for_rent": 120,
           "rent_from": 2050,
           "rooms_min": null
         },
         "tria-seputeh": {
-          "for_rent": 100,
+          "for_rent": 99,
           "rent_from": 2000,
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 248,
+          "for_rent": 240,
           "rent_from": 1350,
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 234,
+          "for_rent": 235,
           "rent_from": 1900,
           "rooms_min": 850
         },
         "avantas": {
-          "for_rent": 24,
+          "for_rent": 25,
           "rent_from": 1500,
           "rooms_min": 1250
         },
