@@ -1,38 +1,38 @@
 {
-  "started_at": "2026-09-18T15:37:41.710Z",
-  "date_myt": "2026-09-18",
+  "started_at": "2026-09-19T02:40:53.042Z",
+  "date_myt": "2026-09-19",
   "only": [],
   "iproperty": {
-    "seventeen": "ok 69 listings (60 read), whole from RM 1800, rooms 0",
-    "atwater": "ok 72 listings (60 read), whole from RM 2799, rooms 0",
-    "ryan-miho": "ok 125 listings (60 read), whole from RM 1800, rooms 14",
-    "pacific-star": "fetch failed",
+    "seventeen": "ok 67 listings (40 read), whole from RM 1800, rooms 0",
+    "atwater": "ok 70 listings (60 read), whole from RM 2799, rooms 0",
+    "ryan-miho": "ok 123 listings (60 read), whole from RM 1800, rooms 13",
+    "pacific-star": "ok 183 listings (40 read), whole from RM 1800, rooms 2",
     "pacific-63": "ok 10 listings (10 read), whole from RM 1700, rooms 0",
-    "pj-midtown": "ok 140 listings (60 read), whole from RM 1350, rooms 1",
-    "centrestage": "ok 156 listings (60 read), whole from RM 1099, rooms 2",
+    "pj-midtown": "ok 138 listings (60 read), whole from RM 1350, rooms 1",
+    "centrestage": "ok 153 listings (60 read), whole from RM 1099, rooms 2",
     "pj8": "ok 20 listings (20 read), whole from RM 2000, rooms 0",
     "tiara-damansara": "ok 7 listings (7 read), whole from RM 2500, rooms 0",
     "dvogue": "ok 57 listings (57 read), whole from RM 1499, rooms 0",
-    "kl-gateway": "ok 139 listings (60 read), whole from RM 2000, rooms 0",
-    "pantai-panorama": "ok 33 listings (20 read), whole from RM 2000, rooms 2",
-    "south-view": "ok 437 listings (60 read), whole from RM 1900, rooms 1",
-    "southlink": "ok 462 listings (60 read), whole from RM 1299, rooms 6",
-    "novum": "ok 265 listings (60 read), whole from RM 2100, rooms 2",
-    "laurel": "ok 329 listings (60 read), whole from RM 1600, rooms 2",
+    "kl-gateway": "ok 137 listings (40 read), whole from RM 2000, rooms 0",
+    "pantai-panorama": "ok 32 listings (20 read), whole from RM 2000, rooms 1",
+    "south-view": "ok 432 listings (60 read), whole from RM 1900, rooms 1",
+    "southlink": "ok 457 listings (60 read), whole from RM 1299, rooms 6",
+    "novum": "ok 258 listings (60 read), whole from RM 2100, rooms 2",
+    "laurel": "ok 324 listings (60 read), whole from RM 1600, rooms 2",
     "saville": "ok 50 listings (50 read), whole from RM 2400, rooms 2",
-    "inwood": "ok 61 listings (20 read), whole from RM 3300, rooms 0",
-    "secoya": "ok 63 listings (60 read), whole from RM 3200, rooms 1",
-    "avara": "ok 120 listings (60 read), whole from RM 2050, rooms 0",
+    "inwood": "ok 61 listings (60 read), whole from RM 3200, rooms 0",
+    "secoya": "ok 63 listings (40 read), whole from RM 3200, rooms 1",
+    "avara": "ok 119 listings (20 read), whole from RM 2050, rooms 0",
     "tria-seputeh": "ok 101 listings (60 read), whole from RM 2000, rooms 0",
-    "vivo": "ok 243 listings (60 read), whole from RM 1350, rooms 4",
-    "southbank": "ok 234 listings (20 read), whole from RM 1900, rooms 2",
-    "avantas": "ok 25 listings (25 read), whole from RM 1500, rooms 2",
-    "millerz": "ok 416 listings (60 read), whole from RM 1700, rooms 6"
+    "vivo": "ok 238 listings (60 read), whole from RM 1350, rooms 4",
+    "southbank": "ok 235 listings (60 read), whole from RM 1900, rooms 2",
+    "avantas": "ok 24 listings (24 read), whole from RM 1500, rooms 2",
+    "millerz": "ok 415 listings (60 read), whole from RM 1700, rooms 6"
   },
   "ibilik": {
     "ran": true,
     "pages": 5,
-    "products": 74,
+    "products": 73,
     "matched": {
       "south-view": 8,
       "secoya": 1,
@@ -41,9 +41,7 @@
       "laurel": 1
     }
   },
-  "errors": [
-    "iproperty pacific-star: fetch failed"
-  ],
+  "errors": [],
   "mudah": {
     "seventeen": "units 0 min - (-), rooms 0 min - (-)",
     "atwater": "units 3 min 3400 (agree), rooms 0 min - (-)",
@@ -55,7 +53,7 @@
     "pj8": "units 0 min - (-), rooms 0 min - (-)",
     "tiara-damansara": "units 2 min 2200 (agree), rooms 0 min - (-)",
     "dvogue": "units 6 min 1299 (agree), rooms 0 min - (-)",
-    "kl-gateway": "units 18 min 1499 (agree), rooms 5 min 450 (gap)",
+    "kl-gateway": "units 18 min 1499 (agree), rooms 2 min 450 (gap)",
     "pantai-panorama": "units 3 min 2500 (agree), rooms 0 min - (-)",
     "south-view": "units 9 min 2399 (agree), rooms 0 min - (-)",
     "southlink": "units 2 min 2300 (gap), rooms 0 min - (-)",
@@ -71,6 +69,6 @@
     "avantas": "units 1 min 2400 (gap), rooms 0 min - (-)",
     "millerz": "units 13 min 1400 (agree), rooms 1 min 1500 (gap)"
   },
-  "finished_at": "2026-09-18T16:16:46.303Z",
-  "ok": false
+  "finished_at": "2026-09-19T03:19:18.873Z",
+  "ok": true
 }
