@@ -1545,13 +1545,13 @@
           "rooms_min": null
         },
         "ryan-miho": {
-          "for_rent": 123,
+          "for_rent": 124,
           "rent_from": 1800,
           "rooms_min": 950
         },
         "pacific-star": {
           "for_rent": 183,
-          "rent_from": 1800,
+          "rent_from": 2000,
           "rooms_min": 780
         },
         "pacific-63": {
@@ -1560,7 +1560,7 @@
           "rooms_min": null
         },
         "pj-midtown": {
-          "for_rent": 138,
+          "for_rent": 137,
           "rent_from": 1350,
           "rooms_min": 1600
         },
@@ -1590,7 +1590,7 @@
           "rooms_min": 780
         },
         "pantai-panorama": {
-          "for_rent": 32,
+          "for_rent": 33,
           "rent_from": 2000,
           "rooms_min": 850
         },
@@ -1605,7 +1605,7 @@
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 258,
+          "for_rent": 259,
           "rent_from": 2100,
           "rooms_min": 1400
         },
@@ -1630,17 +1630,17 @@
           "rooms_min": 1100
         },
         "avara": {
-          "for_rent": 119,
+          "for_rent": 122,
           "rent_from": 2050,
           "rooms_min": null
         },
         "tria-seputeh": {
-          "for_rent": 101,
+          "for_rent": 102,
           "rent_from": 2000,
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 238,
+          "for_rent": 241,
           "rent_from": 1350,
           "rooms_min": 750
         },
@@ -1655,7 +1655,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 415,
+          "for_rent": 427,
           "rent_from": 1700,
           "rooms_min": 1050
         }
