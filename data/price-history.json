@@ -1680,7 +1680,7 @@
           "rooms_min": 950
         },
         "pacific-star": {
-          "for_rent": 176,
+          "for_rent": 177,
           "rent_from": 1800,
           "rooms_min": 780
         },
@@ -1695,7 +1695,7 @@
           "rooms_min": 1600
         },
         "centrestage": {
-          "for_rent": 148,
+          "for_rent": 149,
           "rent_from": 1099,
           "rooms_min": 600
         },
@@ -1710,7 +1710,7 @@
           "rooms_min": null
         },
         "dvogue": {
-          "for_rent": 57,
+          "for_rent": 58,
           "rent_from": 1499,
           "rooms_min": null
         },
@@ -1730,12 +1730,12 @@
           "rooms_min": 550
         },
         "southlink": {
-          "for_rent": 426,
+          "for_rent": 428,
           "rent_from": 1299,
           "rooms_min": 1300
         },
         "novum": {
-          "for_rent": 249,
+          "for_rent": 252,
           "rent_from": 2100,
           "rooms_min": 1400
         },
@@ -1751,7 +1751,7 @@
         },
         "inwood": {
           "for_rent": 60,
-          "rent_from": 3200,
+          "rent_from": 3300,
           "rooms_min": null
         },
         "secoya": {
@@ -1760,22 +1760,22 @@
           "rooms_min": 1100
         },
         "avara": {
-          "for_rent": 119,
+          "for_rent": 120,
           "rent_from": 2050,
-          "rooms_min": null
+          "rooms_min": 1025
         },
         "tria-seputeh": {
-          "for_rent": 100,
+          "for_rent": 101,
           "rent_from": 2000,
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 240,
+          "for_rent": 241,
           "rent_from": 1350,
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 234,
+          "for_rent": 239,
           "rent_from": 1900,
           "rooms_min": 850
         },
@@ -1785,7 +1785,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 423,
+          "for_rent": 432,
           "rent_from": 1700,
           "rooms_min": 1050
         }
