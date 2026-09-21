@@ -3,7 +3,7 @@
 马来亚大学（Universiti Malaya）周边三个区域 25 个小区的静态信息站：设施、楼龄、户数、地契、到最近轨道站的步行时间、在租行情快照。
 
 - 线上：`um-housing.evasuka.com`（DNS 生效前可用 `https://xiabarun001.github.io/um-housing/`）
-- 无构建步骤，纯静态 HTML / CSS / JS，GitHub Pages 直接托管。
+- 无构建步骤，纯静态 HTML / CSS / JS。正式站由 **Cloudflare Pages** 托管（推送后自动部署，管理后台的 `/api/*` 走 Pages Functions）；GitHub Pages 只是备用站。
 
 ## 文档
 
