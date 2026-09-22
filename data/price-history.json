@@ -1941,7 +1941,7 @@
         },
         "pacific-star": {
           "for_rent": 169,
-          "rent_from": 1800,
+          "rent_from": 2000,
           "rooms_min": 780
         },
         "pacific-63": {
@@ -1985,7 +1985,7 @@
           "rooms_min": 850
         },
         "south-view": {
-          "for_rent": 410,
+          "for_rent": 411,
           "rent_from": 1900,
           "rooms_min": 550
         },
@@ -2000,7 +2000,7 @@
           "rooms_min": 1400
         },
         "laurel": {
-          "for_rent": 301,
+          "for_rent": 302,
           "rent_from": 1600,
           "rooms_min": 1550
         },
@@ -2015,7 +2015,7 @@
           "rooms_min": null
         },
         "secoya": {
-          "for_rent": 62,
+          "for_rent": 63,
           "rent_from": 3200,
           "rooms_min": 1100
         },
@@ -2030,12 +2030,12 @@
           "rooms_min": null
         },
         "vivo": {
-          "for_rent": 236,
+          "for_rent": 237,
           "rent_from": 1350,
           "rooms_min": 750
         },
         "southbank": {
-          "for_rent": 237,
+          "for_rent": 238,
           "rent_from": 1900,
           "rooms_min": 850
         },
@@ -2045,7 +2045,7 @@
           "rooms_min": 1250
         },
         "millerz": {
-          "for_rent": 435,
+          "for_rent": 436,
           "rent_from": 1700,
           "rooms_min": 1050
         }
