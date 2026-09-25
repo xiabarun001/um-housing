@@ -1,38 +1,38 @@
 {
-  "started_at": "2026-09-23T15:55:55.037Z",
-  "date_myt": "2026-09-23",
+  "started_at": "2026-09-25T02:58:02.651Z",
+  "date_myt": "2026-09-25",
   "only": [],
   "iproperty": {
-    "seventeen": "ok 66 listings (60 read), whole from RM 1800, rooms 0",
-    "atwater": "ok 74 listings (60 read), whole from RM 2799, rooms 0",
-    "ryan-miho": "ok 108 listings (60 read), whole from RM 1800, rooms 10",
-    "pacific-star": "ok 168 listings (20 read), whole from RM 1900, rooms 1",
+    "seventeen": "ok 67 listings (60 read), whole from RM 1800, rooms 0",
+    "atwater": "ok 76 listings (60 read), whole from RM 2799, rooms 0",
+    "ryan-miho": "ok 106 listings (60 read), whole from RM 1800, rooms 10",
+    "pacific-star": "fetch failed",
     "pacific-63": "ok 10 listings (10 read), whole from RM 1700, rooms 0",
     "pj-midtown": "ok 126 listings (60 read), whole from RM 1350, rooms 1",
-    "centrestage": "ok 153 listings (60 read), whole from RM 1099, rooms 2",
+    "centrestage": "ok 157 listings (60 read), whole from RM 1099, rooms 2",
     "pj8": "ok 21 listings (21 read), whole from RM 2000, rooms 0",
     "tiara-damansara": "ok 7 listings (7 read), whole from RM 2500, rooms 0",
     "dvogue": "ok 66 listings (60 read), whole from RM 1499, rooms 0",
-    "kl-gateway": "ok 131 listings (60 read), whole from RM 2000, rooms 0",
+    "kl-gateway": "ok 134 listings (60 read), whole from RM 2000, rooms 0",
     "pantai-panorama": "ok 32 listings (32 read), whole from RM 2000, rooms 1",
-    "south-view": "ok 410 listings (60 read), whole from RM 2100, rooms 2",
-    "southlink": "ok 396 listings (60 read), whole from RM 1299, rooms 7",
-    "novum": "ok 244 listings (60 read), whole from RM 2100, rooms 1",
-    "laurel": "ok 300 listings (60 read), whole from RM 1600, rooms 2",
-    "saville": "ok 48 listings (48 read), whole from RM 2400, rooms 2",
-    "inwood": "fetch failed",
-    "secoya": "ok 62 listings (60 read), whole from RM 3200, rooms 1",
-    "avara": "ok 112 listings (60 read), whole from RM 2050, rooms 1",
-    "tria-seputeh": "ok 100 listings (60 read), whole from RM 2000, rooms 0",
-    "vivo": "ok 239 listings (60 read), whole from RM 1350, rooms 5",
-    "southbank": "ok 242 listings (60 read), whole from RM 1900, rooms 2",
-    "avantas": "ok 21 listings (21 read), whole from RM 1600, rooms 2",
-    "millerz": "ok 442 listings (60 read), whole from RM 1700, rooms 6"
+    "south-view": "ok 407 listings (60 read), whole from RM 2100, rooms 2",
+    "southlink": "ok 390 listings (60 read), whole from RM 1299, rooms 7",
+    "novum": "ok 237 listings (60 read), whole from RM 2100, rooms 1",
+    "laurel": "ok 301 listings (60 read), whole from RM 1600, rooms 2",
+    "saville": "ok 47 listings (47 read), whole from RM 2400, rooms 2",
+    "inwood": "ok 57 listings (40 read), whole from RM 3300, rooms 0",
+    "secoya": "ok 62 listings (20 read), whole from RM 3200, rooms 1",
+    "avara": "ok 113 listings (60 read), whole from RM 2050, rooms 1",
+    "tria-seputeh": "fetch failed",
+    "vivo": "ok 241 listings (60 read), whole from RM 1350, rooms 6",
+    "southbank": "ok 246 listings (60 read), whole from RM 1850, rooms 2",
+    "avantas": "ok 20 listings (20 read), whole from RM 1600, rooms 1",
+    "millerz": "fetch failed"
   },
   "ibilik": {
     "ran": true,
     "pages": 4,
-    "products": 58,
+    "products": 59,
     "matched": {
       "kl-gateway": 17,
       "south-view": 6,
@@ -42,13 +42,14 @@
     }
   },
   "errors": [
-    "iproperty inwood: fetch failed"
+    "iproperty pacific-star: fetch failed",
+    "iproperty tria-seputeh: fetch failed",
+    "iproperty millerz: fetch failed"
   ],
   "mudah": {
     "seventeen": "units 0 min - (-), rooms 0 min - (-)",
     "atwater": "units 0 min - (-), rooms 0 min - (-)",
     "ryan-miho": "units 0 min - (-), rooms 0 min - (-)",
-    "pacific-star": "units 0 min - (-), rooms 0 min - (-)",
     "pacific-63": "units 0 min - (-), rooms 0 min - (-)",
     "pj-midtown": "units 0 min - (-), rooms 0 min - (-)",
     "centrestage": "units 0 min - (-), rooms 0 min - (-)",
@@ -65,12 +66,10 @@
     "inwood": "units 0 min - (-), rooms 0 min - (-)",
     "secoya": "units 0 min - (-), rooms 0 min - (-)",
     "avara": "units 0 min - (-), rooms 0 min - (-)",
-    "tria-seputeh": "units 0 min - (-), rooms 0 min - (-)",
     "vivo": "units 0 min - (-), rooms 0 min - (-)",
     "southbank": "units 0 min - (-), rooms 0 min - (-)",
-    "avantas": "units 0 min - (-), rooms 0 min - (-)",
-    "millerz": "units 0 min - (-), rooms 0 min - (-)"
+    "avantas": "units 0 min - (-), rooms 0 min - (-)"
   },
-  "finished_at": "2026-09-23T16:26:47.309Z",
+  "finished_at": "2026-09-25T03:46:08.806Z",
   "ok": false
 }

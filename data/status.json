@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-23T16:26:47.420Z",
-  "generated_myt": "2026-09-24 00:26",
+  "generated_at": "2026-09-25T03:46:09.030Z",
+  "generated_myt": "2026-09-25 11:46",
   "condos": 25,
   "regions": 3,
   "market": {
-    "updated_myt": "2026-09-23 23:55",
+    "updated_myt": "2026-09-25 10:58",
     "age_hours": 1,
     "condos_with_price": 25,
     "last_run_ok": false,
-    "last_run_errors": 1,
+    "last_run_errors": 3,
     "mudah": {
       "agree": 0,
       "gap": 0,
@@ -18,10 +18,10 @@
   },
   "profile": {
     "verified_at_meta": "2026-09-08",
-    "oldest_days": 16,
+    "oldest_days": 17,
     "stale_over_45d": [],
     "last_collect_at": "2026-09-08T12:56:37.283Z",
-    "last_collect_days": 15,
+    "last_collect_days": 17,
     "staging_failed": [],
     "pending_changes": [
       "atwater",
@@ -76,7 +76,7 @@
   "alerts": [
     {
       "level": "info",
-      "text": "上次刷新有 1 个错误：iproperty inwood: fetch failed"
+      "text": "上次刷新有 3 个错误：iproperty pacific-star: fetch failed；iproperty tria-seputeh: fetch failed；iproperty millerz: fetch failed"
     }
   ],
   "changelog_entries": 123,
