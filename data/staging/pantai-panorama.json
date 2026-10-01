@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:55:16.526Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:37:04.390Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Pantai Panorama Condominiums",
@@ -273,7 +273,7 @@
         "Launderette"
       ],
       "url": "https://www.starproperty.my/kuala-lumpur/pantai/pantai-panorama/property-insights/383",
-      "fetched_at": "2026-09-08T12:55:19.960Z"
+      "fetched_at": "2026-10-01T09:37:07.810Z"
     }
   },
   "second_assessment": {
@@ -310,7 +310,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:53.615Z",
+    "at": "2026-10-01T09:40:16.570Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

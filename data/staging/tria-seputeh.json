@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:56:08.924Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:38:16.933Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "TRIA Seputeh in 9 Seputeh, Kuala Lumpur",
@@ -216,7 +216,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/tria-seputeh/property-insights/9850",
-      "fetched_at": "2026-09-08T12:56:12.446Z"
+      "fetched_at": "2026-10-01T09:38:20.430Z"
     }
   },
   "second_assessment": {
@@ -252,7 +252,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:58:42.875Z",
+    "at": "2026-10-01T09:41:06.331Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

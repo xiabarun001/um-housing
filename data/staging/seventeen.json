@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:53:55.781Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:35:10.131Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Seventeen Mall & Residences (Biji Living)",
@@ -207,7 +207,7 @@
   },
   "is_new": false,
   "crosscheck": {
-    "at": "2026-09-08T12:56:40.340Z",
+    "at": "2026-10-01T09:39:06.032Z",
     "geo": {
       "status": "single",
       "with": "OpenStreetMap",

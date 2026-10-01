@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/serviced-residence-pj8-1310",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:54:45.740Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:36:20.889Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Serviced Residence @ PJ8",
@@ -235,7 +235,7 @@
         "Multi-purpose hall"
       ],
       "url": "https://www.starproperty.my/insight/741/pj8",
-      "fetched_at": "2026-09-08T12:54:49.259Z"
+      "fetched_at": "2026-10-01T09:36:24.535Z"
     }
   },
   "second_assessment": {
@@ -271,7 +271,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:26.201Z",
+    "at": "2026-10-01T09:39:49.906Z",
     "geo": {
       "status": "single",
       "with": "OpenStreetMap",
@@ -301,7 +301,7 @@
         }
       ],
       "to_universiti": {
-        "route_m": 3480,
+        "route_m": 3481,
         "route_min": 48
       },
       "proposed": {

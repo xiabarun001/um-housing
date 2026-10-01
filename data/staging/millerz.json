@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:56:37.283Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:39:02.965Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Millerz Square Serviced Residence",
@@ -229,7 +229,7 @@
   },
   "is_new": false,
   "crosscheck": {
-    "at": "2026-09-08T12:59:07.014Z",
+    "at": "2026-10-01T09:41:28.130Z",
     "geo": {
       "status": "near",
       "with": "OpenStreetMap",
@@ -266,7 +266,7 @@
         }
       ],
       "to_universiti": {
-        "route_m": 4849,
+        "route_m": 4847,
         "route_min": 61
       },
       "proposed": {

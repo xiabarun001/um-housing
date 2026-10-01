@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/south-view-6431",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:55:23.708Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:37:11.975Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "South View",
@@ -242,7 +242,7 @@
         "Surau"
       ],
       "url": "https://www.starproperty.my/kuala-lumpur/pantai/bangsar-south/south-view/property-insights/6693",
-      "fetched_at": "2026-09-08T12:55:27.189Z"
+      "fetched_at": "2026-10-01T09:37:15.464Z"
     }
   },
   "second_assessment": {
@@ -278,7 +278,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:58.653Z",
+    "at": "2026-10-01T09:40:21.714Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

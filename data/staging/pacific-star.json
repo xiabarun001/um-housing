@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/pacific-star-service-residence-8261",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:54:14.673Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:35:49.722Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Pacific Star (Service Residence)",
@@ -243,7 +243,7 @@
         "24-hour security"
       ],
       "url": "https://www.starproperty.my/insight/4872/pacific-star",
-      "fetched_at": "2026-09-08T12:54:18.243Z"
+      "fetched_at": "2026-10-01T09:35:53.204Z"
     }
   },
   "second_assessment": {
@@ -279,7 +279,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:03.557Z",
+    "at": "2026-10-01T09:39:27.539Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

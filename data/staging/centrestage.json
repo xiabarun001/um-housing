@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/centrestage-designer-suite-5546",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:54:38.438Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:36:13.098Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Centrestage Designer Suite",
@@ -228,7 +228,7 @@
         "Landscaped garden"
       ],
       "url": "https://www.starproperty.my/selangor/petaling-jaya/centrestage/property-insights/2645",
-      "fetched_at": "2026-09-08T12:54:41.969Z"
+      "fetched_at": "2026-10-01T09:36:16.589Z"
     }
   },
   "second_assessment": {
@@ -264,7 +264,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:20.898Z",
+    "at": "2026-10-01T09:39:44.601Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",
@@ -301,7 +301,7 @@
         }
       ],
       "to_universiti": {
-        "route_m": 3607,
+        "route_m": 3597,
         "route_min": 47
       },
       "proposed": {

@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/saville-the-park-4685",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:55:43.413Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:37:34.263Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Saville @ The Park",
@@ -247,7 +247,7 @@
         "Jacuzzi pool"
       ],
       "url": "https://www.starproperty.my/kuala-lumpur/pantai/saville-the-park/property-insights/3288",
-      "fetched_at": "2026-09-08T12:55:46.755Z"
+      "fetched_at": "2026-10-01T09:37:37.629Z"
     }
   },
   "second_assessment": {
@@ -284,7 +284,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:58:21.965Z",
+    "at": "2026-10-01T09:40:45.969Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/inwood-residences-6806",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:55:50.699Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:37:41.738Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Inwood Residences",
@@ -225,7 +225,7 @@
   },
   "is_new": false,
   "crosscheck": {
-    "at": "2026-09-08T12:58:27.112Z",
+    "at": "2026-10-01T09:40:51.231Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

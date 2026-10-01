@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/avenue-d-vogue-5543",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:55:01.619Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:36:49.195Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Avenue D'Vogue",
@@ -233,7 +233,7 @@
         "Western hotel chain"
       ],
       "url": "https://www.starproperty.my/selangor/petaling-jaya/avenue-d-vogue/property-insights/3168",
-      "fetched_at": "2026-09-08T12:55:05.527Z"
+      "fetched_at": "2026-10-01T09:36:52.688Z"
     }
   },
   "second_assessment": {
@@ -269,7 +269,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:41.166Z",
+    "at": "2026-10-01T09:40:03.598Z",
     "geo": {
       "status": "single",
       "with": "OpenStreetMap",

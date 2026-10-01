@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/southbank-residence-6428",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:56:23.206Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:38:34.686Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Southbank Residence",
@@ -237,7 +237,7 @@
         "24 hour security"
       ],
       "url": "https://www.starproperty.my/kuala-lumpur/old-klang-road/southbank-residence/property-insights/7306",
-      "fetched_at": "2026-09-08T12:56:26.772Z"
+      "fetched_at": "2026-10-01T09:38:38.167Z"
     }
   },
   "second_assessment": {
@@ -273,17 +273,17 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:58:56.926Z",
+    "at": "2026-10-01T09:41:18.022Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",
       "value": [
-        3.1011899,
-        101.6761667
+        3.1012426,
+        101.6762568
       ],
-      "distance_m": 48,
-      "display": "Southbank, Old Klang Road, Taman Desa, Kuala Lumpur, 58000, Malaysia",
-      "osm": "way/656378566",
+      "distance_m": 51,
+      "display": "Southbank Residence, Pantai Dalam, Kuala Lumpur, Malaysia",
+      "osm": "way/1559007639",
       "query": "Southbank Kuala Lumpur"
     },
     "walk": {
@@ -305,12 +305,12 @@
         {
           "station": "Seputeh KTM（KB02）",
           "straight_m": 1543,
-          "route_m": 1942,
+          "route_m": 1937,
           "route_min": 25
         }
       ],
       "to_universiti": {
-        "route_m": 3396,
+        "route_m": 3380,
         "route_min": 44
       },
       "proposed": {

@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/pj-midtown-6911",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:54:31.095Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:36:04.430Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "PJ Midtown",
@@ -246,7 +246,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/insight/8811/pj-midtown",
-      "fetched_at": "2026-09-08T12:54:34.689Z"
+      "fetched_at": "2026-10-01T09:36:07.913Z"
     }
   },
   "second_assessment": {
@@ -282,7 +282,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:14.971Z",
+    "at": "2026-10-01T09:39:39.034Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",
@@ -291,7 +291,7 @@
         101.6406572
       ],
       "distance_m": 24,
-      "display": "PJ Midtown, Jalan 13/2, Section 13, Petaling Jaya, Petaling, Selangor, 46200, Malaysia",
+      "display": "PJ Midtown, Jalan Kemajuan, Section 13, Petaling Jaya, Petaling, Selangor, 46200, Malaysia",
       "osm": "way/881960593",
       "query": "PJ Midtown Petaling Jaya"
     },

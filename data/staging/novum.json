@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/novum-7847",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:55:35.620Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:37:23.269Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "NOVUM",
@@ -230,7 +230,7 @@
   },
   "is_new": false,
   "crosscheck": {
-    "at": "2026-09-08T12:58:11.717Z",
+    "at": "2026-10-01T09:40:35.608Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

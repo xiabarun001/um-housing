@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/vivo-residential-suites-6797",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:56:16.122Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:38:27.085Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Vivo Residential Suites",
@@ -247,7 +247,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/insight/9477/vivo-residential-suites-9-seputeh",
-      "fetched_at": "2026-09-08T12:56:19.570Z",
+      "fetched_at": "2026-10-01T09:38:30.654Z",
       "http_status": 404
     }
   },
@@ -284,7 +284,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:58:48.953Z",
+    "at": "2026-10-01T09:41:11.152Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

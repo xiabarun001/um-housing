@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/tiara-damansara-1319",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:54:53.639Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:36:31.494Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "Tiara Damansara",
@@ -284,7 +284,7 @@
         "Launderette"
       ],
       "url": "https://www.starproperty.my/insight/1432/tiara-damansara",
-      "fetched_at": "2026-09-08T12:54:57.134Z"
+      "fetched_at": "2026-10-01T09:36:34.972Z"
     }
   },
   "second_assessment": {
@@ -320,7 +320,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:57:35.530Z",
+    "at": "2026-10-01T09:39:58.259Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

@@ -5,8 +5,8 @@
     "final_url": "https://www.iproperty.com.my/condo/ryan-miho-9302",
     "site": "iProperty 项目页"
   },
-  "fetched_at": "2026-09-08T12:54:06.898Z",
-  "date_myt": "2026-09-08",
+  "fetched_at": "2026-10-01T09:35:38.165Z",
+  "date_myt": "2026-10-01",
   "status": "ok",
   "proposed": {
     "name": "RYAN & MIHO",
@@ -266,7 +266,7 @@
       "builtup": null,
       "facilities_en": [],
       "url": "https://www.starproperty.my/selangor/petaling-jaya/ryan-miho-by-osk-property/property-insights/8884",
-      "fetched_at": "2026-09-08T12:54:10.566Z"
+      "fetched_at": "2026-10-01T09:35:41.625Z"
     }
   },
   "second_assessment": {
@@ -302,7 +302,7 @@
     }
   },
   "crosscheck": {
-    "at": "2026-09-08T12:56:57.252Z",
+    "at": "2026-10-01T09:39:21.338Z",
     "geo": {
       "status": "agree",
       "with": "OpenStreetMap",

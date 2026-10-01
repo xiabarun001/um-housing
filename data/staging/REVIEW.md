@@ -1,118 +1,28 @@
 # 档案采集审核报告
 
-生成于 2026-09-08T12:59:13.686Z（马来西亚日期 2026-09-08）。只看「有差异」和「新小区」的行；确认后用 `node scripts/publish.mjs <id> --accept 字段,字段 --who 名字 --reason 理由` 发布。
+生成于 2026-10-01T09:41:34.629Z（马来西亚日期 2026-10-01）。只看「有差异」和「新小区」的行；确认后用 `node scripts/publish.mjs <id> --accept 字段,字段 --who 名字 --reason 理由` 发布。
 
 ## atwater
 
-来源：https://www.iproperty.com.my/condo/atwater-service-residences-9936（2026-09-08 12:53 UTC）
+来源：https://www.iproperty.com.my/building/atwater-pty_64499/（2026-10-01 09:35 UTC）
 
-| 字段 | 现有 | 采集到 | 评估 | 状态 |
-|---|---|---|---|---|
-| name | Atwater Service Residences | Atwater : Service Residences | 单源（iProperty） | changed |
-| completed | 2024 | 2024 | 单源（iProperty） | same |
-| units | 493 | 493 | 单源（iProperty） | same |
-| floors | 26 层 | 26 层 × 2 栋 | 单源（iProperty） | same |
-| tenure | Leasehold 租赁地契 | Leasehold 租赁地契 | 双源一致（iProperty、StarProperty） | same |
-| type | 服务式公寓 | 服务式公寓 | 单源（iProperty） | same |
-| developer | Paramount Property | Paramount Property. | 单源（iProperty） | same |
-| address | Jalan Professor Diraja Ungku Aziz, Seksyen 13, 46200 Petaling Jaya | Jalan Professor Diraja Ungku Aziz, 46200, Selangor | 单源（iProperty） | same |
-| 坐标 | 3.117946、101.632404 | 3.117946、101.632404 | 单源（iProperty） | same，相差 0 m |
-| 设施 | 16 项 | 5 项 | 单源（iProperty） | changed，新增：有顶停车场、Covered Linkways、Landscaped Garden、停车场，缺少：泳道池、无边池 / 家庭池、儿童池、按摩池、健身房、户外健身区、羽毛球场、篮球场、蒸汽房、烧烤台、儿童游乐场、足底按摩步道、瑜伽亭、迷宫花园、有顶连廊 |
-| 设施开关 | | | 单源（iProperty） | changed：pool、gym、steam、jacuzzi、badminton、basketball、bbq |
-
-第二来源 StarProperty（https://www.starproperty.my/selangor/petaling-jaya/atwater/property-insights/8860）：开发商 — · 竣工 — · 地契 L · 栋数 — · 最高层数 — · 户数 — · 面积 — · 设施 0 项
-
-| 字段 | iProperty | StarProperty | 结论 |
-|---|---|---|---|
-| completed | 2024 | — | single |
-| units | 493 | — | single |
-| tenure | L | L | agree |
-| developer | Paramount Property. | — | single |
-| floors | 26 | — | single |
-| pool_gym | 无泳池/无健身房 | — | single |
-
-交叉验证（2026-09-08 12:56 UTC）：
-
-- 坐标 vs OpenStreetMap：**agree**，相差 31 m
-- 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Asia Jaya LRT（KJ21） 2580 m / 34 分钟；Phileo Damansara MRT（KG12） 2505 m / 32 分钟；到 Universiti 站 4328 m / 56 分钟
-
-建议：核对 name、facilities、flags 后决定接受哪些。
+**fetch_failed**：fetch failed，现有值不动。
 
 ## avantas
 
-来源：https://www.iproperty.com.my/condo/avantas-residences-6254（2026-09-08 12:56 UTC）
+来源：https://www.iproperty.com.my/condo/avantas-residences-6254（2026-10-01 09:38 UTC）
 
-| 字段 | 现有 | 采集到 | 评估 | 状态 |
-|---|---|---|---|---|
-| name | Avantas Residences | Avantas Residences | 单源（iProperty） | same |
-| completed | 2016 | 2016 | 双源一致（iProperty、StarProperty） | same |
-| units | 198 | 198 | 双源一致（iProperty、StarProperty） | same |
-| floors | 28 层 | 28 层 | 双源一致（iProperty、StarProperty） | same |
-| tenure | Freehold 永久地契 | Freehold 永久地契 | 双源一致（iProperty、StarProperty） | same |
-| type | 服务式公寓 | 服务式公寓 | 单源（iProperty） | same |
-| developer | CPI Development | CPI Development | 双源一致（iProperty、StarProperty） | same |
-| address | Old Klang Road, 58100, Kuala Lumpur | Old Klang Road, 58100, Kuala Lumpur | 单源（iProperty） | same |
-| 坐标 | 3.100352、101.67686 | 3.100352、101.67686 | 单源（iProperty） | same，相差 0 m |
-| 设施 | 12 项 | 12 项 | 单源（iProperty） | same |
-| 设施开关 | | | 双源一致（iProperty、StarProperty） | same |
-
-第二来源 StarProperty（https://www.starproperty.my/kuala-lumpur/old-klang-road/avantas-residences/property-insights/3955）：开发商 CPI Development · 竣工 Mar 2016 (estimate) · 地契 F · 栋数 — · 最高层数 28 · 户数 198 · 面积 — · 设施 21 项
-
-| 字段 | iProperty | StarProperty | 结论 |
-|---|---|---|---|
-| completed | 2016 | 2016 | agree |
-| units | 198 | 198 | agree |
-| tenure | F | F | agree |
-| developer | CPI Development | CPI Development | agree |
-| floors | 28 | 28 | agree |
-| pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
-
-交叉验证（2026-09-08 12:59 UTC）：
-
-- 坐标 vs OpenStreetMap：**agree**，相差 33 m
-- 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 1442 m / 18 分钟；Seputeh KTM（KB02） 2075 m / 26 分钟；到 Universiti 站 3673 m / 47 分钟
-
-建议：无需动作，发布可只更新核实日期。
+**fetch_failed**：fetch failed，现有值不动。
 
 ## avara
 
-来源：https://www.iproperty.com.my/condo/avara-10395（2026-09-08 12:56 UTC）
+来源：https://www.iproperty.com.my/condo/avara-10395（2026-10-01 09:38 UTC）
 
-| 字段 | 现有 | 采集到 | 评估 | 状态 |
-|---|---|---|---|---|
-| name | Avara Seputeh | Avara | 单源（iProperty） | changed |
-| completed | 2020 | 2020 | 单源（iProperty） | same |
-| units | 183 | 183 | 单源（iProperty） | same |
-| floors | 35 层 × 2 栋 | 35 层 × 2 栋 | 单源（iProperty） | same |
-| tenure | Freehold 永久地契 | Freehold 永久地契 | 双源一致（iProperty、StarProperty） | same |
-| type | 服务式公寓 | 服务式公寓 | 单源（iProperty） | same |
-| developer | Unity Realty Sdn. Bhd. | Unity Realty Sdn. Bhd. | 单源（iProperty） | same |
-| address | Jalan Seputeh, 58000, Kuala Lumpur | Jalan Seputeh, 58000, Kuala Lumpur | 单源（iProperty） | same |
-| 坐标 | 3.11349、101.679127 | 3.11349、101.679127 | 单源（iProperty） | same，相差 0 m |
-| 设施 | 15 项 | 15 项 | 单源（iProperty） | same |
-| 设施开关 | | | 单源（iProperty） | same |
-
-第二来源 StarProperty（https://www.starproperty.my/insight/8861/avara-seputeh）：开发商 — · 竣工 — · 地契 F · 栋数 — · 最高层数 — · 户数 — · 面积 — · 设施 0 项
-
-| 字段 | iProperty | StarProperty | 结论 |
-|---|---|---|---|
-| completed | 2020 | — | single |
-| units | 183 | — | single |
-| tenure | F | F | agree |
-| developer | Unity Realty Sdn. Bhd. | — | single |
-| floors | 35 | — | single |
-| pool_gym | 泳池/健身房 | — | single |
-
-交叉验证（2026-09-08 12:58 UTC）：
-
-- 坐标 vs OpenStreetMap：**agree**，相差 51 m
-- 步行 vs OSM 路网：**agree**；现有 Seputeh KTM（KB02） 422 m / 5 分钟；路线：Seputeh KTM（KB02） 422 m / 5 分钟；Mid Valley KTM（KB01） 726 m / 9 分钟；到 Universiti 站 2124 m / 31 分钟
-
-建议：核对 name 后决定接受哪些。
+**fetch_failed**：fetch failed，现有值不动。
 
 ## centrestage
 
-来源：https://www.iproperty.com.my/condo/centrestage-designer-suite-5546（2026-09-08 12:54 UTC）
+来源：https://www.iproperty.com.my/condo/centrestage-designer-suite-5546（2026-10-01 09:36 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -139,16 +49,16 @@
 | floors | — | 14 | second-only |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 14 m
-- 步行 vs OSM 路网：**agree**；现有 Asia Jaya LRT（KJ21） 1050 m / 13 分钟；路线：Asia Jaya LRT（KJ21） 1261 m / 17 分钟；Taman Jaya LRT（KJ20） 2110 m / 26 分钟；到 Universiti 站 3607 m / 47 分钟
+- 步行 vs OSM 路网：**agree**；现有 Asia Jaya LRT（KJ21） 1050 m / 13 分钟；路线：Asia Jaya LRT（KJ21） 1261 m / 17 分钟；Taman Jaya LRT（KJ20） 2110 m / 26 分钟；到 Universiti 站 3597 m / 47 分钟
 
 建议：核对 floors、type、facilities、flags 后决定接受哪些。
 
 ## dvogue
 
-来源：https://www.iproperty.com.my/condo/avenue-d-vogue-5543（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/avenue-d-vogue-5543（2026-10-01 09:36 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -175,7 +85,7 @@
 | floors | 10 | 16 | conflict |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**single**（not found）
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Asia Jaya LRT（KJ21） 1567 m / 20 分钟；Taman Jaya LRT（KJ20） 2244 m / 28 分钟；到 Universiti 站 3835 m / 49 分钟
@@ -184,7 +94,7 @@
 
 ## inwood
 
-来源：https://www.iproperty.com.my/condo/inwood-residences-6806（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/inwood-residences-6806（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -200,7 +110,7 @@
 | 设施 | 12 项 | 12 项 | 单源（iProperty） | changed，新增：Landscaped Garden、泳池，缺少：无边泳池、园林 |
 | 设施开关 | | | 单源（iProperty） | same |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 28 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 1771 m / 24 分钟；Universiti LRT（KJ19） 2712 m / 37 分钟；到 Universiti 站 2712 m / 37 分钟
@@ -209,7 +119,7 @@
 
 ## kl-gateway
 
-来源：https://www.iproperty.com.my/condo/kl-gateway-residences-8093（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/kl-gateway-residences-8093（2026-10-01 09:36 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -236,7 +146,7 @@
 | floors | 38 | 33 | conflict |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 48 m
 - 步行 vs OSM 路网：**agree**；现有 Universiti LRT（KJ19） 240 m / 2 分钟；路线：Universiti LRT（KJ19） 280 m / 3 分钟；Kerinchi LRT（KJ18） 1049 m / 13 分钟；到 Universiti 站 280 m / 3 分钟
@@ -246,7 +156,7 @@
 
 ## laurel
 
-来源：https://www.iproperty.com.my/condo/laurel-residence-17871（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/laurel-residence-17871（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -262,7 +172,7 @@
 | 设施 | 11 项 | 11 项 | 单源（iProperty） | changed，新增：Community Garden、停车场，缺少：健身房、社区花园 |
 | 设施开关 | | | 单源（iProperty） | changed：gym |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 103 m
 - 步行 vs OSM 路网：**conflict**；现有 Universiti LRT（KJ19） — m / 8 分钟（估）；路线：Kerinchi LRT（KJ18） 1381 m / 17 分钟；Universiti LRT（KJ19） 1582 m / 20 分钟；到 Universiti 站 1582 m / 20 分钟
@@ -272,7 +182,7 @@
 
 ## millerz
 
-来源：https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658（2026-09-08 12:56 UTC）
+来源：https://www.iproperty.com.my/condo/millerz-square-serviced-residence-9658（2026-10-01 09:39 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -288,16 +198,16 @@
 | 设施 | 12 项 | 12 项 | 单源（iProperty） | same |
 | 设施开关 | | | 单源（iProperty） | same |
 
-交叉验证（2026-09-08 12:59 UTC）：
+交叉验证（2026-10-01 09:41 UTC）：
 
 - 坐标 vs OpenStreetMap：**near**，相差 292 m
-- 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 2148 m / 26 分钟；Petaling KTM（KD04） 1968 m / 24 分钟；到 Universiti 站 4849 m / 61 分钟
+- 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 2148 m / 26 分钟；Petaling KTM（KD04） 1968 m / 24 分钟；到 Universiti 站 4847 m / 61 分钟
 
 建议：核对 name 后决定接受哪些。
 
 ## novum
 
-来源：https://www.iproperty.com.my/condo/novum-7847（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/novum-7847（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -313,7 +223,7 @@
 | 设施 | 12 项 | 11 项 | 单源（iProperty） | changed，新增：健身房、围栏、泳池，缺少：50 米泳道池、健身房（悬浮式）、户外健身区、商务中心 |
 | 设施开关 | | | 单源（iProperty） | same |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 27 m
 - 步行 vs OSM 路网：**agree**；现有 Kerinchi LRT（KJ18） 687 m / 9 分钟；路线：Kerinchi LRT（KJ18） 687 m / 9 分钟；Universiti LRT（KJ19） 848 m / 11 分钟；到 Universiti 站 848 m / 11 分钟
@@ -323,7 +233,7 @@
 
 ## pacific-63
 
-来源：https://www.iproperty.com.my/condo/pacific-63-8858（2026-09-08 12:54 UTC）
+来源：https://www.iproperty.com.my/condo/pacific-63-8858（2026-10-01 09:35 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -350,7 +260,7 @@
 | floors | 21 | 21 | agree |
 | pool_gym | 泳池/健身房 | 泳池/无健身房 | conflict |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 25 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Asia Jaya LRT（KJ21） 2139 m / 28 分钟；Phileo Damansara MRT（KG12） 2360 m / 30 分钟；到 Universiti 站 4132 m / 53 分钟
@@ -359,7 +269,7 @@
 
 ## pacific-star
 
-来源：https://www.iproperty.com.my/condo/pacific-star-service-residence-8261（2026-09-08 12:54 UTC）
+来源：https://www.iproperty.com.my/condo/pacific-star-service-residence-8261（2026-10-01 09:35 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -386,7 +296,7 @@
 | floors | 33 | 33 | agree |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 126 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Asia Jaya LRT（KJ21） 2389 m / 31 分钟；Phileo Damansara MRT（KG12） 2075 m / 27 分钟；到 Universiti 站 3854 m / 50 分钟
@@ -395,7 +305,7 @@
 
 ## pantai-panorama
 
-来源：https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/pantai-panorama-condominiums-105（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -422,7 +332,7 @@
 | floors | 18 | 18 | agree |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 57 m
 - 步行 vs OSM 路网：**agree**；现有 Universiti LRT（KJ19） 1034 m / 13 分钟；路线：Universiti LRT（KJ19） 1034 m / 13 分钟；Kerinchi LRT（KJ18） 1507 m / 19 分钟；到 Universiti 站 1034 m / 13 分钟
@@ -432,7 +342,7 @@
 
 ## pj-midtown
 
-来源：https://www.iproperty.com.my/condo/pj-midtown-6911（2026-09-08 12:54 UTC）
+来源：https://www.iproperty.com.my/condo/pj-midtown-6911（2026-10-01 09:36 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -459,7 +369,7 @@
 | floors | 30 | — | single |
 | pool_gym | 泳池/健身房 | — | single |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 24 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Asia Jaya LRT（KJ21） 1534 m / 19 分钟；Taman Jaya LRT（KJ20） 2211 m / 27 分钟；到 Universiti 站 3783 m / 49 分钟
@@ -468,7 +378,7 @@
 
 ## pj8
 
-来源：https://www.iproperty.com.my/condo/serviced-residence-pj8-1310（2026-09-08 12:54 UTC）
+来源：https://www.iproperty.com.my/condo/serviced-residence-pj8-1310（2026-10-01 09:36 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -495,16 +405,16 @@
 | floors | 39 | 38 | agree |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**single**（not found）
-- 步行 vs OSM 路网：**agree**；现有 Asia Jaya LRT（KJ21） 763 m / 9 分钟；路线：Asia Jaya LRT（KJ21） 763 m / 9 分钟；Taman Jaya LRT（KJ20） 1252 m / 16 分钟；到 Universiti 站 3480 m / 48 分钟
+- 步行 vs OSM 路网：**agree**；现有 Asia Jaya LRT（KJ21） 763 m / 9 分钟；路线：Asia Jaya LRT（KJ21） 763 m / 9 分钟；Taman Jaya LRT（KJ20） 1252 m / 16 分钟；到 Universiti 站 3481 m / 48 分钟
 
 建议：核对 facilities、flags 后决定接受哪些。
 
 ## ryan-miho
 
-来源：https://www.iproperty.com.my/condo/ryan-miho-9302（2026-09-08 12:54 UTC）
+来源：https://www.iproperty.com.my/condo/ryan-miho-9302（2026-10-01 09:35 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -531,7 +441,7 @@
 | floors | 30 | — | single |
 | pool_gym | 泳池/无健身房 | — | single |
 
-交叉验证（2026-09-08 12:56 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 78 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Phileo Damansara MRT（KG12） 2343 m / 31 分钟；Asia Jaya LRT（KJ21） 2580 m / 34 分钟；到 Universiti 站 4172 m / 54 分钟
@@ -540,7 +450,7 @@
 
 ## saville
 
-来源：https://www.iproperty.com.my/condo/saville-the-park-4685（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/saville-the-park-4685（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -567,7 +477,7 @@
 | floors | 27 | 27 | agree |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 5 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 1973 m / 27 分钟；Universiti LRT（KJ19） 2774 m / 37 分钟；到 Universiti 站 2774 m / 37 分钟
@@ -576,7 +486,7 @@
 
 ## secoya
 
-来源：https://www.iproperty.com.my/condo/secoya-residence-7619（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/secoya-residence-7619（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -603,7 +513,7 @@
 | floors | 41 | — | single |
 | pool_gym | 泳池/健身房 | — | single |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 2 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 1755 m / 23 分钟；Universiti LRT（KJ19） 2683 m / 36 分钟；到 Universiti 站 2683 m / 36 分钟
@@ -612,7 +522,7 @@
 
 ## seventeen
 
-来源：https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634（2026-09-08 12:53 UTC）
+来源：https://www.iproperty.com.my/condo/seventeen-mall-residences-biji-living-21634（2026-10-01 09:35 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -628,7 +538,7 @@
 | 设施 | 11 项 | 4 项 | 单源（iProperty） | changed，新增：多功能厅、停车场、泳池，缺少：33 米泳道池、儿童池、健身房、慢跑道、宴会厅、园林、香草园、楼下商场、三层门禁、24 小时保安 |
 | 设施开关 | | | 单源（iProperty） | changed：gym、minimart |
 
-交叉验证（2026-09-08 12:56 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**single**（not found）
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Phileo Damansara MRT（KG12） 1588 m / 20 分钟；Asia Jaya LRT（KJ21） 3889 m / 49 分钟；到 Universiti 站 5109 m / 64 分钟
@@ -637,7 +547,7 @@
 
 ## south-view
 
-来源：https://www.iproperty.com.my/condo/south-view-6431（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/south-view-6431（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -664,7 +574,7 @@
 | floors | 47 | 46 | agree |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 58 m
 - 步行 vs OSM 路网：**agree**；现有 Universiti LRT（KJ19） 450 m / 5 分钟；路线：Universiti LRT（KJ19） 552 m / 7 分钟；Kerinchi LRT（KJ18） 777 m / 11 分钟；到 Universiti 站 552 m / 7 分钟
@@ -674,7 +584,7 @@
 
 ## southbank
 
-来源：https://www.iproperty.com.my/condo/southbank-residence-6428（2026-09-08 12:56 UTC）
+来源：https://www.iproperty.com.my/condo/southbank-residence-6428（2026-10-01 09:38 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -701,16 +611,16 @@
 | floors | 37 | 37 | agree |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:41 UTC）：
 
-- 坐标 vs OpenStreetMap：**agree**，相差 48 m
-- 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 1306 m / 16 分钟；Seputeh KTM（KB02） 1942 m / 25 分钟；到 Universiti 站 3396 m / 44 分钟
+- 坐标 vs OpenStreetMap：**agree**，相差 51 m
+- 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Pantai Dalam KTM（KD03） 1306 m / 16 分钟；Seputeh KTM（KB02） 1937 m / 25 分钟；到 Universiti 站 3380 m / 44 分钟
 
 建议：无需动作，发布可只更新核实日期。
 
 ## southlink
 
-来源：https://www.iproperty.com.my/condo/southlink-8399（2026-09-08 12:55 UTC）
+来源：https://www.iproperty.com.my/condo/southlink-8399（2026-10-01 09:37 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -726,7 +636,7 @@
 | 设施 | 8 项 | 9 项 | 单源（iProperty） | changed，新增：围栏、Surau - Male & Female，缺少：祈祷室 |
 | 设施开关 | | | 单源（iProperty） | same |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:40 UTC）：
 
 - 坐标 vs OpenStreetMap：**near**，相差 158 m
 - 步行 vs OSM 路网：**agree**；现有 Kerinchi LRT（KJ18） 664 m / 9 分钟；路线：Kerinchi LRT（KJ18） 664 m / 9 分钟；Universiti LRT（KJ19） 825 m / 11 分钟；到 Universiti 站 825 m / 11 分钟
@@ -736,7 +646,7 @@
 
 ## tiara-damansara
 
-来源：https://www.iproperty.com.my/condo/tiara-damansara-1319（2026-09-08 12:54 UTC）
+来源：https://www.iproperty.com.my/condo/tiara-damansara-1319（2026-10-01 09:36 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -763,7 +673,7 @@
 | floors | 5 | — | single |
 | pool_gym | 泳池/健身房 | 泳池/健身房 | agree |
 
-交叉验证（2026-09-08 12:57 UTC）：
+交叉验证（2026-10-01 09:39 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 126 m
 - 步行 vs OSM 路网：**agree**；现有 Phileo Damansara MRT（KG12） 1105 m / 15 分钟；路线：Phileo Damansara MRT（KG12） 1105 m / 15 分钟；Asia Jaya LRT（KJ21） 3213 m / 43 分钟；到 Universiti 站 4402 m / 57 分钟
@@ -772,7 +682,7 @@
 
 ## tria-seputeh
 
-来源：https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308（2026-09-08 12:56 UTC）
+来源：https://www.iproperty.com.my/condo/tria-seputeh-in-9-seputeh-kuala-lumpur-9308（2026-10-01 09:38 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -799,7 +709,7 @@
 | floors | 38 | — | single |
 | pool_gym | 泳池/无健身房 | — | single |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:41 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 27 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Seputeh KTM（KB02） 1316 m / 16 分钟；Mid Valley KTM（KB01） 1388 m / 18 分钟；到 Universiti 站 2796 m / 39 分钟
@@ -808,7 +718,7 @@
 
 ## vivo
 
-来源：https://www.iproperty.com.my/condo/vivo-residential-suites-6797（2026-09-08 12:56 UTC）
+来源：https://www.iproperty.com.my/condo/vivo-residential-suites-6797（2026-10-01 09:38 UTC）
 
 | 字段 | 现有 | 采集到 | 评估 | 状态 |
 |---|---|---|---|---|
@@ -835,7 +745,7 @@
 | floors | — | — | none |
 | pool_gym | 泳池/健身房 | — | single |
 
-交叉验证（2026-09-08 12:58 UTC）：
+交叉验证（2026-10-01 09:41 UTC）：
 
 - 坐标 vs OpenStreetMap：**agree**，相差 107 m
 - 步行 vs OSM 路网：**agree**；现有 无步行可达轨道站 — m / — 分钟；路线：Seputeh KTM（KB02） 1599 m / 20 分钟；Pantai Dalam KTM（KD03） 1606 m / 20 分钟；到 Universiti 站 2784 m / 36 分钟
