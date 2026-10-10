@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-10-01T09:41:34.673Z",
-  "generated_myt": "2026-10-01 17:41",
+  "generated_at": "2026-10-10T04:34:02.323Z",
+  "generated_myt": "2026-10-10 12:34",
   "condos": 25,
   "regions": 3,
   "market": {
-    "updated_myt": "2026-09-25 10:58",
-    "age_hours": 151,
+    "updated_myt": "2026-10-10 11:50",
+    "age_hours": 1,
     "condos_with_price": 25,
     "last_run_ok": false,
-    "last_run_errors": 3,
+    "last_run_errors": 1,
     "mudah": {
       "agree": 0,
       "gap": 0,
@@ -18,10 +18,10 @@
   },
   "profile": {
     "verified_at_meta": "2026-09-08",
-    "oldest_days": 24,
+    "oldest_days": 33,
     "stale_over_45d": [],
     "last_collect_at": "2026-10-01T09:39:02.965Z",
-    "last_collect_days": 0,
+    "last_collect_days": 9,
     "staging_failed": [
       "atwater",
       "avantas",
@@ -77,12 +77,8 @@
   },
   "alerts": [
     {
-      "level": "warn",
-      "text": "实时信息已 151 小时未更新"
-    },
-    {
       "level": "info",
-      "text": "上次刷新有 3 个错误：iproperty pacific-star: fetch failed；iproperty tria-seputeh: fetch failed；iproperty millerz: fetch failed"
+      "text": "上次刷新有 1 个错误：ibilik page 4"
     },
     {
       "level": "warn",
